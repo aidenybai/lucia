@@ -15,12 +15,9 @@ export default class Lucia {
     this.LuciaConfig = LuciaConfig;
 
     this.el = document.querySelector(options.el);
-    this.dom = this.el.innerHTML;
 
     this.DataManager = new DataManager(options.data, options.methods);
     this.ViewManager = new ViewManager();
-
-    this.flush();
 
     this.directives = {};
     this.LuciaConfig.directives.ids.forEach((id: any) => {
@@ -31,6 +28,10 @@ export default class Lucia {
       );
       if (directiveArray.length > 0) this.directives[id] = directiveArray;
     });
+
+    this.dom = this.el.innerHTML;
+
+    this.flush();
   }
 
   parse() {
