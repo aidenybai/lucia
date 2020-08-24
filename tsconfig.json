@@ -1,4 +1,19 @@
 {
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "declarationDir": "dist/types",
+    "declaration": true,
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true
+  },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["node_modules", "build", "dist", "src/**/*.js", "src/**/*.jsx"]
 }

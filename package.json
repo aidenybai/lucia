@@ -2,9 +2,15 @@
   "name": "lucia",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/lucia.cjs.js",
+  "module": "dist/lucia.esm.js",
+  "browser": "dist/lucia.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "babel src --extensions \".ts\" --watch --out-dir dist"
+    "build": "npm run build:types && npm run build:dist",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:dist": "del-cli dist/ && rollup -c",
+    "build:babel": "babel src --extensions \".ts\" --watch --out-dir dist"
   },
   "repository": {
     "type": "git",
@@ -26,7 +32,13 @@
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-typescript": "^7.10.4",
-    "babel-preset-minify": "^0.5.1",
-    "prettier": "^1.18.2"
+    "@rollup/plugin-babel": "5.0.3",
+    "@rollup/plugin-commonjs": "13.0.0",
+    "@rollup/plugin-node-resolve": "8.0.1",
+    "del-cli": "^3.0.1",
+    "prettier": "^2.0.5",
+    "rollup": "2.15.0",
+    "rollup-plugin-uglify": "^6.0.4",
+    "typescript": "3.9.5"
   }
 }
