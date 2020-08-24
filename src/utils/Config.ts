@@ -3,6 +3,6 @@ export default {
   matchInteropRegex: /{{\s*(#[^\s\\]+ )?[^\s\\]+.[^\s\\]\s*}}/g, // Gets {{data}}
   directives: {
     prefix: 'l-',
-    ids: ['on', 'bind'],
+    ids: ['on', 'bind', 'if'],
   },
 };

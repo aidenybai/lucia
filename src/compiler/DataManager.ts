@@ -7,6 +7,14 @@ export default class DataManager {
     this.methods = methods;
   }
 
+  has(key: string): boolean {
+    return key in this.data;
+  }
+
+  get(key: string): any {
+    return this.data[key];
+  }
+
   set(key: string, value: any): void {
     this.data[key] = value;
   }

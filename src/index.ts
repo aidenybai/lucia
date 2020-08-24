@@ -1,3 +1,3 @@
-import Lucia from './view/Lucia';
+import Lucia from './compiler/Lucia';
 
 export default Lucia;
