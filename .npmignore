@@ -2,3 +2,9 @@ node_modules/
 yarn.lock
 package-lock.json
 index.html
+tsconfig.json
+rollup.config.js
+.prettierrc
+.gitignore
+.babelrc
+src/

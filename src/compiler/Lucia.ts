@@ -45,8 +45,14 @@ export default class Lucia {
   }
 
   loadDirectives() {
-    console.log('directive fired');
     this.directives = {};
+
+    this.directives = this.ViewManager.collateDirectives(
+      this.el,
+      this.LuciaConfig.directives.prefix,
+      this.LuciaConfig.directives.ids
+    );
+    this.ViewManager.bindDirectives(this.directives, this.DataManager);
 
     for (const id of this.LuciaConfig.directives.ids) {
       const directiveArray = this.ViewManager.traverseAttributes(
@@ -55,7 +61,7 @@ export default class Lucia {
         id
       );
       if (directiveArray.length > 0) this.directives[id] = directiveArray;
-    };
+    }
 
     for (const directive in this.directives) {
       for (const viewNode of this.directives[directive]) {
@@ -63,9 +69,6 @@ export default class Lucia {
           case 'if':
             if (this.has(viewNode.data)) {
               viewNode.el.hidden = this.get(viewNode.data) ? false : true;
-              console.log(viewNode.el);
-
-              // lucia.set('stuff', false);
             }
             break;
           case 'on':
@@ -88,7 +91,6 @@ export default class Lucia {
   }
 
   repaint() {
-    console.log('repaint fired');
     if (this.dom) this.el.innerHTML = this.dom;
     else this.dom = this.el.innerHTML;
 

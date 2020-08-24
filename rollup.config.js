@@ -28,11 +28,12 @@ export default {
       name,
       globals: {},
     },
-    // {
-    //   file: pkg.browser,
-    //   format: 'cjs',
-    //   plugins: [uglify()],
-    //   globals: {},
-    // },
+    {
+      file: pkg.browser,
+      format: 'iife',
+      plugins: uglify(),
+      name,
+      globals: {},
+    },
   ],
 };
