@@ -6,10 +6,10 @@ export default class ViewManager {
     const descendents = el.getElementsByTagName('*'); // gets all children of ancestor
 
     for (let i = descendents.length - 1; i >= 0; --i) {
-      const attr = descendents[i].getAttribute(`${prefix}${id}`);
+      const attr = descendents[i].getAttribute(`${prefix}${id}`).split(':');
       if (attr) {
         descendents[i].removeAttribute(`${prefix}${id}`);
-        directiveElements.push(new ViewNode(el, attr));
+        directiveElements.push(new ViewNode(el, attr[0], attr[1]));
       }
     }
  
