@@ -1,0 +1,32 @@
+{
+  "name": "lucia",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --extensions \".ts\" --watch --out-dir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luciadotjs/lucia.git"
+  },
+  "keywords": [],
+  "author": "Aiden Bai <aidenybai@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luciadotjs/lucia/issues"
+  },
+  "homepage": "https://lucia.js.org",
+  "engines": {
+    "node": ">=6.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-typescript": "^7.10.4",
+    "babel-preset-minify": "^0.5.1",
+    "prettier": "^1.18.2"
+  }
+}
