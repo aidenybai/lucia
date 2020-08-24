@@ -1,9 +1,9 @@
 export default class ViewNode {
-  name: string;
+  el: any;
   data: string;
 
-  constructor(name: string, data: string) {
-    this.name = name;
+  constructor(el: any, data: string) {
+    this.el = el;
     this.data = data;
   }
 }

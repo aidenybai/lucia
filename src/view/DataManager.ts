@@ -1,8 +1,10 @@
 export default class DataManager {
   data: any;
+  methods: any;
 
-  constructor(data: any) {
+  constructor(data: any, methods: any) {
     this.data = data;
+    this.methods = methods;
   }
 
   set(key: string, value: any): void {
@@ -13,7 +15,11 @@ export default class DataManager {
     this.data[key] = '';
   }
 
-  bindInterop(html: string, data: any, config: any): string {
+  call(method: string): void {
+    this.methods[method]();
+  }
+
+  interopTemplates(html: string, data: any, config: any): string {
     const tokens = html.match(config.matchInteropRegex) || [];
     for (let i = 0; i < tokens.length; i++) {
       const compressedToken = tokens[i].replace(config.curlyBraceTrimRegex, '$1$2');
