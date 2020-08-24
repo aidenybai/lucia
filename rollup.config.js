@@ -14,7 +14,6 @@ export default {
   plugins: [
     resolve({ extensions }),
     commonjs(),
-    uglify(),
     babel({
       extensions,
       babelHelpers: 'bundled',
@@ -24,10 +23,16 @@ export default {
 
   output: [
     {
-      file: pkg.browser,
+      file: pkg.main,
       format: 'iife',
       name,
       globals: {},
     },
+    // {
+    //   file: pkg.browser,
+    //   format: 'cjs',
+    //   plugins: [uglify()],
+    //   globals: {},
+    // },
   ],
 };
