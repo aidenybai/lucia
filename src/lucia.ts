@@ -8,30 +8,53 @@ interface LuciaOptions {
 
 const LuciaConfig = {
   curlyBraceTrimRegex: /(\{)\s*(\S+)\s*(?=})/gim, // Removes the padding between curly braces: {{ test }} -> {{test}}
-  matchInteropRegex: /{{ ?(#[a-z]+ )?[a-z]+.[a-z] ?}}/g, // Gets {{data}}
-}; 
+  matchInteropRegex: /{{\s*(#[^\s\\]+ )?[^\s\\]+.[^\s\\]\s*}}/g, // Gets {{data}}
+};
 
 class Lucia {
   el: any;
+  dom: any;
   data: Record<string, any>;
   methods: Record<string, any>;
 
   constructor(options: LuciaOptions) {
     this.el = document.querySelector(options.el);
+    this.dom = this.el.innerHTML;
     this.data = options.data;
     this.methods = options.methods;
 
-    this.el.innerHTML = this.bindInterop(this.el.innerHTML);
+    this.el.innerHTML = this.bindInterop(this.dom);
+    this.findAttribute(this.el, 'l-', 'on');
+  }
+
+  set(key: string, value: any) {
+    this.data[key] = value;
+    this.el.innerHTML = this.bindInterop(this.dom);
+  }
+
+  delete(key: string) {
+    this.data[key] = '';
+    this.el.innerHTML = this.bindInterop(this.dom);
   }
 
   bindInterop(html: string): string {
     const tokens = html.match(LuciaConfig.matchInteropRegex) || [];
     for (let i = 0; i < tokens.length; i++) {
-      const compressedToken = tokens[i]
-        .replace(LuciaConfig.curlyBraceTrimRegex, '$1$2')
+      const compressedToken = tokens[i].replace(LuciaConfig.curlyBraceTrimRegex, '$1$2');
       const dataAttr = compressedToken.substring(2, compressedToken.length - 2);
-      html = html.replace(tokens[i], this.data[dataAttr]); 
+      html = html.replace(tokens[i], this.data[dataAttr]);
     }
     return html;
+  }
+
+  findAttribute(el: any, prefix: string, id: string): any {
+    const toBind = [];
+    const descendents = [...el.getElementsByTagName('*')]; // gets all children of ancestor
+    descendents.forEach((child) => {
+      if (child.getAttribute(`${prefix}${id}`)) toBind.push(child);
+    });
+
+    // todo: add bindings for elements
+    return toBind;
   }
 }
