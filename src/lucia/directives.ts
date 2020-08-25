@@ -3,7 +3,7 @@ import ViewNode from './viewNode';
 export default class Directives {
   traverseDirectives(el: any, prefix: string, id: string): any[] {
     const directiveElements: any[] = [];
-    const descendents = el.getElementsByTagName('*'); 
+    const descendents = el.getElementsByTagName('*');
 
     for (let i = descendents.length - 1; i >= 0; --i) {
       let attr = descendents[i].getAttribute(`${prefix}${id}`);

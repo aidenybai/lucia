@@ -1,3 +1,4 @@
+import VDom from './vdom';
 import Instance from './instance';
 import Directives from './directives';
 import LuciaConfig from '../constants/config';
@@ -10,8 +11,9 @@ interface LuciaOptions {
 
 export default class Lucia {
   LuciaConfig: any;
-  Instance: any;
-  Directives: any;
+  Instance: Instance;
+  Directives: Directives;
+  VDom: VDom;
   el: any;
   dom: any;
   directives: any;
@@ -23,6 +25,7 @@ export default class Lucia {
 
     this.Instance = new Instance(options.data, options.methods);
     this.Directives = new Directives();
+    this.VDom = new VDom(this.el);
 
     this.repaint();
   }
