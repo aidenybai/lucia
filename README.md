@@ -1,16 +1,15 @@
-<p><img src=".github/img/logo.svg" width="200px"></p>
+<img src=".github/img/logo.svg" width="80px" align="right" />
+
+# lucia
 
 tiny ui library for javascript
 
 <br>
 
-## Install
+## install
+
+put this at the end of your body or in your head tags.
+
 ```html
 <script src="https://unpkg.com/lucia"></script>
-```
-
-## Setup
-```bash
-npm i
-npm run build
 ```

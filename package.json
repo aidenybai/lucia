@@ -1,6 +1,6 @@
 {
   "name": "lucia",
-  "version": "0.0.1",
+  "version": "0.0.1-a",
   "description": "",
   "main": "dist/lucia.js",
   "browser": "dist/lucia.min.js",
