@@ -8,20 +8,28 @@ export default class VDom {
   }
 
   generate(el: any): any {
-    if (el.length !== 0) {
-      let children = [];
+    let children = [];
 
-      if (el instanceof Array) {
-        for (let i = 0; i < el.length; i++) {
+    if (el instanceof Array) {
+      for (let i = 0; i < el.length; i++) {
+        if (el[i].children.length === 0) {
+          children.push(
+            this.h(el[i].tagName.toLowerCase(), this.getAttributesObject(el[i]), [el[i].innerHTML])
+          );
+        } else {
           children.push(
             this.h(
               el[i].tagName.toLowerCase(),
-              this.getAttributesObject(el[i]),
+              this.getAttributesObject(el),
               this.generate([...el[i].children])
             )
           );
         }
-        return children;
+      }
+      return children;
+    } else {
+      if (el.children.length === 0) {
+        return this.h(el.tagName.toLowerCase(), this.getAttributesObject(el), [el.innerHTML]);
       } else {
         return this.h(
           el.tagName.toLowerCase(),
@@ -29,16 +37,17 @@ export default class VDom {
           this.generate([...el.children])
         );
       }
-    } else {
-      return [];
     }
   }
 
   getAttributesObject(el: any) {
     const attrObject: any = {};
-    for (let i = 0; i < el.attributes.length; i++) {
-      attrObject[el.attributes[i].name] = el.attributes[i].value;
+    if (el.attributes) {
+      for (let i = 0; i < el.attributes.length; i++) {
+        attrObject[el.attributes[i].name] = el.attributes[i].value;
+      }
     }
+
     return attrObject;
   }
 
@@ -55,7 +64,10 @@ export default class VDom {
       return document.createTextNode(node);
     }
     const $el = document.createElement(node.tagName);
-    node.children.map(this.createElement).forEach($el.appendChild.bind($el));
+    node.children.map(this.createElement.bind(this)).forEach($el.appendChild.bind($el));
+    Object.keys(node.attributes).map((key) => {
+      $el.setAttribute(key, node.attributes[key]);
+    });
     return $el;
   }
 
@@ -63,11 +75,13 @@ export default class VDom {
     return (
       typeof node1 !== typeof node2 ||
       (typeof node1 === 'string' && node1 !== node2) ||
-      node1.type !== node2.type
+      node1.tagName !== node2.tagName ||
+      node1.attributes !== node2.attributes ||
+      node1.children !== node2.children 
     );
   }
 
-  updateElement($parent: any, newNode: any, oldNode: any, index = 0) {
+  hydrate($parent: any, newNode: any, oldNode: any, index = 0) {
     if (!oldNode) {
       $parent.appendChild(this.createElement(newNode));
     } else if (!newNode) {
@@ -78,8 +92,9 @@ export default class VDom {
       const newLength = newNode.children.length;
       const oldLength = oldNode.children.length;
       for (let i = 0; i < newLength || i < oldLength; i++) {
-        this.updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+        this.hydrate($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
       }
     }
+    this.generate(this.el); // NEED CONCISE HYDRATION
   }
 }
