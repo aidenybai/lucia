@@ -1,4 +1,4 @@
-export default class DataManager {
+export default class Instance {
   data: any;
   methods: any;
 

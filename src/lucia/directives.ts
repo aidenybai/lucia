@@ -1,9 +1,9 @@
-import ViewNode from './ViewNode';
+import ViewNode from './viewNode';
 
-export default class ViewManager {
-  traverseAttributes(el: any, prefix: string, id: string): any[] {
+export default class Directives {
+  traverseDirectives(el: any, prefix: string, id: string): any[] {
     const directiveElements: any[] = [];
-    const descendents = el.getElementsByTagName('*'); // gets all children of ancestor
+    const descendents = el.getElementsByTagName('*'); 
 
     for (let i = descendents.length - 1; i >= 0; --i) {
       let attr = descendents[i].getAttribute(`${prefix}${id}`);
@@ -14,14 +14,13 @@ export default class ViewManager {
       }
     }
 
-    // todo: add bindings for elements
     return directiveElements;
   }
 
   collateDirectives(el: string, prefix: string, ids: string[]) {
     const directives: any = {};
     for (const id of ids) {
-      const directiveArray = this.traverseAttributes(el, prefix, id);
+      const directiveArray = this.traverseDirectives(el, prefix, id);
       if (directiveArray.length > 0) directives[id] = directiveArray;
     }
     return directives;

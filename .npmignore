@@ -8,3 +8,4 @@ rollup.config.js
 .gitignore
 .babelrc
 src/
+.github/
