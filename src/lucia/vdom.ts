@@ -4,10 +4,10 @@ export default class VDom {
 
   constructor($el: any) {
     this.$el = $el;
-    this.vdom = this.compile(this.$el);
+    this.vdom = this.buildVNodes(this.$el);
   }
 
-  compile($el: any): any {
+  buildVNodes($el: any): any {
     let children = [];
 
     if ($el instanceof Array) {
@@ -22,7 +22,7 @@ export default class VDom {
             this.h(
               $el[i].tagName.toLowerCase(),
               this.getPropsObject($el),
-              this.compile([...$el[i].children])
+              this.buildVNodes([...$el[i].children])
             )
           );
         }
@@ -35,7 +35,7 @@ export default class VDom {
         return this.h(
           $el.tagName.toLowerCase(),
           this.getPropsObject($el),
-          this.compile([...$el.children])
+          this.buildVNodes([...$el.children])
         );
       }
     }
@@ -44,11 +44,10 @@ export default class VDom {
   getPropsObject($el: any) {
     const propsObject: any = {};
     if ($el.props) {
-      for (let i = 0; i < $el.props.length; i++) {
-        propsObject[$el.props[i].name] = $el.props[i].value;
+      for (const prop of $el.props) {
+        propsObject[prop.name] = prop.value; // preprocessing for directives
       }
     }
-
     return propsObject;
   }
 
@@ -82,7 +81,7 @@ export default class VDom {
     );
   }
 
-  hydrate($parent: any, newNode: any, oldNode: any, index = 0) {
+  updateElement($parent: any, newNode: any, oldNode: any, index = 0) {
     if (!oldNode) {
       $parent.appendChild(this.createElement(newNode));
     } else if (!newNode) {
@@ -93,10 +92,10 @@ export default class VDom {
       const newLength = newNode.children.length;
       const oldLength = oldNode.children.length;
       for (let i = 0; i < newLength || i < oldLength; i++) {
-        this.hydrate($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+        this.updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
       }
     }
-    this.compile($parent); // NEED CONCISE HYDRATION FOR PERF
+    this.buildVNodes($parent); // NEED CONCISE HYDRATION FOR PERF
   }
 
   setBooleanProp($target: any, name: any, value: any) {
@@ -113,22 +112,23 @@ export default class VDom {
     $target[name] = false;
   }
 
-  isEventProp(name: any) {
-    return /^on/.test(name);
-  }
+  // isEventProp(name: any) {
+  //   return /^on/.test(name);
+  // }
 
-  extractEventName(name: any) {
-    return name.slice(2).toLowerCase();
-  }
+  // extractEventName(name: any) {
+  //   return name.slice(2).toLowerCase();
+  // }
 
-  isCustomProp(name: any) {
-    return this.isEventProp(name); // can add some type of directive handling here
-  }
+  // isCustomProp(name: any) {
+  //   return this.isEventProp(name); // can add some type of directive handling here
+  // }
 
   setProp($target: any, name: any, value: any) {
-    if (this.isCustomProp(name)) {
-      return;
-    } else if (typeof value === 'boolean') {
+    // if (this.isCustomProp(name)) {
+    //   return;
+    // } else
+    if (typeof value === 'boolean') {
       this.setBooleanProp($target, name, value);
     } else {
       $target.setAttribute(name, value);
@@ -136,9 +136,10 @@ export default class VDom {
   }
 
   removeProp($target: any, name: any, value: any) {
-    if (this.isCustomProp(name)) {
-      return;
-    } else if (typeof value === 'boolean') {
+    // if (this.isCustomProp(name)) {
+    //   return;
+    // } else
+    if (typeof value === 'boolean') {
       this.removeBooleanProp($target, name);
     } else {
       $target.removeAttribute(name);
@@ -166,11 +167,11 @@ export default class VDom {
     });
   }
 
-  addEventListeners($target: any, props: any) {
-    Object.keys(props).forEach((name) => {
-      if (this.isEventProp(name)) {
-        $target.addEventListener(this.extractEventName(name), props[name]);
-      }
-    });
-  }
+  // addEventListeners($target: any, props: any) {
+  //   Object.keys(props).forEach((name) => {
+  //     if (this.isEventProp(name)) {
+  //       $target.addEventListener(this.extractEventName(name), props[name]);
+  //     }
+  //   });
+  // }
 }
