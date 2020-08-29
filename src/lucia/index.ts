@@ -1,7 +1,7 @@
 import VDom from './vdom';
 import Instance from './instance';
 import Directives from './directives';
-import LuciaConfig from '../constants/config';
+// import LuciaConfig from '../constants/config';
 
 interface LuciaOptions {
   el: string;
@@ -19,7 +19,7 @@ export default class Lucia {
   directives: any;
 
   constructor(options: LuciaOptions) {
-    this.LuciaConfig = LuciaConfig;
+    // this.LuciaConfig = LuciaConfig;
 
     this.$el = document.querySelector(options.el);
 
@@ -27,55 +27,55 @@ export default class Lucia {
     this.Directives = new Directives();
     this.VDom = new VDom(this.$el);
 
-    this.repaint();
+    // this.repaint();
   }
 
-  has(key: string): boolean {
-    return this.Instance.has(key);
-  }
+  // has(key: string): boolean {
+  //   return this.Instance.has(key);
+  // }
 
-  get(key: string): any {
-    return this.Instance.get(key);
-  }
+  // get(key: string): any {
+  //   return this.Instance.get(key);
+  // }
 
-  set(key: string, value: any): void {
-    this.Instance.set(key, value);
-    this.repaint();
-  }
+  // set(key: string, value: any): void {
+  //   this.Instance.set(key, value);
+  //   this.repaint();
+  // }
 
-  delete(key: string): void {
-    this.Instance.delete(key);
-    this.repaint();
-  }
+  // delete(key: string): void {
+  //   this.Instance.delete(key);
+  //   this.repaint();
+  // }
 
-  call(method: string): void {
-    this.Instance.call(method);
-  }
+  // call(method: string): void {
+  //   this.Instance.call(method);
+  // }
 
-  loadDirectives() {
-    this.directives = {};
+  // loadDirectives() {
+  //   this.directives = {};
 
-    this.directives = this.Directives.collateDirectives(
-      this.$el,
-      this.LuciaConfig.directives.prefix,
-      this.LuciaConfig.directives.ids
-    );
-    this.Directives.bindDirectives(this.directives, this.Instance);
-  }
+  //   this.directives = this.Directives.collateDirectives(
+  //     this.$el,
+  //     this.LuciaConfig.directives.prefix,
+  //     this.LuciaConfig.directives.ids
+  //   );
+  //   this.Directives.bindDirectives(this.directives, this.Instance);
+  // }
 
-  loadTemplates() {
-    this.$el.innerHTML = this.Instance.interopTemplates(
-      this.$el.innerHTML,
-      this.Instance.data,
-      this.LuciaConfig
-    );
-  }
+  // loadTemplates() {
+  //   this.$el.innerHTML = this.Instance.interopTemplates(
+  //     this.$el.innerHTML,
+  //     this.Instance.data,
+  //     this.LuciaConfig
+  //   );
+  // }
 
-  repaint() {
-    if (this.dom) this.$el.innerHTML = this.dom;
-    else this.dom = this.$el.innerHTML;
+  // repaint() {
+  //   if (this.dom) this.$el.innerHTML = this.dom;
+  //   else this.dom = this.$el.innerHTML;
 
-    this.loadDirectives();
-    this.loadTemplates();
-  }
+  //   this.loadDirectives();
+  //   this.loadTemplates();
+  // }
 }

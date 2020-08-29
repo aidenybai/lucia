@@ -4,10 +4,43 @@ export default class VDom {
 
   constructor($el: any) {
     this.$el = $el;
-    this.vdom = this.buildVNodes(this.$el);
+    this.vdom = this.init(this.$el);
   }
 
-  buildVNodes($el: any): any {
+  init($rootEl: any) {
+    return this.toVNode($rootEl);
+  }
+
+  // lucia.VDom.patch(lucia.VDom.vdom, lucia.Instance.data)
+  // doesnt work
+  patch(vnodes: any, data: any, iter: any = false): any {
+    if (!vnodes) return;
+    if (typeof vnodes === 'string') {
+      return this.renderTemplates(vnodes, data);
+    }
+
+    for (let i = 0; i < vnodes.children.length; i++) {
+      if (typeof vnodes.children[i] === 'string') {
+        vnodes.children[i] = this.renderTemplates(vnodes.children[i], data);
+        if (iter) return vnodes.children[i];
+      } else {
+        vnodes.children[i] = this.patch(vnodes.children[i], data, true);
+      }
+      this.patchVNode(vnodes.$el, vnodes, {}, i);
+    }
+  }
+
+  renderTemplates(html: string, data: any): string {
+    const tokens = html.match(/{{\s*(#[^\s\\]+ )?[^\s\\]+.[^\s\\]\s*}}/g) || [];
+    for (let i = 0; i < tokens.length; i++) {
+      const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
+      const dataKey = compressedToken.substring(2, compressedToken.length - 2);
+      html = html.replace(tokens[i], data[dataKey]);
+    }
+    return html;
+  }
+
+  toVNode($el: any): any {
     let children = [];
 
     if ($el instanceof Array) {
@@ -15,14 +48,17 @@ export default class VDom {
       for (let i = 0; i < $el.length; i++) {
         if ($el[i].children.length === 0) {
           children.push(
-            this.h($el[i].tagName.toLowerCase(), this.getPropsObject($el[i]), [$el[i].innerHTML])
+            this.h($el[i], $el[i].tagName.toLowerCase(), this.getAttributesObject($el[i]), [
+              $el[i].innerHTML,
+            ])
           );
         } else {
           children.push(
             this.h(
+              $el[i],
               $el[i].tagName.toLowerCase(),
-              this.getPropsObject($el),
-              this.buildVNodes([...$el[i].children])
+              this.getAttributesObject($el),
+              this.toVNode([...$el[i].children])
             )
           );
         }
@@ -30,72 +66,77 @@ export default class VDom {
       return children;
     } else {
       if ($el.children.length === 0) {
-        return this.h($el.tagName.toLowerCase(), this.getPropsObject($el), [$el.innerHTML]);
+        return this.h($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), [
+          $el.innerHTML,
+        ]);
       } else {
         return this.h(
+          $el,
           $el.tagName.toLowerCase(),
-          this.getPropsObject($el),
-          this.buildVNodes([...$el.children])
+          this.getAttributesObject($el),
+          this.toVNode([...$el.children])
         );
       }
     }
   }
 
-  getPropsObject($el: any) {
-    const propsObject: any = {};
-    if ($el.props) {
-      for (const prop of $el.props) {
-        propsObject[prop.name] = prop.value; // preprocessing for directives
+  getAttributesObject($el: any) {
+    const attributesObject: any = {};
+    if ($el.attributes) {
+      for (const attr of $el.attributes) {
+        attributesObject[attr.name] = attr.value; // preprocessing for directives
       }
     }
-    return propsObject;
+    return attributesObject;
   }
 
-  h(tagName: string, props: any, children: any) {
+  h($el: any, tagName: string, attributes: any, children: any) {
     return {
+      $el,
       tagName,
-      props: props || {},
+      attributes: attributes || {},
       children: children || [],
     };
   }
 
-  createElement(node: any) {
-    if (typeof node === 'string') {
-      return document.createTextNode(node);
+  createElement(vnode: any) {
+    if (typeof vnode === 'string') {
+      return document.createTextNode(vnode);
     }
-    const $el = document.createElement(node.tagName);
-    node.children.map(this.createElement.bind(this)).forEach($el.appendChild.bind($el));
-    Object.keys(node.props).map((key) => {
-      $el.setAttribute(key, node.props[key]);
+    const $el = document.createElement(vnode.tagName);
+    vnode.children.map(this.createElement.bind(this)).forEach($el.appendChild.bind($el));
+    Object.keys(vnode.attributes).map((key) => {
+      $el.setAttribute(key, vnode.attributes[key]);
     });
     return $el;
   }
 
-  diffNodes(node1: any, node2: any) {
+  diffVNodes(vnode1: any, vnode2: any) {
     return (
-      typeof node1 !== typeof node2 ||
-      (typeof node1 === 'string' && node1 !== node2) ||
-      node1.tagName !== node2.tagName ||
-      node1.props !== node2.props ||
-      node1.children !== node2.children
+      typeof vnode1 !== typeof vnode2 ||
+      (typeof vnode1 === 'string' && vnode1 !== vnode2) ||
+      vnode1.tagName !== vnode2.tagName ||
+      vnode1.attributes !== vnode2.attributes ||
+      vnode1.children !== vnode2.children
     );
   }
 
-  updateElement($parent: any, newNode: any, oldNode: any, index = 0) {
-    if (!oldNode) {
-      $parent.appendChild(this.createElement(newNode));
-    } else if (!newNode) {
+  patchVNode($parent: any, newVNode?: any, oldVNode?: any, index: number = 0) {
+    if (!$parent) return;
+    if (!oldVNode) {
+      $parent.appendChild(this.createElement(newVNode));
+    } else if (!newVNode) {
       $parent.removeChild($parent.childNodes[index]);
-    } else if (this.diffNodes(newNode, oldNode)) {
-      $parent.replaceChild(this.createElement(newNode), $parent.childNodes[index]);
-    } else if (newNode.tagName) {
-      const newLength = newNode.children.length;
-      const oldLength = oldNode.children.length;
+    } else if (this.diffVNodes(newVNode, oldVNode)) {
+      $parent.replaceChild(this.createElement(newVNode), $parent.childNodes[index]);
+    } else if (newVNode.tagName) {
+      const newLength = newVNode.children.length;
+      const oldLength = oldVNode.children.length;
       for (let i = 0; i < newLength || i < oldLength; i++) {
-        this.updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+        this.patchVNode($parent.childNodes[index], newVNode.children[i], oldVNode.children[i], i);
       }
     }
-    this.buildVNodes($parent); // NEED CONCISE HYDRATION FOR PERF
+    // this.toVNode($parent); // NEED CONCISE HYDRATION FOR PERF
   }
 
   setBooleanProp($target: any, name: any, value: any) {
@@ -146,9 +187,9 @@ export default class VDom {
     }
   }
 
-  setProps($target: any, props: any) {
-    Object.keys(props).forEach((name) => {
-      this.setProp($target, name, props[name]);
+  setAttributes($target: any, attributes: any) {
+    Object.keys(attributes).forEach((name) => {
+      this.setProp($target, name, attributes[name]);
     });
   }
 
@@ -160,10 +201,10 @@ export default class VDom {
     }
   }
 
-  updateProps($target: any, newProps: any, oldProps: any = {}) {
-    const props = Object.assign({}, newProps, oldProps);
-    Object.keys(props).forEach((name) => {
-      this.updateProp($target, name, newProps[name], oldProps[name]);
+  updateAttributes($target: any, newAttributes: any, oldAttributes: any = {}) {
+    const attrs = Object.assign({}, newAttributes, oldAttributes);
+    Object.keys(attrs).forEach((name) => {
+      this.updateProp($target, name, newAttributes[name], oldAttributes[name]);
     });
   }
 
