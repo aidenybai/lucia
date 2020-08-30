@@ -1,6 +1,7 @@
 export default class VDom {
   $el: any;
   vdom: any;
+  savedVDom: any;
 
   constructor($el: any) {
     this.$el = $el;
@@ -12,25 +13,29 @@ export default class VDom {
   }
 
   // lucia.VDom.patch(lucia.VDom.vdom, lucia.Instance.data)
+  // lucia.VDom.patch(lucia.VDom.vdom, { stuff: 1 })
   // doesnt work
   patch(vnodes: any, data: any, iter: any = false): any {
     if (!vnodes) return;
     if (typeof vnodes === 'string') {
-      return this.renderTemplates(vnodes, data);
+      return this.renderTemplate(vnodes, data);
     }
 
     for (let i = 0; i < vnodes.children.length; i++) {
-      if (typeof vnodes.children[i] === 'string') {
-        vnodes.children[i] = this.renderTemplates(vnodes.children[i], data);
-        if (iter) return vnodes.children[i];
+      if (vnodes.children[i].node?.nodeType === Node.TEXT_NODE) {
+        vnodes.children[i].node.nodeValue = this.renderTemplate(vnodes.children[i].value, data); // possible error point?
+        // Somehting wrong with ref children n stuff
+        // doesnt make sense when iter and just return weirdly
+        // if (iter) return vnodes.children[i];
       } else {
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
       }
-      this.patchVNode(vnodes.$el, vnodes, {}, i);
+      // this.patchVNode(vnodes.children[i].node?.parentNode, vnodes.children[i].node?.nodeValue, {}, i);
     }
+    if (iter) return vnodes; // maybe?
   }
 
-  renderTemplates(html: string, data: any): string {
+  renderTemplate(html: string, data: any): string {
     const tokens = html.match(/{{\s*(#[^\s\\]+ )?[^\s\\]+.[^\s\\]\s*}}/g) || [];
     for (let i = 0; i < tokens.length; i++) {
       const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
@@ -40,44 +45,54 @@ export default class VDom {
     return html;
   }
 
-  toVNode($el: any): any {
+  toVNode($el: any, iter: boolean = false): any {
+    // not wokring with text - > div
     let children = [];
 
-    if ($el instanceof Array) {
-      // Pretty messy and inconcise, needs to be rewritten
-      for (let i = 0; i < $el.length; i++) {
-        if ($el[i].children.length === 0) {
-          children.push(
-            this.h($el[i], $el[i].tagName.toLowerCase(), this.getAttributesObject($el[i]), [
-              $el[i].innerHTML,
-            ])
-          );
-        } else {
-          children.push(
-            this.h(
-              $el[i],
-              $el[i].tagName.toLowerCase(),
-              this.getAttributesObject($el),
-              this.toVNode([...$el[i].children])
-            )
-          );
-        }
-      }
-      return children;
-    } else {
-      if ($el.children.length === 0) {
-        return this.h($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), [
-          $el.innerHTML,
-        ]);
+    // if ($el instanceof Array) {
+    //   // Pretty messy and inconcise, needs to be rewritten
+    //   for (let i = 0; i < $el.length; i++) {
+    //     const targetChildNodes = $el[i].childNodes;
+    //     console.log(targetChildNodes);
+    //     for (let j = 0; j < targetChildNodes.length; j++) {
+    //       if (targetChildNodes[j].nodeType === Node.TEXT_NODE) {
+    //         children.push(targetChildNodes[j]);
+    //       } else {
+    //         children.push(
+    //           this.h(
+    //             targetChildNodes[j],
+    //             targetChildNodes[j].tagName.toLowerCase(),
+    //             this.getAttributesObject(targetChildNodes[j]),
+    //             this.toVNode([...targetChildNodes])
+    //           )
+    //         );
+    //       }
+    //     }
+    //   }
+
+    //   return this.h($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
+    // } else {
+    const targetChildNodes = $el.childNodes; // lucia.VDom.vdom
+    for (let i = 0; i < targetChildNodes.length; i++) {
+      if (targetChildNodes[i].nodeType === Node.TEXT_NODE) {
+        children.push({
+          value: targetChildNodes[i].nodeValue,
+          node: targetChildNodes[i],
+        }); // need to return a node
       } else {
-        return this.h(
-          $el,
-          $el.tagName.toLowerCase(),
-          this.getAttributesObject($el),
-          this.toVNode([...$el.children])
+        children.push(
+          this.h(
+            targetChildNodes[i],
+            targetChildNodes[i].tagName.toLowerCase(),
+            this.getAttributesObject(targetChildNodes[i]),
+            this.toVNode(targetChildNodes[i], true)
+          )
         );
       }
     }
+    if (iter) return children;
+    else return this.h($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
+    // }
   }
 
   getAttributesObject($el: any) {

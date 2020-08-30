@@ -27,30 +27,30 @@ export default class Lucia {
     this.Directives = new Directives();
     this.VDom = new VDom(this.$el);
 
-    // this.repaint();
+    this.VDom.patch(this.VDom.vdom, this.Instance.data);
   }
 
-  // has(key: string): boolean {
-  //   return this.Instance.has(key);
-  // }
+  has(key: string): boolean {
+    return this.Instance.has(key);
+  }
 
-  // get(key: string): any {
-  //   return this.Instance.get(key);
-  // }
+  get(key: string): any {
+    return this.Instance.get(key);
+  }
 
-  // set(key: string, value: any): void {
-  //   this.Instance.set(key, value);
-  //   this.repaint();
-  // }
+  set(key: string, value: any): void {
+    this.Instance.set(key, value);
+    this.VDom.patch(this.VDom.vdom, this.Instance.data);
+  }
 
-  // delete(key: string): void {
-  //   this.Instance.delete(key);
-  //   this.repaint();
-  // }
+  delete(key: string): void {
+    this.Instance.delete(key);
+    this.VDom.patch(this.VDom.vdom, this.Instance.data);
+  }
 
-  // call(method: string): void {
-  //   this.Instance.call(method);
-  // }
+  call(method: string): void {
+    this.Instance.call(method);
+  }
 
   // loadDirectives() {
   //   this.directives = {};
