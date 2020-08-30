@@ -1,7 +1,6 @@
 export default class VDom {
   $el: any;
   vdom: any;
-  savedVDom: any;
 
   constructor($el: any) {
     this.$el = $el;
@@ -28,6 +27,17 @@ export default class VDom {
         // doesnt make sense when iter and just return weirdly
         // if (iter) return vnodes.children[i];
       } else {
+        for (const attr in vnodes.children[i].attributes) {
+          if (attr.startsWith('l-')) {
+            vnodes.children[i].node.removeAttribute(attr);
+            if (attr.startsWith('l-on:')) {
+              const eventHandler = () => {
+                eval(vnodes.children[i].attributes[attr]);
+              }
+              vnodes.children[i].node[`on${attr.split(':')[1]}`] = eventHandler; // probably should have addEventListener - but need to make it single somehow.
+            }
+          }
+        }
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
       }
       // this.patchVNode(vnodes.children[i].node?.parentNode, vnodes.children[i].node?.nodeValue, {}, i);
@@ -59,7 +69,7 @@ export default class VDom {
     //         children.push(targetChildNodes[j]);
     //       } else {
     //         children.push(
-    //           this.h(
+    //           this.element(
     //             targetChildNodes[j],
     //             targetChildNodes[j].tagName.toLowerCase(),
     //             this.getAttributesObject(targetChildNodes[j]),
@@ -70,18 +80,15 @@ export default class VDom {
     //     }
     //   }
 
-    //   return this.h($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
+    //   return this.element($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
     // } else {
     const targetChildNodes = $el.childNodes; // lucia.VDom.vdom
     for (let i = 0; i < targetChildNodes.length; i++) {
       if (targetChildNodes[i].nodeType === Node.TEXT_NODE) {
-        children.push({
-          value: targetChildNodes[i].nodeValue,
-          node: targetChildNodes[i],
-        }); // need to return a node
+        children.push(this.textNode(targetChildNodes[i], targetChildNodes[i].nodeValue));
       } else {
         children.push(
-          this.h(
+          this.element(
             targetChildNodes[i],
             targetChildNodes[i].tagName.toLowerCase(),
             this.getAttributesObject(targetChildNodes[i]),
@@ -91,7 +98,13 @@ export default class VDom {
       }
     }
     if (iter) return children;
-    else return this.h($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
+    else
+      return this.element(
+        $el,
+        $el.tagName.toLowerCase(),
+        this.getAttributesObject($el),
+        children
+      );
     // }
   }
 
@@ -105,12 +118,19 @@ export default class VDom {
     return attributesObject;
   }
 
-  h($el: any, tagName: string, attributes: any, children: any) {
+  element(node: any, tagName: string, attributes: any, children: any) {
     return {
-      $el,
+      node,
       tagName,
       attributes: attributes || {},
       children: children || [],
+    };
+  }
+
+  textNode(node: any, value: string) {
+    return {
+      node,
+      value,
     };
   }
 
