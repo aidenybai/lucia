@@ -11,9 +11,17 @@ export default class VDom {
     return this.toVNode($rootEl);
   }
 
+  compose(raw: string, data: any) {
+    let evalString = `(() => { let data = JSON.parse('${JSON.stringify(data)}'); `;
+    for (const key in data) {
+      evalString += `let ${key} = data.${key}; `;
+    }
+    evalString += `return ${raw}; })();`;
+    return eval(evalString);
+  }
+
   // lucia.VDom.patch(lucia.VDom.vdom, lucia.Instance.data)
   // lucia.VDom.patch(lucia.VDom.vdom, { stuff: 1 })
-  // doesnt work
   patch(vnodes: any, data: any, iter: any = false): any {
     if (!vnodes) return;
     if (typeof vnodes === 'string') {
@@ -22,71 +30,62 @@ export default class VDom {
 
     for (let i = 0; i < vnodes.children.length; i++) {
       if (vnodes.children[i].node?.nodeType === Node.TEXT_NODE) {
+        // Template
         vnodes.children[i].node.nodeValue = this.renderTemplate(vnodes.children[i].value, data); // possible error point?
-        // Somehting wrong with ref children n stuff
-        // doesnt make sense when iter and just return weirdly
-        // if (iter) return vnodes.children[i];
       } else {
         for (const attr in vnodes.children[i].attributes) {
+          // Directives
           if (attr.startsWith('l-')) {
             vnodes.children[i].node.removeAttribute(attr);
             if (attr.startsWith('l-on:')) {
-              const eventHandler = () => {
-                eval(vnodes.children[i].attributes[attr]);
-              }
+              const eventHandler = () => this.compose(vnodes.children[i].attributes[attr], data); // Need to implement composition API
               vnodes.children[i].node[`on${attr.split(':')[1]}`] = eventHandler; // probably should have addEventListener - but need to make it single somehow.
             }
           }
         }
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
       }
-      // this.patchVNode(vnodes.children[i].node?.parentNode, vnodes.children[i].node?.nodeValue, {}, i);
     }
-    if (iter) return vnodes; // maybe?
+    if (iter) return vnodes;
   }
 
   renderTemplate(html: string, data: any): string {
-    const tokens = html.match(/{{\s*(#[^\s\\]+ )?[^\s\\]+.[^\s\\]\s*}}/g) || [];
+    const tokens = html.match(/{{\s*.+\s*}}/g) || [];
     for (let i = 0; i < tokens.length; i++) {
       const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
-      const dataKey = compressedToken.substring(2, compressedToken.length - 2);
-      html = html.replace(tokens[i], data[dataKey]);
+      // Need to implement composition API
+      let templateData = compressedToken.substring(2, compressedToken.length - 2).trim();
+
+      try {
+        if (templateData in data) {
+          html = html.replace(tokens[i], data[templateData]);
+        } else {
+          // mega sketch composition api but it works
+
+          html = html.replace(tokens[i], this.compose(templateData, data));
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
     return html;
   }
 
   toVNode($el: any, iter: boolean = false): any {
-    // not wokring with text - > div
     let children = [];
 
-    // if ($el instanceof Array) {
-    //   // Pretty messy and inconcise, needs to be rewritten
-    //   for (let i = 0; i < $el.length; i++) {
-    //     const targetChildNodes = $el[i].childNodes;
-    //     console.log(targetChildNodes);
-    //     for (let j = 0; j < targetChildNodes.length; j++) {
-    //       if (targetChildNodes[j].nodeType === Node.TEXT_NODE) {
-    //         children.push(targetChildNodes[j]);
-    //       } else {
-    //         children.push(
-    //           this.element(
-    //             targetChildNodes[j],
-    //             targetChildNodes[j].tagName.toLowerCase(),
-    //             this.getAttributesObject(targetChildNodes[j]),
-    //             this.toVNode([...targetChildNodes])
-    //           )
-    //         );
-    //       }
-    //     }
-    //   }
-
-    //   return this.element($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
-    // } else {
-    const targetChildNodes = $el.childNodes; // lucia.VDom.vdom
+    const targetChildNodes = $el.childNodes;
     for (let i = 0; i < targetChildNodes.length; i++) {
+      // Ignored:
+      // CDATA_SECTION_NODE
+      // PROCESSING_INSTRUCTION_NODE
+      // COMMENT_NODE
+      // DOCUMENT_NODE
+      // DOCUMENT_TYPE_NODE
+      // DOCUMENT_FRAGMENT_NODE
       if (targetChildNodes[i].nodeType === Node.TEXT_NODE) {
         children.push(this.textNode(targetChildNodes[i], targetChildNodes[i].nodeValue));
-      } else {
+      } else if (targetChildNodes[i].nodeType === Node.ELEMENT_NODE) {
         children.push(
           this.element(
             targetChildNodes[i],
@@ -98,14 +97,9 @@ export default class VDom {
       }
     }
     if (iter) return children;
-    else
-      return this.element(
-        $el,
-        $el.tagName.toLowerCase(),
-        this.getAttributesObject($el),
-        children
-      );
-    // }
+    else {
+      return this.element($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
+    }
   }
 
   getAttributesObject($el: any) {
