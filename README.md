@@ -2,7 +2,7 @@
 
 # lucia
 
-> Currently in heavy development. Do not use in production
+> currently in heavy development. do not use in production
 
 tiny javascript library for web applications
 
@@ -33,7 +33,7 @@ Templating:
     }
   });
 
-  lucia.data.set('hello', 'there'); // Change data
+  lucia.Data.set('hello', 'there'); // Change data
   lucia.nextTick(); // Repaint
 </script>
 ```
@@ -49,6 +49,38 @@ Event Handlers:
     el: '#app',
     data: {
       message: 'hello world'
+    }
+  });
+</script>
+```
+
+visibility:
+```html
+<div id="app">
+  <button l-if="show">You can't see me</button>
+</div>
+<script src="https://unpkg.com/lucia"></script>
+<script>
+  const lucia = new Lucia({
+    el: '#app',
+    data: {
+      show: false
+    }
+  });
+</script>
+```
+
+binding:
+```html
+<div id="app">
+  <h1 l-bind:class="{ hello: show }">Classes are cool</h1>
+</div>
+<script src="https://unpkg.com/lucia"></script>
+<script>
+  const lucia = new Lucia({
+    el: '#app',
+    data: {
+      show: true
     }
   });
 </script>
