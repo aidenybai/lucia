@@ -1,3 +1,3 @@
-import Lucia from './lucia';
+import Lucia from './lucia'; 
 
 export default Lucia;
