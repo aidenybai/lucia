@@ -1,10 +1,9 @@
 {
   "name": "lucia",
-  "version": "0.0.1-a",
-  "description": "",
+  "version": "0.0.2",
+  "description": "tiny javascript library for web applications",
   "main": "dist/lucia.js",
   "browser": "dist/lucia.min.js",
-  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "del-cli dist/ && rollup -c",
     "build:dev": "del-cli dist/ && rollup --watch -c"
@@ -13,7 +12,16 @@
     "type": "git",
     "url": "git+https://github.com/luciadotjs/lucia.git"
   },
-  "keywords": [],
+  "keywords": [
+    "lucia",
+    "lucia.js",
+    "tiny",
+    "javascript",
+    "library",
+    "web",
+    "ui",
+    "browser"
+  ],
   "author": "Aiden Bai <aidenybai@gmail.com>",
   "license": "MIT",
   "bugs": {
