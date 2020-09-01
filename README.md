@@ -1,14 +1,12 @@
 <img src=".github/img/logo.svg" width="80px" align="right" />
 
-# lucia
+# Lucia
 
-> currently in heavy development. do not use in production
+> Currently in heavy development. Do not use in production
 
-tiny javascript library for web applications
+Tiny javascript library for web applications.
 
-<br>
-
-## install
+## Install
 
 put this at the end of your body or in your head tags.
 
@@ -34,7 +32,6 @@ Templating:
   });
 
   lucia.Data.set('hello', 'there'); // Change data
-  lucia.nextTick(); // Repaint
 </script>
 ```
 

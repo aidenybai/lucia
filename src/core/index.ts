@@ -10,17 +10,20 @@ export default class Lucia {
   Data: Data;
   VDom: VDom;
   $el: any;
+  $data: any;
 
   constructor(options: LuciaOptions) {
     this.$el = document.querySelector(options.el);
 
-    this.Data = new Data(options.data);
+    this.Data = new Data(options.data, this.paint.bind(this));
     this.VDom = new VDom(this.$el);
 
-    this.nextTick();
+    this.$data = this.Data.data;
+
+    this.paint();
   }
 
-  nextTick() {
+  paint() {
     this.VDom.patch(this.VDom.vdom, this.Data.data);
   }
 }

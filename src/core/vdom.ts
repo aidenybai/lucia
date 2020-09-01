@@ -33,18 +33,18 @@ export default class VDom {
     return html;
   }
 
-  element(node: any, tagName: string, attributes: any, children: any) {
+  element($el: any, tagName: string, attributes: any, children: any) {
     return {
-      node,
+      $el,
       tagName,
       attributes: attributes || {},
       children: children || [],
     };
   }
 
-  textNode(node: any, value: string) {
+  textNode($el: any, value: string) {
     return {
-      node,
+      $el,
       value,
     };
   }
@@ -68,18 +68,6 @@ export default class VDom {
             )
           );
           break;
-        case Node.CDATA_SECTION_NODE:
-          break;
-        case Node.PROCESSING_INSTRUCTION_NODE:
-          break;
-        case Node.COMMENT_NODE:
-          break;
-        case Node.DOCUMENT_NODE:
-          break;
-        case Node.DOCUMENT_TYPE_NODE:
-          break;
-        case Node.DOCUMENT_FRAGMENT_NODE:
-          break;
       }
     }
     if (iter) return children;
@@ -95,22 +83,22 @@ export default class VDom {
     }
 
     for (let i = 0; i < vnodes.children.length; i++) {
-      if (vnodes.children[i].node?.nodeType === Node.TEXT_NODE) {
+      if (vnodes.children[i].$el?.nodeType === Node.TEXT_NODE) {
         // Template
-        vnodes.children[i].node.nodeValue = this.renderTemplate(vnodes.children[i].value, data);
+        vnodes.children[i].$el.nodeValue = this.renderTemplate(vnodes.children[i].value, data);
       } else {
         for (const attr in vnodes.children[i].attributes) {
           // Directives
           if (attr.startsWith('l-')) {
             const attrValue = vnodes.children[i].attributes[attr];
-            vnodes.children[i].node.removeAttribute(attr);
+            vnodes.children[i].$el.removeAttribute(attr);
 
             if (attr.startsWith('l-on:')) {
               const eventHandler = () => this.compose(attrValue, data);
-              vnodes.children[i].node[`on${attr.split(':')[1]}`] = eventHandler; // probably should have addEventListener - but need to make it single somehow.
+              vnodes.children[i].$el[`on${attr.split(':')[1]}`] = eventHandler; // probably should have addEventListener - but need to make it single somehow.
             }
             if (attr === 'l-if') {
-              vnodes.children[i].node.hidden = this.compose(
+              vnodes.children[i].$el.hidden = this.compose(
                 vnodes.children[i].attributes[attr],
                 data
               )
@@ -122,27 +110,27 @@ export default class VDom {
                 case 'class':
                   const classData = this.compose(attrValue, data);
                   if (classData instanceof Array) {
-                    vnodes.children[i].node.setAttribute('class', classData.join(' '));
+                    vnodes.children[i].$el.setAttribute('class', classData.join(' '));
                   } else {
                     const classes = [];
                     for (const key in classData) {
                       if (classData[key]) classes.push(key);
                     }
                     if (classes.length > 0) {
-                      vnodes.children[i].node.setAttribute('class', classes.join(' '));
+                      vnodes.children[i].$el.setAttribute('class', classes.join(' '));
                     } else {
-                      vnodes.children[i].node.removeAttribute('class');
+                      vnodes.children[i].$el.removeAttribute('class');
                     }
                   }
                   break;
                 case 'style':
                   const styleData = this.compose(attrValue, data);
                   for (const key in styleData) {
-                    vnodes.children[i].node.style[key] = styleData[key];
+                    vnodes.children[i].$el.style[key] = styleData[key];
                   }
                   break;
                 default:
-                  vnodes.children[i].node.setAttribute(
+                  vnodes.children[i].$el.setAttribute(
                     attr.split(':')[1],
                     this.compose(attrValue, data)
                   );
