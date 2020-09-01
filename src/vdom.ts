@@ -85,7 +85,8 @@ export default class VDom {
     for (let i = 0; i < vnodes.children.length; i++) {
       if (vnodes.children[i].$el?.nodeType === Node.TEXT_NODE) {
         // Template
-        vnodes.children[i].$el.nodeValue = this.renderTemplate(vnodes.children[i].value, data);
+        const renderedText = this.renderTemplate(vnodes.children[i].value, data);
+        if (renderedText !== vnodes.children[i].$el.nodeValue) vnodes.children[i].$el.nodeValue = renderedText;
       } else {
         for (const attr in vnodes.children[i].attributes) {
           // Directives
@@ -124,6 +125,7 @@ export default class VDom {
                   break;
                 case 'style':
                   const styleData = this.compose(attrValue, data);
+                  vnodes.children[i].$el.removeAttribute('style'); // too harsh
                   for (const key in styleData) {
                     vnodes.children[i].$el.style[key] = styleData[key];
                   }
