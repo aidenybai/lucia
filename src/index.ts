@@ -1,3 +1,3 @@
-import Lucia from './core'; 
+import Lucia from './lucia'; 
 
 export default Lucia;

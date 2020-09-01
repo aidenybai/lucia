@@ -1,4 +1,4 @@
-import noop from '../util/noop';
+import noop from './util/noop';
 
 export default class VDom {
   $el: any;
