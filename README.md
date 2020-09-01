@@ -8,13 +8,13 @@ Tiny javascript library for web applications.
 
 ## Install
 
-put this at the end of your body or in your head tags.
+Put this at the end of your body or in your head tags.
 
 ```html
 <script src="https://unpkg.com/lucia"></script>
 ```
 
-## usage
+## Usage
 
 Templating:
 ```html
@@ -51,7 +51,7 @@ Event Handlers:
 </script>
 ```
 
-visibility:
+Visibility:
 ```html
 <div id="app">
   <button l-if="show">You can't see me</button>
@@ -67,7 +67,7 @@ visibility:
 </script>
 ```
 
-binding:
+Binding:
 ```html
 <div id="app">
   <h1 l-bind:class="{ hello: show }">Classes are cool</h1>
