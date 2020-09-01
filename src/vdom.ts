@@ -96,7 +96,7 @@ export default class VDom {
             
             if (attr.startsWith('l-on:')) {
               const eventHandler = () => this.compose(attrValue, data);
-              vnodes.children[i].$el[`on${attr.split(':')[1]}`] = eventHandler; // probably should have addEventListener - but need to make it single somehow.
+              vnodes.children[i].$el[`on${attr.split(':')[1]}`] = eventHandler; 
             }
             if (attr === 'l-if') {
               vnodes.children[i].$el.hidden = this.compose(
