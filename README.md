@@ -1,12 +1,12 @@
-<img src=".github/img/logo.svg" width="80px" align="right" />
+<img src="https://github.com/luciadotjs/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
 
-# Lucia
+# Lucia ![version](https://img.shields.io/npm/v/lucia?color=%237461FB&style=flat-square)
 
 > Currently in heavy development. Do not use in production
 
 Tiny javascript library for web applications.
 
-## Install
+## Installation
 
 Put this within your `<head>` tags in html.
 
@@ -34,7 +34,7 @@ At the core of Lucia is a system that enables us to declaratively render data to
 ```
 
 ```js
-const lucia = new Lucia({
+const app = new Lucia({
   el: '#app',
   data: {
     hello: 'world',
@@ -42,7 +42,7 @@ const lucia = new Lucia({
 });
 
 // Change data
-lucia.$data.hello = 'there';
+app.$data.hello = 'there';
 ```
 
 ### Conditionals
@@ -57,7 +57,7 @@ It’s easy to toggle the presence of an element, too:
 ```
 
 ```js
-const lucia = new Lucia({
+const app = new Lucia({
   el: '#app',
   data: {
     show: false,
@@ -76,7 +76,7 @@ To let users interact with your app, we can use the `l-on` directive to attach e
 ```
 
 ```js
-const lucia = new Lucia({
+const app = new Lucia({
   el: '#app',
   data: {
     message: 'Hello world!',
@@ -96,7 +96,7 @@ In addition to text interpolation, we can also bind element attributes like this
 ```
 
 ```js
-const lucia = new Lucia({
+const app = new Lucia({
   el: '#app',
   data: {
     show: true,
