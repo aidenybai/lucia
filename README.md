@@ -2,13 +2,13 @@
 
 # [Lucia](https://lucia.js.org) &middot; ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
-> Currently in heavy development. Do not use in production.
+> Currently in heavy development (learning project). Do not use in production.
 
 Lucia is a tiny JavaScript library for web applications.
+
 - **Declarative:** Lucia makes it painless to create interactive UIs. Design simple views for each state in your application, and Lucia will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 - **Reactive:**
 - **Flexible:** 
-
 
 ## Installation
 

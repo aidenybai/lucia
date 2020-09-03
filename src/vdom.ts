@@ -203,7 +203,7 @@ export default class VDom {
     );
   }
 
-  patchVNode($parent: any, newVNode?: any, oldVNode?: any, index: number = 0) {
+  updateElement($parent: any, newVNode?: any, oldVNode?: any, index: number = 0) {
     if (!$parent) return;
     if (!oldVNode) {
       $parent.appendChild(this.createElement(newVNode));
@@ -215,12 +215,12 @@ export default class VDom {
       const newLength = newVNode.children.length;
       const oldLength = oldVNode.children.length;
       for (let i = 0; i < newLength || i < oldLength; i++) {
-        this.patchVNode($parent.childNodes[index], newVNode.children[i], oldVNode.children[i], i);
+        this.updateElement($parent.childNodes[index], newVNode.children[i], oldVNode.children[i], i);
       }
     }
   }
 
-  setBooleanProp($target: any, name: any, value: any) {
+  setBooleanAttribute($target: any, name: any, value: any) {
     if (value) {
       $target.setAttribute(name, value);
       $target[name] = true;
@@ -229,22 +229,22 @@ export default class VDom {
     }
   }
 
-  removeBooleanProp($target: any, name: any) {
+  removeBooleanAttribute($target: any, name: any) {
     $target.removeAttribute(name);
     $target[name] = false;
   }
 
-  setProp($target: any, name: any, value: any) {
+  setAttribute($target: any, name: any, value: any) {
     if (typeof value === 'boolean') {
-      this.setBooleanProp($target, name, value);
+      this.setBooleanAttribute($target, name, value);
     } else {
       $target.setAttribute(name, value);
     }
   }
 
-  removeProp($target: any, name: any, value: any) {
+  removeAttribute($target: any, name: any, value: any) {
     if (typeof value === 'boolean') {
-      this.removeBooleanProp($target, name);
+      this.removeBooleanAttribute($target, name);
     } else {
       $target.removeAttribute(name);
     }
@@ -252,22 +252,22 @@ export default class VDom {
 
   setAttributes($target: any, attributes: any) {
     Object.keys(attributes).forEach((name) => {
-      this.setProp($target, name, attributes[name]);
+      this.setAttribute($target, name, attributes[name]);
     });
   }
 
-  updateProp($target: any, name: any, newVal: any, oldVal: any) {
+  updateAttribute($target: any, name: any, newVal: any, oldVal: any) {
     if (!newVal) {
-      this.removeProp($target, name, oldVal);
+      this.removeAttribute($target, name, oldVal);
     } else if (!oldVal || newVal !== oldVal) {
-      this.setProp($target, name, newVal);
+      this.setAttribute($target, name, newVal);
     }
   }
 
   updateAttributes($target: any, newAttributes: any, oldAttributes: any = {}) {
     const attrs = Object.assign({}, newAttributes, oldAttributes);
     Object.keys(attrs).forEach((name) => {
-      this.updateProp($target, name, newAttributes[name], oldAttributes[name]);
+      this.updateAttribute($target, name, newAttributes[name], oldAttributes[name]);
     });
   }
 }
