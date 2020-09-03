@@ -33,6 +33,14 @@ export default class VDom {
     return html;
   }
 
+  h(tagName: string, attributes: any, children: any) {
+    return {
+      tagName,
+      attributes: attributes || {},
+      children: children || [],
+    };
+  }
+
   element($el: any, tagName: string, attributes: any, children: any) {
     return {
       $el,
@@ -154,7 +162,7 @@ export default class VDom {
       for (const key in data) {
         payload += `var ${key}=d.${key};`;
       }
-      payload += `return ${raw}})();`;
+      payload += `return ${raw}})()`;
       return eval(payload);
     } catch (err) {
       noop(err);
@@ -169,5 +177,97 @@ export default class VDom {
       }
     }
     return attributesObject;
+  }
+
+  // DOM Methods
+
+  createElement(vnode: any) {
+    if (typeof vnode === 'string') {
+      return document.createTextNode(vnode);
+    }
+    const $el = document.createElement(vnode.tagName);
+    vnode.children.map(this.createElement.bind(this)).forEach($el.appendChild.bind($el));
+    Object.keys(vnode.attributes).map((key) => {
+      $el.setAttribute(key, vnode.attributes[key]);
+    });
+    return $el;
+  }
+
+  diffVNodes(vnode1: any, vnode2: any) {
+    return (
+      typeof vnode1 !== typeof vnode2 ||
+      (typeof vnode1 === 'string' && vnode1 !== vnode2) ||
+      vnode1.tagName !== vnode2.tagName ||
+      vnode1.attributes !== vnode2.attributes ||
+      vnode1.children !== vnode2.children
+    );
+  }
+
+  patchVNode($parent: any, newVNode?: any, oldVNode?: any, index: number = 0) {
+    if (!$parent) return;
+    if (!oldVNode) {
+      $parent.appendChild(this.createElement(newVNode));
+    } else if (!newVNode) {
+      $parent.removeChild($parent.childNodes[index]);
+    } else if (this.diffVNodes(newVNode, oldVNode)) {
+      $parent.replaceChild(this.createElement(newVNode), $parent.childNodes[index]);
+    } else if (newVNode.tagName) {
+      const newLength = newVNode.children.length;
+      const oldLength = oldVNode.children.length;
+      for (let i = 0; i < newLength || i < oldLength; i++) {
+        this.patchVNode($parent.childNodes[index], newVNode.children[i], oldVNode.children[i], i);
+      }
+    }
+  }
+
+  setBooleanProp($target: any, name: any, value: any) {
+    if (value) {
+      $target.setAttribute(name, value);
+      $target[name] = true;
+    } else {
+      $target[name] = false;
+    }
+  }
+
+  removeBooleanProp($target: any, name: any) {
+    $target.removeAttribute(name);
+    $target[name] = false;
+  }
+
+  setProp($target: any, name: any, value: any) {
+    if (typeof value === 'boolean') {
+      this.setBooleanProp($target, name, value);
+    } else {
+      $target.setAttribute(name, value);
+    }
+  }
+
+  removeProp($target: any, name: any, value: any) {
+    if (typeof value === 'boolean') {
+      this.removeBooleanProp($target, name);
+    } else {
+      $target.removeAttribute(name);
+    }
+  }
+
+  setAttributes($target: any, attributes: any) {
+    Object.keys(attributes).forEach((name) => {
+      this.setProp($target, name, attributes[name]);
+    });
+  }
+
+  updateProp($target: any, name: any, newVal: any, oldVal: any) {
+    if (!newVal) {
+      this.removeProp($target, name, oldVal);
+    } else if (!oldVal || newVal !== oldVal) {
+      this.setProp($target, name, newVal);
+    }
+  }
+
+  updateAttributes($target: any, newAttributes: any, oldAttributes: any = {}) {
+    const attrs = Object.assign({}, newAttributes, oldAttributes);
+    Object.keys(attrs).forEach((name) => {
+      this.updateProp($target, name, newAttributes[name], oldAttributes[name]);
+    });
   }
 }

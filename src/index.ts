@@ -1,30 +1,30 @@
 import VDom from './vdom';
-import Data from './data';
 
-interface LuciaOptions {
-  el: string;
-  data?: Record<string, any>;
-}
+export default class Lucia extends VDom {
+  data: any;
 
-export default class Lucia {
-  Data: Data;
-  VDom: VDom;
-  $el: any;
-  $data: any;
+  constructor(options: any) {
+    super(document.querySelector(options.el));
 
-  constructor(options: LuciaOptions) {
-    this.$el = document.querySelector(options.el);
-
-    this.Data = new Data(options.data, this.paint.bind(this));
-    this.VDom = new VDom(this.$el);
-
-    this.$data = this.Data.data;
+    const paint = this.paint;
+    this.data = new Proxy(options.data, {
+      set(target, key, value) {
+        target[key] = value;
+        paint();
+        return true;
+      },
+      deleteProperty(target, key) {
+        delete target[key];
+        paint();
+        return true;
+      },
+    });
 
     this.paint();
   }
 
   paint(cb?: any) {
-    this.VDom.patch(this.VDom.vdom, this.Data.data);
+    this.patch(this.vdom, this.data);
     if (cb) cb();
   }
 }

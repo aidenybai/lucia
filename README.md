@@ -1,10 +1,14 @@
 <img src="https://github.com/luciadotjs/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
 
-# Lucia ![version](https://img.shields.io/npm/v/lucia?color=%237461FB&style=flat-square)
+# [Lucia](https://lucia.js.org) &middot; ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
 > Currently in heavy development. Do not use in production
 
-Tiny javascript library for web applications.
+Lucia is a tiny javascript library for web applications.
+- **Declarative:** Lucia makes it painless to create interactive UIs. Design simple views for each state in your application, and React will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
+- **Directive based:**
+- **Flexible:** 
+
 
 ## Installation
 
