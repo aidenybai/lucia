@@ -20,7 +20,7 @@ export default class Lucia extends VDom {
       },
     });
 
-    this.paint();
+    paint();
   }
 
   paint(cb?: any) {
