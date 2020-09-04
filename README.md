@@ -95,7 +95,7 @@ To let users interact with your app, we can use the `l-on` directive to attach e
 
 ```html
 <div id="app">
-  <button l-on:click="alert(message)">{{ message }}</button>
+  <button l-on:click="announce()">{{ message }}</button>
 </div>
 ```
 
@@ -104,6 +104,9 @@ const app = new Lucia({
   el: '#app',
   data: {
     message: 'Hello world!',
+    announce() {
+      alert(this.message);
+    }
   },
 });
 ```

@@ -1,13 +1,18 @@
+import Data from './utils/dataStore';
+import getDOMPath from './utils/domPath';
+
 export default class VDom {
   $el: any;
   vdom: any;
+  data: Function;
 
-  constructor($el: any) {
+  constructor($el: any, data: Record<string, any>) {
     this.$el = $el;
     this.vdom = this.init(this.$el);
+    this.data = Data(data, this.patch.bind(this), this.vdom);
   }
 
-  init($rootEl: any) {
+  init($rootEl: any): Record<string, any> {
     return this.toVNode($rootEl);
   }
 
@@ -27,7 +32,7 @@ export default class VDom {
     return html;
   }
 
-  h(tagName: string, attributes: any, children: any) {
+  h(tagName: string, attributes: any, children: any): Record<string, any> {
     return {
       tagName,
       attributes: attributes || {},
@@ -35,7 +40,7 @@ export default class VDom {
     };
   }
 
-  element($el: any, tagName: string, attributes: any, children: any) {
+  element($el: any, tagName: string, attributes: any, children: any): Record<string, any> {
     return {
       $el,
       tagName,
@@ -44,7 +49,7 @@ export default class VDom {
     };
   }
 
-  textNode($el: any, value: string) {
+  textNode($el: any, value: string): Record<string, any> {
     return {
       $el,
       value,
@@ -63,7 +68,7 @@ export default class VDom {
         case Node.ELEMENT_NODE:
           children.push(
             this.element(
-              targetChildNodes[i],
+              getDOMPath(targetChildNodes[i]),
               targetChildNodes[i].tagName.toLowerCase(),
               this.getAttributesObject(targetChildNodes[i]),
               this.toVNode(targetChildNodes[i], true)
@@ -74,7 +79,12 @@ export default class VDom {
     }
     if (iter) return children;
     else {
-      return this.element($el, $el.tagName.toLowerCase(), this.getAttributesObject($el), children);
+      return this.element(
+        getDOMPath($el),
+        $el.tagName.toLowerCase(),
+        this.getAttributesObject($el),
+        children
+      );
     }
   }
 
@@ -88,21 +98,24 @@ export default class VDom {
       if (vnodes.children[i].$el?.nodeType === Node.TEXT_NODE) {
         // Template
         const renderedText = this.renderTemplate(vnodes.children[i].value, data);
-        if (renderedText !== vnodes.children[i].$el.nodeValue)
+        if (renderedText !== vnodes.children[i].$el.nodeValue) {
           vnodes.children[i].$el.nodeValue = renderedText;
+        }
       } else {
         for (const attr in vnodes.children[i].attributes) {
           // Directives
           if (attr.startsWith('l-')) {
             const attrValue = vnodes.children[i].attributes[attr];
-            vnodes.children[i].$el.removeAttribute(attr);
+            document.querySelector(vnodes.children[i].$el).removeAttribute(attr);
 
             if (attr.startsWith('l-on:')) {
-              const eventHandler = () => this.compose(attrValue, data);
-              vnodes.children[i].$el[`on${attr.split(':')[1]}`] = eventHandler;
+              const eventHandler = () => this.compose(attrValue, this.data);
+              document.querySelector(vnodes.children[i].$el)[
+                `on${attr.split(':')[1]}`
+              ] = eventHandler;
             }
             if (attr === 'l-if') {
-              vnodes.children[i].$el.hidden = this.compose(
+              document.querySelector(vnodes.children[i].$el).hidden = this.compose(
                 vnodes.children[i].attributes[attr],
                 data
               )
@@ -111,12 +124,12 @@ export default class VDom {
             }
             if (attr === 'l-html') {
               if (data[vnodes.children[i].attributes[attr]]) {
-                vnodes.children[i].$el.innerHTML = this.renderTemplate(
+                document.querySelector(vnodes.children[i].$el).innerHTML = this.renderTemplate(
                   data[vnodes.children[i].attributes[attr]],
                   data
                 );
               } else {
-                vnodes.children[i].$el.innerHTML = this.renderTemplate(
+                document.querySelector(vnodes.children[i].$el).innerHTML = this.renderTemplate(
                   vnodes.children[i].attributes[attr],
                   data
                 );
@@ -127,31 +140,34 @@ export default class VDom {
                 case 'class':
                   const classData = this.compose(attrValue, data);
                   if (classData instanceof Array) {
-                    vnodes.children[i].$el.setAttribute('class', classData.join(' '));
+                    document
+                      .querySelector(vnodes.children[i].$el)
+                      .setAttribute('class', classData.join(' '));
                   } else {
                     const classes = [];
                     for (const key in classData) {
                       if (classData[key]) classes.push(key);
                     }
                     if (classes.length > 0) {
-                      vnodes.children[i].$el.setAttribute('class', classes.join(' '));
+                      document
+                        .querySelector(vnodes.children[i].$el)
+                        .setAttribute('class', classes.join(' '));
                     } else {
-                      vnodes.children[i].$el.removeAttribute('class');
+                      document.querySelector(vnodes.children[i].$el).removeAttribute('class');
                     }
                   }
                   break;
                 case 'style':
                   const styleData = this.compose(attrValue, data);
-                  vnodes.children[i].$el.removeAttribute('style'); // too harsh
+                  document.querySelector(vnodes.children[i].$el).removeAttribute('style'); // too harsh
                   for (const key in styleData) {
-                    vnodes.children[i].$el.style[key] = styleData[key];
+                    document.querySelector(vnodes.children[i].$el).style[key] = styleData[key];
                   }
                   break;
                 default:
-                  vnodes.children[i].$el.setAttribute(
-                    attr.split(':')[1],
-                    this.compose(attrValue, data)
-                  );
+                  document
+                    .querySelector(vnodes.children[i].$el)
+                    .setAttribute(attr.split(':')[1], this.compose(attrValue, data));
                   break;
               }
             }
@@ -163,32 +179,21 @@ export default class VDom {
     if (iter) return vnodes;
   }
 
-  compose(raw: string, data: any) {
+  compose(raw: string, data: any): any {
     let payload;
-    const serializedData = JSON.stringify(data, (_, value: any) => {
-      if (typeof value === 'function') {
-        return value
-          .toString()
-          .replace(/(\r\n|\n|\r)/gm, '')
-          .replace(/this\./, 'd.')
-      } else {
-        return value;
-      }
-    });
-
-    payload = `(function(){var d=JSON.parse('${serializedData}');`;
+    payload = `(function(){`;
     for (const key in data) {
       if (typeof data[key] === 'function') {
-        payload += `function ${data[key].toString().replace(/this\./, 'd.')};`;
+        payload += `function ${data[key].toString().replace(/this\./g, 'data.')}`;
       } else {
-        payload += `var ${key}=d.${key};`;
+        payload += `var ${key}=data.${key};`;
       }
     }
     payload += `return ${raw}})()`;
     return eval(payload);
   }
 
-  getAttributesObject($el: any) {
+  getAttributesObject($el: any): Record<string, any> {
     const attributesObject: any = {};
     if ($el.attributes) {
       for (const attr of $el.attributes) {
