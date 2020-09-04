@@ -165,9 +165,24 @@ export default class VDom {
 
   compose(raw: string, data: any) {
     let payload;
-    payload = `(function(){var d=JSON.parse('${JSON.stringify(data)}');`;
+    const serializedData = JSON.stringify(data, (_, value: any) => {
+      if (typeof value === 'function') {
+        return value
+          .toString()
+          .replace(/(\r\n|\n|\r)/gm, '')
+          .replace(/this\./, 'd.')
+      } else {
+        return value;
+      }
+    });
+
+    payload = `(function(){var d=JSON.parse('${serializedData}');`;
     for (const key in data) {
-      payload += `var ${key}=d.${key};`;
+      if (typeof data[key] === 'function') {
+        payload += `function ${data[key].toString().replace(/this\./, 'd.')};`;
+      } else {
+        payload += `var ${key}=d.${key};`;
+      }
     }
     payload += `return ${raw}})()`;
     return eval(payload);
