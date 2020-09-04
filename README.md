@@ -6,9 +6,9 @@
 
 Lucia is a tiny JavaScript library for web applications.
 
-- **Declarative:** Lucia makes it painless to create interactive UIs. Design simple views for each state in your application, and Lucia will efficiently update and render just the right components when your data changes. Declarative views make your code more predictable, simpler to understand, and easier to debug.
-- **Reactive:**
-- **Flexible:** 
+- **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
+- **Reactive:** When a data point is changed, the Virtual DOM will react and will update and render the points in realtime.
+- **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate the DOM. 
 
 ## Installation
 
@@ -42,6 +42,26 @@ const app = new Lucia({
   el: '#app',
   data: {
     hello: 'world',
+  },
+});
+
+// Change data
+app.data.hello = 'there';
+```
+
+You can also use the `l-html` directive for more advanced content manipulation.
+
+```html
+<div id="app">
+  <p l-html="hello"></p>
+</div>
+```
+
+```js
+const app = new Lucia({
+  el: '#app',
+  data: {
+    hello: '<button>Hello World</button>',
   },
 });
 
@@ -109,3 +129,7 @@ const app = new Lucia({
   },
 });
 ```
+
+## License
+
+Lucia falls under the [MIT License](LICENSE.md).

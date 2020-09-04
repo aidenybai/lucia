@@ -94,17 +94,18 @@ export default class VDom {
       if (vnodes.children[i].$el?.nodeType === Node.TEXT_NODE) {
         // Template
         const renderedText = this.renderTemplate(vnodes.children[i].value, data);
-        if (renderedText !== vnodes.children[i].$el.nodeValue) vnodes.children[i].$el.nodeValue = renderedText;
+        if (renderedText !== vnodes.children[i].$el.nodeValue)
+          vnodes.children[i].$el.nodeValue = renderedText;
       } else {
         for (const attr in vnodes.children[i].attributes) {
           // Directives
           if (attr.startsWith('l-')) {
             const attrValue = vnodes.children[i].attributes[attr];
             vnodes.children[i].$el.removeAttribute(attr);
-            
+
             if (attr.startsWith('l-on:')) {
               const eventHandler = () => this.compose(attrValue, data);
-              vnodes.children[i].$el[`on${attr.split(':')[1]}`] = eventHandler; 
+              vnodes.children[i].$el[`on${attr.split(':')[1]}`] = eventHandler;
             }
             if (attr === 'l-if') {
               vnodes.children[i].$el.hidden = this.compose(
@@ -113,6 +114,19 @@ export default class VDom {
               )
                 ? false
                 : true;
+            }
+            if (attr === 'l-html') {
+              if (data[vnodes.children[i].attributes[attr]]) {
+                vnodes.children[i].$el.innerHTML = this.renderTemplate(
+                  data[vnodes.children[i].attributes[attr]],
+                  data
+                );
+              } else {
+                vnodes.children[i].$el.innerHTML = this.renderTemplate(
+                  vnodes.children[i].attributes[attr],
+                  data
+                );
+              }
             }
             if (attr.startsWith('l-bind:')) {
               switch (attr.split(':')[1]) {
@@ -156,17 +170,13 @@ export default class VDom {
   }
 
   compose(raw: string, data: any) {
-    try {
-      let payload;
-      payload = `(function(){var d=JSON.parse('${JSON.stringify(data)}');`;
-      for (const key in data) {
-        payload += `var ${key}=d.${key};`;
-      }
-      payload += `return ${raw}})()`;
-      return eval(payload);
-    } catch (err) {
-      noop(err);
+    let payload;
+    payload = `(function(){var d=JSON.parse('${JSON.stringify(data)}');`;
+    for (const key in data) {
+      payload += `var ${key}=d.${key};`;
     }
+    payload += `return ${raw}})()`;
+    return eval(payload);
   }
 
   getAttributesObject($el: any) {
@@ -177,97 +187,5 @@ export default class VDom {
       }
     }
     return attributesObject;
-  }
-
-  // DOM Methods
-
-  createElement(vnode: any) {
-    if (typeof vnode === 'string') {
-      return document.createTextNode(vnode);
-    }
-    const $el = document.createElement(vnode.tagName);
-    vnode.children.map(this.createElement.bind(this)).forEach($el.appendChild.bind($el));
-    Object.keys(vnode.attributes).map((key) => {
-      $el.setAttribute(key, vnode.attributes[key]);
-    });
-    return $el;
-  }
-
-  diffVNodes(vnode1: any, vnode2: any) {
-    return (
-      typeof vnode1 !== typeof vnode2 ||
-      (typeof vnode1 === 'string' && vnode1 !== vnode2) ||
-      vnode1.tagName !== vnode2.tagName ||
-      vnode1.attributes !== vnode2.attributes ||
-      vnode1.children !== vnode2.children
-    );
-  }
-
-  updateElement($parent: any, newVNode?: any, oldVNode?: any, index: number = 0) {
-    if (!$parent) return;
-    if (!oldVNode) {
-      $parent.appendChild(this.createElement(newVNode));
-    } else if (!newVNode) {
-      $parent.removeChild($parent.childNodes[index]);
-    } else if (this.diffVNodes(newVNode, oldVNode)) {
-      $parent.replaceChild(this.createElement(newVNode), $parent.childNodes[index]);
-    } else if (newVNode.tagName) {
-      const newLength = newVNode.children.length;
-      const oldLength = oldVNode.children.length;
-      for (let i = 0; i < newLength || i < oldLength; i++) {
-        this.updateElement($parent.childNodes[index], newVNode.children[i], oldVNode.children[i], i);
-      }
-    }
-  }
-
-  setBooleanAttribute($target: any, name: any, value: any) {
-    if (value) {
-      $target.setAttribute(name, value);
-      $target[name] = true;
-    } else {
-      $target[name] = false;
-    }
-  }
-
-  removeBooleanAttribute($target: any, name: any) {
-    $target.removeAttribute(name);
-    $target[name] = false;
-  }
-
-  setAttribute($target: any, name: any, value: any) {
-    if (typeof value === 'boolean') {
-      this.setBooleanAttribute($target, name, value);
-    } else {
-      $target.setAttribute(name, value);
-    }
-  }
-
-  removeAttribute($target: any, name: any, value: any) {
-    if (typeof value === 'boolean') {
-      this.removeBooleanAttribute($target, name);
-    } else {
-      $target.removeAttribute(name);
-    }
-  }
-
-  setAttributes($target: any, attributes: any) {
-    Object.keys(attributes).forEach((name) => {
-      this.setAttribute($target, name, attributes[name]);
-    });
-  }
-
-  updateAttribute($target: any, name: any, newVal: any, oldVal: any) {
-    if (!newVal) {
-      this.removeAttribute($target, name, oldVal);
-    } else if (!oldVal || newVal !== oldVal) {
-      this.setAttribute($target, name, newVal);
-    }
-  }
-
-  updateAttributes($target: any, newAttributes: any, oldAttributes: any = {}) {
-    const attrs = Object.assign({}, newAttributes, oldAttributes);
-    Object.keys(attrs).forEach((name) => {
-      this.updateAttribute($target, name, newAttributes[name], oldAttributes[name]);
-    });
   }
 }
