@@ -10,3 +10,4 @@ rollup.config.js
 src/
 .github/
 docs/
+settings.json

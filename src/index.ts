@@ -1,4 +1,5 @@
 import VDom from './vdom';
+import data from './data';
 
 export default class Lucia extends VDom {
   data: any;
@@ -6,25 +7,8 @@ export default class Lucia extends VDom {
   constructor(options: any) {
     super(document.querySelector(options.el));
 
-    const paint = this.paint;
-    this.data = new Proxy(options.data, {
-      set(target, key, value) {
-        target[key] = value;
-        paint();
-        return true;
-      },
-      deleteProperty(target, key) {
-        delete target[key];
-        paint();
-        return true;
-      },
-    });
+    this.data = data(options.data, this.patch.bind(this), this.vdom);
 
-    this.paint();
-  }
-
-  paint(cb?: any) {
     this.patch(this.vdom, this.data);
-    if (cb) cb();
   }
 }

@@ -1,5 +1,3 @@
-import noop from './utils/noop';
-
 export default class VDom {
   $el: any;
   vdom: any;
@@ -19,15 +17,11 @@ export default class VDom {
       const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
       let rawTemplateData = compressedToken.substring(2, compressedToken.length - 2).trim();
 
-      try {
-        if (rawTemplateData in data) {
-          // Check if only data is provided
-          html = html.replace(tokens[i], data[rawTemplateData]);
-        } else {
-          html = html.replace(tokens[i], this.compose(rawTemplateData, data));
-        }
-      } catch (err) {
-        noop(err);
+      if (rawTemplateData in data) {
+        // Check if only data is provided
+        html = html.replace(tokens[i], data[rawTemplateData]);
+      } else {
+        html = html.replace(tokens[i], this.compose(rawTemplateData, data));
       }
     }
     return html;
