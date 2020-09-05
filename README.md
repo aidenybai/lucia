@@ -1,14 +1,14 @@
 <img src="https://github.com/luciadotjs/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
 
-# [Lucia](https://lucia.js.org) &middot; ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
+# [Lucia](https://lucia.js.org) &middot; ![Code Size](https://img.shields.io/bundlephobia/minzip/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
 > Currently in heavy development (learning project). Do not use in production.
 
 Lucia is a tiny JavaScript library for web applications.
 
 - **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
-- **Reactive:** When a data point is changed, the Virtual DOM will react and will update and render the points in realtime.
-- **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate the DOM. 
+- **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
+- **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM. 
 
 ## Installation
 
