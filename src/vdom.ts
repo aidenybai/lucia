@@ -1,43 +1,17 @@
+import compose from './utils/compose';
 import Data from './utils/dataStore';
-import getDOMPath from './utils/domPath';
+import getSelector from './utils/getSelector';
+import mapAttributes from './utils/mapAttributes';
 
-export default class VDom {
+class VDom {
   $el: any;
   vdom: any;
   data: Function;
 
   constructor($el: any, data: Record<string, any>) {
     this.$el = $el;
-    this.vdom = this.init(this.$el);
+    this.vdom = this.toVNode(this.$el);
     this.data = Data(data, this.patch.bind(this), this.vdom);
-  }
-
-  init($rootEl: any): Record<string, any> {
-    return this.toVNode($rootEl);
-  }
-
-  renderTemplate(html: string, data: any): string {
-    const tokens = html.match(/{{\s*.+\s*}}/g) || [];
-    for (let i = 0; i < tokens.length; i++) {
-      const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
-      let rawTemplateData = compressedToken.substring(2, compressedToken.length - 2).trim();
-
-      if (rawTemplateData in data) {
-        // Check if only data is provided
-        html = html.replace(tokens[i], data[rawTemplateData]);
-      } else {
-        html = html.replace(tokens[i], this.compose(rawTemplateData, data));
-      }
-    }
-    return html;
-  }
-
-  h(tagName: string, attributes: any, children: any): Record<string, any> {
-    return {
-      tagName,
-      attributes: attributes || {},
-      children: children || [],
-    };
   }
 
   element($el: any, tagName: string, attributes: any, children: any): Record<string, any> {
@@ -56,6 +30,22 @@ export default class VDom {
     };
   }
 
+  renderTemplate(html: string, data: any): string {
+    const tokens = html.match(/{{\s*.+\s*}}/g) || [];
+    for (let i = 0; i < tokens.length; i++) {
+      const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
+      let rawTemplateData = compressedToken.substring(2, compressedToken.length - 2).trim();
+
+      if (rawTemplateData in data) {
+        // Check if only data is provided
+        html = html.replace(tokens[i], data[rawTemplateData]);
+      } else {
+        html = html.replace(tokens[i], compose(rawTemplateData, data));
+      }
+    }
+    return html;
+  }
+
   toVNode($el: any, iter: boolean = false): any {
     let children = [];
 
@@ -68,9 +58,9 @@ export default class VDom {
         case Node.ELEMENT_NODE:
           children.push(
             this.element(
-              getDOMPath(targetChildNodes[i]),
+              getSelector(targetChildNodes[i]),
               targetChildNodes[i].tagName.toLowerCase(),
-              this.getAttributesObject(targetChildNodes[i]),
+              mapAttributes(targetChildNodes[i]),
               this.toVNode(targetChildNodes[i], true)
             )
           );
@@ -80,9 +70,9 @@ export default class VDom {
     if (iter) return children;
     else {
       return this.element(
-        getDOMPath($el),
+        getSelector($el),
         $el.tagName.toLowerCase(),
-        this.getAttributesObject($el),
+        mapAttributes($el),
         children
       );
     }
@@ -109,13 +99,13 @@ export default class VDom {
             document.querySelector(vnodes.children[i].$el).removeAttribute(attr);
 
             if (attr.startsWith('l-on:')) {
-              const eventHandler = () => this.compose(attrValue, this.data);
+              const eventHandler = () => compose(attrValue, this.data, false);
               document.querySelector(vnodes.children[i].$el)[
                 `on${attr.split(':')[1]}`
               ] = eventHandler;
             }
             if (attr === 'l-if') {
-              document.querySelector(vnodes.children[i].$el).hidden = this.compose(
+              document.querySelector(vnodes.children[i].$el).hidden = compose(
                 vnodes.children[i].attributes[attr],
                 data
               )
@@ -123,22 +113,20 @@ export default class VDom {
                 : true;
             }
             if (attr === 'l-html') {
-              if (data[vnodes.children[i].attributes[attr]]) {
-                document.querySelector(vnodes.children[i].$el).innerHTML = this.renderTemplate(
-                  data[vnodes.children[i].attributes[attr]],
-                  data
-                );
-              } else {
-                document.querySelector(vnodes.children[i].$el).innerHTML = this.renderTemplate(
+              if (compose(vnodes.children[i].attributes[attr], data) !== undefined) {
+                document.querySelector(vnodes.children[i].$el).innerHTML = compose(
                   vnodes.children[i].attributes[attr],
                   data
                 );
+              } else {
+                document.querySelector(vnodes.children[i].$el).innerHTML =
+                  vnodes.children[i].attributes[attr];
               }
             }
             if (attr.startsWith('l-bind:')) {
               switch (attr.split(':')[1]) {
                 case 'class':
-                  const classData = this.compose(attrValue, data);
+                  const classData = compose(attrValue, data);
                   if (classData instanceof Array) {
                     document
                       .querySelector(vnodes.children[i].$el)
@@ -158,7 +146,7 @@ export default class VDom {
                   }
                   break;
                 case 'style':
-                  const styleData = this.compose(attrValue, data);
+                  const styleData = compose(attrValue, data);
                   document.querySelector(vnodes.children[i].$el).removeAttribute('style'); // too harsh
                   for (const key in styleData) {
                     document.querySelector(vnodes.children[i].$el).style[key] = styleData[key];
@@ -167,7 +155,7 @@ export default class VDom {
                 default:
                   document
                     .querySelector(vnodes.children[i].$el)
-                    .setAttribute(attr.split(':')[1], this.compose(attrValue, data));
+                    .setAttribute(attr.split(':')[1], compose(attrValue, data));
                   break;
               }
             }
@@ -178,28 +166,6 @@ export default class VDom {
     }
     if (iter) return vnodes;
   }
-
-  compose(raw: string, data: any): any {
-    let payload;
-    payload = `(function(){`;
-    for (const key in data) {
-      if (typeof data[key] === 'function') {
-        payload += `function ${data[key].toString().replace(/this\./g, 'data.')}`;
-      } else {
-        payload += `var ${key}=data.${key};`;
-      }
-    }
-    payload += `return ${raw}})()`;
-    return eval(payload);
-  }
-
-  getAttributesObject($el: any): Record<string, any> {
-    const attributesObject: any = {};
-    if ($el.attributes) {
-      for (const attr of $el.attributes) {
-        attributesObject[attr.name] = attr.value;
-      }
-    }
-    return attributesObject;
-  }
 }
+
+export default VDom;

@@ -48,7 +48,7 @@ const buildPathString = (parents: any) => {
   return pathArr.join(' > ');
 };
 
-const getDOMPath = (element: any) => {
+const getSelector = (element: any) => {
   if (!(element instanceof HTMLElement)) {
     throw new Error('Element must be of type `HTMLElement`.');
   }
@@ -56,4 +56,4 @@ const getDOMPath = (element: any) => {
   return buildPathString(parentElements(element));
 };
 
-export default getDOMPath;
+export default getSelector;

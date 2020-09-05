@@ -1,6 +1,6 @@
 import VDom from './vdom';
 
-export default class Lucia extends VDom {
+class Lucia extends VDom {
   constructor(options: any) {
     super(document.querySelector(options.el || 'body'), options.data || {});
 
@@ -9,3 +9,5 @@ export default class Lucia extends VDom {
     if (options.mounted) options.mounted();
   }
 }
+
+export default Lucia;
