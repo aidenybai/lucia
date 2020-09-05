@@ -135,4 +135,4 @@ const app = new Lucia({
 
 ## License
 
-Lucia falls under the [MIT License](LICENSE.md).
+Lucia is [MIT Licensed](LICENSE.md).

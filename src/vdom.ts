@@ -94,70 +94,68 @@ class VDom {
       } else {
         for (const attr in vnodes.children[i].attributes) {
           // Directives
-          if (attr.startsWith('l-')) {
-            const attrValue = vnodes.children[i].attributes[attr];
-            document.querySelector(vnodes.children[i].$el).removeAttribute(attr);
+          const attrValue = vnodes.children[i].attributes[attr];
+          document.querySelector(vnodes.children[i].$el).removeAttribute(attr);
 
-            if (attr.startsWith('l-on:')) {
-              const eventHandler = () => compose(attrValue, this.data, false);
-              document.querySelector(vnodes.children[i].$el)[
-                `on${attr.split(':')[1]}`
-              ] = eventHandler;
-            }
-            if (attr === 'l-if') {
-              document.querySelector(vnodes.children[i].$el).hidden = compose(
+          if (attr.startsWith('l-on:')) {
+            const eventHandler = () => compose(attrValue, this.data, false);
+            document.querySelector(vnodes.children[i].$el)[
+              `on${attr.split(':')[1]}`
+            ] = eventHandler;
+          }
+          if (attr === 'l-if') {
+            document.querySelector(vnodes.children[i].$el).hidden = compose(
+              vnodes.children[i].attributes[attr],
+              data
+            )
+              ? false
+              : true;
+          }
+          if (attr === 'l-html') {
+            if (compose(vnodes.children[i].attributes[attr], data) !== undefined) {
+              document.querySelector(vnodes.children[i].$el).innerHTML = compose(
                 vnodes.children[i].attributes[attr],
                 data
-              )
-                ? false
-                : true;
+              );
+            } else {
+              document.querySelector(vnodes.children[i].$el).innerHTML =
+                vnodes.children[i].attributes[attr];
             }
-            if (attr === 'l-html') {
-              if (compose(vnodes.children[i].attributes[attr], data) !== undefined) {
-                document.querySelector(vnodes.children[i].$el).innerHTML = compose(
-                  vnodes.children[i].attributes[attr],
-                  data
-                );
-              } else {
-                document.querySelector(vnodes.children[i].$el).innerHTML =
-                  vnodes.children[i].attributes[attr];
-              }
-            }
-            if (attr.startsWith('l-bind:')) {
-              switch (attr.split(':')[1]) {
-                case 'class':
-                  const classData = compose(attrValue, data);
-                  if (classData instanceof Array) {
-                    document
-                      .querySelector(vnodes.children[i].$el)
-                      .setAttribute('class', classData.join(' '));
-                  } else {
-                    const classes = [];
-                    for (const key in classData) {
-                      if (classData[key]) classes.push(key);
-                    }
-                    if (classes.length > 0) {
-                      document
-                        .querySelector(vnodes.children[i].$el)
-                        .setAttribute('class', classes.join(' '));
-                    } else {
-                      document.querySelector(vnodes.children[i].$el).removeAttribute('class');
-                    }
-                  }
-                  break;
-                case 'style':
-                  const styleData = compose(attrValue, data);
-                  document.querySelector(vnodes.children[i].$el).removeAttribute('style'); // too harsh
-                  for (const key in styleData) {
-                    document.querySelector(vnodes.children[i].$el).style[key] = styleData[key];
-                  }
-                  break;
-                default:
+          }
+          if (attr.startsWith('l-bind:')) {
+            switch (attr.split(':')[1]) {
+              case 'class':
+                const classData = compose(attrValue, data);
+                if (classData instanceof Array) {
                   document
                     .querySelector(vnodes.children[i].$el)
-                    .setAttribute(attr.split(':')[1], compose(attrValue, data));
-                  break;
-              }
+                    .setAttribute('class', classData.join(' '));
+                } else {
+                  const classes = [];
+                  for (const key in classData) {
+                    if (classData[key]) classes.push(key);
+                  }
+                  if (classes.length > 0) {
+                    document
+                      .querySelector(vnodes.children[i].$el)
+                      .setAttribute('class', classes.join(' '));
+                  } else {
+                    document.querySelector(vnodes.children[i].$el).removeAttribute('class');
+                  }
+                }
+                break;
+              case 'style':
+                const styleData = compose(attrValue, data);
+                document.querySelector(vnodes.children[i].$el).removeAttribute('style'); // too harsh
+                for (const key in styleData) {
+                  document.querySelector(vnodes.children[i].$el).style[key] = styleData[key];
+                }
+                break;
+              default:
+                document
+                  .querySelector(vnodes.children[i].$el)
+                  .setAttribute(attr.split(':')[1], compose(attrValue, data));
+                break;
             }
           }
         }
