@@ -26,7 +26,7 @@ Put this within your `<head>` tags in html.
 
 ## Example
 
-Below is an example of a clicker game in Lucia.
+Below is an example of a clicker game in Lucia. Try it out live here: [https://luciaclickergame.aidenbai.repl.co](https://luciaclickergame.aidenbai.repl.co).
 
 ```html
 <div id="app">
@@ -38,9 +38,9 @@ Below is an example of a clicker game in Lucia.
 const app = new Lucia({
   el: '#app',
   data: {
-    count: 0,
+    count: localStorage.count || 0,
     increment() {
-      this.count++;
+      localStorage.count = ++this.count;
     },
   },
 });
@@ -157,4 +157,4 @@ const app = new Lucia({
 
 ## License
 
-Lucia is [MIT Licensed](LICENSE.md).
+Lucia is [MIT licensed](LICENSE.md).
