@@ -1,9 +1,9 @@
-const mapAttributes = ($el: any): Record<string, any> => {
-  const attributesObject: any = {};
+const mapAttributes = ($el: Record<string, any>): Record<string, any> => {
+  const attributesObject: Record<string, any> = {};
   if ($el.attributes) {
-    for (const attr of $el.attributes) {
-      if (attr.name.startsWith('l-')) {
-        attributesObject[attr.name] = attr.value;
+    for (const { name, value } of $el.attributes) {
+      if (name.startsWith('l-')) {
+        attributesObject[name] = value;
       }
     }
   }

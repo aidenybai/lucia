@@ -24,7 +24,27 @@ Put this within your `<head>` tags in html.
 <script src="https://unpkg.com/lucia"></script>
 ```
 
-## Usage
+## Example
+
+```html
+<div id="app">
+  <button l-on:click="increment()">{{ count }}</button>
+</div>
+```
+
+```js
+const app = new Lucia({
+  el: '#app',
+  data: {
+    count: 0,
+    increment() {
+      this.count++;
+    },
+  },
+});
+```
+
+## Features
 
 ### Declarative Rendering
 

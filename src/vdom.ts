@@ -1,20 +1,20 @@
 import compose from './utils/compose';
-import Data from './utils/dataStore';
+import dataStore from './utils/dataStore';
 import getSelector from './utils/getSelector';
 import mapAttributes from './utils/mapAttributes';
 
 class VDom {
   $el: any;
-  vdom: any;
+  vdom: Record<string, any>;
   data: Function;
 
-  constructor($el: any, data: Record<string, any>) {
+  constructor($el: HTMLElement, data: Record<string, any>) {
     this.$el = $el;
     this.vdom = this.toVNode(this.$el);
-    this.data = Data(data, this.patch.bind(this), this.vdom);
+    this.data = dataStore(data, this.patch.bind(this), this.vdom);
   }
 
-  element($el: any, tagName: string, attributes: any, children: any): Record<string, any> {
+  element($el: string, tagName: string, attributes: any, children: any): Record<string, any> {
     return {
       $el,
       tagName,
