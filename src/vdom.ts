@@ -31,10 +31,11 @@ class VDom {
   }
 
   renderTemplate(html: string, data: any): string {
-    const tokens = html.match(/{{\s*.+\s*}}/g) || [];
+    const tokens = html.match(/{{\s?([^}]*)\s?}}/g) || [];
     for (let i = 0; i < tokens.length; i++) {
       const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
       let rawTemplateData = compressedToken.substring(2, compressedToken.length - 2).trim();
+      console.log(rawTemplateData);
 
       if (rawTemplateData in data) {
         // Check if only data is provided

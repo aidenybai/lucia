@@ -8,7 +8,7 @@ Lucia is a tiny JavaScript library for web applications.
 
 - **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 - **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
-- **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM. 
+- **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM.
 
 ## Installation
 
@@ -25,6 +25,8 @@ Put this within your `<head>` tags in html.
 ```
 
 ## Example
+
+Below is an example of a clicker game in Lucia.
 
 ```html
 <div id="app">
@@ -126,7 +128,7 @@ const app = new Lucia({
     message: 'Hello world!',
     announce() {
       alert(this.message);
-    }
+    },
   },
 });
 ```
@@ -148,7 +150,7 @@ const app = new Lucia({
   data: {
     show: true,
     // You can also reference data vs inputing an object in the directive itself
-    color: { color: 'purple' }, 
+    color: { color: 'purple' },
   },
 });
 ```
