@@ -1,6 +1,6 @@
 <img src="https://github.com/luciadotjs/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
 
-# [Lucia](https://lucia.js.org) &middot; ![Code Size](https://img.shields.io/bundlephobia/minzip/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
+# [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
 > Currently in heavy development (learning project). Do not use in production.
 

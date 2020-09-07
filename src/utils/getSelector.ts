@@ -48,7 +48,7 @@ const buildPathString = (parents: Record<any, string>[]): string => {
   return pathArr.join(' > ');
 };
 
-const getSelector = (element: HTMLElement) => {
+const getSelector = (element: HTMLElement | any) => {
   return buildPathString(parentElements(element));
 };
 

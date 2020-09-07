@@ -1,6 +1,7 @@
 import compose from './utils/compose';
 import dataStore from './utils/dataStore';
 import getSelector from './utils/getSelector';
+import { element, textNode } from './utils/helpers';
 import mapAttributes from './utils/mapAttributes';
 
 class VDom {
@@ -14,28 +15,11 @@ class VDom {
     this.data = dataStore(data, this.patch.bind(this), this.vdom);
   }
 
-  element($el: string, tagName: string, attributes: any, children: any): Record<string, any> {
-    return {
-      $el,
-      tagName,
-      attributes: attributes || {},
-      children: children || [],
-    };
-  }
-
-  textNode($el: any, value: string): Record<string, any> {
-    return {
-      $el,
-      value,
-    };
-  }
-
-  renderTemplate(html: string, data: any): string {
+  patchTemplates(html: string, data: any): string {
     const tokens = html.match(/{{\s?([^}]*)\s?}}/g) || [];
     for (let i = 0; i < tokens.length; i++) {
       const compressedToken = tokens[i].replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
       let rawTemplateData = compressedToken.substring(2, compressedToken.length - 2).trim();
-      console.log(rawTemplateData);
 
       if (rawTemplateData in data) {
         // Check if only data is provided
@@ -54,11 +38,11 @@ class VDom {
     for (let i = 0; i < targetChildNodes.length; i++) {
       switch (targetChildNodes[i].nodeType) {
         case Node.TEXT_NODE:
-          children.push(this.textNode(targetChildNodes[i], targetChildNodes[i].nodeValue));
+          children.push(textNode(targetChildNodes[i], targetChildNodes[i].nodeValue));
           break;
         case Node.ELEMENT_NODE:
           children.push(
-            this.element(
+            element(
               getSelector(targetChildNodes[i]),
               targetChildNodes[i].tagName.toLowerCase(),
               mapAttributes(targetChildNodes[i]),
@@ -70,7 +54,7 @@ class VDom {
     }
     if (iter) return children;
     else {
-      return this.element(
+      return element(
         getSelector($el),
         $el.tagName.toLowerCase(),
         mapAttributes($el),
@@ -82,13 +66,13 @@ class VDom {
   patch(vnodes: any, data: any, iter: any = false): any {
     if (!vnodes) return;
     if (typeof vnodes === 'string') {
-      return this.renderTemplate(vnodes, data);
+      return this.patchTemplates(vnodes, data);
     }
 
     for (let i = 0; i < vnodes.children.length; i++) {
       if (vnodes.children[i].$el?.nodeType === Node.TEXT_NODE) {
         // Template
-        const renderedText = this.renderTemplate(vnodes.children[i].value, data);
+        const renderedText = this.patchTemplates(vnodes.children[i].value, data);
         if (renderedText !== vnodes.children[i].$el.nodeValue) {
           vnodes.children[i].$el.nodeValue = renderedText;
         }
