@@ -7,7 +7,7 @@ import mapAttributes from './utils/mapAttributes';
 class VDom {
   $el: any;
   vdom: Record<string, any>;
-  data: Function;
+  data: Function | any;
 
   constructor($el: HTMLElement, data: Record<string, any>) {
     this.$el = $el;
@@ -54,12 +54,7 @@ class VDom {
     }
     if (iter) return children;
     else {
-      return element(
-        getSelector($el),
-        $el.tagName.toLowerCase(),
-        mapAttributes($el),
-        children
-      );
+      return element(getSelector($el), $el.tagName.toLowerCase(), mapAttributes($el), children);
     }
   }
 
@@ -106,6 +101,25 @@ class VDom {
               document.querySelector(vnodes.children[i].$el).innerHTML =
                 vnodes.children[i].attributes[attr];
             }
+          }
+          if (attr === 'l-for') {
+            if (compose(vnodes.children[i].attributes[attr], data) !== undefined) {
+              document.querySelector(vnodes.children[i].$el).innerHTML = compose(
+                vnodes.children[i].attributes[attr],
+                data
+              ).join('<br>');
+            } else {
+              document.querySelector(vnodes.children[i].$el).innerHTML = vnodes.children[
+                i
+              ].attributes[attr].join('<br>');
+            }
+          }
+          if (attr === 'l-model') {
+            document.querySelector(vnodes.children[i].$el).oninput = () => {
+              this.data[vnodes.children[i].attributes[attr]] = document.querySelector(
+                vnodes.children[i].$el
+              ).value;
+            };
           }
           if (attr.startsWith('l-bind:')) {
             switch (attr.split(':')[1]) {

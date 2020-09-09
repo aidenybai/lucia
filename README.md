@@ -155,6 +155,45 @@ const app = new Lucia({
 });
 ```
 
+### List Rendering
+
+We can use the l-for directive to render a list of items based on an array. 
+
+```html
+<div id="app">
+  <ul l-for="fruits"></ul>
+</div>
+```
+
+```js
+const app = new Lucia({
+  el: '#app',
+  data: {
+    fruits: ['apple', 'orange', 'banana']
+  },
+});
+```
+
+### Form Input Bindings
+
+You can use the l-model directive to create two-way data bindings on form input, textarea, and select elements. 
+
+```html
+<div id="app">
+  <input l-model="inputData">
+  {{ inputData }}
+</div>
+```
+
+```js
+const app = new Lucia({
+  el: '#app',
+  data: {
+    inputData: 'nothing submitted yet'
+  },
+});
+```
+
 ## License
 
 Lucia is [MIT licensed](LICENSE.md).
