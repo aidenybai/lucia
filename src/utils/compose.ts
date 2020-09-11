@@ -1,16 +1,16 @@
-const wrapIIFE = (payload: string): string => {
+export const createScope = (payload: string): string => {
   return `(function(){${payload}})()`;
 };
 
-const createVariable = (keys: string[]): string => {
+export const createVariable = (keys: string[]): string => {
   return `var {${keys.join(',')}}=data;`;
 };
 
-const createFunction = (value: Function): string => {
+export const createFunction = (value: Function): string => {
   return `function ${value.toString().replace(/this\./g, 'data.')}`;
 };
 
-const compose = (raw: string, data: any, output: boolean = true): any => {
+export const compose = (raw: string, data: any, output: boolean = true): any => {
   let payload = '';
   let dataKeys = [];
   for (const key in data) {
@@ -25,7 +25,7 @@ const compose = (raw: string, data: any, output: boolean = true): any => {
   if (output) payload += `return ${raw}`;
   else payload += `${raw}`;
 
-  return eval(wrapIIFE(payload));
+  return eval(createScope(payload));
 };
 
 export default compose;

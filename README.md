@@ -66,9 +66,6 @@ const app = new Lucia({
     hello: 'world',
   },
 });
-
-// Change data
-app.data.hello = 'there';
 ```
 
 You can also use the `l-html` directive for more advanced content manipulation.
@@ -86,9 +83,6 @@ const app = new Lucia({
     hello: '<button>Hello World</button>',
   },
 });
-
-// Change data
-app.data.hello = 'there';
 ```
 
 ### Conditionals
@@ -161,7 +155,7 @@ We can use the l-for directive to render a list of items based on an array.
 
 ```html
 <div id="app">
-  <ul l-for="fruits"></ul>
+  <ul l-for="fruits by , "></ul>
 </div>
 ```
 

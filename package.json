@@ -6,7 +6,8 @@
   "browser": "dist/lucia.min.js",
   "scripts": {
     "build": "del-cli dist/ && rollup -c",
-    "build:dev": "del-cli dist/ && rollup --watch -c"
+    "build:dev": "del-cli dist/ && rollup --watch -c",
+    "size": "filesize-cli dist/"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,7 @@
     "@rollup/plugin-commonjs": "13.0.0",
     "@rollup/plugin-node-resolve": "8.0.1",
     "del-cli": "^3.0.1",
+    "filesize-cli": "^0.0.3",
     "prettier": "^2.0.5",
     "rollup": "2.15.0",
     "rollup-plugin-uglify": "^6.0.4",

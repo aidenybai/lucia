@@ -1,4 +1,4 @@
-const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
+export const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
   const parents = [];
   while (element) {
     const tagName = element.nodeName.toLowerCase();
@@ -16,7 +16,7 @@ const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
   return parents;
 };
 
-const nthElement = (element: HTMLElement | any): number => {
+export const nthElement = (element: HTMLElement | any): number => {
   let el = element;
   let nth = 0;
   while (el.previousElementSibling !== null) {
@@ -29,13 +29,13 @@ const nthElement = (element: HTMLElement | any): number => {
   return nth;
 };
 
-const nthSelectorNeeded = (selector: string, path: string): boolean => {
+export const nthSelectorNeeded = (selector: string, path: string): boolean => {
   const querySelector = path === '' ? selector : `${path} > ${selector}`;
 
   return document.querySelectorAll(querySelector).length > 1;
 };
 
-const buildPathString = (parents: Record<any, string>[]): string => {
+export const buildPathString = (parents: Record<any, string>[]): string => {
   const pathArr: any[] = [];
 
   parents.forEach((parent: any) => {
@@ -48,7 +48,7 @@ const buildPathString = (parents: Record<any, string>[]): string => {
   return pathArr.join(' > ');
 };
 
-const getSelector = (element: HTMLElement | any) => {
+export const getSelector = (element: HTMLElement | any) => {
   return buildPathString(parentElements(element));
 };
 

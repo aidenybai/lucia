@@ -1,4 +1,4 @@
-const dataStore = (
+export const instance = (
   data: any | Function,
   patch: Function,
   vdom: Record<string, any>
@@ -21,4 +21,4 @@ const dataStore = (
   });
 };
 
-export default dataStore;
+export default instance;
