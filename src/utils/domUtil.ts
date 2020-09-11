@@ -48,8 +48,18 @@ export const buildPathString = (parents: Record<any, string>[]): string => {
   return pathArr.join(' > ');
 };
 
+export const mapAttributes = ($el: Record<string, any>): Record<string, any> => {
+  const attributesObject: Record<string, any> = {};
+  if ($el.attributes) {
+    for (const { name, value } of $el.attributes) {
+      if (name.startsWith('l-')) {
+        attributesObject[name] = value;
+      }
+    }
+  }
+  return attributesObject;
+};
+
 export const getSelector = (element: HTMLElement | any) => {
   return buildPathString(parentElements(element));
 };
-
-export default getSelector;

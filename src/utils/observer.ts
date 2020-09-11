@@ -1,4 +1,4 @@
-export const instance = (
+export const observer = (
   data: any | Function,
   patch: Function,
   vdom: Record<string, any>
@@ -21,4 +21,4 @@ export const instance = (
   });
 };
 
-export default instance;
+export default observer;

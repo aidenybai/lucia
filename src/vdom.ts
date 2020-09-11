@@ -1,7 +1,6 @@
-import compose from './utils/compose';
-import instance from './utils/instance';
-import getSelector from './utils/getSelector';
-import mapAttributes from './utils/mapAttributes';
+import compute from './utils/compute';
+import observer from './utils/observer';
+import { getSelector, mapAttributes } from './utils/domUtil';
 import { element, textNode } from './utils/helpers';
 
 class VDom {
@@ -12,7 +11,7 @@ class VDom {
   constructor($el: HTMLElement, data: Record<string, any>) {
     this.$el = $el;
     this.vdom = this.toVNode(this.$el);
-    this.data = instance(data, this.patch.bind(this), this.vdom);
+    this.data = observer(data, this.patch.bind(this), this.vdom);
   }
 
   toVNode($el: any, recurse: boolean = false): any {
@@ -51,7 +50,7 @@ class VDom {
       if (rawTemplateData in data) {
         html = html.replace(token, data[rawTemplateData]);
       } else {
-        html = html.replace(token, compose(rawTemplateData, data));
+        html = html.replace(token, compute(rawTemplateData, data));
       }
     }
     return html;
@@ -76,26 +75,26 @@ class VDom {
           el.removeAttribute(attr);
 
           if (attr === 'l-html') {
-            if (compose(attrValue, data) !== undefined) {
-              el.innerHTML = compose(attrValue, data);
+            if (compute(attrValue, data) !== undefined) {
+              el.innerHTML = compute(attrValue, data);
             } else {
               el.innerHTML = attrValue;
             }
           }
 
           if (attr === 'l-if') {
-            el.hidden = compose(attrValue, data) ? false : true;
+            el.hidden = compute(attrValue, data) ? false : true;
           }
 
           if (attr.startsWith('l-on:')) {
-            const eventHandler = () => compose(attrValue, this.data, false);
+            const eventHandler = () => compute(attrValue, this.data, false);
             el[`on${attr.split(':')[1]}`] = eventHandler;
           }
 
           if (attr.startsWith('l-bind:')) {
             switch (attr.split(':')[1]) {
               case 'class':
-                const classData = compose(attrValue, data);
+                const classData = compute(attrValue, data);
                 if (classData instanceof Array) {
                   el.setAttribute('class', classData.join(' '));
                 } else {
@@ -111,22 +110,22 @@ class VDom {
                 }
                 break;
               case 'style':
-                const styleData = compose(attrValue, data);
+                const styleData = compute(attrValue, data);
                 el.removeAttribute('style');
                 for (const key in styleData) {
                   el.style[key] = styleData[key];
                 }
                 break;
               default:
-                el.setAttribute(attr.split(':')[1], compose(attrValue, data));
+                el.setAttribute(attr.split(':')[1], compute(attrValue, data));
                 break;
             }
           }
 
           if (attr === 'l-for') {
             const parts = attrValue.split('by ');
-            if (compose(parts[0], data) !== undefined) {
-              el.innerHTML = compose(parts[0], data).join(parts[1] || '<br>');
+            if (compute(parts[0], data) !== undefined) {
+              el.innerHTML = compute(parts[0], data).join(parts[1] || '<br>');
             } else {
               el.innerHTML = parts[0].join(parts[1] || '<br>');
             }
