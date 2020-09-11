@@ -4,11 +4,11 @@ const wrapIIFE = (payload: string): string => {
 
 const createVariable = (keys: string[]): string => {
   return `var {${keys.join(',')}}=data;`;
-}
+};
 
 const createFunction = (value: Function): string => {
-  return `function ${value.toString().replace(/this\./g, 'data.')}`
-}
+  return `function ${value.toString().replace(/this\./g, 'data.')}`;
+};
 
 const compose = (raw: string, data: any, output: boolean = true): any => {
   let payload = '';
@@ -21,7 +21,7 @@ const compose = (raw: string, data: any, output: boolean = true): any => {
     }
   }
   payload += createVariable(dataKeys);
-  
+
   if (output) payload += `return ${raw}`;
   else payload += `${raw}`;
 
