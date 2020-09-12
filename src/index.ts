@@ -1,13 +1,5 @@
-import VDom from './vdom';
+import Constructor from './constructor';
 
-class Lucia extends VDom {
-  constructor(options: Record<string, any>) {
-    super(document.querySelector(options.el || 'body'), options.data || {});
-
-    this.patch(this.vdom, this.data);
-
-    if (options.mounted) options.mounted();
-  }
-}
-
-export default Lucia;
+export const createApp = (options: Record<string, any>) => {
+  return new Constructor(options);
+};

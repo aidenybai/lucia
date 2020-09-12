@@ -4,7 +4,7 @@ export const bindDirective = (
   el: HTMLElement | any,
   attr: string,
   value: string | any,
-  data: Function | any
+  data: ProxyConstructor | any
 ) => {
   switch (attr.split(':')[1]) {
     case 'class':

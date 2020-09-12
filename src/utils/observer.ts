@@ -1,7 +1,7 @@
 export const observer = (
   data: any | Function,
   patch: Function,
-  vdom: Record<string, any>
+  vdom: Record<string, any> | null
 ): ProxyConstructor => {
   return new Proxy(data, {
     // get(target: Record<string, any>, key: string): boolean {

@@ -6,13 +6,21 @@ import directives from './directives';
 
 class VDom {
   $el: any;
-  vdom: Record<string, any>;
+  vdom: Record<string, any> | null;
   data: Function | any;
 
-  constructor($el: HTMLElement, data: Record<string, any>) {
-    this.$el = $el;
+  constructor(data: Record<string, any>) {
+    this.$el = null;
+    this.vdom = null;
+    this.data = data;
+  }
+
+  mount(el: string, mounted?: Function | any) {
+    this.$el = document.querySelector(el || '#app' || 'body');
     this.vdom = this.toVNode(this.$el);
-    this.data = observer(data, this.patch.bind(this), this.vdom);
+    this.data = observer(this.data, this.patch.bind(this), this.vdom);
+    this.patch(this.vdom, this.data);
+    if (mounted) mounted();
   }
 
   toVNode($el: any, recurse: boolean = false): Record<any, any> | any {

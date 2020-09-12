@@ -35,7 +35,7 @@ Below is an example of a clicker game in Lucia. Try it out live here: [https://l
 ```
 
 ```js
-const app = new Lucia({
+const ClickerGame = {
   el: '#app',
   data: {
     count: localStorage.count || 0,
@@ -43,7 +43,9 @@ const app = new Lucia({
       localStorage.count = ++this.count;
     },
   },
-});
+};
+
+Lucia.createApp(ClickerGame).mount('#app');
 ```
 
 ## Features
@@ -60,12 +62,14 @@ At the core of Lucia is a system that enables us to declaratively render data to
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     hello: 'world',
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 You can also use the `l-html` directive for more advanced content manipulation.
@@ -77,12 +81,14 @@ You can also use the `l-html` directive for more advanced content manipulation.
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     hello: '<button>Hello World</button>',
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 ### Conditionals
@@ -97,12 +103,14 @@ It’s easy to toggle the presence of an element, too:
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     show: false,
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 ### Event Handlers
@@ -116,7 +124,7 @@ To let users interact with your app, we can use the `l-on` directive to attach e
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     message: 'Hello world!',
@@ -124,7 +132,9 @@ const app = new Lucia({
       alert(this.message);
     },
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 ### Attribute Binding
@@ -139,14 +149,16 @@ In addition to text interpolation, we can also bind element attributes like this
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     show: true,
     // You can also reference data vs inputing an object in the directive itself
     color: { color: 'purple' },
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 ### List Rendering
@@ -155,17 +167,19 @@ We can use the l-for directive to render a list of items based on an array.
 
 ```html
 <div id="app">
-  <ul l-for="fruits by , "></ul>
+  <p l-for="fruits by , "></p>
 </div>
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     fruits: ['apple', 'orange', 'banana'],
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 ### Form Input Bindings
@@ -180,12 +194,14 @@ You can use the l-model directive to create two-way data bindings on form input,
 ```
 
 ```js
-const app = new Lucia({
+const App = {
   el: '#app',
   data: {
     content: 'Nothing submitted yet',
   },
-});
+};
+
+Lucia.createApp(App).mount('#app');
 ```
 
 ## License

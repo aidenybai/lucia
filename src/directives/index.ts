@@ -18,27 +18,27 @@ export default ({
   value: string | any;
   data: ProxyConstructor | any;
 }) => {
-  if (directive === 'bind') {
+  if (directive.startsWith('bind')) {
     bindDirective(el, attr, value, data);
   }
 
-  if (directive === 'for') {
+  if (directive.startsWith('for')) {
     forDirective(el, value, data);
   }
 
-  if (directive === 'html') {
+  if (directive.startsWith('html')) {
     htmlDirective(el, value, data);
   }
 
-  if (directive === 'if') {
+  if (directive.startsWith('if')) {
     ifDirective(el, value, data);
   }
 
-  if (directive === 'model') {
+  if (directive.startsWith('model')) {
     modelDirective(el, value, data);
   }
 
-  if (directive === 'on') {
+  if (directive.startsWith('on')) {
     onDirective(el, attr, value, data);
   }
 };
