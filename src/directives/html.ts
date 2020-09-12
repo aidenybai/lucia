@@ -5,6 +5,7 @@ export const htmlDirective = (
   value: string | any,
   data: Function | any
 ) => {
+  console.log(data);
   if (compute(value, data) !== undefined) {
     el.innerHTML = compute(value, data);
   } else {

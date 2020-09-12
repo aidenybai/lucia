@@ -6,6 +6,6 @@ export const onDirective = (
   value: string | any,
   data: Function | any
 ) => {
-  const eventHandler = () => compute(value, data, false);
-  el[`on${attr.split(':')[1]}`] = eventHandler;
+  const eventHandler = () => compute(value, data, false); // possible need this.data reference
+  el[`on${attr.split(':')[1]}`] = eventHandler; 
 };

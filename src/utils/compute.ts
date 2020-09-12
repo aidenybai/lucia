@@ -2,8 +2,8 @@ export const wrapScope = (payload: string): string => {
   return `(function(){${payload}})()`;
 };
 
-export const createVariable = (name: string): string => {
-  return `var ${name}=data.${name};`;
+export const createVariables = (variables: string[], properties: ProxyConstructor | any): string => {
+  return `var {${variables.join(',')}}=JSON.parse('${JSON.stringify(properties)}');`;
 };
 
 export const createFunction = (value: Function): string => {
@@ -14,27 +14,26 @@ export const noop = (..._args: any) => {};
 
 export const computeProperties = (
   expression: string,
-  properties: any,
+  properties: ProxyConstructor | any,
   returnable: boolean = true
 ): any => {
-  // try {
-    let payload = '';
+  let payload = '';
+  let variables = [];
 
-    for (const key in properties) {
-      if (typeof properties[key] === 'function') {
-        payload += createFunction(properties[key]);
-      } else {
-        payload += createVariable(key);
-      }
+  for (const key in properties) {
+    if (typeof properties[key] === 'function') {
+      payload += createFunction(properties[key]);
+    } else {
+      variables.push(key);
     }
+  }
 
-    if (returnable) payload += `return ${expression}`;
-    else payload += `${expression}`;
+  payload += createVariables(variables, properties);
 
-    return eval(wrapScope(payload));
-  // } catch (err) {
-  //   noop(err);
-  // }
+  if (returnable) payload += `return ${expression}`;
+  else payload += `${expression}`;
+
+  return eval(wrapScope(payload));
 };
 
 export default computeProperties;

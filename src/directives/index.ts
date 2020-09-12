@@ -10,7 +10,7 @@ export default (
   el: HTMLElement | any,
   attr: string,
   value: string | any,
-  data: Function | any
+  data: ProxyConstructor | any
 ) => {
   if (directive === 'bind') {
     bindDirective(el, attr, value, data);

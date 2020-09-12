@@ -75,7 +75,7 @@ class VDom {
           const el = document.querySelector(vnodes.children[i].$el);
           el.removeAttribute(attr);
 
-          directives(attr.replace('l-', ''), el, attr, attrValue, this.data);
+          directives(attr.replace('l-', ''), el, attr, attrValue, data);
         }
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
       }
