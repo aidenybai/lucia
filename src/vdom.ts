@@ -2,6 +2,7 @@ import compute from './utils/compute';
 import observer from './utils/observer';
 import { getSelector, mapAttributes } from './utils/domUtil';
 import { element, textNode } from './utils/helpers';
+import directives from './directives';
 
 class VDom {
   $el: any;
@@ -74,68 +75,7 @@ class VDom {
           const el = document.querySelector(vnodes.children[i].$el);
           el.removeAttribute(attr);
 
-          if (attr === 'l-html') {
-            if (compute(attrValue, data) !== undefined) {
-              el.innerHTML = compute(attrValue, data);
-            } else {
-              el.innerHTML = attrValue;
-            }
-          }
-
-          if (attr === 'l-if') {
-            el.hidden = compute(attrValue, data) ? false : true;
-          }
-
-          if (attr.startsWith('l-on:')) {
-            const eventHandler = () => compute(attrValue, this.data, false);
-            el[`on${attr.split(':')[1]}`] = eventHandler;
-          }
-
-          if (attr.startsWith('l-bind:')) {
-            switch (attr.split(':')[1]) {
-              case 'class':
-                const classData = compute(attrValue, data);
-                if (classData instanceof Array) {
-                  el.setAttribute('class', classData.join(' '));
-                } else {
-                  const classes = [];
-                  for (const key in classData) {
-                    if (classData[key]) classes.push(key);
-                  }
-                  if (classes.length > 0) {
-                    el.setAttribute('class', classes.join(' '));
-                  } else {
-                    el.removeAttribute('class');
-                  }
-                }
-                break;
-              case 'style':
-                const styleData = compute(attrValue, data);
-                el.removeAttribute('style');
-                for (const key in styleData) {
-                  el.style[key] = styleData[key];
-                }
-                break;
-              default:
-                el.setAttribute(attr.split(':')[1], compute(attrValue, data));
-                break;
-            }
-          }
-
-          if (attr === 'l-for') {
-            const parts = attrValue.split('by ');
-            if (compute(parts[0], data) !== undefined) {
-              el.innerHTML = compute(parts[0], data).join(parts[1] || '<br>');
-            } else {
-              el.innerHTML = parts[0].join(parts[1] || '<br>');
-            }
-          }
-
-          if (attr === 'l-model') {
-            el.oninput = () => {
-              this.data[attrValue] = el.value;
-            };
-          }
+          directives(attr.replace('l-', ''), el, attr, attrValue, this.data);
         }
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
       }

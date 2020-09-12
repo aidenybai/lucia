@@ -10,21 +10,31 @@ export const createFunction = (value: Function): string => {
   return `function ${value.toString().replace(/this\./g, 'data.')}`;
 };
 
-export const computeProperties = (expression: string, properties: any, returnable: boolean = true): any => {
-  let payload = '';
-  
-  for (const key in properties) {
-    if (typeof properties[key] === 'function') {
-      payload += createFunction(properties[key]);
-    } else {
-      payload += createVariable(key)
+export const noop = (..._args: any) => {};
+
+export const computeProperties = (
+  expression: string,
+  properties: any,
+  returnable: boolean = true
+): any => {
+  // try {
+    let payload = '';
+
+    for (const key in properties) {
+      if (typeof properties[key] === 'function') {
+        payload += createFunction(properties[key]);
+      } else {
+        payload += createVariable(key);
+      }
     }
-  }
 
-  if (returnable) payload += `return ${expression}`;
-  else payload += `${expression}`;
+    if (returnable) payload += `return ${expression}`;
+    else payload += `${expression}`;
 
-  return eval(wrapScope(payload));
+    return eval(wrapScope(payload));
+  // } catch (err) {
+  //   noop(err);
+  // }
 };
 
 export default computeProperties;
