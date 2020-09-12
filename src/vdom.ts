@@ -10,9 +10,9 @@ class VDom {
   data: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
-    this.vdom = this.toVNode(this.$el);
-    this.data = observer(data, this.patch.bind(this), this.vdom);
-    this.patch(this.vdom, this.data);
+    this.$el = null;
+    this.vdom = null;
+    this.data = data;
   }
 
   mount(el: string, mounted?: Function | any) {
