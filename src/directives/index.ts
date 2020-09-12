@@ -5,13 +5,19 @@ import { ifDirective } from './if';
 import { modelDirective } from './model';
 import { onDirective } from './on';
 
-export default (
-  directive: string,
-  el: HTMLElement | any,
-  attr: string,
-  value: string | any,
-  data: ProxyConstructor | any
-) => {
+export default ({
+  directive,
+  el,
+  attr,
+  value,
+  data,
+}: {
+  directive: string;
+  el: HTMLElement | any;
+  attr: string;
+  value: string | any;
+  data: ProxyConstructor | any;
+}) => {
   if (directive === 'bind') {
     bindDirective(el, attr, value, data);
   }

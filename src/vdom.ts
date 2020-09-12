@@ -15,7 +15,7 @@ class VDom {
     this.data = observer(data, this.patch.bind(this), this.vdom);
   }
 
-  toVNode($el: any, recurse: boolean = false): any {
+  toVNode($el: any, recurse: boolean = false): Record<any, any> | any {
     const children = [];
     const targetChildNodes = $el.childNodes;
 
@@ -42,7 +42,7 @@ class VDom {
     }
   }
 
-  patchTemplates(html: string, data: any): string {
+  patchTemplates(html: string, data: ProxyConstructor | any): string {
     const tokens = html.match(/{{\s?([^}]*)\s?}}/g) || [];
     for (const token of tokens) {
       const compressedToken = token.replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
@@ -57,7 +57,7 @@ class VDom {
     return html;
   }
 
-  patch(vnodes: any, data: any, recurse: any = false): any {
+  patch(vnodes: any, data: any, recurse: any = false): Record<any, any> | any {
     if (!vnodes) return;
     if (typeof vnodes === 'string') {
       return this.patchTemplates(vnodes, data);
@@ -71,11 +71,17 @@ class VDom {
         }
       } else {
         for (const attr in vnodes.children[i].attributes) {
-          const attrValue = vnodes.children[i].attributes[attr];
+          const value = vnodes.children[i].attributes[attr];
           const el = document.querySelector(vnodes.children[i].$el);
           el.removeAttribute(attr);
 
-          directives(attr.replace('l-', ''), el, attr, attrValue, data);
+          directives({
+            directive: attr.replace('l-', ''),
+            el,
+            attr,
+            value,
+            data: this.data,
+          });
         }
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
       }

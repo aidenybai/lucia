@@ -11,3 +11,4 @@ src/
 .github/
 docs/
 settings.json
+yarn-error.log

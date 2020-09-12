@@ -27,6 +27,7 @@ export default {
       format: 'iife',
       name,
       globals: {},
+      strict: false
     },
     {
       file: pkg.browser,
@@ -34,6 +35,7 @@ export default {
       plugins: uglify(),
       name,
       globals: {},
+      strict: false
     },
   ],
 };
