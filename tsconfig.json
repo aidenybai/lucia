@@ -15,6 +15,6 @@
     "module": "esnext",
     "strict": true
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
-  "exclude": ["node_modules", "build", "dist", "src/**/*.js", "src/**/*.jsx"]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules", "build", "dist", "src/**/*.js"]
 }

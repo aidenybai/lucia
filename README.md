@@ -56,8 +56,8 @@ At the core of Lucia is a system that enables us to declaratively render data to
 
 ```html
 <div id="app">
-  <p>{{ hello }}</p>
-  <p>{{ hello === 'world' }}</p>
+  <p>{{ message }}</p>
+  <p>{{ message === 'Hello World!' }}</p>
 </div>
 ```
 
@@ -65,7 +65,7 @@ At the core of Lucia is a system that enables us to declaratively render data to
 const App = {
   el: '#app',
   data: {
-    hello: 'world',
+    message: 'Hello World!',
   },
 };
 
@@ -76,7 +76,7 @@ You can also use the `l-html` directive for more advanced content manipulation.
 
 ```html
 <div id="app">
-  <p l-html="hello"></p>
+  <p l-html="message"></p>
 </div>
 ```
 
@@ -84,7 +84,7 @@ You can also use the `l-html` directive for more advanced content manipulation.
 const App = {
   el: '#app',
   data: {
-    hello: '<button>Hello World</button>',
+    message: '<button>Hello World!</button>',
   },
 };
 
@@ -98,7 +98,7 @@ It’s easy to toggle the presence of an element, too:
 ```html
 <div id="app">
   <button l-if="show">You can't see me</button>
-  <button l-if="show === show">Is it equal though?</button>
+  <button l-if="!show">You can see me</button>
 </div>
 ```
 

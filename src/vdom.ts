@@ -7,12 +7,12 @@ import directives from './directives';
 class VDom {
   $el: any;
   vdom: Record<string, any> | null;
-  data: Function | any;
+  data: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
-    this.$el = null;
-    this.vdom = null;
-    this.data = data;
+    this.vdom = this.toVNode(this.$el);
+    this.data = observer(data, this.patch.bind(this), this.vdom);
+    this.patch(this.vdom, this.data);
   }
 
   mount(el: string, mounted?: Function | any) {
