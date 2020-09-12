@@ -71,6 +71,7 @@ class VDom {
         }
       } else {
         for (const attr in vnodes.children[i].attributes) {
+          console.log('patch call');
           const attrValue = vnodes.children[i].attributes[attr];
           const el = document.querySelector(vnodes.children[i].$el);
           el.removeAttribute(attr);
