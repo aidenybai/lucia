@@ -36,7 +36,6 @@ Below is an example of a clicker game in Lucia. Try it out live here: [https://l
 
 ```js
 const ClickerGame = {
-  el: '#app',
   data: {
     count: localStorage.count || 0,
     increment() {
@@ -63,7 +62,6 @@ At the core of Lucia is a system that enables us to declaratively render data to
 
 ```js
 const App = {
-  el: '#app',
   data: {
     message: 'Hello World!',
   },
@@ -82,7 +80,6 @@ You can also use the `l-html` directive for more advanced content manipulation.
 
 ```js
 const App = {
-  el: '#app',
   data: {
     message: '<button>Hello World!</button>',
   },
@@ -104,7 +101,6 @@ It’s easy to toggle the presence of an element, too:
 
 ```js
 const App = {
-  el: '#app',
   data: {
     show: false,
   },
@@ -125,7 +121,6 @@ To let users interact with your app, we can use the `l-on` directive to attach e
 
 ```js
 const App = {
-  el: '#app',
   data: {
     message: 'Hello world!',
     announce() {
@@ -150,7 +145,6 @@ In addition to text interpolation, we can also bind element attributes like this
 
 ```js
 const App = {
-  el: '#app',
   data: {
     show: true,
     // You can also reference data vs inputing an object in the directive itself
@@ -173,7 +167,6 @@ We can use the l-for directive to render a list of items based on an array.
 
 ```js
 const App = {
-  el: '#app',
   data: {
     fruits: ['apple', 'orange', 'banana'],
   },
@@ -195,7 +188,6 @@ You can use the l-model directive to create two-way data bindings on form input,
 
 ```js
 const App = {
-  el: '#app',
   data: {
     content: 'Nothing submitted yet',
   },
