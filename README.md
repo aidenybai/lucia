@@ -2,7 +2,7 @@
 
 # [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
-> Currently in heavy development (learning project). Do not use in production.
+> Currently in heavy development (learning project w/ breaking changes) and can have possible unintented consequences. Do not use in production.
 
 Lucia is a tiny JavaScript library for web applications.
 
@@ -26,7 +26,7 @@ Put this within your `<head>` tags in html.
 
 ## Example
 
-Below is an example of a clicker game in Lucia. Try it out live here: [https://luciaclickergame.aidenbai.repl.co](https://luciaclickergame.aidenbai.repl.co).
+Below is an example of a clicker game in Lucia.
 
 ```html
 <div id="app">
@@ -36,11 +36,9 @@ Below is an example of a clicker game in Lucia. Try it out live here: [https://l
 
 ```js
 const ClickerGame = {
-  data: {
-    count: localStorage.count || 0,
-    increment() {
-      localStorage.count = ++this.count;
-    },
+  count: localStorage.count || 0,
+  increment() {
+    localStorage.count = ++this.count;
   },
 };
 
@@ -62,9 +60,7 @@ At the core of Lucia is a system that enables us to declaratively render data to
 
 ```js
 const App = {
-  data: {
-    message: 'Hello World!',
-  },
+  message: 'Hello World!',
 };
 
 Lucia.createApp(App).mount('#app');
@@ -80,9 +76,7 @@ You can also use the `l-html` directive for more advanced content manipulation.
 
 ```js
 const App = {
-  data: {
-    message: '<button>Hello World!</button>',
-  },
+  message: '<button>Hello World!</button>',
 };
 
 Lucia.createApp(App).mount('#app');
@@ -101,9 +95,7 @@ It’s easy to toggle the presence of an element, too:
 
 ```js
 const App = {
-  data: {
-    show: false,
-  },
+  show: false,
 };
 
 Lucia.createApp(App).mount('#app');
@@ -121,11 +113,9 @@ To let users interact with your app, we can use the `l-on` directive to attach e
 
 ```js
 const App = {
-  data: {
-    message: 'Hello world!',
-    announce() {
-      alert(this.message);
-    },
+  message: 'Hello world!',
+  announce() {
+    alert(this.message);
   },
 };
 
@@ -145,11 +135,9 @@ In addition to text interpolation, we can also bind element attributes like this
 
 ```js
 const App = {
-  data: {
-    show: true,
-    // You can also reference data vs inputing an object in the directive itself
-    color: { color: 'purple' },
-  },
+  show: true,
+  // You can also reference data vs inputing an object in the directive itself
+  color: { color: 'purple' },
 };
 
 Lucia.createApp(App).mount('#app');
@@ -167,9 +155,7 @@ We can use the l-for directive to render a list of items based on an array.
 
 ```js
 const App = {
-  data: {
-    fruits: ['apple', 'orange', 'banana'],
-  },
+  fruits: ['apple', 'orange', 'banana'],
 };
 
 Lucia.createApp(App).mount('#app');
@@ -188,9 +174,7 @@ You can use the l-model directive to create two-way data bindings on form input,
 
 ```js
 const App = {
-  data: {
-    content: 'Nothing submitted yet',
-  },
+  content: 'Nothing submitted yet',
 };
 
 Lucia.createApp(App).mount('#app');

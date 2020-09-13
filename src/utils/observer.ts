@@ -4,10 +4,6 @@ export const observer = (
   vdom: Record<string, any> | null
 ): ProxyConstructor => {
   return new Proxy(data, {
-    // get(target: Record<string, any>, key: string): boolean {
-    //   patch(vdom, data);
-    //   return target[key];
-    // },
     set(target: Record<string, any>, key: string, value: any): boolean {
       target[key] = value;
       patch(vdom, data);
