@@ -30,7 +30,7 @@ Below is an example of a clicker game in Lucia.
 
 ```html
 <div id="app">
-  <button l-on:click="increment()">{{ count }}</button>
+  <button *on:click="increment()">{{ count }}</button>
 </div>
 ```
 
@@ -59,27 +59,23 @@ At the core of Lucia is a system that enables us to declaratively render data to
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   message: 'Hello World!',
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
-You can also use the `l-html` directive for more advanced content manipulation.
+You can also use the `*html` directive for more advanced content manipulation.
 
 ```html
 <div id="app">
-  <p l-html="message"></p>
+  <p *html="message"></p>
 </div>
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   message: '<button>Hello World!</button>',
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
 ### Conditionals
@@ -88,38 +84,34 @@ It’s easy to toggle the presence of an element, too:
 
 ```html
 <div id="app">
-  <button l-if="show">You can't see me</button>
-  <button l-if="!show">You can see me</button>
+  <button *if="show">You can't see me</button>
+  <button *if="!show">You can see me</button>
 </div>
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   show: false,
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
 ### Event Handlers
 
-To let users interact with your app, we can use the `l-on` directive to attach event listeners that invoke methods on our Lucia instances:
+To let users interact with your app, we can use the `*on` directive to attach event listeners that invoke methods on our Lucia instances:
 
 ```html
 <div id="app">
-  <button l-on:click="announce()">{{ message }}</button>
+  <button *on:click="announce()">{{ message }}</button>
 </div>
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   message: 'Hello world!',
   announce() {
     alert(this.message);
   },
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
 ### Attribute Binding
@@ -128,56 +120,50 @@ In addition to text interpolation, we can also bind element attributes like this
 
 ```html
 <div id="app">
-  <h1 l-bind:class="{ hello: show }">Classes are cool</h1>
-  <h1 l-bind:style="color">Styles are sassy</h1>
+  <h1 *bind:class="{ hello: show }">Classes are cool</h1>
+  <h1 *bind:style="color">Styles are sassy</h1>
 </div>
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   show: true,
   // You can also reference data vs inputing an object in the directive itself
   color: { color: 'purple' },
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
 ### List Rendering
 
-We can use the l-for directive to render a list of items based on an array.
+We can use the `*join` directive to render a list of items based on an array.
 
 ```html
 <div id="app">
-  <p l-for="fruits by , "></p>
+  <p *join="fruits by , "></p>
 </div>
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   fruits: ['apple', 'orange', 'banana'],
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
 ### Form Input Bindings
 
-You can use the l-model directive to create two-way data bindings on form input, textarea, and select elements.
+You can use the `*model` directive to create two-way data bindings on form input, textarea, and select elements.
 
 ```html
 <div id="app">
-  <input l-model="content" />
+  <input *model="content" />
   {{ content }}
 </div>
 ```
 
 ```js
-const App = {
+Lucia.createApp({
   content: 'Nothing submitted yet',
-};
-
-Lucia.createApp(App).mount('#app');
+}).mount('#app');
 ```
 
 ## License

@@ -5,8 +5,10 @@ export const htmlDirective = (
   value: string | any,
   data: ProxyConstructor | any
 ) => {
-  if (compute(value, data) !== undefined) {
-    el.innerHTML = compute(value, data);
+  const out = compute(value, data);
+  
+  if (out !== undefined) {
+    el.innerHTML = out;
   } else {
     el.innerHTML = value;
   }

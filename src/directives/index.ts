@@ -1,5 +1,5 @@
 import { bindDirective } from './bind';
-import { forDirective } from './for';
+import { joinDirective } from './join';
 import { htmlDirective } from './html';
 import { ifDirective } from './if';
 import { modelDirective } from './model';
@@ -22,8 +22,8 @@ export default ({
     bindDirective(el, attr, value, data);
   }
 
-  if (directive.startsWith('for')) {
-    forDirective(el, value, data);
+  if (directive.startsWith('join')) {
+    joinDirective(el, value, data);
   }
 
   if (directive.startsWith('html')) {

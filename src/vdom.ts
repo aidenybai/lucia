@@ -1,13 +1,13 @@
 import directives from './directives';
 import compute from './utils/compute';
 import observer from './utils/observer';
-import { getSelector, mapAttributes } from './utils/domUtil';
+import { getSelector, mapAttributes } from './utils/domUtils';
 import { element, textNode } from './utils/helpers';
 
 class VDom {
-  $el: any;
-  vdom: Record<string, any> | null;
-  data: ProxyConstructor | Record<string, any> | any;
+  private $el: any;
+  private vdom: Record<string, any> | null;
+  public data: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
     this.$el = null;

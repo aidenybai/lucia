@@ -1,5 +1,5 @@
-import Constructor from './constructor';
+import Lucia from './lucia';
 
 export const createApp = (options: Record<string, any>) => {
-  return new Constructor(options);
+  return new Lucia(options);
 };

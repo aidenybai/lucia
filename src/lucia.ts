@@ -1,9 +1,9 @@
 import VDom from './vdom';
 
-class Constructor extends VDom {
+class Lucia extends VDom {
   constructor(options: Record<string, any>) {
     super(options || {});
   }
 }
 
-export default Constructor;
+export default Lucia;
