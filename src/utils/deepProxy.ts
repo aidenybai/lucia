@@ -41,28 +41,28 @@ class DeepProxy {
     return { set: set.bind(this), deleteProperty: deleteProperty.bind(this) };
   }
 
-  unproxy(obj: Record<any, any>, key: string): void {
-    if (this.preproxy.has(obj[key])) {
-      obj[key] = this.preproxy.get(obj[key]);
-      this.preproxy.delete(obj[key]);
+  unproxy(data: Record<any, any>, key: string): void {
+    if (this.preproxy.has(data[key])) {
+      data[key] = this.preproxy.get(data[key]);
+      this.preproxy.delete(data[key]);
     }
 
-    for (let k of Object.keys(obj[key])) {
-      if (typeof obj[key][k] === 'object') {
-        this.unproxy(obj[key], k);
+    for (let k of Object.keys(data[key])) {
+      if (typeof data[key][k] === 'object') {
+        this.unproxy(data[key], k);
       }
     }
   }
 
-  proxify(obj: Record<any, any>, path: any[]): Record<any, any> {
-    for (const key of Object.keys(obj)) {
-      if (typeof obj[key] === 'object') {
-        obj[key] = this.proxify(obj[key], [...path, key]);
+  proxify(data: Record<any, any>, path: any[]): Record<any, any> {
+    for (const key in data) {
+      if (typeof data[key] === 'object' && data[key] !== null) {
+        data[key] = this.proxify(data[key], [...path, key]);
       }
     }
 
-    const proxy = new Proxy(obj, this.createHandler.call(this, path));
-    this.preproxy.set(proxy, obj);
+    const proxy = new Proxy(data, this.createHandler.call(this, path));
+    this.preproxy.set(proxy, data);
     return proxy;
   }
 }
