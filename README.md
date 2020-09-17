@@ -84,14 +84,14 @@ It’s easy to toggle the presence of an element, too:
 
 ```html
 <div id="app">
-  <button *if="show">You can't see me</button>
-  <button *if="!show">You can see me</button>
+  <button *if="!show">You can't see me</button>
+  <button *if="show">You can see me</button>
 </div>
 ```
 
 ```js
 Lucia.createApp({
-  show: false,
+  show: true,
 }).mount('#app');
 ```
 

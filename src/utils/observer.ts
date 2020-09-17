@@ -1,20 +1,20 @@
+import DeepProxy from './deepProxy';
+
 export const observer = (
   data: any | Function,
   patch: Function,
   vdom: Record<string, any> | null
-): ProxyConstructor => {
-  return new Proxy(data, {
-    set(target: Record<string, any>, key: string, value: any): boolean {
-      target[key] = value;
+): Record<any, any> => {
+  const proxy = new DeepProxy(data, {
+    set(): void {
       patch(vdom, data);
-      return true;
     },
-    deleteProperty(target: Record<string, any>, key: string): boolean {
-      delete target[key];
+    deleteProperty(): void {
       patch(vdom, data);
-      return true;
     },
   });
+
+  return proxy.init();
 };
 
 export default observer;
