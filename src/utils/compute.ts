@@ -1,8 +1,8 @@
-export const wrapScope = (expressions: string): string => {
+const wrapScope = (expressions: string): string => {
   return `(function(){with(_data){${expressions}}})()`;
 };
 
-export const computeProperties = (
+const computeProperties = (
   expression: string,
   _data: any,
   returnable: boolean = true

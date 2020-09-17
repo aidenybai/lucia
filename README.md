@@ -155,15 +155,33 @@ You can use the `*model` directive to create two-way data bindings on form input
 
 ```html
 <div id="app">
-  <input *model="content" />
-  {{ content }}
+  <input *model="message" />
+  {{ message }}
 </div>
 ```
 
 ```js
 Lucia.createApp({
-  content: 'Nothing submitted yet',
+  message: 'Nothing submitted yet',
 }).mount('#app');
+```
+
+### Mounted Callback
+
+You can apply the callback to the mount method to read data values.
+
+```html
+<div id="app">
+  <h1>{{ message }}</h1>
+</div>
+```
+
+```js
+Lucia.createApp({
+  message: 'Hello World',
+}).mount('#app', ({ message }) => {
+  console.log(message); // => 'Hello World'
+});
 ```
 
 ## License

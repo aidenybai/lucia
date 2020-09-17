@@ -5,22 +5,22 @@ import { getSelector, mapAttributes } from './utils/domUtils';
 import { element, textNode } from './utils/helpers';
 
 class VDom {
-  private $el: any;
-  private vdom: Record<string, any> | null;
-  public data: ProxyConstructor | Record<string, any> | any;
+  $el: any;
+  $vdom: Record<string, any> | null;
+  $data: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
     this.$el = null;
-    this.vdom = null;
-    this.data = data;
+    this.$vdom = null;
+    this.$data = data;
   }
 
   public mount(el: string, mounted?: Function | any) {
     this.$el = document.querySelector(el || '#app' || 'body');
-    this.vdom = this.toVNode(this.$el);
-    this.data = observer(this.data, this.patch.bind(this), this.vdom);
-    this.patch(this.vdom, this.data);
-    if (mounted) mounted();
+    this.$vdom = this.toVNode(this.$el);
+    this.$data = observer(this.$data, this.patch.bind(this), this.$vdom);
+    this.patch(this.$vdom, this.$data);
+    if (mounted) mounted(this.$data);
   }
 
   public patch(vnodes: any, data: any, recurse: any = false): Record<any, any> | any {
@@ -30,15 +30,15 @@ class VDom {
     }
 
     for (let i = 0; i < vnodes.children.length; i++) {
-      if (vnodes.children[i].$el?.nodeType === Node.TEXT_NODE) {
+      if (vnodes.children[i].el?.nodeType === Node.TEXT_NODE) {
         const renderedText = this.patchTemplates(vnodes.children[i].value, data);
-        if (renderedText !== vnodes.children[i].$el.nodeValue) {
-          vnodes.children[i].$el.nodeValue = renderedText;
+        if (renderedText !== vnodes.children[i].el.nodeValue) {
+          vnodes.children[i].el.nodeValue = renderedText;
         }
       } else {
         for (const attr in vnodes.children[i].attributes) {
           const value = vnodes.children[i].attributes[attr];
-          const el = document.querySelector(vnodes.children[i].$el);
+          const el = document.querySelector(vnodes.children[i].el);
           el.removeAttribute(attr);
 
           directives({
@@ -46,7 +46,7 @@ class VDom {
             el,
             attr,
             value,
-            data: this.data,
+            data: this.$data,
           });
         }
         vnodes.children[i] = this.patch(vnodes.children[i], data, true);
@@ -70,9 +70,9 @@ class VDom {
     return html;
   }
 
-  private toVNode($el: any, recurse: boolean = false): Record<any, any> | any {
+  private toVNode(el: any, recurse: boolean = false): Record<any, any> | any {
     const children = [];
-    const targetChildNodes = $el.childNodes;
+    const targetChildNodes = el.childNodes;
 
     for (let i = 0; i < targetChildNodes.length; i++) {
       switch (targetChildNodes[i].nodeType) {
@@ -93,7 +93,7 @@ class VDom {
     }
     if (recurse) return children;
     else {
-      return element(getSelector($el), $el.tagName.toLowerCase(), mapAttributes($el), children);
+      return element(getSelector(el), el.tagName.toLowerCase(), mapAttributes(el), children);
     }
   }
 }

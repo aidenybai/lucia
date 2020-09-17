@@ -1,4 +1,4 @@
-export const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
+const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
   const parents = [];
   while (element) {
     const tagName = element.nodeName.toLowerCase();
@@ -16,7 +16,7 @@ export const parentElements = (element: HTMLElement | any): Record<any, string>[
   return parents;
 };
 
-export const nthElement = (element: HTMLElement | any): number => {
+const nthElement = (element: HTMLElement | any): number => {
   let el = element;
   let nth = 0;
   while (el.previousElementSibling !== null) {
@@ -29,13 +29,13 @@ export const nthElement = (element: HTMLElement | any): number => {
   return nth;
 };
 
-export const nthSelectorNeeded = (selector: string, path: string): boolean => {
+const nthSelectorNeeded = (selector: string, path: string): boolean => {
   const querySelector = path === '' ? selector : `${path} > ${selector}`;
 
   return document.querySelectorAll(querySelector).length > 1;
 };
 
-export const buildPathString = (parents: Record<any, string>[]): string => {
+const buildPathString = (parents: Record<any, string>[]): string => {
   const pathArr: any[] = [];
 
   parents.forEach((parent: any) => {
@@ -48,10 +48,10 @@ export const buildPathString = (parents: Record<any, string>[]): string => {
   return pathArr.join(' > ');
 };
 
-export const mapAttributes = ($el: Record<string, any>): Record<string, any> => {
+export const mapAttributes = (el: Record<string, any>): Record<string, any> => {
   const attributesObject: Record<string, any> = {};
-  if ($el.attributes) {
-    for (const { name, value } of $el.attributes) {
+  if (el.attributes) {
+    for (const { name, value } of el.attributes) {
       if (name.startsWith('*')) {
         attributesObject[name] = value;
       }
