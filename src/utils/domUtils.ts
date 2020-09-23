@@ -18,11 +18,9 @@ const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
 
 const nthElement = (element: HTMLElement | any): number => {
   let el = element;
-  let nth = 0;
+  let nth = 1;
   while (el.previousElementSibling !== null) {
-    if (el.nodeName === element.nodeName) {
-      nth++;
-    }
+    if (el.nodeName === element.nodeName) nth++;
     el = el.previousElementSibling;
   }
 
@@ -38,12 +36,12 @@ const nthSelectorNeeded = (selector: string, path: string): boolean => {
 const buildPathString = (parents: Record<any, string>[]): string => {
   const pathArr: any[] = [];
 
-  parents.forEach((parent: any) => {
+  for (const parent of parents) {
     if (nthSelectorNeeded(parent.selector, pathArr.join(' > '))) {
       parent.selector += `:nth-of-type(${nthElement(parent.element)})`;
     }
     pathArr.push(parent.selector);
-  });
+  }
 
   return pathArr.join(' > ');
 };

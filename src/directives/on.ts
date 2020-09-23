@@ -1,14 +1,22 @@
 import compute from '../utils/compute';
 
-export const directiveToEventHandler = (attr: string) => {
-  return `on${attr.split(':')[1]}`;
-}
+export const directiveToEventHandler = (name: string) => {
+  return `on${name.split(':')[1]}`;
+};
 
 export const onDirective = (
   el: HTMLElement | any,
-  attr: string,
+  name: string,
   value: string | any,
   data: ProxyConstructor | any
 ) => {
-  el[directiveToEventHandler(attr)] = () => compute(value, data, false);
+  const eventTokens = name.split('.');
+  const eventName = eventTokens[0].split(':')[1];
+  const eventProp = eventTokens[1] || null;
+
+  el[directiveToEventHandler(`on${eventName}`)] = (event: Event) => {
+    if (eventProp === 'prevent') event.preventDefault();
+    if (eventProp === 'stop') event.stopPropagation();
+    compute(value, data, false);
+  };
 };

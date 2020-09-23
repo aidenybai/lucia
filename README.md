@@ -2,13 +2,19 @@
 
 # [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
-> Currently in heavy development (learning project w/ breaking changes) and can have possible unintented consequences. Do not use in production.
+> The goal of the project was to institute a easy way to build webapps. 
 
-Lucia is a tiny JavaScript library for web applications.
+Data-driven web framework for tiny webapps.
+
+Svelte is a radical new approach to building user interfaces. Whereas traditional frameworks like React and Vue do the bulk of their work in the browser, Svelte shifts that work into a compile step that happens when you build your app.
+
+Instead of using techniques like virtual DOM diffing, Svelte writes code that surgically updates the DOM when the state of your app changes.
 
 - **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 - **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
 - **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM.
+
+
 
 ## Installation
 

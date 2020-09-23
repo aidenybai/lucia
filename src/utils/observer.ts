@@ -1,4 +1,4 @@
-export const observer = (
+const observer = (
   data: any | Function,
   patch: Function,
   vdom: Record<string, any> | null

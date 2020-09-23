@@ -2,13 +2,16 @@ import compute from '../utils/compute';
 
 export const bindDirective = (
   el: HTMLElement | any,
-  attr: string,
+  name: string,
   value: string | any,
   data: ProxyConstructor | any
 ) => {
-  switch (attr.split(':')[1]) {
+  switch (name.split(':')[1]) {
     case 'class':
       const classData = compute(value, data);
+      if (typeof classData === 'string') {
+        el.setAttribute('class', `${el.className} ${classData}`);
+      }
       if (classData instanceof Array) {
         el.setAttribute('class', classData.join(' '));
       } else {
@@ -31,7 +34,12 @@ export const bindDirective = (
       }
       break;
     default:
-      el.setAttribute(attr.split(':')[1], compute(value, data));
+      const bindData = compute(value, data);
+      if (bindData) {
+        el.setAttribute(name.split(':')[1], bindData);
+      } else {
+        el.removeAttribute(name.split(':')[1]);
+      }
       break;
   }
 };

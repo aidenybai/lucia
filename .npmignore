@@ -12,3 +12,4 @@ src/
 docs/
 settings.json
 yarn-error.log
+tests/

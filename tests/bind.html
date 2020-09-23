@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .test {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <p *bind:style="{ color: 'blue' }">{{ test }}</p>
+      <br />
+      <p *bind:disabled="test">{{ test }}</p>
+      <form *on:submit.prevent="owo()">
+        <button type="submit">test</button>
+      </form>
+    </div>
+
+    <script src="../dist/lucia.js"></script>
+    <script>
+      const app = Lucia.createApp({
+        test: true,
+        owo() {
+          console.log('owo');
+        },
+      });
+      app.mount('#app');
+    </script>
+  </body>
+</html>

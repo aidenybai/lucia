@@ -1,14 +1,14 @@
 export const element = (
   el: string,
   tagName: string,
-  attributes: any,
-  children: any
+  attributes: any = {},
+  children: any = []
 ): Record<string, any> => {
   return {
     el,
     tagName,
-    attributes: attributes || {},
-    children: children || [],
+    attributes,
+    children,
   };
 };
 

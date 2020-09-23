@@ -1,12 +1,8 @@
-const wrapScope = (expressions: string): string => {
-  return `(function(){with(_data){${expressions}}})()`;
+const wrapScope = (expression: string): string => {
+  return `(function(){with(_data){${expression}}})()`;
 };
 
-const computeProperties = (
-  expression: string,
-  _data: any,
-  returnable: boolean = true
-): any => {
+const computeProperties = (expression: string, _data: any, returnable: boolean = true): any => {
   return eval(wrapScope(returnable ? `return ${expression}` : expression));
 };
 

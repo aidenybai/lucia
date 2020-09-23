@@ -8,18 +8,18 @@ import { onDirective } from './on';
 export default ({
   directive,
   el,
-  attr,
+  name,
   value,
   data,
 }: {
   directive: string;
   el: HTMLElement | any;
-  attr: string;
+  name: string;
   value: string | any;
   data: ProxyConstructor | any;
 }) => {
   if (directive.startsWith('bind')) {
-    bindDirective(el, attr, value, data);
+    bindDirective(el, name, value, data);
   }
 
   if (directive.startsWith('join')) {
@@ -39,6 +39,6 @@ export default ({
   }
 
   if (directive.startsWith('on')) {
-    onDirective(el, attr, value, data);
+    onDirective(el, name, value, data);
   }
 };
