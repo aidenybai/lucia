@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head> </head>
+  <body>
+    <div id="app">
+      <button *on:click="increment()" *html="count"></button>
+    </div>
+
+    <script src="../dist/lucia.js"></script>
+    <script>
+      const ClickerGame = {
+        count: localStorage.count || 0,
+        increment() {
+          localStorage.count = ++this.count;
+        },
+      };
+
+      Lucia.createApp(ClickerGame).mount('#app');
+    </script>
+  </body>
+</html>

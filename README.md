@@ -2,7 +2,7 @@
 
 # [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
-> The goal of the project was to institute a easy way to build webapps. 
+> The goal of the project was to institute a easy way to build webapps.
 
 Data-driven web framework for tiny webapps.
 
@@ -13,8 +13,6 @@ Instead of using techniques like virtual DOM diffing, Svelte writes code that su
 - **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 - **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
 - **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM.
-
-
 
 ## Installation
 
@@ -36,7 +34,7 @@ Below is an example of a clicker game in Lucia.
 
 ```html
 <div id="app">
-  <button *on:click="increment()">{{ count }}</button>
+  <button *on:click="increment()" *html="count"></button>
 </div>
 ```
 
@@ -55,32 +53,18 @@ Lucia.createApp(ClickerGame).mount('#app');
 
 ### Declarative Rendering
 
-At the core of Lucia is a system that enables us to declaratively render data to the DOM using straightforward template syntax:
+At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `*html` directive:
 
 ```html
 <div id="app">
-  <p>{{ message }}</p>
-  <p>{{ message === 'Hello World!' }}</p>
+  <p *html="message"></p>
+  <p *html="message === 'Hello World!'"></p>
 </div>
 ```
 
 ```js
 Lucia.createApp({
   message: 'Hello World!',
-}).mount('#app');
-```
-
-You can also use the `*html` directive for more advanced content manipulation.
-
-```html
-<div id="app">
-  <p *html="message"></p>
-</div>
-```
-
-```js
-Lucia.createApp({
-  message: '<button>Hello World!</button>',
 }).mount('#app');
 ```
 
@@ -107,7 +91,7 @@ To let users interact with your app, we can use the `*on` directive to attach ev
 
 ```html
 <div id="app">
-  <button *on:click="announce()">{{ message }}</button>
+  <button *on:click="announce()" *html="message"></button>
 </div>
 ```
 
@@ -162,7 +146,7 @@ You can use the `*model` directive to create two-way data bindings on form input
 ```html
 <div id="app">
   <input *model="message" />
-  {{ message }}
+  <p *html="message"></p>
 </div>
 ```
 
@@ -178,7 +162,7 @@ You can apply the callback to the mount method to read data values.
 
 ```html
 <div id="app">
-  <h1>{{ message }}</h1>
+  <h1 *html="message"></h1>
 </div>
 ```
 

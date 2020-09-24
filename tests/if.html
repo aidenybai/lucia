@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-      .test {
-        color: blue;
-      }
-    </style>
+
   </head>
   <body>
     <div id="app">
-      <p *bind:style="{ color: 'blue' }">test</p>
+      <p *if="test"></p>
       <br />
-      <p *bind:disabled="test">test</p>
+      <p *if="!test"></p>
     </div>
 
     <script src="../dist/lucia.js"></script>
