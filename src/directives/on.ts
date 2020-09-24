@@ -1,9 +1,5 @@
 import compute from '../utils/compute';
 
-export const directiveToEventHandler = (name: string) => {
-  return `on${name.split(':')[1]}`;
-};
-
 export const onDirective = (
   el: HTMLElement | any,
   name: string,
@@ -14,7 +10,7 @@ export const onDirective = (
   const eventName = eventTokens[0].split(':')[1];
   const eventProp = eventTokens[1] || null;
 
-  el[directiveToEventHandler(`on${eventName}`)] = (event: Event) => {
+  el[`on${eventName}`] = (event: Event) => {
     if (eventProp === 'prevent') event.preventDefault();
     if (eventProp === 'stop') event.stopPropagation();
     compute(value, data, false);

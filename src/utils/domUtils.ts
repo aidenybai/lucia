@@ -47,15 +47,19 @@ const buildPathString = (parents: Record<any, string>[]): string => {
 };
 
 export const mapAttributes = (el: Record<string, any>): Record<string, any> => {
-  const attributesObject: Record<string, any> = {};
-  if (el.attributes) {
+  const attributes: Record<string, any> = {};
+  const directives: Record<string, any> = {};
+
+  if (el.attributes || el.directives) {
     for (const { name, value } of el.attributes) {
       if (name.startsWith('*')) {
-        attributesObject[name] = value;
+        directives[name.replace('*', '')] = value;
+      } else {
+        attributes[name] = value;
       }
     }
   }
-  return attributesObject;
+  return { attributes, directives };
 };
 
 export const getSelector = (element: HTMLElement | any) => {

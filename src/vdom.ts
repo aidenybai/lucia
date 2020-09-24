@@ -1,8 +1,6 @@
-import directives from './directives';
-import compute from './utils/compute';
 import observer from './utils/observer';
+import renderDirectives from './directives';
 import { getSelector, mapAttributes } from './utils/domUtils';
-import { element, textNode } from './utils/helpers';
 
 class VDom {
   $el: any;
@@ -24,65 +22,27 @@ class VDom {
     if (mounted) mounted(this.$data);
   }
 
-  public $patch(vnodes: any, data: any, recurse: any = false): Record<any, any> | any {
-    if (!vnodes) return;
-    // if (typeof vnodes === 'string') {
-    //   return this.$patchTemplates(vnodes, data);
-    // }
-
-    // Change text node to just string, create h func vdom that buildvnodes generates, make a new directives alongside attr and children for persist storage and rendering
-
-    // {
-    //   tagName,
-    //   directives,
-    //   attributes,
-    //   children
-    // } vdom diffing
-
-    for (let i = 0; i < vnodes.children.length; i++) {
-      let vnode,
-        { el, attributes, value } = vnodes.children[i];
-
-      if (el.nodeType === Node.TEXT_NODE) {
-        const renderedText = this.$patchTemplates(value, data);
-
-        if (el.nodeValue !== renderedText) {
-          el.nodeValue = renderedText;
-        }
-      } else {
-        for (const name in attributes) {
-          const value = attributes[name];
-          el = document.querySelector(el);
-
-          directives({
-            directive: name.replace('*', ''),
-            el,
-            name,
-            value,
-            data: this.$data,
-          });
-
-          el.removeAttribute(name);
-        }
-        vnode = this.$patch(vnode, data, true);
-      }
+  public $createVNode(
+    el: string,
+    {
+      tagName,
+      attributes = {},
+      directives = {},
+      children = [],
+    }: {
+      tagName: string;
+      attributes: any;
+      directives: any;
+      children: any;
     }
-    if (recurse) return vnodes;
-  }
-
-  public $patchTemplates(content: string, data: ProxyConstructor | any): string {
-    const tokens = content.match(/{{\s?([^}]*)\s?}}/g) || [];
-    for (const token of tokens) {
-      const compressedToken = token.replace(/(\{)\s*(\S+)\s*(?=})/gim, '$1$2');
-      const rawTemplateData = compressedToken.substring(2, compressedToken.length - 2).trim();
-
-      if (rawTemplateData in data) {
-        content = content.replace(token, data[rawTemplateData]);
-      } else {
-        content = content.replace(token, compute(rawTemplateData, data));
-      }
-    }
-    return content;
+  ): Record<string, any> {
+    return {
+      el,
+      tagName,
+      attributes,
+      directives,
+      children,
+    };
   }
 
   public $buildVNode(el: any, recurse: boolean = false): Record<any, any> | any {
@@ -92,25 +52,60 @@ class VDom {
     for (const targetChildNode of targetChildNodes) {
       switch (targetChildNode.nodeType) {
         case Node.TEXT_NODE:
-          children.push(textNode(targetChildNode, targetChildNode.nodeValue));
+          children.push(targetChildNode.nodeValue);
           break;
         case Node.ELEMENT_NODE:
+          const { attributes, directives } = mapAttributes(targetChildNode);
           children.push(
-            element(
-              getSelector(targetChildNode),
-              targetChildNode.tagName.toLowerCase(),
-              mapAttributes(targetChildNode),
-              this.$buildVNode(targetChildNode, true)
-            )
+            this.$createVNode(getSelector(targetChildNode), {
+              tagName: targetChildNode.tagName.toLowerCase(),
+              attributes,
+              directives,
+              children: this.$buildVNode(targetChildNode, true),
+            })
           );
           break;
       }
     }
 
+    const { attributes, directives } = mapAttributes(el);
+
     if (recurse) return children;
     else {
-      return element(getSelector(el), el.tagName.toLowerCase(), mapAttributes(el), children);
+      return this.$createVNode(getSelector(el), {
+        tagName: el.tagName.toLowerCase(),
+        attributes,
+        directives,
+        children,
+      });
     }
+  }
+
+  public $patch(vnodes: any, data: any, recurse: any = false): Record<any, any> | any {
+    if (!vnodes) return;
+
+    for (let i = 0; i < vnodes.children.length; i++) {
+      let vnode,
+        { el: rootEl, directives } = vnodes.children[i];
+
+      for (const name in directives) {
+        if (typeof vnode === 'string') continue;
+
+        const value = directives[name];
+        const el = document.querySelector(rootEl);
+        el.removeAttribute(`*${name}`);
+
+        renderDirectives({
+          // Make this only render data that is necessary
+          el,
+          name,
+          value,
+          data: this.$data,
+        });
+      }
+      vnode = this.$patch(vnode, data, true);
+    }
+    if (recurse) return vnodes;
   }
 }
 

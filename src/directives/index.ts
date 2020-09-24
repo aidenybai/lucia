@@ -6,39 +6,37 @@ import { modelDirective } from './model';
 import { onDirective } from './on';
 
 export default ({
-  directive,
   el,
   name,
   value,
   data,
 }: {
-  directive: string;
   el: HTMLElement | any;
   name: string;
   value: string | any;
   data: ProxyConstructor | any;
 }) => {
-  if (directive.startsWith('bind')) {
+  if (name.startsWith('bind')) {
     bindDirective(el, name, value, data);
   }
 
-  if (directive.startsWith('join')) {
+  if (name.startsWith('join')) {
     joinDirective(el, value, data);
   }
 
-  if (directive.startsWith('html')) {
+  if (name.startsWith('html')) {
     htmlDirective(el, value, data);
   }
 
-  if (directive.startsWith('if')) {
+  if (name.startsWith('if')) {
     ifDirective(el, value, data);
   }
 
-  if (directive.startsWith('model')) {
+  if (name.startsWith('model')) {
     modelDirective(el, value, data);
   }
 
-  if (directive.startsWith('on')) {
+  if (name.startsWith('on')) {
     onDirective(el, name, value, data);
   }
 };
