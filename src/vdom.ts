@@ -33,7 +33,7 @@ class VDom {
       tagName: string;
       attributes: any;
       directives: any;
-      children: any;
+      children: any[];
     }
   ): Record<string, any> {
     return {

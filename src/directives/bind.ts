@@ -8,21 +8,23 @@ export const bindDirective = (
 ) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const classData = compute(value, data);
+      const classData = compute(value, data, true);
       if (typeof classData === 'string') {
-        el.setAttribute('class', `${el.className} ${classData}`);
+        return el.setAttribute('class', `${el.className} ${classData}`.trim());
       }
       if (classData instanceof Array) {
-        el.setAttribute('class', classData.join(' '));
+        return el.setAttribute('class', `${el.className} ${classData.join(' ').trim()}`);
       } else {
         const classes = [];
         for (const key in classData) {
           if (classData[key]) classes.push(key);
         }
         if (classes.length > 0) {
-          el.setAttribute('class', classes.join(' '));
+          return el.setAttribute('class', `${el.className} ${classData.join(' ').trim()}`);
+        } else if (el.className.length.trim() > 0) {
+          return el.setAttribute('class', el.className);
         } else {
-          el.removeAttribute('class');
+          return el.removeAttribute('class');
         }
       }
       break;
