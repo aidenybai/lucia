@@ -3,7 +3,14 @@ const observer = (
   patch: Function,
   vdom: Record<string, any> | null
 ): ProxyConstructor => {
-  return new Proxy(data, {
+  const handler = {
+    get(target: Record<string, any>, key: string): any {
+      if (typeof target[key] === 'object' && target[key] !== null) {
+        return new Proxy(target[key], handler);
+      } else {
+        return target[key];
+      }
+    },
     set(target: Record<string, any>, key: string, value: any): boolean {
       target[key] = value;
       patch(vdom);
@@ -14,7 +21,8 @@ const observer = (
       patch(vdom);
       return true;
     },
-  });
+  };
+  return new Proxy(data, handler);
 };
 
 export default observer;
