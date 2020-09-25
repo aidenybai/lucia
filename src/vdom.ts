@@ -81,7 +81,7 @@ class VDom {
     }
   }
 
-  public $patch(vnodes: any, data: any, recurse: any = false): Record<any, any> | any {
+  public $patch(vnodes: any, recurse: any = false): Record<any, any> | any {
     if (!vnodes) return;
 
     for (let i = 0; i < vnodes.children.length; i++) {
@@ -103,7 +103,7 @@ class VDom {
           data: this.$data,
         });
       }
-      vnode = this.$patch(vnode, data, true);
+      vnode = this.$patch(vnode, true);
     }
     if (recurse) return vnodes;
   }

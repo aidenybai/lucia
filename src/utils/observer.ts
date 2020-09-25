@@ -6,12 +6,12 @@ const observer = (
   return new Proxy(data, {
     set(target: Record<string, any>, key: string, value: any): boolean {
       target[key] = value;
-      patch(vdom, data);
+      patch(vdom);
       return true;
     },
     deleteProperty(target: Record<string, any>, key: string): boolean {
       delete target[key];
-      patch(vdom, data);
+      patch(vdom);
       return true;
     },
   });
