@@ -13,13 +13,13 @@ class VDom {
     this.$data = data;
   }
 
-  public mount(el?: string, mounted?: Function | any) {
+  public mount(el?: string) {
     this.$el = document.querySelector(el || '#app' || 'body');
     this.$vdom = this.$buildVNode(this.$el);
     this.$data = observer(this.$data, this.$patch.bind(this), this.$vdom);
 
     this.$patch(this.$vdom, this.$data);
-    if (mounted) mounted(this.$data);
+    return this.$data;
   }
 
   public $createVNode(

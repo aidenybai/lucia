@@ -12,5 +12,6 @@ src/
 docs/
 settings.json
 yarn-error.log
-tests/
 examples/
+.vscode/
+CNAME

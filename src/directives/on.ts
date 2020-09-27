@@ -10,9 +10,9 @@ export const onDirective = (
   const eventName = eventTokens[0].split(':')[1];
   const eventProp = eventTokens[1] || null;
 
-  el[`on${eventName}`] = (event: Event) => {
-    if (eventProp === 'prevent') event.preventDefault();
-    if (eventProp === 'stop') event.stopPropagation();
+  el[`on${eventName}`] = ($event: Event) => {
+    if (eventProp === 'prevent') $event.preventDefault();
+    if (eventProp === 'stop') $event.stopPropagation();
     compute(value, data, false);
   };
 };

@@ -2,15 +2,13 @@
 
 # [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
-> Currently not suitable for production. Every version has major breaking changes.
+> Tiny library for tiny web apps.
 
-Tiny library for tiny web apps.
-
-- 🅰️ **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
+- 🔮 **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
+- 🧰 **Directive:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM through directive attributes.
 - 💥 **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
 - ⚡ **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not VNode diff, renders directives only if necessary, and relies only on selectors.
 - 🗂️ **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM.
-- ✅ **Directive-based:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM.
 
 ## Installation
 
@@ -104,7 +102,7 @@ Lucia.createApp({
 
 ### Attribute Binding
 
-In addition to text interpolation, we can also bind element attributes like this:
+In addition to text interpolation, we can also bind element attributes using the `*bind` directive:
 
 ```html
 <div id="app">
@@ -123,7 +121,7 @@ Lucia.createApp({
 
 ### List Rendering
 
-We can use the `*join` directive to render a list of items based on an array.
+We can also use the `*join` directive to render a list of items based on an array:
 
 ```html
 <div id="app">
@@ -152,24 +150,6 @@ You can use the `*model` directive to create two-way data bindings on form input
 Lucia.createApp({
   message: 'Nothing submitted yet',
 }).mount('#app');
-```
-
-### Mounted Callback
-
-You can apply the callback to the mount method to read data values.
-
-```html
-<div id="app">
-  <h1 *html="message"></h1>
-</div>
-```
-
-```js
-Lucia.createApp({
-  message: 'Hello World',
-}).mount('#app', ({ message }) => {
-  console.log(message); // => 'Hello World'
-});
 ```
 
 ## License

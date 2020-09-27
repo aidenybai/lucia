@@ -27,7 +27,6 @@ export const bindDirective = (
           return el.removeAttribute('class');
         }
       }
-      break;
     case 'style':
       const styleData = compute(value, data);
       el.removeAttribute('style');
