@@ -6,12 +6,11 @@
   "browser": "dist/lucia.min.js",
   "scripts": {
     "build": "del-cli dist/ && rollup -c",
-    "build:dev": "del-cli dist/ && rollup --watch -c",
-    "size": "filesize-cli dist/"
+    "build:dev": "del-cli dist/ && rollup --watch -c"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luciadotjs/lucia.git"
+    "url": "git+https://github.com/aidenybai/lucia.git"
   },
   "keywords": [
     "lucia",
@@ -26,7 +25,7 @@
   "author": "Aiden Bai <aidenybai@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/luciadotjs/lucia/issues"
+    "url": "https://github.com/aidenybai/lucia/issues"
   },
   "homepage": "https://lucia.js.org",
   "engines": {
@@ -42,8 +41,6 @@
     "@rollup/plugin-commonjs": "13.0.0",
     "@rollup/plugin-node-resolve": "8.0.1",
     "del-cli": "^3.0.1",
-    "filesize-cli": "^0.0.3",
-    "prettier": "^2.0.5",
     "rollup": "2.15.0",
     "rollup-plugin-uglify": "^6.0.4",
     "typescript": "3.9.5"

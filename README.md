@@ -4,15 +4,15 @@
 
 > Tiny library for tiny web apps (Currently heavily developed. Not recommended for production environments)
 
-- 🔮 **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
+- 🔮 **Declarative:** Lucia provides a straightforward API to create declarative views, allowing predictible and easy development.
 - 🧰 **Directive:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM through directive attributes.
-- 💥 **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
-- ⚡ **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not VNode diff, renders directives only if necessary, and relies only on selectors.
-- 🗂️ **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change data to mutate our loose Virtual DOM.
+- 💥 **Reactive:** When the view is changed, the Virtual DOM will automatically react and will update and render the new view in realtime.
+- ⚡ **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not VNode diff, renders directives only if necessary by skipping static notes, and relies only on selectors.
+- 🗂️ **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change view data to mutate our loose Virtual DOM.
 
 ## Installation
 
-Put this within your `<head>` tags in html.
+Lucia is currently only installable through a CDN and also supports UMD. Put this within your `<head>` tags in html.
 
 ```html
 <!-- development version, includes helpful console warnings -->

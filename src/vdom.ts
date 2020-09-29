@@ -90,13 +90,15 @@ class VDom {
         const value = directives[name];
 
         for (const key in this.$view) {
+          // sort of hacky way to look for view data using includes, better to parse.
+
+          // todo: add list/html vnode parsing for directives
           const hasKey = value.includes(key);
           const hasFunction =
             typeof this.$view[key] === 'function' && this.$view[key].toString().includes(key);
           if (hasKey || hasFunction) {
             const el = document.querySelector(rootEl);
 
-            // Create type inference and consistency
             renderDirective({
               el,
               name,
