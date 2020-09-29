@@ -1,25 +1,22 @@
 import observer from './observer';
-import renderDirectives from './directives';
+import renderDirective from './directives';
 import { getSelector, mapAttributes } from './helpers/selector';
 
 class VDom {
-  $el: any;
   $vdom: Record<string, any> | null;
   $view: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
-    this.$el = null;
     this.$vdom = null;
     this.$view = data;
   }
 
   public mount(el: string | HTMLElement) {
-    this.$el = typeof el === 'string' ? document.querySelector(el) : el;
-    this.$vdom = this.$buildVNode(this.$el);
+    this.$vdom = this.$buildVNode(typeof el === 'string' ? document.querySelector(el) : el);
     this.$view = observer(this.$view, this.$patch.bind(this), this.$vdom);
 
     this.$patch(this.$vdom, Object.keys(this.$view));
-    return { ...this.$view, $vdom: this.$vdom, $el: this.$el };
+    return this.$view;
   }
 
   public $createVNode(
@@ -91,28 +88,28 @@ class VDom {
       if (typeof vnode === 'string') continue;
       for (const name in directives) {
         const value = directives[name];
-        let necessaryToRender = false;
 
-        for (const key of keys) {
-          if (value.includes(key)) {
-            necessaryToRender = true;
+        for (const key in this.$view) {
+          const hasKey = value.includes(key);
+          const hasFunction =
+            typeof this.$view[key] === 'function' && this.$view[key].toString().includes(key);
+          if (hasKey || hasFunction) {
+            const el = document.querySelector(rootEl);
+
+            // Create type inference and consistency
+            renderDirective({
+              el,
+              name,
+              value,
+              view: this.$view,
+            });
+
+            try {
+              el.removeAttribute(`*${name}`);
+            } catch (err) {}
             break;
           }
         }
-
-        if (!necessaryToRender) continue;
-
-        const el = document.querySelector(rootEl);
-        try {
-          el.removeAttribute(`*${name}`);
-        } catch (err) {}
-
-        renderDirectives({
-          el,
-          name,
-          value,
-          view: this.$view,
-        });
       }
       vnode = this.$patch(vnode, keys, true);
     }
