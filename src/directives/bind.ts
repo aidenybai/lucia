@@ -1,26 +1,26 @@
-import compute from '../utils/compute';
+import compute from '../helpers/compute';
 
 export const bindDirective = (
   el: HTMLElement | any,
   name: string,
   value: string | any,
-  data: ProxyConstructor | any
+  view: ProxyConstructor | any
 ) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const classData = compute(value, data, true);
-      if (typeof classData === 'string') {
-        return el.setAttribute('class', `${el.className} ${classData}`.trim());
+      const classview = compute(value, view, true);
+      if (typeof classview === 'string') {
+        return el.setAttribute('class', `${el.className} ${classview}`.trim());
       }
-      if (classData instanceof Array) {
-        return el.setAttribute('class', `${el.className} ${classData.join(' ').trim()}`);
+      if (classview instanceof Array) {
+        return el.setAttribute('class', `${el.className} ${classview.join(' ').trim()}`);
       } else {
         const classes = [];
-        for (const key in classData) {
-          if (classData[key]) classes.push(key);
+        for (const key in classview) {
+          if (classview[key]) classes.push(key);
         }
         if (classes.length > 0) {
-          return el.setAttribute('class', `${el.className} ${classData.join(' ').trim()}`);
+          return el.setAttribute('class', `${el.className} ${classview.join(' ').trim()}`);
         } else if (el.className.length.trim() > 0) {
           return el.setAttribute('class', el.className);
         } else {
@@ -28,16 +28,16 @@ export const bindDirective = (
         }
       }
     case 'style':
-      const styleData = compute(value, data);
+      const styleview = compute(value, view);
       el.removeAttribute('style');
-      for (const key in styleData) {
-        el.style[key] = styleData[key];
+      for (const key in styleview) {
+        el.style[key] = styleview[key];
       }
       break;
     default:
-      const bindData = compute(value, data);
-      if (bindData) {
-        el.setAttribute(name.split(':')[1], bindData);
+      const bindview = compute(value, view);
+      if (bindview) {
+        el.setAttribute(name.split(':')[1], bindview);
       } else {
         el.removeAttribute(name.split(':')[1]);
       }

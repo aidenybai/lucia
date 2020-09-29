@@ -1,9 +1,9 @@
-import compute from '../utils/compute';
+import compute from '../helpers/compute';
 
 export const ifDirective = (
   el: HTMLElement | any,
   value: string | any,
-  data: ProxyConstructor | any
+  view: ProxyConstructor | any
 ) => {
-  el.hidden = compute(value, data) ? false : true;
+  el.hidden = compute(value, view) ? false : true;
 };

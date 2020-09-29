@@ -1,10 +1,10 @@
-import compute from '../utils/compute';
+import compute from '../helpers/compute';
 
 export const onDirective = (
   el: HTMLElement | any,
   name: string,
   value: string | any,
-  data: ProxyConstructor | any
+  view: ProxyConstructor | any
 ) => {
   const eventTokens = name.split('.');
   const eventName = eventTokens[0].split(':')[1];
@@ -13,6 +13,6 @@ export const onDirective = (
   el[`on${eventName}`] = ($event: Event) => {
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
-    compute(value, data, false);
+    compute(value, view, false);
   };
 };

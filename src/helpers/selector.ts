@@ -1,3 +1,5 @@
+// Adapted from https://github.com/zypox/dom-element-path
+
 const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
   const parents = [];
   while (element) {
@@ -19,8 +21,9 @@ const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
 const nthElement = (element: HTMLElement | any): number => {
   let el = element;
   let nth = 1;
+
   while (el.previousElementSibling !== null) {
-    if (el.nodeName === element.nodeName) nth++;
+    if (el.previousElementSibling.nodeName === element.nodeName) nth++;
     el = el.previousElementSibling;
   }
 

@@ -7,7 +7,6 @@
   "scripts": {
     "build": "del-cli dist/ && rollup -c",
     "build:dev": "del-cli dist/ && rollup --watch -c",
-    "style": "prettier --write .",
     "size": "filesize-cli dist/"
   },
   "repository": {

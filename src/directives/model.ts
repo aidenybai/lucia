@@ -1,9 +1,10 @@
 export const modelDirective = (
   el: HTMLElement | any,
   value: string | any,
-  data: ProxyConstructor | any
+  view: ProxyConstructor | any
 ) => {
+  el.value = view[value];
   el.oninput = () => {
-    data[value] = el.value;
+    view[value] = el.value;
   };
 };

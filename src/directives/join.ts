@@ -1,12 +1,12 @@
-import compute from '../utils/compute';
+import compute from '../helpers/compute';
 
 export const joinDirective = (
   el: HTMLElement | any,
   value: string | any,
-  data: ProxyConstructor | any
+  view: ProxyConstructor | any
 ) => {
   const parts = value.split('by ');
-  const out = compute(parts[0], data);
+  const out = compute(parts[0], view);
 
   if (out !== undefined) {
     el.innerHTML = out.join(parts[1] || '<br>');

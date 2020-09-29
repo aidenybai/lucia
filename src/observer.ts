@@ -13,12 +13,12 @@ const observer = (
     },
     set(target: Record<string, any>, key: string, value: any): boolean {
       target[key] = value;
-      patch(vdom);
+      patch(vdom, [key]);
       return true;
     },
     deleteProperty(target: Record<string, any>, key: string): boolean {
       delete target[key];
-      patch(vdom);
+      patch(vdom, [key]);
       return true;
     },
   };

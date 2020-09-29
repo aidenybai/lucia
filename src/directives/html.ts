@@ -1,11 +1,11 @@
-import compute from '../utils/compute';
+import compute from '../helpers/compute';
 
 export const htmlDirective = (
   el: HTMLElement | any,
   value: string | any,
-  data: ProxyConstructor | any
+  view: ProxyConstructor | any
 ) => {
-  const out = compute(value, data);
+  const out = compute(value, view);
   
   if (out !== undefined) {
     el.innerHTML = out;

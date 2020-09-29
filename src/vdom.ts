@@ -1,25 +1,25 @@
-import observer from './utils/observer';
+import observer from './observer';
 import renderDirectives from './directives';
-import { getSelector, mapAttributes } from './utils/domUtils';
+import { getSelector, mapAttributes } from './helpers/selector';
 
 class VDom {
   $el: any;
   $vdom: Record<string, any> | null;
-  $data: ProxyConstructor | Record<string, any> | any;
+  $view: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
     this.$el = null;
     this.$vdom = null;
-    this.$data = data;
+    this.$view = data;
   }
 
-  public mount(el?: string) {
-    this.$el = document.querySelector(el || '#app' || 'body');
+  public mount(el: string | HTMLElement) {
+    this.$el = typeof el === 'string' ? document.querySelector(el) : el;
     this.$vdom = this.$buildVNode(this.$el);
-    this.$data = observer(this.$data, this.$patch.bind(this), this.$vdom);
+    this.$view = observer(this.$view, this.$patch.bind(this), this.$vdom);
 
-    this.$patch(this.$vdom, this.$data);
-    return this.$data;
+    this.$patch(this.$vdom, Object.keys(this.$view));
+    return { ...this.$view, $vdom: this.$vdom, $el: this.$el };
   }
 
   public $createVNode(
@@ -81,29 +81,40 @@ class VDom {
     }
   }
 
-  public $patch(vnodes: any, recurse: any = false): Record<any, any> | any {
+  public $patch(vnodes: any, keys: string[], recurse: any = false): Record<any, any> | any {
     if (!vnodes) return;
 
     for (let i = 0; i < vnodes.children.length; i++) {
       let vnode,
         { el: rootEl, directives } = vnodes.children[i];
 
+      if (typeof vnode === 'string') continue;
       for (const name in directives) {
-        if (typeof vnode === 'string') continue;
-
         const value = directives[name];
+        let necessaryToRender = false;
+
+        for (const key of keys) {
+          if (value.includes(key)) {
+            necessaryToRender = true;
+            break;
+          }
+        }
+
+        if (!necessaryToRender) continue;
+
         const el = document.querySelector(rootEl);
-        el.removeAttribute(`*${name}`);
+        try {
+          el.removeAttribute(`*${name}`);
+        } catch (err) {}
 
         renderDirectives({
-          // Make this only render data that is necessary
           el,
           name,
           value,
-          data: this.$data,
+          view: this.$view,
         });
       }
-      vnode = this.$patch(vnode, true);
+      vnode = this.$patch(vnode, keys, true);
     }
     if (recurse) return vnodes;
   }

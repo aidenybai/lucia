@@ -9,34 +9,34 @@ export default ({
   el,
   name,
   value,
-  data,
+  view,
 }: {
   el: HTMLElement | any;
   name: string;
   value: string | any;
-  data: ProxyConstructor | any;
+  view: ProxyConstructor | any;
 }) => {
   if (name.startsWith('bind')) {
-    bindDirective(el, name, value, data);
+    bindDirective(el, name, value, view);
   }
 
   if (name.startsWith('join')) {
-    joinDirective(el, value, data);
+    joinDirective(el, value, view);
   }
 
   if (name.startsWith('html')) {
-    htmlDirective(el, value, data);
+    htmlDirective(el, value, view);
   }
 
   if (name.startsWith('if')) {
-    ifDirective(el, value, data);
+    ifDirective(el, value, view);
   }
 
   if (name.startsWith('model')) {
-    modelDirective(el, value, data);
+    modelDirective(el, value, view);
   }
 
   if (name.startsWith('on')) {
-    onDirective(el, name, value, data);
+    onDirective(el, name, value, view);
   }
 };

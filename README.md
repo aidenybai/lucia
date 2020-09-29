@@ -1,8 +1,8 @@
-<img src="https://github.com/luciadotjs/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
+<img src="https://github.com/aidenybai/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
 
 # [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
 
-> Tiny library for tiny web apps.
+> Tiny library for tiny web apps (Currently heavily developed. Not recommended for production environments)
 
 - 🔮 **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 - 🧰 **Directive:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM through directive attributes.
@@ -137,7 +137,7 @@ Lucia.createApp({
 
 ### Form Input Bindings
 
-You can use the `*model` directive to create two-way data bindings on form input, textarea, and select elements.
+You can use the `*model` directive to create two-way data bindings on form `input`, `textarea`, and `select` elements.
 
 ```html
 <div id="app">
