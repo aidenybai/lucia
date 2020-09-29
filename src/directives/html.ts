@@ -6,7 +6,7 @@ export const htmlDirective = (
   view: ProxyConstructor | any
 ) => {
   const out = compute(value, view);
-  
+
   if (out !== undefined) {
     el.innerHTML = out;
   } else {
