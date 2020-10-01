@@ -16,7 +16,7 @@ export const modelDirective = (
       (el.value === 'null' || el.value === 'undefined');
 
     if (isNumber) {
-      view[value] = parseInt(el.value);
+      view[value] = Number(el.value).toPrecision();
     } else if (isBoolean) {
       view[value] = Boolean(el.value);
     } else if (isNullish) {

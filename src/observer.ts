@@ -1,5 +1,5 @@
 const observer = (
-  data: any | Function,
+  data: Function | any,
   patch: Function,
   vdom: Record<string, any> | null
 ): ProxyConstructor => {

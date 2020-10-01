@@ -28,8 +28,8 @@ class VDom {
       children = [],
     }: {
       tagName: string;
-      attributes: any;
-      directives: any;
+      attributes: Record<string, string>;
+      directives: Record<string, string>;
       children: any[];
     }
   ): Record<string, any> {
@@ -88,14 +88,20 @@ class VDom {
       if (typeof vnode === 'string') continue;
       for (const name in directives) {
         const value = directives[name];
+        for (const key of keys) {
+          let hasKey = value.toString().includes(key);
+          let hasFunction;
 
-        for (const key in this.$view) {
-          // sort of hacky way to look for view data using includes, better to parse.
+          for (const globalKey in this.$view) {
+            if (
+              typeof this.$view[globalKey] === 'function' &&
+              this.$view[globalKey].toString().includes(`this.${globalKey}`)
+            ) {
+              hasFunction = true;
+              break;
+            }
+          }
 
-          // todo: add list/html vnode parsing for directives
-          const hasKey = value.includes(key);
-          const hasFunction =
-            typeof this.$view[key] === 'function' && this.$view[key].toString().includes(key);
           if (hasKey || hasFunction) {
             const el = document.querySelector(rootEl);
 
