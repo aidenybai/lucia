@@ -121,7 +121,7 @@ Lucia.createApp({
 
 ### List Rendering
 
-We can also use the `*join` directive to render a list of items based on an array:
+We can also use the `*join` directive to render a list of items based on an array. Note that currently array mutators are currently not supported.
 
 ```html
 <div id="app">
