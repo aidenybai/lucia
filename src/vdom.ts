@@ -78,9 +78,11 @@ class VDom {
     }
   }
 
-  public $patch(vnodes: any, keys: string[], recurse: any = false): Record<any, any> | any {
+  public $patch(vnodes: any, keys: any[], recurse: any = false): Record<any, any> | any {
+    // Is not able to handle <Array>.push()
     if (!vnodes) return;
 
+    const view = { ...this.$view };
     for (let i = 0; i < vnodes.children.length; i++) {
       let vnode,
         { el: rootEl, directives } = vnodes.children[i];
@@ -88,21 +90,22 @@ class VDom {
       if (typeof vnode === 'string') continue;
       for (const name in directives) {
         const value = directives[name];
+
         for (const key of keys) {
           let hasKey = value.toString().includes(key);
-          let hasFunction;
+          let hasKeyInFunction = false;
 
-          for (const globalKey in this.$view) {
+          for (const globalKey in view) {
             if (
-              typeof this.$view[globalKey] === 'function' &&
-              this.$view[globalKey].toString().includes(`this.${globalKey}`)
+              typeof view[globalKey] === 'function' &&
+              view[globalKey].toString().includes(`this.${globalKey}`)
             ) {
-              hasFunction = true;
+              hasKeyInFunction = true;
               break;
             }
           }
 
-          if (hasKey || hasFunction) {
+          if (hasKey || hasKeyInFunction) {
             const el = document.querySelector(rootEl);
 
             renderDirective({

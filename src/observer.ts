@@ -5,7 +5,23 @@ const observer = (
 ): ProxyConstructor => {
   const handler = {
     get(target: Record<string, any>, key: string): any {
-      if (typeof target[key] === 'object' && target[key] !== null) {
+      if (
+        key === 'push' ||
+        key === 'pop' ||
+        key === 'shift' ||
+        key === 'unshift' ||
+        key === 'splice' ||
+        key === 'slice'
+      ) {
+        return (...args: any[]) => {
+          target[key].apply(target, args);
+        };
+      }
+      if (
+        typeof target[key] === 'object' &&
+        target[key] !== null &&
+        !(target[key] instanceof Array)
+      ) {
         return new Proxy(target[key], handler);
       } else {
         return target[key];
@@ -13,13 +29,18 @@ const observer = (
     },
     set(target: Record<string, any>, key: string, value: any): boolean {
       target[key] = value;
-      patch(vdom, [key]);
+      if (key !== 'length') patch(vdom, [key]);
+
       return true;
     },
     deleteProperty(target: Record<string, any>, key: string): boolean {
-      delete target[key];
-      patch(vdom, [key]);
-      return true;
+      if (key !== 'length') {
+        delete target[key];
+        patch(vdom, [key]);
+        return true;
+      } else {
+        return delete target[key];
+      }
     },
   };
   return new Proxy(data, handler);

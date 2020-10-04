@@ -14,6 +14,6 @@ export const onDirective = (
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
     
-    compute(value, view, false);
+    compute(value, view, true);
   };
 };
