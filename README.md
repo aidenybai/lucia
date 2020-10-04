@@ -1,8 +1,8 @@
-<img src="https://github.com/aidenybai/lucia/raw/master/.github/img/logo.svg" width="80px" align="right" />
+<img src=".github/img/logo.svg" width="80px" align="right" />
 
-# [Lucia](https://lucia.js.org) &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=%23C454FF&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=%23E676AA&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=%23FA8A7C&style=flat-square)
+# Lucia &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=7460E1&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=7460E1&style=flat-square)
 
-> Tiny library for tiny web apps (Currently heavily developed. Not recommended for production environments)
+Tiny library for tiny web apps (Currently heavily developed. Not recommended for production environments)
 
 - 🔮 **Declarative:** Lucia provides a straightforward API to create declarative views, allowing predictible and easy development.
 - 🧰 **Directive:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM through directive attributes.
