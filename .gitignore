@@ -1,8 +1,15 @@
+# NPM/Yarn
 node_modules/
-yarn.lock
 package-lock.json
-test.html
-dist/
-settings.json
+yarn.lock
 yarn-error.log
+
+# Testing
+test.html
+
+# Build source
+dist/
+
+# Misc
+settings.json
 .vscode/

@@ -1,17 +1,27 @@
+# NPM/Yarn
 node_modules/
-yarn.lock
 package-lock.json
+yarn.lock
+yarn-error.log
+
+# Testing
 test.html
+
+# Build Configs
 tsconfig.json
 rollup.config.js
-.prettierrc
 .gitignore
 .babelrc
+
+# Raw source
 src/
+
+# Linting
+.prettierrc
+
+# Misc
 .github/
 docs/
 settings.json
-yarn-error.log
-examples/
 .vscode/
 CNAME
