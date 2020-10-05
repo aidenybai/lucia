@@ -1,14 +1,14 @@
-<img src=".github/img/logo.svg" width="80px" align="right" />
+<img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" width="80px" align="right" />
 
 # Lucia &middot; ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=7460E1&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=7460E1&style=flat-square)
 
 Tiny library for tiny web apps (Currently heavily developed. Not recommended for production environments)
 
-- 🔮 **Declarative:** Lucia provides a straightforward API to create declarative views, allowing predictible and easy development.
-- 🧰 **Directive:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM through directive attributes.
-- 💥 **Reactive:** When the view is changed, the Virtual DOM will automatically react and will update and render the new view in realtime.
-- ⚡ **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not VNode diff, renders directives only if necessary by skipping static notes, and relies only on selectors.
-- 🗂️ **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change view data to mutate our loose Virtual DOM.
+- **Declarative:** Lucia provides a straightforward API to create declarative views, allowing predictible and easy development.
+- **Directive:** Lucia relies heavily on the concept of bringing development to the HTML, making it easier to visualize than interacting with the actual DOM through directive attributes.
+- **Reactive:** When the view is changed, the Virtual DOM will automatically react and will update and render the new view in realtime.
+- **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not VNode diff, renders directives only if necessary by skipping static notes, and relies only on selectors.
+- **Data-Driven:** Instead of using traditional direct DOM manipulation, Lucia provides an interface to change view data to mutate our loose Virtual DOM.
 
 ## Installation
 
@@ -121,7 +121,7 @@ Lucia.createApp({
 
 ### List Rendering
 
-We can also use the `*join` directive to render a list of items based on an array. Note that currently array mutators are currently not supported.
+We can also use the `*join` directive to render a list of items based on an array. Note that performance will be affected if using array mutators.
 
 ```html
 <div id="app">

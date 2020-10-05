@@ -79,7 +79,6 @@ class VDom {
   }
 
   public $patch(vnodes: any, keys: any[], recurse: any = false): Record<any, any> | any {
-    // Is not able to handle <Array>.push()
     if (!vnodes) return;
 
     const view = { ...this.$view };

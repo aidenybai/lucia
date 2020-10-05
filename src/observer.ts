@@ -1,27 +1,11 @@
 const observer = (
-  data: Function | any,
+  view: Function | any,
   patch: Function,
   vdom: Record<string, any> | null
 ): ProxyConstructor => {
   const handler = {
     get(target: Record<string, any>, key: string): any {
-      if (
-        key === 'push' ||
-        key === 'pop' ||
-        key === 'shift' ||
-        key === 'unshift' ||
-        key === 'splice' ||
-        key === 'slice'
-      ) {
-        return (...args: any[]) => {
-          target[key].apply(target, args);
-        };
-      }
-      if (
-        typeof target[key] === 'object' &&
-        target[key] !== null &&
-        !(target[key] instanceof Array)
-      ) {
+      if (typeof target[key] === 'object' && target[key] !== null) {
         return new Proxy(target[key], handler);
       } else {
         return target[key];
@@ -29,21 +13,37 @@ const observer = (
     },
     set(target: Record<string, any>, key: string, value: any): boolean {
       target[key] = value;
-      if (key !== 'length') patch(vdom, [key]);
+      // Support array mutators - note that it patches ALL arrays, not specific ones
+      if (key === 'length') {
+        let keys = [];
 
+        for (const key in view) {
+          if (view[key] instanceof Array) keys.push(key);
+        }
+
+        patch(vdom, keys);
+      } else {
+        patch(vdom, [key]);
+      }
       return true;
     },
     deleteProperty(target: Record<string, any>, key: string): boolean {
-      if (key !== 'length') {
-        delete target[key];
-        patch(vdom, [key]);
-        return true;
+      delete target[key];
+      if (key === 'length') {
+        let keys = [];
+
+        for (const key in view) {
+          if (view[key] instanceof Array) keys.push(key);
+        }
+
+        patch(vdom, keys);
       } else {
-        return delete target[key];
+        patch(vdom, [key]);
       }
+      return true;
     },
   };
-  return new Proxy(data, handler);
+  return new Proxy(view, handler);
 };
 
 export default observer;
