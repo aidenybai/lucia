@@ -15,13 +15,12 @@ const observer = (
       target[key] = value;
       // Support array mutators - note that it patches ALL arrays, not specific ones
       if (key === 'length') {
-        let keys = [];
-
-        for (const key in view) {
-          if (view[key] instanceof Array) keys.push(key);
-        }
-
-        patch(vdom, keys);
+        patch(
+          vdom,
+          Object.keys(view).filter((key: string) => {
+            return view[key] instanceof Array;
+          })
+        );
       } else {
         patch(vdom, [key]);
       }
@@ -30,13 +29,12 @@ const observer = (
     deleteProperty(target: Record<string, any>, key: string): boolean {
       delete target[key];
       if (key === 'length') {
-        let keys = [];
-
-        for (const key in view) {
-          if (view[key] instanceof Array) keys.push(key);
-        }
-
-        patch(vdom, keys);
+        patch(
+          vdom,
+          Object.keys(view).filter((key: string) => {
+            return view[key] instanceof Array;
+          })
+        );
       } else {
         patch(vdom, [key]);
       }
