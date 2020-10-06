@@ -22,7 +22,8 @@ src/
 # Misc
 .github/
 docs/
-settings.json
 .vscode/
 .idea/
+settings.json
 CNAME
+.DS_Store

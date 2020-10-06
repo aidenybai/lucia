@@ -11,6 +11,7 @@ test.html
 dist/
 
 # Misc
-settings.json
 .vscode/
-.idea
+.idea/
+settings.json
+.DS_Store
