@@ -6,5 +6,5 @@ export const ifDirective = (
   value: string | any,
   view: ProxyConstructor | any
 ) => {
-  el.hidden = compute(value, view) ? false : true;
+  el.hidden = !compute(value, view);
 };
