@@ -1,6 +1,6 @@
 import VDom from './vdom';
 
-class Lucia extends VDom {
+export class Lucia extends VDom {
   constructor(options: Record<string, any>) {
     super(options || {});
   }
@@ -9,5 +9,3 @@ class Lucia extends VDom {
 export const createApp = (options: Record<string, any>) => {
   return new Lucia(options);
 }
-
-export default Lucia;
