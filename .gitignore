@@ -13,3 +13,4 @@ dist/
 # Misc
 settings.json
 .vscode/
+.idea
