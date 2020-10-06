@@ -1,10 +1,10 @@
-![Lucia](https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/banner.svg)
+[![Lucia](https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/banner.svg)](https://lucia.js.org)
 
 ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=7460E1&labelColor=1D1E32&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=7460E1&labelColor=1D1E32&style=flat-square)
 
 ## What is Lucia?
 
-Lucia is a tiny JavaScript (TypeScript compatible) library for small SPAs and web apps with a API similar to Vue. Some features of Lucia are:
+Lucia is a tiny JavaScript (UMD compatible) library for small SPAs and web apps with a API similar to Vue. Some features of Lucia are:
 
 - **Declarative:** Lucia provides a straightforward API to create declarative views, allowing predictible and easy development.
 - **Reactive:** When the view is changed, the Virtual DOM will automatically react and will update and render the new view in realtime.
