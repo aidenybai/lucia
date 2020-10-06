@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9331ea62-5c83-4690-8487-01aafe6f7d05" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hwUgwnT2TWqpqH6FRdv6C9BYvh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9331ea62-5c83-4690-8487-01aafe6f7d05" name="Default Changelist" comment="" />
+      <created>1600921764176</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600921764176</updated>
+      <workItem from="1600921767011" duration="223000" />
+      <workItem from="1601538816663" duration="330000" />
+      <workItem from="1601540244436" duration="19000" />
+      <workItem from="1601600858720" duration="26000" />
+      <workItem from="1601600897152" duration="80000" />
+      <workItem from="1601952259513" duration="1374000" />
+      <workItem from="1601954656332" duration="10000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1899" height="246" key="GridCell.Tab.0.bottom" timestamp="1601953865771">
+      <screen x="-247" y="-1200" width="1920" height="1200" />
+    </state>
+    <state width="1899" height="246" key="GridCell.Tab.0.bottom/0.0.1440.900/-247.-1200.1920.1200@-247.-1200.1920.1200" timestamp="1601953865771" />
+    <state width="1419" height="171" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1600921991510" />
+    <state width="1899" height="246" key="GridCell.Tab.0.center" timestamp="1601953865769">
+      <screen x="-247" y="-1200" width="1920" height="1200" />
+    </state>
+    <state width="1899" height="246" key="GridCell.Tab.0.center/0.0.1440.900/-247.-1200.1920.1200@-247.-1200.1920.1200" timestamp="1601953865769" />
+    <state width="1419" height="171" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1600921991510" />
+    <state width="1899" height="246" key="GridCell.Tab.0.left" timestamp="1601953865768">
+      <screen x="-247" y="-1200" width="1920" height="1200" />
+    </state>
+    <state width="1899" height="246" key="GridCell.Tab.0.left/0.0.1440.900/-247.-1200.1920.1200@-247.-1200.1920.1200" timestamp="1601953865768" />
+    <state width="1419" height="171" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1600921991508" />
+    <state width="1899" height="246" key="GridCell.Tab.0.right" timestamp="1601953865770">
+      <screen x="-247" y="-1200" width="1920" height="1200" />
+    </state>
+    <state width="1899" height="246" key="GridCell.Tab.0.right/0.0.1440.900/-247.-1200.1920.1200@-247.-1200.1920.1200" timestamp="1601953865770" />
+    <state width="1419" height="171" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1600921991510" />
+    <state x="221" y="86" key="SettingsEditor" timestamp="1601600884680">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="221" y="86" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1601600884680" />
+  </component>
+</project>
