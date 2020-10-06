@@ -24,4 +24,5 @@ src/
 docs/
 settings.json
 .vscode/
+.idea/
 CNAME
