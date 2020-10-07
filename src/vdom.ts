@@ -83,8 +83,8 @@ class VDom {
 
     const view = { ...this.$view };
     for (let i = 0; i < vnodes.children.length; i++) {
-      let vnode,
-        { el: rootEl, directives } = vnodes.children[i];
+      let vnode = vnodes.children[i];
+      let { el: rootEl, directives } = vnodes.children[i];
 
       if (typeof vnode === 'string') continue;
       for (const name in directives) {
@@ -121,6 +121,7 @@ class VDom {
           }
         }
       }
+
       vnode = this.$patch(vnode, keys, true);
     }
     if (recurse) return vnodes;
