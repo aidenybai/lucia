@@ -20,7 +20,7 @@ class VDom {
   }
 
   public $createVNode(
-    el: string,
+    sel: string,
     {
       tagName,
       attributes = {},
@@ -34,7 +34,7 @@ class VDom {
     }
   ): Record<string, any> {
     return {
-      el,
+      sel,
       tagName,
       attributes,
       directives,
@@ -84,7 +84,7 @@ class VDom {
     const view = { ...this.$view };
     for (let i = 0; i < vnodes.children.length; i++) {
       let vnode = vnodes.children[i];
-      let { el: rootEl, directives } = vnodes.children[i];
+      let { sel, directives, attributes } = vnode;
 
       if (typeof vnode === 'string') continue;
       for (const name in directives) {
@@ -105,7 +105,9 @@ class VDom {
           }
 
           if (hasKey || hasKeyInFunction) {
-            const el = document.querySelector(rootEl);
+            const el = attributes.id
+              ? document.getElementById(attributes.id)
+              : document.querySelector(sel);
 
             renderDirective({
               el,

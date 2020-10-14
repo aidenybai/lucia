@@ -35,9 +35,9 @@ export const bindDirective = (
       }
       break;
     default:
-      const bindview = compute(value, view);
-      if (bindview) {
-        el.setAttribute(name.split(':')[1], bindview);
+      const out = compute(value, view);
+      if (out) {
+        el.setAttribute(name.split(':')[1], out);
       } else {
         el.removeAttribute(name.split(':')[1]);
       }

@@ -37,13 +37,19 @@ const nthSelectorNeeded = (selector: string, path: string): boolean => {
 };
 
 const buildPathString = (parents: Record<any, string>[]): string => {
-  const pathArr: any[] = [];
+  let pathArr: any[] = [];
 
   for (const parent of parents) {
     if (nthSelectorNeeded(parent.selector, pathArr.join(' > '))) {
       parent.selector += `:nth-of-type(${nthElement(parent.element)})`;
     }
     pathArr.push(parent.selector);
+  }
+
+  for (const path of pathArr) {
+    if (path.includes('#')) {
+      pathArr = pathArr.slice(pathArr.indexOf(path));
+    }
   }
 
   return pathArr.join(' > ');
