@@ -4,9 +4,10 @@
   "description": "Tiny library for tiny web apps.",
   "main": "dist/lucia.js",
   "browser": "dist/lucia.min.js",
+  "module": "dist/lucia.esm.js",
   "scripts": {
     "build": "del-cli dist/ && rollup -c",
-    "build:dev": "del-cli dist/ && rollup --watch -c"
+    "build:dev": "del-cli dist/ && rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,7 @@
     "@rollup/plugin-node-resolve": "8.0.1",
     "del-cli": "^3.0.1",
     "rollup": "2.15.0",
-    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-terser": "^7.0.2",
     "typescript": "3.9.5"
   }
 }

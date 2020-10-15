@@ -1,6 +1,6 @@
 import compute from '../helpers/compute';
 
-export const htmlDirective = (
+export const textDirective = (
   el: HTMLElement | any,
   _name: string,
   value: string | any,
@@ -9,8 +9,8 @@ export const htmlDirective = (
   const out = compute(value, view);
 
   if (out !== undefined) {
-    el.innerHTML = out;
+    el.textContent = out;
   } else { 
-    el.innerHTML = value;
+    el.textContent = value;
   }
 };

@@ -1,12 +1,16 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
-import { uglify } from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser';
 import { main, browser } from './package.json';
 
 const extensions = ['.js', '.ts'];
-
-const name = 'Lucia';
+const config = {
+  name: 'Lucia',
+  format: 'umd',
+  globals: {},
+  strict: false,
+};
 
 export default {
   input: './src/index.ts',
@@ -24,18 +28,12 @@ export default {
   output: [
     {
       file: main,
-      format: 'umd',
-      name,
-      globals: {},
-      strict: false,
+      ...config,
     },
     {
       file: browser,
-      format: 'umd',
-      plugins: uglify(),
-      name,
-      globals: {},
-      strict: false,
+      plugins: terser(),
+      ...config,
     },
   ],
 };

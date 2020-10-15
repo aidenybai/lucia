@@ -1,24 +1,26 @@
+import arrayEquals from './helpers/arrayEquals';
+
 const observer = (
   view: Function | any,
   patch: Function,
   vdom: Record<string, any> | null
 ): ProxyConstructor => {
   const handler = {
-    get(target: Record<string, any>, key: string): any {
+    get(target: Record<string, any>, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
         return new Proxy(target[key], handler);
       } else {
         return target[key];
       }
     },
-    set(target: Record<string, any>, key: string, value: any): boolean {
+    set(target: any, key: string, value: unknown): boolean {
       target[key] = value;
-      // Support array mutators - note that it patches ALL arrays, not specific ones
+      // Support array mutators - note that it patches ALL arrays, not specific ones or a weak arr compare
       if (key === 'length') {
         patch(
           vdom,
           Object.keys(view).filter((key: string) => {
-            return view[key] instanceof Array;
+            return view[key] instanceof Array && arrayEquals(target, view[key]);
           })
         );
       } else {

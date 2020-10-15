@@ -4,6 +4,7 @@ import { htmlDirective } from './directives/html';
 import { ifDirective } from './directives/if';
 import { modelDirective } from './directives/model';
 import { onDirective } from './directives/on';
+import { textDirective } from './directives/text';
 
 export default ({
   el,
@@ -11,9 +12,9 @@ export default ({
   value,
   view,
 }: {
-  el: HTMLElement | any;
+  el: HTMLBodyElement | null;
   name: string;
-  value: string | any;
+  value: string;
   view: ProxyConstructor | any;
 }) => {
   const directives: Record<string, Function> = {
@@ -23,6 +24,7 @@ export default ({
     if: ifDirective,
     model: modelDirective,
     on: onDirective,
+    text: textDirective,
   };
 
   const rootName = name.split(':')[0];

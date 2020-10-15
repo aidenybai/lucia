@@ -2,8 +2,15 @@ import observer from './observer';
 import renderDirective from './directives';
 import { getSelector, mapAttributes } from './helpers/selector';
 
+interface VNode {
+  tagName: string;
+  attributes: Record<string, string>;
+  directives: Record<string, string>;
+  children: Record<string, VNode | string>[];
+}
+
 class VDom {
-  $vdom: Record<string, any> | null;
+  $vdom: VNode | null;
   $view: ProxyConstructor | Record<string, any> | any;
 
   constructor(data: Record<string, any>) {
@@ -12,7 +19,7 @@ class VDom {
   }
 
   public mount(el: string | HTMLElement) {
-    this.$vdom = this.$buildVNode(typeof el === 'string' ? document.querySelector(el) : el);
+    this.$vdom = this.$buildVNodeTree(typeof el === 'string' ? document.querySelector(el) : el);
     this.$view = observer(this.$view, this.$patch.bind(this), this.$vdom);
 
     this.$patch(this.$vdom, Object.keys(this.$view));
@@ -21,17 +28,7 @@ class VDom {
 
   public $createVNode(
     sel: string,
-    {
-      tagName,
-      attributes = {},
-      directives = {},
-      children = [],
-    }: {
-      tagName: string;
-      attributes: Record<string, string>;
-      directives: Record<string, string>;
-      children: any[];
-    }
+    { tagName, attributes = {}, directives = {}, children = [] }: VNode
   ): Record<string, any> {
     return {
       sel,
@@ -42,9 +39,11 @@ class VDom {
     };
   }
 
-  public $buildVNode(el: any, recurse: boolean = false): Record<any, any> | any {
+  public $buildVNodeTree(el: Element | null, recurse: boolean = false): Record<any, any> | any {
+    if (!el) throw new Error('Please provide a Element');
+
     const children = [];
-    const targetChildNodes = el.childNodes;
+    const targetChildNodes = Array.prototype.slice.call(el.childNodes);
 
     for (const targetChildNode of targetChildNodes) {
       switch (targetChildNode.nodeType) {
@@ -58,7 +57,7 @@ class VDom {
               tagName: targetChildNode.tagName.toLowerCase(),
               attributes,
               directives,
-              children: this.$buildVNode(targetChildNode, true),
+              children: this.$buildVNodeTree(targetChildNode, true),
             })
           );
           break;

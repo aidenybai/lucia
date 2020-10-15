@@ -11,7 +11,7 @@
     "noImplicitAny": true,
     "declarationDir": "dist/types",
     "declaration": true,
-    "target": "esnext",
+    "target": "es5",
     "module": "esnext",
     "strict": true
   },

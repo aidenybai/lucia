@@ -30,7 +30,7 @@ Below is an example of a clicker game in Lucia.
 
 ```html
 <div id="app">
-  <button *on:click="increment()" *html="count"></button>
+  <button *on:click="increment()" *text="count"></button>
 </div>
 ```
 
@@ -49,12 +49,12 @@ Lucia.createApp(ClickerGame).mount('#app');
 
 ### Declarative Rendering
 
-At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `*html` directive:
+At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `*text` directive:
 
 ```html
 <div id="app">
-  <p *html="message"></p>
-  <p *html="message === 'Hello World!'"></p>
+  <p *text="message"></p>
+  <p *text="message === 'Hello World!'"></p>
 </div>
 ```
 
@@ -87,7 +87,7 @@ To let users interact with your app, we can use the `*on` directive to attach ev
 
 ```html
 <div id="app">
-  <button *on:click="announce()" *html="message"></button>
+  <button *on:click="announce()" *text="message"></button>
 </div>
 ```
 
@@ -142,7 +142,7 @@ You can use the `*model` directive to create two-way data bindings on form `inpu
 ```html
 <div id="app">
   <input *model="message" />
-  <p *html="message"></p>
+  <p *text="message"></p>
 </div>
 ```
 
