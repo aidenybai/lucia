@@ -10,38 +10,6 @@ Messages must be matched by the following regex:
 /^(revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|build|ci|chore|types|wip)(\(.+\))?: .{1,72}/;
 ```
 
-#### Examples
-
-Appears under "Features" header, `GuildMember` subheader:
-
-```
-feat(GuildMember): add 'tag' method
-```
-
-Appears under "Bug Fixes" header, `Guild` subheader, with a link to issue #28:
-
-```
-fix(Guild): handle events correctly
-
-close #28
-```
-
-Appears under "Performance Improvements" header, and under "Breaking Changes" with the breaking change explanation:
-
-```
-perf(core): improve patching by removing 'bar' option
-
-BREAKING CHANGE: The 'bar' option has been removed.
-```
-
-The following commit and commit `667ecc1` do not appear in the changelog if they are under the same release. If not, the revert commit appears under the "Reverts" header.
-
-```
-revert: feat(Managers): add Managers
-
-This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
-```
-
 ### Full Message Format
 
 A commit message consists of a **header**, **body** and **footer**. The header has a **type**, **scope** and **subject**:
