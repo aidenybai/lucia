@@ -29,52 +29,66 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 Below is an example of a clicker game in Lucia.
 
 ```html
-<div id="app">
-  <button *on:click="increment()" *text="count"></button>
+<div l-use="ClickerGame()">
+  <button l-on:click="addPoints(1)" l-text="points"></button>
 </div>
 ```
 
 ```js
-const ClickerGame = {
-  count: localStorage.count || 0,
-  increment() {
-    localStorage.count = ++this.count;
-  },
-};
-
-Lucia.createApp(ClickerGame).mount('#app');
+function ClickerGame() {
+  return {
+    points: localStorage.points || 0,
+    addPoints(amount = 1) {
+      this.points += amount;
+      localStorage.points = this.points;
+    },
+  };
+}
 ```
 
 ## Features
 
 Lucia relies on directives in markup to perform functions:
 
-| Directive                         | Description                                                                             |
-| --------------------------------- | --------------------------------------------------------------------------------------- |
-| [`*text`](#Declarative-Rendering) | Works similarly to `*bind`, but will update the `textContent` of an element.              |
-| [`*html`](#Declarative-Rendering) | Works similarly to `*bind`, but will update the `innerHTML` of an element.              |
-| [`x-if`](#Conditionals)           | Toggles display: none; on the element depending on expression (true or false).          |
-| [`*on`](#Event-Handlers)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
-| [`*bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
-| [`*join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
-| [`*model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
+| Directive                          | Description                                                                             |
+| ---------------------------------- | --------------------------------------------------------------------------------------- |
+| [`l-use`](#Creating-a-Component)   | Declares a new component scope.                                                         |
+| [`l-text`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
+| [`l-html`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
+| [`l-if`](#Conditionals)            | Toggles `display: none;` on the element depending on expression (true or false).        |
+| [`l-on`](#Event-Handlers)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
+| [`l-bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
+| [`l-join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
+| [`l-model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
+
+### Creating a Component
+
+Lucia allows us to create component scopes. It tells the library to initialize a new component with the following data object.
+
+```html
+<div l-use="{ message: 'Hello World' }">
+  <p l-text="message"></p>
+</div>
+```
 
 ### Declarative Rendering
 
-At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `*text` and `*html` directives:
+At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `l-text` and `l-html` directives:
 
 ```html
-<div id="app">
-  <p *text="message"></p>
-  <p *html="markupMessage"></p>
+<div l-use="DeclarativeRendering()">
+  <p l-text="message"></p>
+  <p l-html="markupMessage"></p>
 </div>
 ```
 
 ```js
-Lucia.createApp({
-  message: 'Hello World!',
-  markupMessage: '<span>Hello World with Markup!</span>',
-}).mount('#app');
+function DeclarativeRendering() {
+  return {
+    message: 'Hello World!',
+    markupMessage: '<span>Hello World with Markup!</span>',
+  };
+}
 ```
 
 ### Conditionals
@@ -82,87 +96,94 @@ Lucia.createApp({
 It’s easy to toggle the presence of an element, too:
 
 ```html
-<div id="app">
-  <button *if="!show">You can't see me</button>
-  <button *if="show">You can see me</button>
+<div l-use="Conditionals()">
+  <button l-if="!show">You can't see me</button>
+  <button l-if="show">You can see me</button>
 </div>
 ```
 
 ```js
-Lucia.createApp({
-  show: true,
-}).mount('#app');
+function Conditionals() {
+  return { show: true };
+}
 ```
 
 ### Event Handlers
 
-To let users interact with your app, we can use the `*on` directive to attach event listeners that invoke methods on our Lucia instances:
+To let users interact with your app, we can use the `l-on` directive to attach event listeners that invoke methods on our Lucia instances:
 
 ```html
-<div id="app">
-  <button *on:click="announce()" *text="message"></button>
+<div l-use="EventHandlers()">
+  <button l-on:click="announce()" l-text="message"></button>
 </div>
 ```
 
 ```js
-Lucia.createApp({
-  message: 'Hello world!',
-  announce() {
-    alert(this.message);
-  },
-}).mount('#app');
+function EventHandlers() {
+  return {
+    message: 'Hello world!',
+    announce() {
+      alert(this.message);
+    },
+  };
+}
 ```
 
 ### Attribute Binding
 
-In addition to text interpolation, we can also bind element attributes using the `*bind` directive:
+In addition to text interpolation, we can also bind element attributes using the `l-bind` directive:
 
 ```html
-<div id="app">
-  <h1 *bind:class="{ hello: show }">Classes are cool</h1>
-  <h1 *bind:style="color">Styles are sassy</h1>
+<div l-use="AttributeBinding()">
+  <h1 l-bind:class="{ hello: show }">Classes are cool</h1>
+  <h1 l-bind:style="color">Styles are sassy</h1>
 </div>
 ```
 
 ```js
-Lucia.createApp({
-  show: true,
-  // You can also reference data vs inputing an object in the directive itself
-  color: { color: 'purple' },
-}).mount('#app');
+function AttributeBinding() {
+  return {
+    show: true,
+    color: { color: 'purple' },
+  };
+}
 ```
 
 ### List Rendering
 
-We can also use the `*join` directive to render a list of items based on an array. Note that performance will be affected if using array mutators.
+We can also use the `l-join` directive to render a list of items based on an array. Note that performance will be affected if using array mutators.
 
 ```html
-<div id="app">
-  <p *join="fruits by , "></p>
+<div l-use="ListRendering()">
+  <p l-join="fruits by , "></p>
 </div>
 ```
 
 ```js
-Lucia.createApp({
-  fruits: ['apple', 'orange', 'banana'],
-}).mount('#app');
+function ListRendering() {
+  return {
+    fruits: ['apple', 'orange', 'banana'],
+  };
+}
 ```
 
 ### Form Input Bindings
 
-You can use the `*model` directive to create two-way data bindings on form `input`, `textarea`, and `select` elements.
+You can use the `l-model` directive to create two-way data bindings on form `input`, `textarea`, and `select` elements.
 
 ```html
-<div id="app">
-  <input *model="message" />
-  <p *text="message"></p>
+<div l-use="FormInputBindings()">
+  <input l-model="message" />
+  <p l-text="message"></p>
 </div>
 ```
 
 ```js
-Lucia.createApp({
-  message: 'Nothing submitted yet',
-}).mount('#app');
+function FormInputBindings() {
+  return {
+    message: 'Nothing submitted yet',
+  };
+}
 ```
 
 ## License

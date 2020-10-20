@@ -1,9 +1,9 @@
 import observer from './observer';
 import renderDirective from './directives';
-import { getSelector, mapAttributes } from './helpers/selector';
+import { getSelector, getProps } from './helpers/selector';
 
 interface VNode {
-  tagName: string;
+  tag: string;
   attributes: Record<string, string>;
   directives: Record<string, string>;
   children: Record<string, VNode | string>[];
@@ -18,7 +18,7 @@ class VDom {
     this.$view = data;
   }
 
-  public mount(el: string | HTMLElement) {
+  public mount(el: string | Element) {
     this.$vdom = this.$buildVNodeTree(typeof el === 'string' ? document.querySelector(el) : el);
     this.$view = observer(this.$view, this.$patch.bind(this), this.$vdom);
 
@@ -28,11 +28,11 @@ class VDom {
 
   public $createVNode(
     sel: string,
-    { tagName, attributes = {}, directives = {}, children = [] }: VNode
+    { tag, attributes = {}, directives = {}, children = [] }: VNode
   ): Record<string, any> {
     return {
       sel,
-      tagName,
+      tag,
       attributes,
       directives,
       children,
@@ -51,10 +51,10 @@ class VDom {
           children.push(targetChildNode.nodeValue);
           break;
         case Node.ELEMENT_NODE:
-          const { attributes, directives } = mapAttributes(targetChildNode);
+          const { attributes, directives } = getProps(targetChildNode);
           children.push(
             this.$createVNode(getSelector(targetChildNode), {
-              tagName: targetChildNode.tagName.toLowerCase(),
+              tag: targetChildNode.tagName.toLowerCase(),
               attributes,
               directives,
               children: this.$buildVNodeTree(targetChildNode, true),
@@ -64,12 +64,12 @@ class VDom {
       }
     }
 
-    const { attributes, directives } = mapAttributes(el);
+    const { attributes, directives } = getProps(el);
 
     if (recurse) return children;
     else {
       return this.$createVNode(getSelector(el), {
-        tagName: el.tagName.toLowerCase(),
+        tag: el.tagName.toLowerCase(),
         attributes,
         directives,
         children,
