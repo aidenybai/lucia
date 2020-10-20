@@ -1,30 +1,29 @@
 // Adapted from https://github.com/zypox/dom-element-path
 
-const parentElements = (element: HTMLElement | any): Record<any, string>[] => {
+const parentElements = (el: Element | any): Record<any, Element | string | any>[] => {
   const parents = [];
-  while (element) {
-    const tagName = element.nodeName.toLowerCase();
-    const cssId = element.id ? `#${element.id}` : '';
-    const cssClass = element.className ? `.${element.className.replace(/\s+/g, '.')}` : '';
+  while (el) {
+    const tagName = el.nodeName.toLowerCase();
+    const cssId = el.id ? `#${el.id}` : '';
+    const cssClass = el.className ? `.${el.className.replace(/\s+/g, '.')}` : '';
 
     parents.unshift({
-      element,
+      el,
       selector: tagName + cssId + cssClass,
     });
-
-    element = element.parentNode !== document ? element.parentNode : false;
+    el = el.parentNode !== document ? el.parentNode : false;
   }
 
   return parents;
 };
 
-const nthElement = (element: HTMLElement | any): number => {
-  let el = element;
+const nthElement = (el: Element | any): number => {
+  let element = el;
   let nth = 1;
 
-  while (el.previousElementSibling !== null) {
-    if (el.previousElementSibling.nodeName === element.nodeName) nth++;
-    el = el.previousElementSibling;
+  while (element.previousElementSibling !== null) {
+    if (element.previousElementSibling.nodeName === el.nodeName) nth++;
+    element = element.previousElementSibling;
   }
 
   return nth;
@@ -41,7 +40,7 @@ const buildPathString = (parents: Record<any, string>[]): string => {
 
   for (const parent of parents) {
     if (nthSelectorNeeded(parent.selector, pathArr.join(' > '))) {
-      parent.selector += `:nth-of-type(${nthElement(parent.element)})`;
+      parent.selector += `:nth-of-type(${nthElement(parent.el)})`;
     }
     pathArr.push(parent.selector);
   }
@@ -71,6 +70,6 @@ export const mapAttributes = (el: Record<string, any>): Record<string, any> => {
   return { attributes, directives };
 };
 
-export const getSelector = (element: HTMLElement | any) => {
-  return buildPathString(parentElements(element));
+export const getSelector = (el: HTMLElement | any) => {
+  return buildPathString(parentElements(el));
 };

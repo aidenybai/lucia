@@ -8,19 +8,19 @@ export const bindDirective = (
 ) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const classview = compute(value, view, true);
-      if (typeof classview === 'string') {
-        return el.setAttribute('class', `${el.className} ${classview}`.trim());
+      const classView = compute(value, view, true);
+      if (typeof classView === 'string') {
+        return el.setAttribute('class', `${el.className} ${classView}`.trim());
       }
-      if (classview instanceof Array) {
-        return el.setAttribute('class', `${el.className} ${classview.join(' ').trim()}`);
+      if (classView instanceof Array) {
+        return el.setAttribute('class', `${el.className} ${classView.join(' ').trim()}`);
       } else {
         const classes = [];
-        for (const key in classview) {
-          if (classview[key]) classes.push(key);
+        for (const key in classView) {
+          if (classView[key]) classes.push(key);
         }
         if (classes.length > 0) {
-          return el.setAttribute('class', `${el.className} ${classview.join(' ').trim()}`);
+          return el.setAttribute('class', `${el.className} ${classView.join(' ').trim()}`);
         } else if (el.className.length.trim() > 0) {
           return el.setAttribute('class', el.className);
         } else {
@@ -28,10 +28,10 @@ export const bindDirective = (
         }
       }
     case 'style':
-      const styleview = compute(value, view);
+      const styleView = compute(value, view);
       el.removeAttribute('style');
-      for (const key in styleview) {
-        el.style[key] = styleview[key];
+      for (const key in styleView) {
+        el.style[key] = styleView[key];
       }
       break;
     default:

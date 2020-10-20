@@ -12,7 +12,7 @@ export default ({
   value,
   view,
 }: {
-  el: HTMLBodyElement | null;
+  el: Element | null;
   name: string;
   value: string;
   view: ProxyConstructor | any;

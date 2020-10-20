@@ -4,7 +4,7 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import { main, browser } from './package.json';
 
-const extensions = ['.js', '.ts'];
+const extensions = ['.ts'];
 const config = {
   name: 'Lucia',
   format: 'umd',

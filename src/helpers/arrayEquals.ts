@@ -1,9 +1,9 @@
-const arrayEquals = (first: unknown[], second: unknown[]) => {
+const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
   return (
-    first instanceof Array &&
-    second instanceof Array &&
-    first.length === second.length &&
-    first.every((value, index) => value === second[index])
+    firstArray instanceof Array &&
+    secondArray instanceof Array &&
+    firstArray.length === secondArray.length &&
+    firstArray.every((value: unknown, i: number) => value === secondArray[i])
   );
 };
 

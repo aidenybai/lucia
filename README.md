@@ -4,11 +4,11 @@
 
 ## What is Lucia?
 
-Lucia is a tiny JavaScript (UMD compatible) library for small SPAs and web apps with a API similar to Vue. Some features of Lucia are:
+Lucia is a tiny JavaScript (UMD compatible) library as a drop-in replacement for jQuery and vanilla JavaScript web apps. Some features of Lucia are:
 
-- **Declarative:** Lucia provides a straightforward API to create declarative views, allowing predictible and easy development.
-- **Reactive:** When the view is changed, the Virtual DOM will automatically react and will update and render the new view in realtime.
-- **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not VNode diff, renders directives only if necessary by skipping static notes, and relies only on selectors.
+- **Declarative:** Lucia provides a declarative API similar to Vue to create views, making development predictible and intiuitive through markup-centric code.
+- **Reactive:** When the view is changed, the interal reference Virtual DOM will automatically react and will update and render the new view in realtime.
+- **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not use a tranditional VDom, rather it renders directives only if necessary by skipping static nodes through selectors.
 
 ## Installation
 
@@ -47,20 +47,33 @@ Lucia.createApp(ClickerGame).mount('#app');
 
 ## Features
 
+Lucia relies on directives in markup to perform functions:
+
+| Directive                         | Description                                                                             |
+| --------------------------------- | --------------------------------------------------------------------------------------- |
+| [`*text`](#Declarative-Rendering) | Works similarly to `*bind`, but will update the `textContent` of an element.              |
+| [`*html`](#Declarative-Rendering) | Works similarly to `*bind`, but will update the `innerHTML` of an element.              |
+| [`x-if`](#Conditionals)           | Toggles display: none; on the element depending on expression (true or false).          |
+| [`*on`](#Event-Handlers)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
+| [`*bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
+| [`*join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
+| [`*model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
+
 ### Declarative Rendering
 
-At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `*text` directive:
+At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `*text` and `*html` directives:
 
 ```html
 <div id="app">
   <p *text="message"></p>
-  <p *text="message === 'Hello World!'"></p>
+  <p *html="markupMessage"></p>
 </div>
 ```
 
 ```js
 Lucia.createApp({
   message: 'Hello World!',
+  markupMessage: '<span>Hello World with Markup!</span>',
 }).mount('#app');
 ```
 

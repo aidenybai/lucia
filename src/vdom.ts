@@ -115,9 +115,6 @@ class VDom {
               view: this.$view,
             });
 
-            try {
-              el.removeAttribute(`*${name}`);
-            } catch (err) {}
             break;
           }
         }
