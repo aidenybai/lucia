@@ -9,7 +9,9 @@
     "dev": "del-cli dist/ && rollup -c -w",
     "build": "npm run build:src && npm run build:docs",
     "build:src": "del-cli dist/ && rollup -c",
-    "build:docs": "typedoc --out docs src --plugin typedoc-plugin-nojekyll",
+    "build:docs": "npm run build:typedoc && npm run build:gh-pages",
+    "build:typedoc": "typedoc --out docs src",
+    "build:gh-pages": "touch docs/.nojekyll && echo 'lucia.js.org' > docs/CNAME",
     "test": "exit 0"
   },
   "repository": {
@@ -47,7 +49,6 @@
     "rollup": "2.15.0",
     "rollup-plugin-terser": "^7.0.2",
     "typedoc": "^0.19.2",
-    "typedoc-plugin-nojekyll": "^1.0.1",
     "typescript": "^4.0.3"
   }
 }
