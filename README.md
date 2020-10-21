@@ -8,7 +8,7 @@ Lucia is a tiny JavaScript (UMD compatible) library as a drop-in replacement for
 
 - **Declarative:** Lucia provides a declarative API similar to Vue to create views, making development predictible and intiuitive through markup-centric code.
 - **Reactive:** When the view is changed, the interal reference Virtual DOM will automatically react and will update and render the new view in realtime.
-- **Lightweight:** Lucia is extremely light (~3kb min+brotli) and performant as it does not use a tranditional VDom, rather it renders directives only if necessary by skipping static nodes through selectors.
+- **Lightweight:** Lucia is extremely light (~4kb min+brotli) and performant as it does not use a tranditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through selectors.
 
 ## Installation
 
@@ -16,12 +16,12 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 
 ```html
 <!-- development version, includes helpful console warnings -->
-<script src="https://unpkg.com/lucia/dist/lucia.js"></script>
+<script src="https://unpkg.com/lucia/dist/lucia.js" defer></script>
 ```
 
 ```html
 <!-- production version, optimized for size and speed -->
-<script src="https://unpkg.com/lucia"></script>
+<script src="https://unpkg.com/lucia" defer></script>
 ```
 
 ## Example
@@ -35,7 +35,7 @@ Below is an example of a clicker game in Lucia.
 ```
 
 ```js
-function ClickerGame() {
+const ClickerGame = () => {
   return {
     points: localStorage.points || 0,
     addPoints(amount = 1) {

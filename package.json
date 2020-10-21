@@ -6,8 +6,11 @@
   "browser": "dist/lucia.min.js",
   "module": "dist/lucia.esm.js",
   "scripts": {
-    "build": "del-cli dist/ && rollup -c",
-    "build:dev": "del-cli dist/ && rollup -c -w"
+    "dev": "del-cli dist/ && rollup -c -w",
+    "build": "npm run build:src && npm run build:docs",
+    "build:src": "del-cli dist/ && rollup -c",
+    "build:docs": "typedoc --out docs src",
+    "test": "exit 0"
   },
   "repository": {
     "type": "git",
@@ -42,6 +45,8 @@
     "@rollup/plugin-node-resolve": "8.0.1",
     "del-cli": "^3.0.1",
     "rollup": "2.15.0",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "typedoc": "^0.19.2",
+    "typescript": "^4.0.3"
   }
 }
