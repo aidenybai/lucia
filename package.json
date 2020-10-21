@@ -11,7 +11,7 @@
     "build:src": "del-cli dist/ && rollup -c",
     "build:docs": "npm run build:typedoc && npm run build:gh-pages",
     "build:typedoc": "typedoc --out docs src",
-    "build:gh-pages": "touch docs/.nojekyll && echo 'lucia.js.org' > docs/CNAME",
+    "build:gh-pages": "touch docs/.nojekyll && echo lucia.js.org > docs/CNAME",
     "test": "exit 0"
   },
   "repository": {
