@@ -8,9 +8,7 @@
     "dev": "del-cli dist/ && rollup -c -w",
     "build": "npm run build:src && npm run build:docs",
     "build:src": "del-cli dist/ && rollup -c",
-    "build:docs": "npm run build:typedoc && npm run build:gh-pages",
-    "build:typedoc": "typedoc --out docs src",
-    "build:gh-pages": "touch docs/.nojekyll && echo lucia.js.org > docs/CNAME",
+    "build:docs": "typedoc --out docs src",
     "test": "exit 0"
   },
   "repository": {

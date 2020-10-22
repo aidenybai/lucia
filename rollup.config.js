@@ -4,7 +4,6 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import { main, browser } from './package.json';
 
-const extensions = ['.ts'];
 const config = {
   name: 'Lucia',
   format: 'umd',
@@ -16,10 +15,10 @@ export default {
   input: './src/index.ts',
   external: [],
   plugins: [
-    resolve({ extensions }),
+    resolve({ extensions: ['.ts'] }),
     commonjs(),
     babel({
-      extensions,
+      extensions: ['.ts'],
       babelHelpers: 'bundled',
       include: ['src/**/*'],
     }),
