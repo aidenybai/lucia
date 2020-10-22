@@ -5,7 +5,10 @@ const parentElements = (el: Element | any): Record<any, Element | string | any>[
   while (el) {
     const tagName = el.nodeName.toLowerCase();
     const cssId = el.id ? `#${el.id}` : '';
-    const cssClass = el.className ? `.${el.className.replace(/\s+/g, '.')}` : '';
+    let cssClass: string = '';
+    if (el.className && typeof el.className === 'string') {
+      cssClass = `.${el.className.replace(/\s+/g, '.').replace(/[:*+?^${}()|[\]\\]/gi, '\\$&')}`;
+    }
 
     parents.unshift({
       el,

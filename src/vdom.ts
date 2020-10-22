@@ -13,9 +13,9 @@ class VDom {
   $vdom: VNode | null;
   $view: ProxyConstructor | Record<string, any> | any;
 
-  constructor(data: Record<string, any>) {
+  constructor(options: Record<string, any>) {
     this.$vdom = null;
-    this.$view = data;
+    this.$view = options;
   }
 
   public mount(el: string | Element) {
