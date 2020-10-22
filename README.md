@@ -26,24 +26,12 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 
 ## Example
 
-Below is an example of a clicker game in Lucia.
+Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
 
 ```html
-<div l-use="ClickerGame()">
-  <button l-on:click="addPoints(1)" l-text="points"></button>
+<div l-use="{ count: 0 }">
+  <button l-text="count" l-on:click="++count"></button>
 </div>
-```
-
-```js
-const ClickerGame = () => {
-  return {
-    points: localStorage.points || 0,
-    addPoints(amount = 1) {
-      this.points += amount;
-      localStorage.points = this.points;
-    },
-  };
-}
 ```
 
 ## Features
