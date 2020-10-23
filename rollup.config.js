@@ -6,7 +6,6 @@ import { main, browser } from './package.json';
 
 const config = {
   name: 'Lucia',
-  format: 'umd',
   globals: {},
   strict: false,
 };
@@ -27,11 +26,35 @@ export default {
   output: [
     {
       file: main,
+      format: 'umd',
       ...config,
     },
     {
       file: browser,
       plugins: terser(),
+      format: 'umd',
+      ...config,
+    },
+    {
+      file: 'dist/lucia.esm.js',
+      format: 'esm',
+      ...config,
+    },
+    {
+      file: 'dist/lucia.esm.min.js',
+      plugins: terser(),
+      format: 'esm',
+      ...config,
+    },
+    {
+      file: 'dist/lucia.cjs.js',
+      format: 'cjs',
+      ...config,
+    },
+    {
+      file: 'dist/lucia.cjs.min.js',
+      plugins: terser(),
+      format: 'cjs',
       ...config,
     },
   ],

@@ -8,7 +8,7 @@ Lucia is a tiny JavaScript (UMD compatible) library as a drop-in replacement for
 
 - **Declarative:** Lucia provides a declarative API similar to Vue to create views, making development predictible and intiuitive through markup-centric code.
 - **Reactive:** When the view is changed, the interal reference Virtual DOM will automatically react and will update and render the new view in realtime.
-- **Lightweight:** Lucia is extremely light (~4kb min+brotli) and performant as it does not use a tranditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through selectors.
+- **Lightweight:** Lucia is extremely light (~4kb min+brotli) and performant as it does not use a traditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through selectors.
 
 ## Installation
 
