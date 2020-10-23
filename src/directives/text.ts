@@ -9,8 +9,8 @@ export const textDirective = (
   const out = compute(value, view);
 
   if (out !== undefined) {
-    el.textContent = out;
-  } else { 
+    el.textContent = value + out;
+  } else {
     el.textContent = value;
   }
 };
