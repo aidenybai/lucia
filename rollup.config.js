@@ -57,5 +57,16 @@ export default {
       format: 'cjs',
       ...config,
     },
+    {
+      file: 'dist/lucia.iife.js',
+      format: 'iife',
+      ...config,
+    },
+    {
+      file: 'dist/lucia.iife.min.js',
+      plugins: terser(),
+      format: 'iife',
+      ...config,
+    },
   ],
 };
