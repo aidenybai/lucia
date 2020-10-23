@@ -1,9 +1,5 @@
-const wrapScope = (expression: string): string => {
-  return `(function(){with(_){${expression}}})()`;
-};
-
 const computeProperties = (expression: string, _: unknown, returnable: boolean = true): any => {
-  return eval(wrapScope(returnable ? `return ${expression}` : expression));
+  return new Function(returnable ? `return ${expression}` : expression).bind(_);
 };
 
 export default computeProperties;
