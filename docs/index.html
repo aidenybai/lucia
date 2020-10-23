@@ -86,19 +86,10 @@
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h2>Example</h2>
 				</a>
-				<p>Below is an example of a clicker game in Lucia.</p>
-				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">l-use</span>=<span class="hljs-string">&quot;ClickerGame()&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">l-on:click</span>=<span class="hljs-string">&quot;addPoints(1)&quot;</span> <span class="hljs-attr">l-text</span>=<span class="hljs-string">&quot;points&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+				<p>Below is an example of a clicker game in Lucia. No, your eyes aren&#39;t fooling you - it&#39;s really that simple.</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">l-use</span>=<span class="hljs-string">&quot;{ count: 0 }&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">l-text</span>=<span class="hljs-string">&quot;count&quot;</span> <span class="hljs-attr">l-on:click</span>=<span class="hljs-string">&quot;++count&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> ClickerGame = <span class="hljs-function">() =&gt;</span> {
-  <span class="hljs-keyword">return</span> {
-    <span class="hljs-attr">points</span>: <span class="hljs-built_in">localStorage</span>.points || <span class="hljs-number">0</span>,
-    <span class="hljs-function"><span class="hljs-title">addPoints</span>(<span class="hljs-params">amount = <span class="hljs-number">1</span></span>)</span> {
-      <span class="hljs-built_in">this</span>.points += amount;
-      <span class="hljs-built_in">localStorage</span>.points = <span class="hljs-built_in">this</span>.points;
-    },
-  };
-}</code></pre>
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h2>Features</h2>
 				</a>

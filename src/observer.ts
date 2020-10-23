@@ -15,7 +15,6 @@ const observer = (
     },
     set(target: any, key: string, value: unknown): boolean {
       target[key] = value;
-      // Support array mutators - note that it patches ALL arrays, not specific ones or a weak arr compare
       if (key === 'length') {
         patch(
           vdom,
