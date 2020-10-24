@@ -6,6 +6,7 @@ yarn-error.log
 
 # Testing
 test.html
+coverage
 
 # Build source
 dist/
