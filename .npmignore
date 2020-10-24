@@ -18,6 +18,7 @@ src/
 
 # Linting
 .prettierrc
+.prettierignore
 
 # Misc
 .github/
