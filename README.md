@@ -160,16 +160,18 @@ function ListRendering() {
 You can use the `l-model` directive to create two-way data bindings on form `input`, `textarea`, and `select` elements.
 
 ```html
-<div l-use="FormInputBindings">
+<div l-use="FormInputBindings()">
   <input l-model="message" />
   <p l-text="message"></p>
 </div>
 ```
 
 ```js
-var FormInputBindings = {
-  message: 'Nothing submitted yet',
-};
+function FormInputBindings() {
+  return {
+    message: 'Nothing submitted yet',
+  };
+}
 ```
 
 ## License
