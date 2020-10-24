@@ -8,7 +8,7 @@ export const bindDirective = (
 ) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const classView = compute(value, view, true);
+      const classView = compute(value, view);
       if (typeof classView === 'string') {
         return el.setAttribute('class', `${el.className} ${classView}`.trim());
       }
