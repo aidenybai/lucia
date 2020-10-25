@@ -10,13 +10,16 @@ export const createApp = (options: Record<string, unknown>) => {
   return new Lucia(options);
 };
 
+export const components: Lucia[] = [];
+
 document.addEventListener('DOMContentLoaded', () => {
-  const components = Array.from(document.querySelectorAll('[l-use]'));
-  
-  for (const component of components) {
-    const options = component.getAttribute('l-use');
+  const elements = Array.from(document.querySelectorAll('[l-use]'));
+
+  for (const el of elements) {
+    const options = el.getAttribute('l-use');
     if (options === null) return;
     const app = createApp(new Function(`return (${options})`)());
-    app.mount(component);
+    components.push(app);
+    app.mount(el);
   }
 });

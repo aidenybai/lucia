@@ -16,12 +16,12 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 
 ```html
 <!-- development version, includes helpful console warnings -->
-<script src="https://unpkg.com/lucia/dist/lucia.js" defer></script>
+<script src="https://unpkg.com/lucia/dist/lucia.js"></script>
 ```
 
 ```html
 <!-- production version, optimized for size and speed -->
-<script src="https://unpkg.com/lucia" defer></script>
+<script src="https://unpkg.com/lucia"></script>
 ```
 
 ## Example
@@ -48,6 +48,7 @@ Lucia relies on directives in markup to perform functions:
 | [`l-bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
 | [`l-join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
 | [`l-model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
+| [`l-watch`](#Watchers)             | Invokes expression on initialize or change of element.                                  |
 
 ### Creating a Component
 
@@ -170,6 +171,25 @@ You can use the `l-model` directive to create two-way data bindings on form `inp
 function FormInputBindings() {
   return {
     message: 'Nothing submitted yet',
+  };
+}
+```
+
+### Watchers
+
+You can use the `l-watch` directive to create a hook when the element is updated.
+
+```html
+<div l-use="FormInputBindings()">
+  <input l-model="message" />
+  <p l-text="message" l-watch="console.log(`message changed to ${message}`)"></p>
+</div>
+```
+
+```js
+function Watchers() {
+  return {
+    message: 'Hello World',
   };
 }
 ```

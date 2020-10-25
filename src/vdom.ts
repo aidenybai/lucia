@@ -86,38 +86,36 @@ class VDom {
       let { sel, directives, attributes } = vnode;
 
       if (typeof vnode === 'string') continue;
+
+      const affectedDirectives = [];
       for (const name in directives) {
         const value = directives[name];
-
-        for (const key of keys) {
-          let hasKey = value.toString().includes(key);
-          let hasKeyInFunction = false;
-
-          for (const globalKey in view) {
-            if (
-              typeof view[globalKey] === 'function' &&
-              view[globalKey].toString().includes(`this.${globalKey}`)
-            ) {
-              hasKeyInFunction = true;
-              break;
-            }
-          }
-
-          if (hasKey || hasKeyInFunction) {
-            const el = attributes.id
-              ? document.getElementById(attributes.id)
-              : document.querySelector(sel);
-
-            renderDirective({
-              el,
-              name,
-              value,
-              view: this.$view,
-            });
-
-            break;
-          }
+        if (
+          keys.some((key) => value.toString().includes(key)) ||
+          Object.keys(view).some((key: string) => {
+            return typeof view[key] === 'function' && view[key].toString().includes(`this.${key}`);
+          })
+        ) {
+          affectedDirectives.push(name);
         }
+      }
+
+      if (affectedDirectives.length > 0 && Object.keys(directives).includes('watch')) {
+        affectedDirectives.push('watch');
+      }
+
+      for (const name of affectedDirectives) {
+        const value = directives[name];
+        const el = attributes.id
+          ? document.getElementById(attributes.id)
+          : document.querySelector(sel);
+
+        renderDirective({
+          el,
+          name,
+          value,
+          view: this.$view,
+        });
       }
 
       vnode = this.$patch(vnode, keys, true);
