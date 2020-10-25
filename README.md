@@ -10,7 +10,7 @@ Lucia is a tiny JavaScript (UMD compatible) library that serves as a bridge betw
 - **Reactive:** When the view is changed, the internal reference Virtual DOM will automatically react and will update and render the new view in realtime.
 - **Lightweight:** Lucia is extremely light (~4kb min+brotli) and performant as it does not use a traditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through selectors.
 
-> Right off the bat it should be noted that Lucia should not be implemented in all use cases. Lucia aims to tackle projects that need to be quickly implemented as an experiment, and this by extension doesn't make it very good for production environments. If you are looking for something established and widely used with a similar API to Lucia, check out the [acknowledgments](#Acknowledgements).
+> Right off the bat it should be noted that Lucia should not be implemented in all use cases. Lucia aims to tackle projects that need to be quickly implemented as an experiment, and this by extension doesn't make it very good for production environments. If you are looking for something established and widely used with a similar API to Lucia, check out the [similar projects](#Similar-Projects).
 
 ## Installation
 
@@ -195,6 +195,16 @@ function Watchers() {
   };
 }
 ```
+
+## Similar Projects
+
+If you're looking for something production-ready and is widely that has a API similar to Lucia, check these projects out!
+- [Alpine](https://github.com/alpinejs/alpine) - A rugged, minimal framework for composing JavaScript behavior in your markup.
+- [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
+- [Intercooler.js](https://github.com/intercoolerjs/intercooler-js) - Making AJAX as easy as anchor tags.
+- [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
+- [Htmx](https://github.com/bigskysoftware/htmx) - </> htmx - high power tools for HTML
+- [Unpoly](https://github.com/unpoly/unpoly) - Unobtrusive Javascript Framework for server-side applications
 
 ## License
 
