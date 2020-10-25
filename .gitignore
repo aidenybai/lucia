@@ -10,6 +10,7 @@ coverage
 
 # Build source
 dist/
+docs/
 
 # Misc
 .vscode/
