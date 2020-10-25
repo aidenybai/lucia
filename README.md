@@ -4,11 +4,13 @@
 
 ## What is Lucia?
 
-Lucia is a tiny JavaScript (UMD compatible) library as a drop-in replacement for jQuery and vanilla JavaScript web apps. Some features of Lucia are:
+Lucia is a tiny JavaScript (UMD compatible) library that serves as a bridge between vanilla JavaScript and Vue. Some features of Lucia are:
 
-- **Declarative:** Lucia provides a declarative API similar to Vue to create views, making development predictible and intiuitive through markup-centric code.
+- **Declarative:** Lucia provides a declarative API similar to Vue/Alpine to create views, making development predictible and intiuitive through markup-centric code.
 - **Reactive:** When the view is changed, the interal reference Virtual DOM will automatically react and will update and render the new view in realtime.
 - **Lightweight:** Lucia is extremely light (~4kb min+brotli) and performant as it does not use a traditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through selectors.
+
+> Right off the bat it should be noted that Lucia should not be implemented in all use cases. Lucia aims to tackle projects that need to be quickly implemented as an experiment, and this by extension doesn't make it very good for production environments. If you are looking for something established and widely used with a similar API to Lucia, check out the [acknowledgements](#Acknowledgements).
 
 ## Installation
 
@@ -207,6 +209,6 @@ This project could not have been created with the inspiration from dedicated dev
 - [Alpine](https://github.com/alpinejs/alpine) for the component scope syntax as well as great documentation.
 - [Moon](https://github.com/kbrsh/moon) for the initial itch to start a lightweight JavaScript library.
 
-As well as the developers and [contributors](https://github.com/aidenybai/lucia/graphs/contributors) of this project.
+As well as the developers, awesome [contributors](https://github.com/aidenybai/lucia/graphs/contributors), and the CHS Magnet Program for providing this opportunity to me.
 
 ＼＿ﾍ(◕‿◕ ✰)

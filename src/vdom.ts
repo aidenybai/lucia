@@ -26,6 +26,11 @@ class VDom {
     return this.$view;
   }
 
+  public unmount() {
+    this.$vdom = null;
+    this.$view = null;
+  }
+
   public $createVNode(
     sel: string,
     { tag, attributes = {}, directives = {}, children = [] }: VNode
