@@ -177,3 +177,16 @@ function FormInputBindings() {
 ## License
 
 Lucia is [MIT licensed](LICENSE.md).
+
+## Acknowledgements
+
+This project could not have been created with the inspiration from dedicated developers of the projects listed below:
+
+- [Vue](https://github.com/vuejs/vue) for the fanastically structured API.
+- [Svelte](https://github.com/sveltejs/svelte) for their dedication to performance and amazing banner header.
+- [Alpine](https://github.com/alpinejs/alpine) for the component scope syntax as well as great documentation.
+- [Moon](https://github.com/kbrsh/moon) for the initial itch to start a lightweight JavaScript library.
+
+As well as the developers and [contributors](https://github.com/aidenybai/lucia/graphs/contributors) of this project.
+
+＼＿ﾍ(◕‿◕ ✰)
