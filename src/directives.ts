@@ -5,7 +5,6 @@ import { ifDirective } from './directives/if';
 import { modelDirective } from './directives/model';
 import { onDirective } from './directives/on';
 import { textDirective } from './directives/text';
-import { watchDirective } from './directives/watch';
 
 export default ({
   el,
@@ -26,7 +25,6 @@ export default ({
     model: modelDirective,
     on: onDirective,
     text: textDirective,
-    watch: watchDirective,
   };
 
   const rootName = name.split(':')[0];

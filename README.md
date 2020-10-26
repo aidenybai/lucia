@@ -177,25 +177,6 @@ function FormInputBindings() {
 }
 ```
 
-### Watchers
-
-You can use the `l-watch` directive to create a hook when the element is updated.
-
-```html
-<div l-use="FormInputBindings()">
-  <input l-model="message" />
-  <p l-text="message" l-watch="console.log(`message changed to ${message}`)"></p>
-</div>
-```
-
-```js
-function Watchers() {
-  return {
-    message: 'Hello World',
-  };
-}
-```
-
 ## Similar Projects
 
 If you're looking for something production-ready and is widely that has a API similar to Lucia, check these projects out!

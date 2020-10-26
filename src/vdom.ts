@@ -105,8 +105,8 @@ class VDom {
         }
       }
 
-      if (affectedDirectives.length > 0 && Object.keys(directives).includes('watch')) {
-        affectedDirectives.push('watch');
+      if (affectedDirectives.length > 0 && Object.keys(directives).includes('on:effect')) {
+        affectedDirectives.push('on:effect'); // Probably should make this more efficient in the future
       }
 
       for (const name of affectedDirectives) {
