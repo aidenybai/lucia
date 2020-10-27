@@ -40,17 +40,16 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 
 Lucia relies on directives in markup to perform functions:
 
-| Directive                                 | Description                                                                             |
-| ----------------------------------------- | --------------------------------------------------------------------------------------- |
-| [`l-use`](#Creating-a-Component)          | Declares a new component scope.                                                         |
-| [`l-text`](#Declarative-Rendering)        | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
-| [`l-html`](#Declarative-Rendering)        | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
-| [`l-if`](#Conditionals)                   | Toggles `display: none;` on the element depending on expression (true or false).        |
-| [`l-on`](#Event-Handlers)                 | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
-| [`l-bind`](#Attribute-Binding)            | Sets the value of an attribute to the result of a JavaScript expression.                |
-| [`l-join`](#List-Rendering)               | Create new DOM nodes for each item in an array.                                         |
-| [`l-model`](#Form-Input-Bindings)         | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
-| [`l-link`](#Accessing-Lucia-Applications) | Allows access of initialized Lucia applications through JavaScript                      |
+| Directive                          | Description                                                                             |
+| ---------------------------------- | --------------------------------------------------------------------------------------- |
+| [`l-use`](#Creating-a-Component)   | Declares a new component scope.                                                         |
+| [`l-text`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
+| [`l-html`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
+| [`l-if`](#Conditionals)            | Toggles `display: none;` on the element depending on expression (true or false).        |
+| [`l-on`](#Event-Handlers)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
+| [`l-bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
+| [`l-join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
+| [`l-model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
 
 ### Creating a Component
 
@@ -179,22 +178,20 @@ function FormInputBindings() {
 
 ### Accessing Lucia Applications
 
-You can use the `l-link` directive to allow access of Lucia apps through the `Lucia.links` property
+You can use the `Lucia.use()` method under the global `Lucia` namespace to register components for external access.
 
 ```html
-<div l-use="AccessingLuciaApplications()" l-link="AccessingLuciaApplications">
+<div l-use="App">
   <p l-text="message"></p>
 </div>
 ```
 
 ```js
-function AccessingLuciaApplications() {
-  return {
-    message: 'Hello World',
-  };
-}
+const app = Lucia.use('AccessingLuciaApplications', {
+  message: 'Hello World',
+});
 
-console.log(Lucia.links().AccessingLuciaApplications.$view);
+console.log(app.$data);
 ```
 
 ## Similar Projects

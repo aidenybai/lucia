@@ -10,10 +10,19 @@ export const createApp = (options: Record<string, unknown>) => {
   return new App(options);
 };
 
-export const linksObject: Record<string, App> = {};
+export const use = (name: string, view: Record<string, unknown>): App | void => {
+  const elements = Array.from(document.querySelectorAll('[l-use]'));
 
-export const links = () => {
-  return linksObject;
+  for (const el of elements) {
+    const component = el.getAttribute('l-use');
+
+    if (component === name) {
+      const app = createApp(view);
+      app.mount(el);
+
+      return app;
+    }
+  }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,9 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const options = el.getAttribute('l-use');
     if (options === null) return;
 
-    const app = createApp(new Function(`return (${options})`)());
-    const link = el.getAttribute('l-link');
-    if (link) linksObject[link] = app;
-    app.mount(el);
+    try {
+      const out = new Function(`return (${options})`)();
+      const app = createApp(out);
+      app.mount(el);
+    } catch (err) {}
   }
 });
