@@ -40,17 +40,17 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 
 Lucia relies on directives in markup to perform functions:
 
-| Directive                          | Description                                                                             |
-| ---------------------------------- | --------------------------------------------------------------------------------------- |
-| [`l-use`](#Creating-a-Component)   | Declares a new component scope.                                                         |
-| [`l-text`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
-| [`l-html`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
-| [`l-if`](#Conditionals)            | Toggles `display: none;` on the element depending on expression (true or false).        |
-| [`l-on`](#Event-Handlers)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
-| [`l-bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
-| [`l-join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
-| [`l-model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
-| [`l-watch`](#Watchers)             | Invokes expression on initialize or change of element.                                  |
+| Directive                                 | Description                                                                             |
+| ----------------------------------------- | --------------------------------------------------------------------------------------- |
+| [`l-use`](#Creating-a-Component)          | Declares a new component scope.                                                         |
+| [`l-text`](#Declarative-Rendering)        | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
+| [`l-html`](#Declarative-Rendering)        | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
+| [`l-if`](#Conditionals)                   | Toggles `display: none;` on the element depending on expression (true or false).        |
+| [`l-on`](#Event-Handlers)                 | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
+| [`l-bind`](#Attribute-Binding)            | Sets the value of an attribute to the result of a JavaScript expression.                |
+| [`l-join`](#List-Rendering)               | Create new DOM nodes for each item in an array.                                         |
+| [`l-model`](#Form-Input-Bindings)         | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
+| [`l-link`](#Accessing-Lucia-Applications) | Allows access of initialized Lucia applications through JavaScript                      |
 
 ### Creating a Component
 
@@ -177,9 +177,30 @@ function FormInputBindings() {
 }
 ```
 
+### Accessing Lucia Applications
+
+You can use the `l-link` directive to allow access of Lucia apps through the `Lucia.links` property
+
+```html
+<div l-use="AccessingLuciaApplications()" l-link="AccessingLuciaApplications">
+  <p l-text="message"></p>
+</div>
+```
+
+```js
+function AccessingLuciaApplications() {
+  return {
+    message: 'Hello World',
+  };
+}
+
+console.log(Lucia.links.AccessingLuciaApplications.$data);
+```
+
 ## Similar Projects
 
 If you're looking for something production-ready and is widely that has a API similar to Lucia, check these projects out!
+
 - [Alpine](https://github.com/alpinejs/alpine) - A rugged, minimal framework for composing JavaScript behavior in your markup.
 - [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
 - [Intercooler.js](https://github.com/intercoolerjs/intercooler-js) - Making AJAX as easy as anchor tags.
