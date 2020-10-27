@@ -194,7 +194,7 @@ function AccessingLuciaApplications() {
   };
 }
 
-console.log(Lucia.links.AccessingLuciaApplications.$data);
+console.log(Lucia.links().AccessingLuciaApplications.$view);
 ```
 
 ## Similar Projects
