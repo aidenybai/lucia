@@ -1,4 +1,5 @@
 import VDom from './vdom';
+import compute from './helpers/compute';
 
 export class App extends VDom {
   constructor(options: Record<string, unknown>) {
@@ -6,8 +7,8 @@ export class App extends VDom {
   }
 }
 
-export const createApp = (options: Record<string, unknown>) => {
-  return new App(options);
+export const createApp = (view: Record<string, unknown>) => {
+  return new App(view);
 };
 
 export const use = (name: string, view: Record<string, unknown>): App | void => {
@@ -29,12 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const elements = Array.from(document.querySelectorAll('[l-use]'));
 
   for (const el of elements) {
-    const options = el.getAttribute('l-use');
-    if (options === null) return;
+    const view = el.getAttribute('l-use');
+    if (view === null) return;
 
     try {
-      const out = new Function(`return (${options})`)();
-      const app = createApp(out);
+      const app = createApp(compute(view));
       app.mount(el);
     } catch (err) {}
   }
