@@ -187,11 +187,13 @@ You can use the `Lucia.use()` method under the global `Lucia` namespace to regis
 ```
 
 ```js
-const app = Lucia.use('AccessingLuciaApplications', {
+const App = Lucia.use('App', {
   message: 'Hello World',
 });
 
-console.log(app.$data);
+console.log(App.$view);
+
+App.$view.message = 'Hello Foo!';
 ```
 
 ## Similar Projects
