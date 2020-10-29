@@ -38,163 +38,18 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 
 ## Features
 
-Lucia relies on directives in markup to perform functions:
+Lucia relies on directives in markup to perform functions. You can view more in depth by visiting [the documentation](https://lucia.js.org/docs/features/).
 
-| Directive                          | Description                                                                             |
-| ---------------------------------- | --------------------------------------------------------------------------------------- |
-| [`l-use`](#Creating-a-Component)   | Declares a new component scope.                                                         |
-| [`l-text`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
-| [`l-html`](#Declarative-Rendering) | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
-| [`l-if`](#Conditionals)            | Toggles `display: none;` on the element depending on expression (true or false).        |
-| [`l-on`](#Event-Handlers)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
-| [`l-bind`](#Attribute-Binding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
-| [`l-join`](#List-Rendering)        | Create new DOM nodes for each item in an array.                                         |
-| [`l-model`](#Form-Input-Bindings)  | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
-
-### Creating a Component
-
-Lucia allows us to create component scopes. It tells the library to initialize a new component with the following data object.
-
-```html
-<div l-use="{ message: 'Hello World' }">
-  <p l-text="message"></p>
-</div>
-```
-
-### Declarative Rendering
-
-At the core of Lucia is a system that enables us to declaratively render data to the DOM using the straightforward `l-text` and `l-html` directives:
-
-```html
-<div l-use="DeclarativeRendering()">
-  <p l-text="message"></p>
-  <p l-html="markupMessage"></p>
-</div>
-```
-
-```js
-function DeclarativeRendering() {
-  return {
-    message: 'Hello World!',
-    markupMessage: '<span>Hello World with Markup!</span>',
-  };
-}
-```
-
-### Conditionals
-
-It’s easy to toggle the presence of an element, too:
-
-```html
-<div l-use="Conditionals()">
-  <button l-if="!show">You can't see me</button>
-  <button l-if="show">You can see me</button>
-</div>
-```
-
-```js
-function Conditionals() {
-  return { show: true };
-}
-```
-
-### Event Handlers
-
-To let users interact with your app, we can use the `l-on` directive to attach event listeners that invoke methods on our Lucia instances:
-
-```html
-<div l-use="EventHandlers()">
-  <button l-on:click="announce()" l-text="message"></button>
-</div>
-```
-
-```js
-function EventHandlers() {
-  return {
-    message: 'Hello world!',
-    announce() {
-      alert(this.message);
-    },
-  };
-}
-```
-
-### Attribute Binding
-
-In addition to text interpolation, we can also bind element attributes using the `l-bind` directive:
-
-```html
-<div l-use="AttributeBinding()">
-  <h1 l-bind:class="{ hello: show }">Classes are cool</h1>
-  <h1 l-bind:style="color">Styles are sassy</h1>
-</div>
-```
-
-```js
-function AttributeBinding() {
-  return {
-    show: true,
-    color: { color: 'purple' },
-  };
-}
-```
-
-### List Rendering
-
-We can also use the `l-join` directive to render a list of items based on an array. Note that performance will be affected if using array mutators.
-
-```html
-<div l-use="ListRendering()">
-  <p l-join="fruits by , "></p>
-</div>
-```
-
-```js
-function ListRendering() {
-  return {
-    fruits: ['apple', 'orange', 'banana'],
-  };
-}
-```
-
-### Form Input Bindings
-
-You can use the `l-model` directive to create two-way data bindings on form `input`, `textarea`, and `select` elements.
-
-```html
-<div l-use="FormInputBindings()">
-  <input l-model="message" />
-  <p l-text="message"></p>
-</div>
-```
-
-```js
-function FormInputBindings() {
-  return {
-    message: 'Nothing submitted yet',
-  };
-}
-```
-
-### Accessing Lucia Applications
-
-You can use the `Lucia.use()` method under the global `Lucia` namespace to register components for external access.
-
-```html
-<div l-use="App">
-  <p l-text="message"></p>
-</div>
-```
-
-```js
-const App = Lucia.use('App', {
-  message: 'Hello World',
-});
-
-console.log(App.$view);
-
-App.$view.message = 'Hello Foo!';
-```
+| Directive                                                           | Description                                                                             |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [`l-use`](https://lucia.js.org/docs/features/)                      | Declares a new component scope.                                                         |
+| [`l-text`](https://lucia.js.org/docs/features/declarativeRendering) | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
+| [`l-html`](https://lucia.js.org/docs/features/declarativeRendering) | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
+| [`l-if`](https://lucia.js.org/docs/features/conditionals)           | Toggles `display: none;` on the element depending on expression (true or false).        |
+| [`l-on`](https://lucia.js.org/docs/features/eventHandling)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
+| [`l-bind`](https://lucia.js.org/docs/features/attributeBinding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
+| [`l-join`](https://lucia.js.org/docs/features/joiningItems)         | Create new DOM nodes for each item in an array.                                         |
+| [`l-model`](https://lucia.js.org/docs/features/formInputBindings)   | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
 
 ## Similar Projects
 
