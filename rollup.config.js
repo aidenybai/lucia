@@ -10,41 +10,76 @@ const config = {
   strict: false,
 };
 
-export default {
-  input: './src/browser.ts',
-  external: [],
-  plugins: [
-    resolve({ extensions: ['.ts'] }),
-    commonjs(),
-    babel({
-      extensions: ['.ts'],
-      babelHelpers: 'bundled',
-      include: ['src/**/*'],
-    }),
-  ],
+export default [
+  {
+    input: './src/browser.ts',
+    external: [],
+    plugins: [
+      resolve({ extensions: ['.ts'] }),
+      commonjs(),
+      babel({
+        extensions: ['.ts'],
+        babelHelpers: 'bundled',
+        include: ['src/**/*'],
+      }),
+    ],
 
-  output: [
-    {
-      file: main,
-      format: 'umd',
-      ...config,
-    },
-    {
-      file: browser,
-      plugins: terser(),
-      format: 'umd',
-      ...config,
-    },
-    {
-      file: 'dist/lucia.iife.js',
-      format: 'iife',
-      ...config,
-    },
-    {
-      file: 'dist/lucia.iife.min.js',
-      plugins: terser(),
-      format: 'iife',
-      ...config,
-    },
-  ],
-};
+    output: [
+      {
+        file: main,
+        format: 'umd',
+        ...config,
+      },
+      {
+        file: browser,
+        plugins: terser(),
+        format: 'umd',
+        ...config,
+      },
+      {
+        file: 'dist/lucia.iife.js',
+        format: 'iife',
+        ...config,
+      },
+      {
+        file: 'dist/lucia.iife.min.js',
+        plugins: terser(),
+        format: 'iife',
+        ...config,
+      },
+    ],
+  },
+  {
+    input: './src/index.ts',
+    external: [],
+    plugins: [
+      resolve({ extensions: ['.ts'] }),
+      commonjs(),
+      babel({
+        extensions: ['.ts'],
+        babelHelpers: 'bundled',
+        include: ['src/**/*'],
+      }),
+    ],
+    output: [
+      {
+        file: 'dist/lucia.cjs.js',
+        format: 'cjs',
+      },
+      {
+        file: 'dist/lucia.cjs.min.js',
+        format: 'cjs',
+        plugins: [terser()],
+      },
+      {
+        file: 'dist/lucia.esm.js',
+        format: 'esm',
+      },
+      {
+        file: 'dist/lucia.esm.min.js',
+        format: 'esm',
+        plugins: [terser()],
+      },
+    ],
+  },
+];

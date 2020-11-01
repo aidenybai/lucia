@@ -12,6 +12,11 @@
     "test": "jest --coverage",
     "coverage" : "cat ./coverage/lcov.info | coveralls"
   },
+  "module": "dist/lucia.esm.min.js",
+  "exports": {
+    "require": "./dist/lucia.cjs.min.js",
+    "import": "./dist/lucia.esm.min.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aidenybai/lucia.git"
