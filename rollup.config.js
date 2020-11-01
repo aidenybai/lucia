@@ -11,7 +11,7 @@ const config = {
 };
 
 export default {
-  input: './src/index.ts',
+  input: './src/browser.ts',
   external: [],
   plugins: [
     resolve({ extensions: ['.ts'] }),
@@ -33,28 +33,6 @@ export default {
       file: browser,
       plugins: terser(),
       format: 'umd',
-      ...config,
-    },
-    {
-      file: 'dist/lucia.esm.js',
-      format: 'esm',
-      ...config,
-    },
-    {
-      file: 'dist/lucia.esm.min.js',
-      plugins: terser(),
-      format: 'esm',
-      ...config,
-    },
-    {
-      file: 'dist/lucia.cjs.js',
-      format: 'cjs',
-      ...config,
-    },
-    {
-      file: 'dist/lucia.cjs.min.js',
-      plugins: terser(),
-      format: 'cjs',
       ...config,
     },
     {
