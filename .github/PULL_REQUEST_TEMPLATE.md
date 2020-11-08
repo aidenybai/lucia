@@ -7,6 +7,7 @@
 
 **Semantic versioning classification:**
 
-- [ ] This PR changes the library's interface (methods or parameters added)
+- [ ] This PR changes the codebase
   - [ ] This PR includes breaking changes (methods removed or renamed, parameters moved or removed)
+  - [ ] This PR changes the internal workings with no modifications to the external API (bug fixes, performance improvements)
 - [ ] This PR **only** includes non-code changes, like changes to documentation, README, etc.
