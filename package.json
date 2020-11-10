@@ -6,7 +6,9 @@
   "browser": "dist/lucia.min.js",
   "scripts": {
     "dev": "del-cli dist/ && rollup -c -w",
-    "build": "del-cli dist/ && rollup -c",
+    "build": "npm run build:src && npm run build:types",
+    "build:src": "del-cli dist/ && rollup -c",
+    "build:types": "tsc --emitDeclarationOnly",
     "test": "jest --coverage",
     "coverage" : "cat ./coverage/lcov.info | coveralls"
   },
