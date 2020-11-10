@@ -71,10 +71,7 @@ class VDom {
               attributes,
               directives,
               this.compile(targetChildNode, true),
-              Object.keys(directives).length === 0 ||
-                !Object.values(directives).some((value) =>
-                  Object.keys(this.$view).some((key) => (value as string).includes(key))
-                ),
+              Object.keys(directives).length === 0,
               getSelector(targetChildNode)
             )
           );
@@ -92,10 +89,7 @@ class VDom {
         attributes,
         directives,
         children,
-        Object.keys(directives).length === 0 ||
-          !Object.values(directives).some((value) =>
-            Object.keys(this.$view).some((key) => (value as string).includes(key))
-          ),
+        Object.keys(directives).length === 0,
         getSelector(el)
       );
     }
