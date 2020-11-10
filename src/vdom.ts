@@ -98,7 +98,10 @@ class VDom {
         if (
           keys.some((key) => value.toString().includes(key)) ||
           Object.keys(view).some((key: string) => {
-            return typeof view[key] === 'function' && view[key].toString().includes(`this.${key}`);
+            return (
+              typeof view[key] === 'function' &&
+              keys.some((k) => view[key].toString().includes(`this.${k}`))
+            );
           })
         ) {
           affectedDirectives.push(name);
