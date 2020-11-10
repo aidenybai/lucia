@@ -4,9 +4,15 @@ import { getSelector, getProps } from './helpers/selector';
 
 interface VNode {
   tag: string;
+  data: VNodeData;
+  children: Record<string, VNode | string>[];
+  staticNode: boolean;
+}
+
+interface VNodeData {
+  sel?: string;
   attributes: Record<string, string>;
   directives: Record<string, string>;
-  children: Record<string, VNode | string>[];
 }
 
 class VDom {
@@ -19,32 +25,34 @@ class VDom {
   }
 
   public mount(el: string | Element) {
-    this.$vdom = this.$buildVNodeTree(typeof el === 'string' ? document.querySelector(el) : el);
-    this.$view = observer(this.$view, this.$patch.bind(this), this.$vdom);
+    this.$vdom = this.compile(typeof el === 'string' ? document.querySelector(el) : el);
+    this.$view = observer(this.$view, this.patch.bind(this), this.$vdom);
 
-    this.$patch(this.$vdom, Object.keys(this.$view));
+    this.patch(this.$vdom, Object.keys(this.$view));
     return this.$view;
   }
 
-  public unmount() {
-    this.$vdom = null;
-    this.$view = null;
-  }
-
-  public $createVNode(
-    sel: string,
-    { tag, attributes = {}, directives = {}, children = [] }: VNode
-  ): Record<string, any> {
+  public h(
+    tag: string,
+    attributes: Record<string, string> = {},
+    directives: Record<string, string> = {},
+    children: Record<string, VNode | string>[] = [],
+    staticNode: boolean,
+    sel?: string
+  ): VNode {
     return {
-      sel,
       tag,
-      attributes,
-      directives,
+      data: {
+        sel,
+        attributes,
+        directives,
+      },
       children,
+      staticNode,
     };
   }
 
-  public $buildVNodeTree(el: Element | null, recurse: boolean = false): Record<any, any> | any {
+  public compile(el: Element | null, recurse: boolean = false): Record<any, any> | any {
     if (!el) throw new Error('Please provide a Element');
 
     const children = [];
@@ -58,13 +66,19 @@ class VDom {
         case Node.ELEMENT_NODE:
           const { attributes, directives } = getProps(targetChildNode);
           children.push(
-            this.$createVNode(getSelector(targetChildNode), {
-              tag: targetChildNode.tagName.toLowerCase(),
+            this.h(
+              targetChildNode.tagName.toLowerCase(),
               attributes,
               directives,
-              children: this.$buildVNodeTree(targetChildNode, true),
-            })
+              this.compile(targetChildNode, true),
+              Object.keys(directives).length === 0 ||
+                !Object.values(directives).some((value) =>
+                  Object.keys(this.$view).some((key) => (value as string).includes(key))
+                ),
+              getSelector(targetChildNode)
+            )
           );
+
           break;
       }
     }
@@ -73,60 +87,70 @@ class VDom {
 
     if (recurse) return children;
     else {
-      return this.$createVNode(getSelector(el), {
-        tag: el.tagName.toLowerCase(),
+      return this.h(
+        el.tagName.toLowerCase(),
         attributes,
         directives,
         children,
-      });
+        Object.keys(directives).length === 0 ||
+          !Object.values(directives).some((value) =>
+            Object.keys(this.$view).some((key) => (value as string).includes(key))
+          ),
+        getSelector(el)
+      );
     }
   }
 
-  public $patch(vnodes: any, keys: any[], recurse: any = false): Record<any, any> | any {
+  public patch(
+    vnodes: any /* VNode | null */,
+    keys: string[] = [],
+    recurse: boolean = false
+  ): Record<any, any> | any {
     if (!vnodes) return;
 
     const view = { ...this.$view };
     for (let i = 0; i < vnodes.children.length; i++) {
       let vnode = vnodes.children[i];
-      let { sel, directives, attributes } = vnode;
-
       if (typeof vnode === 'string') continue;
 
-      const affectedDirectives = [];
-      for (const name in directives) {
-        const value = directives[name];
-        if (
-          keys.some((key) => value.toString().includes(key)) ||
-          Object.keys(view).some((key: string) => {
-            return (
-              typeof view[key] === 'function' &&
-              keys.some((k) => view[key].toString().includes(`this.${k}`))
-            );
-          })
-        ) {
-          affectedDirectives.push(name);
+      if (!vnode.staticNode) {
+        const { attributes, directives, sel } = vnode.data;
+        const affectedDirectives = [];
+        for (const name in directives as any) {
+          const value = directives[name];
+          if (
+            keys.some((key) => value.toString().includes(key)) ||
+            Object.keys(view).some((key: string) => {
+              return (
+                typeof view[key] === 'function' &&
+                keys.some((k) => view[key].toString().includes(`this.${k}`))
+              );
+            })
+          ) {
+            affectedDirectives.push(name);
+          }
+        }
+
+        if (affectedDirectives.length > 0 && Object.keys(directives).includes('on:effect')) {
+          affectedDirectives.push('on:effect'); // Probably should make this more efficient in the future
+        }
+
+        for (const name of affectedDirectives) {
+          const value = directives[name];
+          const el = attributes.id
+            ? document.getElementById(attributes.id)
+            : document.querySelector(sel);
+
+          renderDirective({
+            el,
+            name,
+            value,
+            view: this.$view,
+          });
         }
       }
 
-      if (affectedDirectives.length > 0 && Object.keys(directives).includes('on:effect')) {
-        affectedDirectives.push('on:effect'); // Probably should make this more efficient in the future
-      }
-
-      for (const name of affectedDirectives) {
-        const value = directives[name];
-        const el = attributes.id
-          ? document.getElementById(attributes.id)
-          : document.querySelector(sel);
-
-        renderDirective({
-          el,
-          name,
-          value,
-          view: this.$view,
-        });
-      }
-
-      vnode = this.$patch(vnode, keys, true);
+      vnode = this.patch(vnode, keys, true);
     }
     if (recurse) return vnodes;
   }
