@@ -1,6 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import babel from '@rollup/plugin-babel';
+import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import { main, browser } from './package.json';
 
@@ -16,11 +16,7 @@ export default {
   plugins: [
     resolve({ extensions: ['.ts'] }),
     commonjs(),
-    babel({
-      extensions: ['.ts'],
-      babelHelpers: 'bundled',
-      include: ['src/**/*'],
-    }),
+    typescript({ useTsconfigDeclarationDir: true }),
   ],
 
   output: [
@@ -31,7 +27,7 @@ export default {
     },
     {
       file: browser,
-      plugins: terser(),
+      plugins: terser({ format: { comments: false } }),
       format: 'umd',
       ...config,
     },
@@ -42,7 +38,7 @@ export default {
     },
     {
       file: 'dist/lucia.esm.min.js',
-      plugins: terser(),
+      plugins: terser({ format: { comments: false } }),
       format: 'esm',
       ...config,
     },
@@ -53,7 +49,7 @@ export default {
     },
     {
       file: 'dist/lucia.cjs.min.js',
-      plugins: terser(),
+      plugins: terser({ format: { comments: false } }),
       format: 'cjs',
       ...config,
     },
@@ -64,7 +60,7 @@ export default {
     },
     {
       file: 'dist/lucia.iife.min.js',
-      plugins: terser(),
+      plugins: terser({ format: { comments: false } }),
       format: 'iife',
       ...config,
     },

@@ -13,6 +13,7 @@
     "declaration": true,
     "target": "es5",
     "module": "esnext",
+    "removeComments": true,
     "strict": true
   },
   "include": ["./src/**/*.ts"],
