@@ -6,7 +6,7 @@ interface VNode {
   tag: string;
   data: VNodeData;
   children: Record<string, VNode | string>[];
-  isStatic: boolean;
+  type: number; // Can be 0: static, 1: static but needs init, 2: dynamic vnode
 }
 
 interface VNodeData {
@@ -28,7 +28,7 @@ class VDom {
     this.$vdom = this.compile(typeof el === 'string' ? document.querySelector(el) : el);
     this.$view = observer(this.$view, this.patch.bind(this), this.$vdom);
 
-    this.patch(this.$vdom, Object.keys(this.$view), true);
+    this.patch(this.$vdom, Object.keys(this.$view));
     return this.$view;
   }
 
@@ -37,7 +37,7 @@ class VDom {
     attributes: Record<string, string> = {},
     directives: Record<string, string> = {},
     children: Record<string, VNode | string>[] = [],
-    isStatic: boolean,
+    type: number,
     sel?: string
   ): VNode {
     return {
@@ -48,7 +48,7 @@ class VDom {
         directives,
       },
       children,
-      isStatic,
+      type,
     };
   }
 
@@ -65,16 +65,22 @@ class VDom {
           break;
         case Node.ELEMENT_NODE:
           const { attributes, directives } = getProps(targetChildNode);
+          let type = 0;
+          // Check if there are directives
+          type = Object.keys(directives).length === 0 ? type : 1;
+          // Check if there are affected keys in values
+          type = !Object.values(directives).some((value) =>
+            Object.keys(this.$view).some((key) => (value as string).includes(key))
+          )
+            ? type
+            : 2;
           children.push(
             this.h(
               targetChildNode.tagName.toLowerCase(),
               attributes,
               directives,
               this.compile(targetChildNode, true),
-              Object.keys(directives).length === 0 ||
-                !Object.values(directives).some((value) =>
-                  Object.keys(this.$view).some((key) => (value as string).includes(key))
-                ),
+              type,
               getSelector(targetChildNode)
             )
           );
@@ -87,15 +93,21 @@ class VDom {
 
     if (callSelf) return children;
     else {
+      let type = 0;
+      // Check if there are directives
+      type = Object.keys(directives).length === 0 ? type : 1;
+      // Check if there are affected keys in values
+      type = !Object.values(directives).some((value) =>
+        Object.keys(this.$view).some((key) => (value as string).includes(key))
+      )
+        ? type
+        : 2;
       return this.h(
         el.tagName.toLowerCase(),
         attributes,
         directives,
         children,
-        Object.keys(directives).length === 0 ||
-          !Object.values(directives).some((value) =>
-            Object.keys(this.$view).some((key) => (value as string).includes(key))
-          ),
+        type,
         getSelector(el)
       );
     }
@@ -104,7 +116,6 @@ class VDom {
   public patch(
     vnodes: any /* VNode | null */,
     keys: string[] = [],
-    bypassStatic: boolean = false,
     callSelf: boolean = false
   ): Record<any, any> | any {
     if (!vnodes) return;
@@ -114,7 +125,7 @@ class VDom {
       let vnode = vnodes.children[i];
       if (typeof vnode === 'string') continue;
 
-      if (!vnode.isStatic || bypassStatic) {
+      if (vnode.type > 0) {
         const { attributes, directives, sel } = vnode.data;
         const affectedDirectives = [];
         for (const name in directives as any) {
@@ -136,6 +147,10 @@ class VDom {
           affectedDirectives.push('on:effect'); // Probably should make this more efficient in the future
         }
 
+        if (vnode.type === 1) {
+          vnode.type = 0;
+        }
+
         for (const name of affectedDirectives) {
           const value = directives[name];
           const el = attributes.id
@@ -151,7 +166,7 @@ class VDom {
         }
       }
 
-      vnode = this.patch(vnode, keys, bypassStatic, true);
+      vnode = this.patch(vnode, keys, true);
     }
     if (callSelf) return vnodes;
   }
