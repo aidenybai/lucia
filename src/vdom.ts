@@ -6,7 +6,7 @@ interface VNode {
   tag: string;
   data: VNodeData;
   children: Record<string, VNode | string>[];
-  staticNode: boolean;
+  isStatic: boolean;
 }
 
 interface VNodeData {
@@ -28,7 +28,7 @@ class VDom {
     this.$vdom = this.compile(typeof el === 'string' ? document.querySelector(el) : el);
     this.$view = observer(this.$view, this.patch.bind(this), this.$vdom);
 
-    this.patch(this.$vdom, Object.keys(this.$view));
+    this.patch(this.$vdom, Object.keys(this.$view), true);
     return this.$view;
   }
 
@@ -37,7 +37,7 @@ class VDom {
     attributes: Record<string, string> = {},
     directives: Record<string, string> = {},
     children: Record<string, VNode | string>[] = [],
-    staticNode: boolean,
+    isStatic: boolean,
     sel?: string
   ): VNode {
     return {
@@ -48,11 +48,11 @@ class VDom {
         directives,
       },
       children,
-      staticNode,
+      isStatic,
     };
   }
 
-  public compile(el: Element | null, recurse: boolean = false): Record<any, any> | any {
+  public compile(el: Element | null, callSelf: boolean = false): Record<any, any> | any {
     if (!el) throw new Error('Please provide a Element');
 
     const children = [];
@@ -71,7 +71,10 @@ class VDom {
               attributes,
               directives,
               this.compile(targetChildNode, true),
-              Object.keys(directives).length === 0,
+              Object.keys(directives).length === 0 ||
+                !Object.values(directives).some((value) =>
+                  Object.keys(this.$view).some((key) => (value as string).includes(key))
+                ),
               getSelector(targetChildNode)
             )
           );
@@ -82,14 +85,17 @@ class VDom {
 
     const { attributes, directives } = getProps(el);
 
-    if (recurse) return children;
+    if (callSelf) return children;
     else {
       return this.h(
         el.tagName.toLowerCase(),
         attributes,
         directives,
         children,
-        Object.keys(directives).length === 0,
+        Object.keys(directives).length === 0 ||
+          !Object.values(directives).some((value) =>
+            Object.keys(this.$view).some((key) => (value as string).includes(key))
+          ),
         getSelector(el)
       );
     }
@@ -98,7 +104,8 @@ class VDom {
   public patch(
     vnodes: any /* VNode | null */,
     keys: string[] = [],
-    recurse: boolean = false
+    bypassStatic: boolean = false,
+    callSelf: boolean = false
   ): Record<any, any> | any {
     if (!vnodes) return;
 
@@ -107,7 +114,7 @@ class VDom {
       let vnode = vnodes.children[i];
       if (typeof vnode === 'string') continue;
 
-      if (!vnode.staticNode) {
+      if (!vnode.isStatic || bypassStatic) {
         const { attributes, directives, sel } = vnode.data;
         const affectedDirectives = [];
         for (const name in directives as any) {
@@ -144,9 +151,9 @@ class VDom {
         }
       }
 
-      vnode = this.patch(vnode, keys, true);
+      vnode = this.patch(vnode, keys, bypassStatic, true);
     }
-    if (recurse) return vnodes;
+    if (callSelf) return vnodes;
   }
 }
 
