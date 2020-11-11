@@ -70,7 +70,7 @@ class VDom {
           type = Object.keys(directives).length === 0 ? type : 1;
           // Check if there are affected keys in values
           type = !Object.values(directives).some((value) =>
-            Object.keys(this.$view).some((key) => (value as string).includes(`this.${key}`))
+            Object.keys(this.$view).some((key) => (value as string).includes(key))
           )
             ? type
             : 2;
@@ -98,7 +98,7 @@ class VDom {
       type = Object.keys(directives).length === 0 ? type : 1;
       // Check if there are affected keys in values
       type = !Object.values(directives).some((value) =>
-        Object.keys(this.$view).some((key) => (value as string).includes(`this.${key}`))
+        Object.keys(this.$view).some((key) => (value as string).includes(key))
       )
         ? type
         : 2;
@@ -131,7 +131,7 @@ class VDom {
         for (const name in directives as any) {
           const value = directives[name];
           if (
-            keys.some((key) => value.toString().includes(`this.${key}`)) ||
+            keys.some((key) => value.toString().includes(key)) ||
             Object.keys(view).some((key: string) => {
               return (
                 typeof view[key] === 'function' &&
