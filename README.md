@@ -31,7 +31,7 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
 
 ```html
-<div l-use="{ count: 0 }">
+<div l-init="{ count: 0 }">
   <button l-text="count" l-on:click="++count">0</button>
 </div>
 ```
