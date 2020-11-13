@@ -7,7 +7,7 @@ export const modelDirective = (
   el.value = view[value];
 
   // Type inference
-  el.oninput = () => {
+  const model = () => {
     const isNumber = typeof view[value] === 'number' && !isNaN(el.value);
     const isBoolean =
       typeof view[value] === 'boolean' && (el.value === 'true' || el.value === 'false');
@@ -26,4 +26,7 @@ export const modelDirective = (
       view[value] = el.value;
     }
   };
+
+  el.oninput = model;
+  model();
 };

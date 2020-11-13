@@ -2,8 +2,10 @@
   "name": "lucia",
   "version": "0.2.0",
   "description": "Tiny library for tiny web apps.",
-  "main": "dist/lucia.js",
+  "main": "dist/lucia.cjs.js",
+  "module": "dist/lucia.esm.js",
   "browser": "dist/lucia.min.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "dev": "del-cli dist/ && rollup -c -w",
     "build": "del-cli dist/ && rollup -c",
