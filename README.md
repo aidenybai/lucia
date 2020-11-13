@@ -26,6 +26,12 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 <script src="https://unpkg.com/lucia"></script>
 ```
 
+Another option is installing via if you are using a module bundler such as [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org).
+
+```sh
+$ npm install lucia
+```
+
 ## Example
 
 Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
@@ -36,20 +42,9 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 </div>
 ```
 
-## Features
+## Documentation
 
-Lucia relies on directives in markup to perform functions. You can view more in depth by visiting [the documentation](https://lucia.js.org/docs/features/).
-
-| Directive                                                           | Description                                                                             |
-| ------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [`l-use`](https://lucia.js.org/docs/features/)                      | Declares a new component scope.                                                         |
-| [`l-text`](https://lucia.js.org/docs/features/declarativeRendering) | Works similarly to `l-bind`, but will update the `textContent` of an element.           |
-| [`l-html`](https://lucia.js.org/docs/features/declarativeRendering) | Works similarly to `l-bind`, but will update the `innerHTML` of an element.             |
-| [`l-if`](https://lucia.js.org/docs/features/conditionals)           | Toggles `display: none;` on the element depending on expression (true or false).        |
-| [`l-on`](https://lucia.js.org/docs/features/eventHandling)          | Attaches an event listener to the element. Executes JavaScript expression when emitted. |
-| [`l-bind`](https://lucia.js.org/docs/features/attributeBinding)     | Sets the value of an attribute to the result of a JavaScript expression.                |
-| [`l-join`](https://lucia.js.org/docs/features/joiningItems)         | Create new DOM nodes for each item in an array.                                         |
-| [`l-model`](https://lucia.js.org/docs/features/formInputBindings)   | Adds "two-way data binding" to an element. Keeps input element in sync with view data.  |
+If you're interested in learning more about lucia, visit [the documentation](https://lucia.js.org).
 
 ## Similar Projects
 
