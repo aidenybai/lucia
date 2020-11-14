@@ -16,7 +16,7 @@ export const bindDirective = ({ el, name, value, view }: directiveArgs) => {
           if (classView[key]) classes.push(key);
         }
         if (classes.length > 0) {
-          return el.setAttribute('class', `${el.className} ${classView.join(' ').trim()}`);
+          return el.setAttribute('class', `${el.className} ${classes.join(' ').trim()}`.trim());
         } else if (el.className.length.trim() > 0) {
           return el.setAttribute('class', el.className);
         } else {
