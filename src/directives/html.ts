@@ -1,11 +1,7 @@
 import compute from '../helpers/compute';
+import { directiveArgs } from '../helpers/interfaces';
 
-export const htmlDirective = (
-  el: HTMLElement | any,
-  _name: string,
-  value: string | any,
-  view: Record<string, any>
-) => {
+export const htmlDirective = ({ el, value, view }: directiveArgs) => {
   const out = compute(value, view);
 
   if (out !== undefined) {

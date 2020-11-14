@@ -1,9 +1,6 @@
-export const modelDirective = (
-  el: HTMLElement | any,
-  _name: string,
-  value: string | any,
-  view: Record<string, any>
-) => {
+import { directiveArgs } from '../helpers/interfaces';
+
+export const modelDirective = ({ el, value, view }: directiveArgs) => {
   el.value = view[value];
 
   // Type inference

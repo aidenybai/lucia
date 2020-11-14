@@ -28,5 +28,5 @@ export default ({
   };
 
   const rootName = name.split(':')[0];
-  directives[rootName](el, name, value, view);
+  directives[rootName]({ el, name, value, view });
 };

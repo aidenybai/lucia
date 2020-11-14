@@ -1,11 +1,7 @@
 import compute from '../helpers/compute';
+import { directiveArgs } from '../helpers/interfaces';
 
-export const onDirective = (
-  el: HTMLElement | any,
-  name: string,
-  value: string | any,
-  view: Record<string, any>
-) => {
+export const onDirective = ({ el, name, value, view }: directiveArgs) => {
   const eventTokens = name.split('.');
   const eventName = eventTokens[0].split(':')[1];
   const eventProp = eventTokens[1] || null;

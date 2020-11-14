@@ -1,19 +1,7 @@
 import observer from './observer';
 import renderDirective from './directives';
 import { getSelector, getProps } from './helpers/selector';
-
-interface VNode {
-  tag: string;
-  data: VNodeData;
-  children: Record<string, VNode | string>[];
-  type: number; // Can be 0: static, 1: static but needs init, 2: dynamic vnode
-}
-
-interface VNodeData {
-  sel?: string;
-  attributes: Record<string, string>;
-  directives: Record<string, string>;
-}
+import { VNode } from './helpers/interfaces';
 
 class VDom {
   $vdom: VNode | null;

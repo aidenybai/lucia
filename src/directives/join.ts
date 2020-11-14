@@ -1,11 +1,7 @@
 import compute from '../helpers/compute';
+import { directiveArgs } from '../helpers/interfaces';
 
-export const joinDirective = (
-  el: HTMLElement | any,
-  _name: string,
-  value: string | any,
-  view: Record<string, any>
-) => {
+export const joinDirective = ({ el, value, view }: directiveArgs) => {
   const parts = value.split('by ');
   const out = compute(parts[0], view);
 
