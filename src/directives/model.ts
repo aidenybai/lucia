@@ -2,7 +2,7 @@ export const modelDirective = (
   el: HTMLElement | any,
   _name: string,
   value: string | any,
-  view: ProxyConstructor | any
+  view: Record<string, any>
 ) => {
   el.value = view[value];
 

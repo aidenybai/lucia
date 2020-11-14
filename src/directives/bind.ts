@@ -4,7 +4,7 @@ export const bindDirective = (
   el: HTMLElement | any,
   name: string,
   value: string | any,
-  view: ProxyConstructor | any
+  view: Record<string, any>
 ) => {
   switch (name.split(':')[1]) {
     case 'class':

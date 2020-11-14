@@ -4,7 +4,7 @@ export const ifDirective = (
   el: HTMLElement | any,
   _name: string,
   value: string | any,
-  view: ProxyConstructor | any
+  view: Record<string, any>
 ) => {
   el.hidden = !compute(value, view);
 };

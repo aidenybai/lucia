@@ -4,13 +4,9 @@ export const textDirective = (
   el: HTMLElement | any,
   _name: string,
   value: string | any,
-  view: ProxyConstructor | any
+  view:  Record<string, any>
 ) => {
   const out = compute(value, view);
 
-  if (out !== undefined) {
-    el.textContent = out;
-  } else { 
-    el.textContent = value;
-  }
+  el.textContent = out ?? value; 
 };

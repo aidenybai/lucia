@@ -4,7 +4,7 @@ export const onDirective = (
   el: HTMLElement | any,
   name: string,
   value: string | any,
-  view: ProxyConstructor | any
+  view: Record<string, any>
 ) => {
   const eventTokens = name.split('.');
   const eventName = eventTokens[0].split(':')[1];

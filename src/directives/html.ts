@@ -4,13 +4,13 @@ export const htmlDirective = (
   el: HTMLElement | any,
   _name: string,
   value: string | any,
-  view: ProxyConstructor | any
+  view: Record<string, any>
 ) => {
   const out = compute(value, view);
 
   if (out !== undefined) {
     el.innerHTML = out;
-  } else { 
+  } else {
     el.innerHTML = value;
   }
 };

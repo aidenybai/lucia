@@ -42,9 +42,11 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 </div>
 ```
 
+View the [live example here](https://codepen.io/aidenybai/pen/jOrXdKj)
+
 ## Documentation
 
-If you're interested in learning more about lucia, visit [the documentation](https://lucia.js.org).
+If you're interested in learning more about Lucia, visit [the documentation](https://lucia.js.org).
 
 ## Similar Projects
 
