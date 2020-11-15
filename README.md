@@ -53,11 +53,12 @@ If you're interested in learning more about Lucia, visit [the documentation](htt
 If you're looking for something production-ready and is widely that has a API similar to Lucia, check these projects out!
 
 - [Alpine](https://github.com/alpinejs/alpine) - A rugged, minimal framework for composing JavaScript behavior in your markup.
-- [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
+- [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have
+- [Remake](https://github.com/remake/remake-cli) - Create interactive web apps with just HTML.
 - [Intercooler.js](https://github.com/intercoolerjs/intercooler-js) - Making AJAX as easy as anchor tags.
 - [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
-- [Htmx](https://github.com/bigskysoftware/htmx) - </> htmx - high power tools for HTML
-- [Unpoly](https://github.com/unpoly/unpoly) - Unobtrusive Javascript Framework for server-side applications
+- [Htmx](https://github.com/bigskysoftware/htmx) - </> htmx - high power tools for HTML.
+- [Unpoly](https://github.com/unpoly/unpoly) - Unobtrusive Javascript Framework for server-side applications.
 
 ## License
 
