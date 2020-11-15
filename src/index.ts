@@ -6,7 +6,10 @@ import compute from './helpers/compute';
 import directives from './directives/render';
 import observer from './vdom/observer';
 
-export { compute, directives, observer, h, compile, patch };
+import getProps from './helpers/props';
+import getSelector from './helpers/selector';
+
+export { compute, directives, observer, h, compile, patch, getProps, getSelector };
 
 export class App {
   vdom: VNode | null;
