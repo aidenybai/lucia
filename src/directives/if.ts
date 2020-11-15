@@ -1,6 +1,6 @@
 import compute from '../helpers/compute';
-import { directiveArgs } from '../helpers/interfaces';
+import { args } from './args';
 
-export const ifDirective = ({ el, value, view }: directiveArgs) => {
+export const ifDirective = ({ el, value, view }: args) => {
   el.hidden = !compute(value, view);
 };

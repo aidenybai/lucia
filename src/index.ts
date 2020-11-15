@@ -1,13 +1,36 @@
-import VDom from './vdom';
+import { h, VNode } from './vdom/h';
+import compile from './vdom/compile';
+import patch from './vdom/patch';
+
 import compute from './helpers/compute';
-import directives from './directives';
+import directives from './directives/render';
 import observer from './observer';
 
-export { compute, directives, observer };
+export { compute, directives, observer, h, compile, patch };
 
-export class App extends VDom {
-  constructor(options: Record<string, unknown>) {
-    super(options || {});
+export class App {
+  vdom: VNode | null;
+  view: Record<string, any> | any;
+
+  constructor(options: Record<string, any> = {}) {
+    this.vdom = null;
+    this.view = options;
+  }
+
+  public mount(el: string | Element): Record<string, any> | any {
+    this.vdom = this._compile(typeof el === 'string' ? document.querySelector(el) : el);
+    this.view = observer(this.view, this._patch.bind(this));
+
+    this._patch(Object.keys(this.view));
+    return this.view;
+  }
+
+  private _patch(keys: string[]): Record<any, any> | any {
+    patch(this.vdom, this.view, keys);
+  }
+
+  private _compile(el: Element | null): Record<any, any> | any {
+    return compile(el, this.view);
   }
 }
 

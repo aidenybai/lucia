@@ -1,10 +1,6 @@
 import arrayEquals from './helpers/arrayEquals';
 
-const observer = (
-  view: Function | any,
-  patch: Function,
-  vdom: Record<string, any> | null
-): ProxyConstructor => {
+const observer = (view: Function | any, patch: Function): Record<string, any> => {
   const handler = {
     get(target: Record<string, any>, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
@@ -17,13 +13,12 @@ const observer = (
       target[key] = value;
       if (key === 'length') {
         patch(
-          vdom,
           Object.keys(view).filter((key: string) => {
             return view[key] instanceof Array && arrayEquals(target, view[key]);
           })
         );
       } else {
-        patch(vdom, [key]);
+        patch([key]);
       }
       return true;
     },
@@ -31,13 +26,12 @@ const observer = (
       delete target[key];
       if (key === 'length') {
         patch(
-          vdom,
           Object.keys(view).filter((key: string) => {
             return view[key] instanceof Array;
           })
         );
       } else {
-        patch(vdom, [key]);
+        patch([key]);
       }
       return true;
     },

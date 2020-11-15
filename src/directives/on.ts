@@ -1,7 +1,7 @@
 import compute from '../helpers/compute';
-import { directiveArgs } from '../helpers/interfaces';
+import { args } from './args';
 
-export const onDirective = ({ el, name, value, view }: directiveArgs) => {
+export const onDirective = ({ el, name, value, view }: args) => {
   const eventTokens = name.split('.');
   const eventName = eventTokens[0].split(':')[1];
   const eventProp = eventTokens[1] || null;

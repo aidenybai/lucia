@@ -1,6 +1,6 @@
-import { directiveArgs } from '../helpers/interfaces';
+import { args } from './args';
 
-export const modelDirective = ({ el, value, view }: directiveArgs) => {
+export const modelDirective = ({ el, value, view }: args) => {
   el.value = view[value];
 
   // Type inference

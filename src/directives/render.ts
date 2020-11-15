@@ -1,10 +1,10 @@
-import { bindDirective } from './directives/bind';
-import { joinDirective } from './directives/join';
-import { htmlDirective } from './directives/html';
-import { ifDirective } from './directives/if';
-import { modelDirective } from './directives/model';
-import { onDirective } from './directives/on';
-import { textDirective } from './directives/text';
+import { bindDirective } from './bind';
+import { joinDirective } from './join';
+import { htmlDirective } from './html';
+import { ifDirective } from './if';
+import { modelDirective } from './model';
+import { onDirective } from './on';
+import { textDirective } from './text';
 
 export default ({
   el,

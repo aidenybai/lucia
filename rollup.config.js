@@ -2,7 +2,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
-import { main, browser } from './package.json';
 
 const config = {
   name: 'Lucia',
@@ -21,12 +20,12 @@ export default {
 
   output: [
     {
-      file: main,
+      file: 'dist/lucia.js',
       format: 'umd',
       ...config,
     },
     {
-      file: browser,
+      file: 'dist/lucia.min.js',
       plugins: terser({ format: { comments: false } }),
       format: 'umd',
       ...config,
