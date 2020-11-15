@@ -21,7 +21,7 @@ export const h = (
   attributes: Record<string, string> = {},
   directives: Record<string, string> = {},
   children: Record<string, VNode | string>[] = [],
-  type: number,
+  type: number = 0,
   sel?: string
 ): VNode => {
   return {

@@ -1,5 +1,6 @@
-import { getSelector, getProps } from '../helpers/selector';
 import h from './h';
+import getProps from '../helpers/props';
+import { getSelector } from '../helpers/selector';
 
 const compile = (
   el: Element | null,
