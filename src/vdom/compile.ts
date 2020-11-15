@@ -28,6 +28,7 @@ const compile = (
         )
           ? type
           : 2;
+
         children.push(
           h(
             targetChildNode.tagName.toLowerCase(),
@@ -35,10 +36,9 @@ const compile = (
             directives,
             compile(targetChildNode, view, true),
             type,
-            getSelector(targetChildNode)
+            type === 0 ? undefined : getSelector(targetChildNode)
           )
         );
-
         break;
     }
   }
