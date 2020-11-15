@@ -5,7 +5,7 @@ describe('.textDirective', () => {
     const fakeElem = document.createElement('div');
     textDirective({
       el: fakeElem,
-      name: 'l-text',
+      name: `l-text`,
       value: `'$' + money`,
       view: { money: 0 },
     });

@@ -1,15 +1,14 @@
 import { h, VNode } from './vdom/h';
 import compile from './vdom/compile';
 import patch from './vdom/patch';
-
-import compute from './helpers/compute';
-import directives from './directives/render';
 import observer from './vdom/observer';
+import { props, DIRECTIVE_PREFIX } from './vdom/helpers/props';
+import selector from './vdom/helpers/selector';
 
-import getProps from './helpers/props';
-import getSelector from './helpers/selector';
+import compute from './utils/compute';
+import { render, directives } from './directives/render';
 
-export { compute, directives, observer, h, compile, patch, getProps, getSelector };
+export { h, compile, patch, observer, props, selector, compute, render, directives };
 
 export class App {
   vdom: VNode | null;
@@ -42,10 +41,10 @@ export const createApp = (view: Record<string, unknown>) => {
 };
 
 export const use = (name: string, view: Record<string, unknown>): App | void => {
-  const elements = Array.from(document.querySelectorAll('[l-use]'));
+  const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
 
   for (const el of elements) {
-    const component = el.getAttribute('l-use');
+    const component = el.getAttribute(`${DIRECTIVE_PREFIX}use`);
 
     if (component === name) {
       const app = createApp(view);
@@ -57,10 +56,10 @@ export const use = (name: string, view: Record<string, unknown>): App | void => 
 };
 
 export const init = (element: HTMLElement | Document = document, directive: string = 'use') => {
-  const elements = Array.from(element.querySelectorAll(`[l-${directive}]`));
+  const elements = Array.from(element.querySelectorAll(`[${DIRECTIVE_PREFIX + directive}]`));
 
   for (const el of elements) {
-    const view = el.getAttribute(`l-${directive}`);
+    const view = el.getAttribute(DIRECTIVE_PREFIX + directive);
     if (view === null) return;
 
     try {

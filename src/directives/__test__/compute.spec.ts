@@ -1,4 +1,4 @@
-import compute from '../compute';
+import compute from '../../utils/compute';
 
 describe('.compute', () => {
   it('should compute correctly', () => {

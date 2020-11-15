@@ -1,4 +1,4 @@
-import compute from '../helpers/compute';
+import compute from '../utils/compute';
 import { args } from './args';
 
 export const bindDirective = ({ el, name, value, view }: args) => {

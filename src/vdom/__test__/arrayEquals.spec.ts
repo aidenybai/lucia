@@ -1,4 +1,4 @@
-import arrayEquals from '../arrayEquals';
+import arrayEquals from '../../utils/arrayEquals';
 
 describe('.arrayEquals', () => {
   it('should return true', () => {

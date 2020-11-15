@@ -7,7 +7,7 @@ describe('.h', () => {
     expect(JSON.stringify(vdom)).toBe(
       JSON.stringify({
         tag: 'div',
-        data: {
+        props: {
           attributes: {},
           directives: {},
         },

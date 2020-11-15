@@ -57,8 +57,8 @@ const buildPathString = (parents: Record<any, string>[]): string => {
   return pathArr.join(' > ');
 };
 
-export const getSelector = (el: HTMLElement | any) => {
+export const selector = (el: HTMLElement | any) => {
   return buildPathString(parentElements(el));
 };
 
-export default getSelector;
+export default selector;

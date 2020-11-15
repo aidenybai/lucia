@@ -1,4 +1,4 @@
-import compute from '../helpers/compute';
+import compute from '../utils/compute';
 import { args } from './args';
 
 export const onDirective = ({ el, name, value, view }: args) => {
@@ -6,14 +6,10 @@ export const onDirective = ({ el, name, value, view }: args) => {
   const eventName = eventTokens[0].split(':')[1];
   const eventProp = eventTokens[1] || null;
 
-  if (eventName === 'effect') {
-    compute(value, view);
-  } else {
-    el[`on${eventName}`] = ($event: Event) => {
-      if (eventProp === 'prevent') $event.preventDefault();
-      if (eventProp === 'stop') $event.stopPropagation();
+  el[`on${eventName}`] = ($event: Event) => {
+    if (eventProp === 'prevent') $event.preventDefault();
+    if (eventProp === 'stop') $event.stopPropagation();
 
-      compute(value, view);
-    };
-  }
+    compute(value, view);
+  };
 };

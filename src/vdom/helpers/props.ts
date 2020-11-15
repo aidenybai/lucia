@@ -1,11 +1,13 @@
-const getProps = (el: Record<string, any>): Record<string, any> => {
+export const DIRECTIVE_PREFIX = 'l-';
+
+export const props = (el: Record<string, any>): Record<string, any> => {
   const attributes: Record<string, any> = {};
   const directives: Record<string, any> = {};
 
   if (el.attributes) {
     for (const { name, value } of el.attributes) {
-      if (name.startsWith('l-')) {
-        directives[name.replace('l-', '')] = value;
+      if (name.startsWith(DIRECTIVE_PREFIX)) {
+        directives[name.slice(DIRECTIVE_PREFIX.length)] = value;
       } else {
         attributes[name] = value;
       }
@@ -14,4 +16,4 @@ const getProps = (el: Record<string, any>): Record<string, any> => {
   return { attributes, directives };
 };
 
-export default getProps;
+export default props;

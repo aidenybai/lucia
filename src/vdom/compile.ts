@@ -1,6 +1,6 @@
-import h from './h';
-import getProps from '../helpers/props';
-import getSelector from '../helpers/selector';
+import { h, VNodeTypes } from './h';
+import props from './helpers/props';
+import selector from './helpers/selector';
 
 const compile = (
   el: Element | null,
@@ -10,53 +10,64 @@ const compile = (
   if (!el) throw new Error('Please provide a Element');
 
   const children = [];
-  const targetChildNodes = Array.prototype.slice.call(el.childNodes);
+  const childNodes = Array.prototype.slice.call(el.childNodes);
 
-  for (const targetChildNode of targetChildNodes) {
-    switch (targetChildNode.nodeType) {
+  for (const child of childNodes) {
+    switch (child.nodeType) {
       case Node.TEXT_NODE:
-        children.push(targetChildNode.nodeValue);
+        children.push(child.nodeValue);
         break;
       case Node.ELEMENT_NODE:
-        const { attributes, directives } = getProps(targetChildNode);
-        let type = 0;
+        const { attributes, directives } = props(child);
+        let type = VNodeTypes.STATIC;
+
         // Check if there are directives
-        type = Object.keys(directives).length === 0 ? type : 1;
+        const hasDirectives = Object.keys(directives).length > 0;
         // Check if there are affected keys in values
-        type = !Object.values(directives).some((value) =>
+        const hasKeyInDirectives = Object.values(directives).some((value) =>
           Object.keys(view).some((key) => (value as string).includes(key))
-        )
-          ? type
-          : 2;
+        );
+
+        if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
+        if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
 
         children.push(
           h(
-            targetChildNode.tagName.toLowerCase(),
+            child.tagName.toLowerCase(),
             attributes,
             directives,
-            compile(targetChildNode, view, true),
+            compile(child, view, true),
             type,
-            type === 0 ? undefined : getSelector(targetChildNode)
+            type === VNodeTypes.STATIC ? undefined : selector(child)
           )
         );
         break;
     }
   }
 
-  const { attributes, directives } = getProps(el);
+  const { attributes, directives } = props(el);
 
   if (callSelf) return children;
   else {
-    let type = 0;
+    let type = VNodeTypes.STATIC;
+
     // Check if there are directives
-    type = Object.keys(directives).length === 0 ? type : 1;
+    const hasDirectives = Object.keys(directives).length > 0;
     // Check if there are affected keys in values
-    type = !Object.values(directives).some((value) =>
+    const hasKeyInDirectives = Object.values(directives).some((value) =>
       Object.keys(view).some((key) => (value as string).includes(key))
-    )
-      ? type
-      : 2;
-    return h(el.tagName.toLowerCase(), attributes, directives, children, type, getSelector(el));
+    );
+
+    if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
+    if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
+    return h(
+      el.tagName.toLowerCase(),
+      attributes,
+      directives,
+      children,
+      type,
+      type === VNodeTypes.STATIC ? undefined : selector(el)
+    );
   }
 };
 

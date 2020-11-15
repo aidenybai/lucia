@@ -1,48 +1,43 @@
 import render from '../directives/render';
+import { VNode, VNodeTypes } from './h';
 
 const patch = (
-  vnodes: any /* VNode | null */,
+  originVNode: VNode | null,
   view: Record<string, any> = {},
   keys: string[] = [],
   callSelf: boolean = false
 ): Record<any, any> | any => {
-  if (!vnodes) return;
+  if (!originVNode) return;
 
-  for (let i = 0; i < vnodes.children.length; i++) {
-    let vnode = vnodes.children[i];
+  for (let vnode of originVNode.children) {
     if (typeof vnode === 'string') continue;
 
-    if (vnode.type > 0) {
-      const { attributes, directives, sel } = vnode.data;
+    if (vnode.type > VNodeTypes.STATIC) {
+      const { attributes, directives, sel } = vnode.props;
       const affectedDirectives = [];
       for (const name in directives as any) {
         const value = directives[name];
-        if (
-          keys.some((key) => value.toString().includes(key)) ||
-          Object.keys(view).some((key: string) => {
-            return (
-              typeof view[key] === 'function' &&
-              keys.some((k) => view[key].toString().includes(`this.${k}`))
-            );
-          })
-        ) {
+        const hasKey = keys.some((key) => value.toString().includes(key));
+        const hasKeyInFunction = Object.keys(view).some((key: string) => {
+          return (
+            typeof view[key] === 'function' &&
+            keys.some((k) => view[key].toString().includes(`this.${k}`))
+          );
+        });
+        if (hasKey || hasKeyInFunction) {
           affectedDirectives.push(name);
         }
       }
 
-      if (affectedDirectives.length > 0 && Object.keys(directives).includes('on:effect')) {
-        affectedDirectives.push('on:effect'); // Probably should make this more efficient in the future
-      }
-
-      if (vnode.type === 1) {
-        vnode.type = 0;
+      if (vnode.type === VNodeTypes.NEEDS_PATCH) {
+        vnode.type = VNodeTypes.STATIC;
       }
 
       for (const name of affectedDirectives) {
         const value = directives[name];
         const el = attributes.id
           ? document.getElementById(attributes.id)
-          : document.querySelector(sel);
+          : document.querySelector(sel as string);
 
         render({
           el,
@@ -55,7 +50,7 @@ const patch = (
 
     vnode = patch(vnode, view, keys, true);
   }
-  if (callSelf) return vnodes;
+  if (callSelf) return originVNode;
 };
 
 export default patch;
