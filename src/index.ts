@@ -4,7 +4,7 @@ import patch from './vdom/patch';
 
 import compute from './helpers/compute';
 import directives from './directives/render';
-import observer from './observer';
+import observer from './vdom/observer';
 
 export { compute, directives, observer, h, compile, patch };
 

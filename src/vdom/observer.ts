@@ -1,4 +1,4 @@
-import arrayEquals from './helpers/arrayEquals';
+import arrayEquals from '../helpers/arrayEquals';
 
 const observer = (view: Function | any, patch: Function): Record<string, any> => {
   const handler = {

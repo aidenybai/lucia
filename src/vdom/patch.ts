@@ -2,7 +2,7 @@ import render from '../directives/render';
 
 const patch = (
   vnodes: any /* VNode | null */,
-  view: Record<string, any>,
+  view: Record<string, any> = {},
   keys: string[] = [],
   callSelf: boolean = false
 ): Record<any, any> | any => {

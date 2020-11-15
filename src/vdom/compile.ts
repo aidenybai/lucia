@@ -4,7 +4,7 @@ import { getSelector } from '../helpers/selector';
 
 const compile = (
   el: Element | null,
-  view: Record<string, any>,
+  view: Record<string, any> = {},
   callSelf: boolean = false
 ): Record<any, any> | any => {
   if (!el) throw new Error('Please provide a Element');
