@@ -23,7 +23,7 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 
 ```html
 <!-- production version, optimized for size and speed -->
-<script src="https://unpkg.com/lucia@0.2.0"></script>
+<script src="https://unpkg.com/lucia"></script>
 ```
 
 Another option is installing via if you are using a module bundler such as [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org).
