@@ -1,11 +1,13 @@
 const computeProperties = (
   expression: string,
-  view: unknown = {},
+  data: Record<string, any> = {},
   returnable: boolean = true
 ): any => {
-  return new Function(`with(this) {${returnable ? `return ${expression}` : expression}}`).bind(
-    view
-  )();
+  return new Function(
+    `with(${Object.keys(data).length === 0 ? 'this' : 'this.$view'}) {${
+      returnable ? `return ${expression}` : expression
+    }}`
+  ).bind(data)();
 };
 
 export default computeProperties;

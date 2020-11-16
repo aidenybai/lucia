@@ -10,6 +10,6 @@ export const onDirective = ({ el, name, value, view }: args) => {
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
 
-    compute(value, view);
+    compute(value, { $view: view, $el: el }, false);
   };
 };

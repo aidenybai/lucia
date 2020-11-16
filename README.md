@@ -23,7 +23,7 @@ Lucia is currently is installable through a CDN and also supports UMD (Node, Bro
 
 ```html
 <!-- production version, optimized for size and speed -->
-<script src="https://unpkg.com/lucia"></script>
+<script src="https://unpkg.com/lucia@0.2.0"></script>
 ```
 
 Another option is installing via if you are using a module bundler such as [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org).
@@ -53,7 +53,7 @@ If you're interested in learning more about Lucia, visit [the documentation](htt
 If you're looking for something production-ready and is widely that has a API similar to Lucia, check these projects out!
 
 - [Alpine](https://github.com/alpinejs/alpine) - A rugged, minimal framework for composing JavaScript behavior in your markup.
-- [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have
+- [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
 - [Remake](https://github.com/remake/remake-cli) - Create interactive web apps with just HTML.
 - [Intercooler.js](https://github.com/intercoolerjs/intercooler-js) - Making AJAX as easy as anchor tags.
 - [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
