@@ -3,7 +3,7 @@ import { args } from './args';
 
 export const joinDirective = ({ el, value, view }: args) => {
   const parts = value.split('by ');
-  const out = compute(parts[0], view);
+  const out = compute(parts[0], { $view: view, $el: el });
 
   if (out !== undefined) {
     el.innerHTML = out.join(parts[1] || '');
