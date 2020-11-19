@@ -10,7 +10,7 @@ Lucia is a tiny JavaScript library for building web apps.
 
 ## Installation
 
-Lucia is currently is installable through a CDN and also supports UMD (Node, Browser, Isomorphic/Universal). Put this within your `<head>` tags in html.
+Lucia is currently is installable through a CDN and also supports UMD (ES Module, CommonJS, IIFE). Put this within your `<head>` tags in HTML.
 
 ```html
 <script src="https://unpkg.com/lucia"></script>

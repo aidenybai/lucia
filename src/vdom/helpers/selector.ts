@@ -7,7 +7,7 @@ const parentElements = (el: Element | any): Record<any, Element | string | any>[
     const cssId = el.id ? `#${el.id}` : '';
     let cssClass: string = '';
     if (el.className && typeof el.className === 'string') {
-      cssClass = `.${el.className.replace(/\s+/g, '.').replace(/[:*+?^${}()|[\]\\]/gi, '\\$&')}`;
+      cssClass = `.${el.className.replace(/\s+/g, '.').replace(/[:*+?^${}()|[\]\\/]/gi, '\\$&')}`;
     }
 
     parents.unshift({
