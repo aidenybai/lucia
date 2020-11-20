@@ -7,6 +7,7 @@ const parentElements = (el: Element | any): Record<any, Element | string | any>[
     const cssId = el.id ? `#${el.id}` : '';
     let cssClass: string = '';
     if (el.className && typeof el.className === 'string') {
+      // Need to escape special characters for selectors
       cssClass = `.${el.className.replace(/\s+/g, '.').replace(/[:*+?^${}()|[\]\\/]/gi, '\\$&')}`;
     }
 

@@ -54,6 +54,12 @@ It should be noted that Lucia should not be implemented in all use cases. Lucia 
 - [Remake](https://github.com/remake/remake-cli) - Create interactive web apps with just HTML.
 - [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
 
+## Contributing
+
+Refer to the [CONTRIBUTING.md](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md) file for instructions.
+
+<a href="https://github.com/aidenybai/lucia/graphs/contributors"><img src="https://opencollective.com/lucialand/contributors.svg?width=890" /></a>
+
 ## License
 
 Lucia is [MIT licensed](LICENSE.md).
