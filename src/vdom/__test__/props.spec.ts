@@ -5,11 +5,9 @@ describe('.props', () => {
     const fakeElem = document.createElement('div');
     fakeElem.setAttribute('name', '0');
     fakeElem.setAttribute(`l-text`, '1');
-    expect(JSON.stringify(props(fakeElem))).toBe(
-      JSON.stringify({
-        attributes: { name: '0' },
-        directives: { text: '1' },
-      })
-    );
+    expect(props(fakeElem)).toEqual({
+      attributes: { name: '0' },
+      directives: { text: '1' },
+    });
   });
 });
