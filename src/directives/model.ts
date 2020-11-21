@@ -3,7 +3,6 @@ import { args } from './args';
 export const modelDirective = ({ el, value, view }: args) => {
   el.value = view[value];
 
-  // Type inference
   const model = () => {
     const isNumber = typeof view[value] === 'number' && !isNaN(el.value);
     const isBoolean =
@@ -12,6 +11,7 @@ export const modelDirective = ({ el, value, view }: args) => {
       (view[value] === null || view[value] === undefined) &&
       (el.value === 'null' || el.value === 'undefined');
 
+    // Perform type coercion
     if (isNumber) {
       view[value] = Number(el.value).toPrecision();
     } else if (isBoolean) {
@@ -24,6 +24,6 @@ export const modelDirective = ({ el, value, view }: args) => {
     }
   };
 
-  el.oninput = model;
+  el.oninput = model; // Render init
   model();
 };

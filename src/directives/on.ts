@@ -7,6 +7,7 @@ export const onDirective = ({ el, name, value, view }: args) => {
   const eventProp = eventTokens[1] || null;
 
   el[`on${eventName}`] = ($event: Event) => {
+    // Parse event modifiers based on directive prop
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
 

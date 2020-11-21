@@ -9,28 +9,36 @@ const patch = (
 ): Record<any, any> | any => {
   if (!originVNode) return;
 
-  for (let vnode of originVNode.children) {
-    if (typeof vnode === 'string') continue;
+  for (let node of originVNode.children) {
+    if (typeof node === 'string') continue;
 
-    if (vnode.type > VNodeTypes.STATIC) {
-      const { attributes, directives, sel } = vnode.props;
+    // Check if it is not a static VNode by type
+    if (node.type > VNodeTypes.STATIC) {
+      const { attributes, directives, sel } = node.props;
       const affectedDirectives = [];
-      for (const name in directives as any) {
+
+      for (const name in directives as Record<string, any>) {
         const value = directives[name];
+        // Iterate through affected keys and check if directive value has key
         const hasKey = keys.some((key) => value.toString().includes(key));
+        // Iterate through view keys
         const hasKeyInFunction = Object.keys(view).some((key: string) => {
+          // Check if function and function content, iterate through affected
+          // keys and check if function content contains affected key
           return (
             typeof view[key] === 'function' &&
             keys.some((k) => view[key].toString().includes(`this.${k}`))
           );
         });
+        // If affected, then push to render queue
         if (hasKey || hasKeyInFunction) {
           affectedDirectives.push(name);
         }
       }
 
-      if (vnode.type === VNodeTypes.NEEDS_PATCH) {
-        vnode.type = VNodeTypes.STATIC;
+      // Switch one time patch nodes to static (l-use and l-init unaffected)
+      if (node.type === VNodeTypes.NEEDS_PATCH) {
+        node.type = VNodeTypes.STATIC;
       }
 
       for (const name of affectedDirectives) {
@@ -39,6 +47,7 @@ const patch = (
           ? document.getElementById(attributes.id)
           : document.querySelector(sel as string);
 
+        // Render directive
         render({
           el,
           name,
@@ -48,8 +57,9 @@ const patch = (
       }
     }
 
-    vnode = patch(vnode, view, keys, true);
+    node = patch(node, view, keys, true);
   }
+  // Handle recursive case
   if (callSelf) return originVNode;
 };
 

@@ -1,3 +1,5 @@
+// Exports wrapped in Lucia namespace
+
 import { h, VNode } from './vdom/h';
 import compile from './vdom/compile';
 import patch from './vdom/patch';
@@ -27,6 +29,7 @@ export class App {
     return this.view;
   }
 
+  // Use internal private methods, should not be used when instantiated by the user
   private _patch(keys: string[]): Record<any, any> | any {
     patch(this.vdom, this.view, keys);
   }
@@ -40,6 +43,7 @@ export const createApp = (view: Record<string, unknown>) => {
   return new App(view);
 };
 
+// Lucia.use function for user provided views in JavaScript
 export const use = (name: string, view: Record<string, unknown>): App | void => {
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
 
@@ -55,6 +59,7 @@ export const use = (name: string, view: Record<string, unknown>): App | void => 
   }
 };
 
+// Init function if requested. Normally used if l-use but no Lucia.use is provided
 export const init = (element: HTMLElement | Document = document, directive: string = 'use') => {
   const elements = Array.from(element.querySelectorAll(`[${DIRECTIVE_PREFIX + directive}]`));
 
@@ -69,4 +74,5 @@ export const init = (element: HTMLElement | Document = document, directive: stri
   }
 };
 
+// Scan DOM for l-init attributes on DOM load
 document.addEventListener('DOMContentLoaded', () => init(document, 'init'));

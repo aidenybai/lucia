@@ -1,4 +1,5 @@
 const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
+  // Deep Array equality check
   return (
     firstArray instanceof Array &&
     secondArray instanceof Array &&
