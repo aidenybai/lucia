@@ -49,7 +49,7 @@ const compile = (
 
   if (callSelf) return children;
   else {
-    createVNode(el, view, children);
+    return createVNode(el, view, children);
   }
 };
 

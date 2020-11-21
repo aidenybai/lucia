@@ -5,7 +5,6 @@ const patch = (
   originVNode: VNode | null,
   view: Record<string, any> = {},
   keys: string[] = [],
-  callSelf: boolean = false
 ): Record<any, any> | any => {
   if (!originVNode) return;
 
@@ -57,10 +56,8 @@ const patch = (
       }
     }
 
-    node = patch(node, view, keys, true);
+    if (node.children.length > 0) patch(node, view, keys);
   }
-  // Handle recursive case
-  if (callSelf) return originVNode;
 };
 
 export default patch;
