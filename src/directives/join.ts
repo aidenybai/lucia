@@ -1,4 +1,5 @@
 import compute from '../utils/compute';
+import { createApp } from '../index';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const joinDirective = ({ el, value, view }: DirectiveArgs) => {
@@ -10,4 +11,6 @@ export const joinDirective = ({ el, value, view }: DirectiveArgs) => {
   } else {
     el.innerHTML = parts[0].join(parts[1] || '');
   }
+
+  createApp({ ...view }).mount(el);
 };

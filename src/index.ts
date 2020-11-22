@@ -16,9 +16,9 @@ export class App {
   vdom: VNode | null;
   view: Record<string, unknown>;
 
-  constructor(options: Record<string, unknown> = {}) {
+  constructor(view: Record<string, unknown> = {}) {
     this.vdom = null;
-    this.view = options;
+    this.view = view;
   }
 
   public mount(el: string | Element): Record<string, unknown> {
