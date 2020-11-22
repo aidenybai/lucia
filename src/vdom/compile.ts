@@ -1,7 +1,7 @@
 import { h, VNodeTypes, VNode } from './h';
 import props from '../utils/props';
 
-const createVNode = (el: Element | null, view: Record<string, any>, children: VNode[]) => {
+const createVNode = (el: Element | null, view: Record<string, unknown>, children: VNode[]) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
 
@@ -26,9 +26,9 @@ const createVNode = (el: Element | null, view: Record<string, any>, children: VN
 
 const compile = (
   el: Element | null,
-  view: Record<string, any> = {},
+  view: Record<string, unknown> = {},
   callSelf: boolean = false
-): Record<any, any> | any => {
+): VNode[] | VNode => {
   if (!el) throw new Error('Please provide a Element');
 
   const children = [];
@@ -41,7 +41,7 @@ const compile = (
         break;
       case Node.ELEMENT_NODE:
         // Fill children array
-        children.push(createVNode(child, view, compile(child, view, true)));
+        children.push(createVNode(child, view, compile(child, view, true) as VNode[]));
         break;
     }
   }

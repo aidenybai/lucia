@@ -5,7 +5,7 @@ import { ifDirective } from './if';
 import { modelDirective } from './model';
 import { onDirective } from './on';
 import { textDirective } from './text';
-import { args } from './args';
+import { DirectiveArgs } from './IDirectiveArgs';
 
 export const directives: Record<string, Function> = {
   bind: bindDirective,
@@ -17,7 +17,7 @@ export const directives: Record<string, Function> = {
   text: textDirective,
 };
 
-export const render = ({ el, name, value, view }: args) => {
+export const render = ({ el, name, value, view }: DirectiveArgs) => {
   const rootName = name.split(/:|\./)[0]; // Split directive:modifier.property
   directives[rootName]({ el, name, value, view });
 };

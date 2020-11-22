@@ -1,7 +1,7 @@
 import compute from '../utils/compute';
-import { args } from './args';
+import { DirectiveArgs } from './IDirectiveArgs';
 
-export const bindDirective = ({ el, name, value, view }: args) => {
+export const bindDirective = ({ el, name, value, view }: DirectiveArgs) => {
   switch (name.split(':')[1]) {
     case 'class':
       const classView = compute(value, { $view: view, $el: el });

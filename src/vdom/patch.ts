@@ -3,9 +3,9 @@ import { VNode, VNodeTypes } from './h';
 
 const patch = (
   originVNode: VNode | null,
-  view: Record<string, any> = {},
+  view: Record<string, unknown> = {},
   keys: string[] = []
-): Record<any, any> | any => {
+): void => {
   if (!originVNode) return;
 
   for (let node of originVNode.children) {
@@ -16,7 +16,7 @@ const patch = (
       const { attributes, directives, sel } = node.props;
       const affectedDirectives = [];
 
-      for (const name in directives as Record<string, any>) {
+      for (const name in directives as Record<string, unknown>) {
         const value = directives[name];
         // Iterate through affected keys and check if directive value has key
         const hasKey = keys.some((key) => value.toString().includes(key));
@@ -26,7 +26,9 @@ const patch = (
           // keys and check if function content contains affected key
           return (
             typeof view[key] === 'function' &&
-            keys.some((k) => view[key].toString().includes(`this.${k}`))
+            keys.some((k) =>
+              (view[key] as Record<string, unknown>).toString().includes(`this.${k}`)
+            )
           );
         });
         // If affected, then push to render queue

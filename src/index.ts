@@ -13,14 +13,14 @@ export { h, compile, patch, observer, props, compute, render, directives };
 
 export class App {
   vdom: VNode | null;
-  view: Record<string, any> | any;
+  view: Record<string, unknown>;
 
-  constructor(options: Record<string, any> = {}) {
+  constructor(options: Record<string, unknown> = {}) {
     this.vdom = null;
     this.view = options;
   }
 
-  public mount(el: string | Element): Record<string, any> | any {
+  public mount(el: string | Element): Record<string, unknown> {
     this.vdom = this._compile(typeof el === 'string' ? document.querySelector(el) : el);
     this.view = observer(this.view, this._patch.bind(this));
 
@@ -29,12 +29,12 @@ export class App {
   }
 
   // Use internal private methods, should not be used when instantiated by the user
-  private _patch(keys: string[]): Record<any, any> | any {
+  private _patch(keys: string[]): void {
     patch(this.vdom, this.view, keys);
   }
 
-  private _compile(el: Element | null): Record<any, any> | any {
-    return compile(el, this.view);
+  private _compile(el: Element | null): VNode {
+    return compile(el, this.view) as VNode;
   }
 }
 

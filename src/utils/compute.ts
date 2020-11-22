@@ -1,6 +1,6 @@
 const computeProperties = (
   expression: string,
-  data: Record<string, any> = {},
+  data: Record<string, unknown> = {},
   returnable: boolean = true
 ): any => {
   // Use Function class to perform scoped string eval, wrap in with to provide

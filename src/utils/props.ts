@@ -1,8 +1,8 @@
 export const DIRECTIVE_PREFIX = 'l-';
 
-export const props = (el: Element | null): Record<string, any> => {
-  const attributes: Record<string, any> = {};
-  const directives: Record<string, any> = {};
+export const props = (el: Element | null): Record<string, Record<string, string>> => {
+  const attributes: Record<string, string> = {};
+  const directives: Record<string, string> = {};
 
   el = el as Element;
 

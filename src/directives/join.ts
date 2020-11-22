@@ -1,7 +1,7 @@
 import compute from '../utils/compute';
-import { args } from './args';
+import { DirectiveArgs } from './IDirectiveArgs';
 
-export const joinDirective = ({ el, value, view }: args) => {
+export const joinDirective = ({ el, value, view }: DirectiveArgs) => {
   const parts = value.split('by ');
   const out = compute(parts[0], { $view: view, $el: el });
 

@@ -1,4 +1,4 @@
-export interface args {
+export interface DirectiveArgs {
   el: HTMLElement | any;
   name: string;
   value: string | any;

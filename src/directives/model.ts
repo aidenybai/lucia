@@ -1,6 +1,6 @@
-import { args } from './args';
+import { DirectiveArgs } from './IDirectiveArgs';
 
-export const modelDirective = ({ el, value, view }: args) => {
+export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
   el.value = view[value];
 
   const model = () => {

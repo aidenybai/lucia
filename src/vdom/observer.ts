@@ -1,16 +1,16 @@
 import arrayEquals from '../utils/arrayEquals';
 
 const handleArray = (
-  target: Record<string, any> | any,
+  target: Record<string, unknown> | unknown[],
   key: string,
-  view: Function | any,
+  view: Record<string, unknown | unknown[]>,
   patch: Function
 ) => {
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length') {
     const affectedKeys = Object.keys(view).filter((key: string) => {
       // Filter out (arrays && if affected array is the array) from view
-      return view[key] instanceof Array && arrayEquals(target, view[key]);
+      return view[key] instanceof Array && arrayEquals(target as unknown[], view[key] as unknown[]);
     });
     // Patch only if found any affected keys
     if (affectedKeys.length !== 0) patch(affectedKeys);
@@ -19,22 +19,25 @@ const handleArray = (
   }
 };
 
-const observer = (view: Function | any, patch: Function): Record<string, any> => {
+const observer = (
+  view: Record<string, unknown | unknown[]>,
+  patch: Function
+): Record<string, unknown> => {
   const handler = {
-    get(target: Record<string, any>, key: string): unknown {
+    get(target: Record<string, unknown>, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
         // Deep proxy - if there is an object in an object, need to proxify that.
-        return new Proxy(target[key], handler);
+        return new Proxy(target[key] as Record<string, unknown>, handler);
       } else {
         return target[key];
       }
     },
-    set(target: Record<string, any> | any, key: string, value: unknown): boolean {
+    set(target: Record<string, unknown>, key: string, value: unknown): boolean {
       target[key] = value;
       handleArray(target, key, view, patch);
       return true;
     },
-    deleteProperty(target: Record<string, any> | any, key: string): boolean {
+    deleteProperty(target: Record<string, unknown>, key: string): boolean {
       delete target[key];
       handleArray(target, key, view, patch);
       return true;
