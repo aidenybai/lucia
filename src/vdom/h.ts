@@ -6,7 +6,7 @@ export interface VNode {
 }
 
 export interface VNodeProps {
-  sel?: string;
+  sel?: Element;
   attributes: Record<string, string>;
   directives: Record<string, string>;
 }
@@ -25,7 +25,7 @@ export const h = (
   directives: Record<string, string> = {},
   children: (VNode | string)[] = [],
   type: VNodeType = 0,
-  sel?: string
+  sel?: Element
 ): VNode => {
   return {
     tag,

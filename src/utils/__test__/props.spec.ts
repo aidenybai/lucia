@@ -1,4 +1,4 @@
-import props from '../helpers/props';
+import props from '../props';
 
 describe('.props', () => {
   it('should get the props of an element', () => {

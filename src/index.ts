@@ -4,13 +4,12 @@ import { h, VNode } from './vdom/h';
 import compile from './vdom/compile';
 import patch from './vdom/patch';
 import observer from './vdom/observer';
-import { props, DIRECTIVE_PREFIX } from './vdom/helpers/props';
-import selector from './vdom/helpers/selector';
+import { props, DIRECTIVE_PREFIX } from './utils/props';
 
 import compute from './utils/compute';
 import { render, directives } from './directives/render';
 
-export { h, compile, patch, observer, props, selector, compute, render, directives };
+export { h, compile, patch, observer, props, compute, render, directives };
 
 export class App {
   vdom: VNode | null;

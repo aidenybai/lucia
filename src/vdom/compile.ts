@@ -1,6 +1,5 @@
 import { h, VNodeTypes, VNode } from './h';
-import props from './helpers/props';
-import selector from './helpers/selector';
+import props from '../utils/props';
 
 const createVNode = (el: Element | null, view: Record<string, any>, children: VNode[]) => {
   const { attributes, directives } = props(el);
@@ -21,7 +20,7 @@ const createVNode = (el: Element | null, view: Record<string, any>, children: VN
     directives,
     children,
     type,
-    type === VNodeTypes.STATIC ? undefined : selector(el)
+    type === VNodeTypes.STATIC || attributes.id ? undefined : (el as Element)
   );
 };
 

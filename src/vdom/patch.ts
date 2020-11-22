@@ -4,7 +4,7 @@ import { VNode, VNodeTypes } from './h';
 const patch = (
   originVNode: VNode | null,
   view: Record<string, any> = {},
-  keys: string[] = [],
+  keys: string[] = []
 ): Record<any, any> | any => {
   if (!originVNode) return;
 
@@ -42,9 +42,7 @@ const patch = (
 
       for (const name of affectedDirectives) {
         const value = directives[name];
-        const el = attributes.id
-          ? document.getElementById(attributes.id)
-          : document.querySelector(sel as string);
+        const el = attributes.id ? document.getElementById(attributes.id) : sel;
 
         // Render directive
         render({
