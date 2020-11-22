@@ -25,5 +25,4 @@ export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
   };
 
   el.oninput = model; // Render init
-  model();
 };

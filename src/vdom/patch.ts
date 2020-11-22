@@ -2,13 +2,14 @@ import render from '../directives/render';
 import { VNode, VNodeTypes } from './h';
 
 const patch = (
-  originVNode: VNode | null,
+  rootVNode: VNode | null,
   view: Record<string, unknown> = {},
-  keys: string[] = []
+  keys?: string[]
 ): void => {
-  if (!originVNode) return;
+  if (!rootVNode) return;
+  if (!keys) keys = Object.keys(view);
 
-  for (let node of originVNode.children) {
+  for (let node of rootVNode.children) {
     if (typeof node === 'string') continue;
 
     // Check if it is not a static VNode by type
@@ -26,7 +27,7 @@ const patch = (
           // keys and check if function content contains affected key
           return (
             typeof view[key] === 'function' &&
-            keys.some((k) =>
+            (keys as string[]).some((k) =>
               (view[key] as Record<string, unknown>).toString().includes(`this.${k}`)
             )
           );

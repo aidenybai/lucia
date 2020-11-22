@@ -4,9 +4,10 @@ import { h, VNode } from './vdom/h';
 import compile from './vdom/compile';
 import patch from './vdom/patch';
 import observer from './vdom/observer';
-import { props, DIRECTIVE_PREFIX } from './utils/props';
 
+import { props, DIRECTIVE_PREFIX } from './utils/props';
 import compute from './utils/compute';
+
 import { render, directives } from './directives/render';
 
 export { h, compile, patch, observer, props, compute, render, directives };
@@ -24,12 +25,12 @@ export class App {
     this.vdom = this._compile(typeof el === 'string' ? document.querySelector(el) : el);
     this.view = observer(this.view, this._patch.bind(this));
 
-    this._patch(Object.keys(this.view));
+    this._patch();
     return this.view;
   }
 
   // Use internal private methods, should not be used when instantiated by the user
-  private _patch(keys: string[]): void {
+  private _patch(keys?: string[]): void {
     patch(this.vdom, this.view, keys);
   }
 
