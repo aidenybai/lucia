@@ -33,3 +33,5 @@ export class App {
 export const createApp = (view: Record<string, unknown>) => {
   return new App(view);
 };
+
+export default createApp;
