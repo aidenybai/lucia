@@ -1,5 +1,7 @@
-import render from '../directives/render';
+import renderDirective from '../directives/renderDirective';
 import { VNode, VNodeTypes } from './h';
+
+// Using patch requires a wrapper parent VNode
 
 const patch = (
   rootVNode: VNode | null,
@@ -48,7 +50,7 @@ const patch = (
         const el = attributes.id ? document.getElementById(attributes.id) : sel;
 
         // Render directive
-        render({
+        renderDirective({
           el,
           name,
           value,

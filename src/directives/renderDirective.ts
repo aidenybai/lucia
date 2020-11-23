@@ -17,9 +17,9 @@ export const directives: Record<string, Function> = {
   text: textDirective,
 };
 
-export const render = ({ el, name, value, view }: DirectiveArgs) => {
+export const renderDirective = ({ el, name, value, view }: DirectiveArgs) => {
   const rootName = name.split(/:|\./)[0]; // Split directive:modifier.property
   directives[rootName]({ el, name, value, view });
 };
 
-export default render;
+export default renderDirective;

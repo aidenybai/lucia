@@ -2,8 +2,7 @@ import { DirectiveArgs } from './IDirectiveArgs';
 
 export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
   el.value = view[value];
-
-  const model = () => {
+  el.oninput = () => {
     const isNumber = typeof view[value] === 'number' && !isNaN(el.value);
     const isBoolean =
       typeof view[value] === 'boolean' && (el.value === 'true' || el.value === 'false');
@@ -23,6 +22,4 @@ export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
       view[value] = el.value;
     }
   };
-
-  el.oninput = model; // Render init
 };
