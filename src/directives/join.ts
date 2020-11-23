@@ -3,14 +3,16 @@ import { createApp } from '../index';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const joinDirective = ({ el, value, view }: DirectiveArgs) => {
-  const parts = value.split('by ');
-  const out = compute(parts[0], { $view: view, $el: el });
+  const [array, delimiter] = value.split('by ');
+  const out = compute(array, { $view: view, $el: el });
 
   if (out !== undefined) {
-    el.innerHTML = out.join(parts[1] || '');
+    el.innerHTML = out.join(delimiter || '');
   } else {
-    el.innerHTML = parts[0].join(parts[1] || '');
+    el.innerHTML = array.join(delimiter || '');
   }
 
-  createApp({ ...view }).mount(el);
+  // Create shallow nested Lucia app
+  const app = createApp({ ...view });
+  app.mount(el, true);
 };

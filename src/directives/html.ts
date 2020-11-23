@@ -5,7 +5,9 @@ import { DirectiveArgs } from './IDirectiveArgs';
 export const htmlDirective = ({ el, value, view }: DirectiveArgs) => {
   const out = compute(value, { $view: view, $el: el });
 
-  createApp({ ...view }).mount(el);
+  // Create shallow nested Lucia app
+  const app = createApp({ ...view });
+  app.mount(el, true);
 
   if (out !== undefined) {
     el.innerHTML = out;

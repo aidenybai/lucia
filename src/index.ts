@@ -21,9 +21,9 @@ export class App {
     this.view = view;
   }
 
-  public mount(el: string | Element): Record<string, unknown> {
+  public mount(el: string | Element, shallow: boolean = false): Record<string, unknown> {
     this.vdom = this._compile(typeof el === 'string' ? document.querySelector(el) : el);
-    this.view = observer(this.view, this._patch.bind(this));
+    if (!shallow) this.view = observer(this.view, this._patch.bind(this));
 
     this._patch();
     return this.view;
