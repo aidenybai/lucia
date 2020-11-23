@@ -15,8 +15,8 @@ const patch = (
     if (typeof node === 'string') continue;
 
     // Check if it is not a static VNode by type
-    if (node.type > VNodeTypes.STATIC) {
-      const { attributes, directives, sel } = node.props;
+    if (node.props.type > VNodeTypes.STATIC) {
+      const { attributes, directives, ref } = node.props;
       const affectedDirectives = [];
 
       for (const name in directives as Record<string, unknown>) {
@@ -41,13 +41,13 @@ const patch = (
       }
 
       // Switch one time patch nodes to static (l-use and l-init unaffected)
-      if (node.type === VNodeTypes.NEEDS_PATCH) {
-        node.type = VNodeTypes.STATIC;
+      if (node.props.type === VNodeTypes.NEEDS_PATCH) {
+        node.props.type = VNodeTypes.STATIC;
       }
 
       for (const name of affectedDirectives) {
         const value = directives[name];
-        const el = attributes.id ? document.getElementById(attributes.id) : sel;
+        const el = attributes.id ? document.getElementById(attributes.id) : ref;
 
         // Render directive
         renderDirective({

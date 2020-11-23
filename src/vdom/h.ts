@@ -1,12 +1,12 @@
 export interface VNode {
   tag: string;
-  props: VNodeProps;
   children: (VNode | string)[];
-  type: VNodeType;
+  props: VNodeProps;
 }
 
 export interface VNodeProps {
-  sel?: Element;
+  ref?: Element;
+  type: VNodeType;
   attributes: Record<string, string>;
   directives: Record<string, string>;
 }
@@ -19,23 +19,16 @@ export const VNodeTypes: Record<string, VNodeType> = {
   DYNAMIC: 2, // dynamic VNode (needs patch every time view changes)
 };
 
-export const h = (
-  tag: string,
-  attributes: Record<string, string> = {},
-  directives: Record<string, string> = {},
-  children: (VNode | string)[] = [],
-  type: VNodeType = 0,
-  sel?: Element
-): VNode => {
+export const h = (tag: string, children?: (VNode | string)[], props?: VNodeProps): VNode => {
   return {
     tag,
-    props: {
-      attributes,
-      directives,
-      sel,
+    children: children || [],
+    props: props || {
+      attributes: {},
+      directives: {},
+      ref: undefined,
+      type: 0,
     },
-    children,
-    type,
   };
 };
 

@@ -5,7 +5,12 @@ describe('.patch', () => {
   it('should patch a directive', () => {
     const fakeElem = document.createElement('p');
 
-    patch(h('div', {}, {}, [h('p', {}, { text: 'hello' }, [], 2, fakeElem)]), { hello: 1 });
+    patch(
+      h('div', [
+        h('div', [], { attributes: {}, directives: { text: 'hello' }, ref: fakeElem, type: 2 }),
+      ]),
+      { hello: 1 }
+    );
 
     expect(fakeElem.textContent).toEqual('1');
   });

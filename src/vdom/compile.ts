@@ -14,14 +14,12 @@ const createVNode = (el: Element | null, view: Record<string, unknown>, children
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
   if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
-  return h(
-    (el as Element).tagName.toLowerCase(),
+  return h((el as Element).tagName.toLowerCase(), children, {
     attributes,
     directives,
-    children,
+    ref: type === VNodeTypes.STATIC || attributes.id ? undefined : (el as Element),
     type,
-    type === VNodeTypes.STATIC || attributes.id ? undefined : (el as Element)
-  );
+  });
 };
 
 const compile = (

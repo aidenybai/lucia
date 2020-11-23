@@ -6,12 +6,13 @@ describe('.h', () => {
 
     expect(vdom).toEqual({
       tag: 'div',
+      children: [],
       props: {
         attributes: {},
         directives: {},
+        type: 0,
+        ref: undefined,
       },
-      children: [],
-      type: 0,
     });
   });
 });
