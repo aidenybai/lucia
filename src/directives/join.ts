@@ -3,13 +3,15 @@ import { createApp } from '../index';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const joinDirective = ({ el, value, view }: DirectiveArgs) => {
-  const [array, delimiter] = value.split('by ');
+  const [array, contentType, delimiter] = value.split(/ as | by /);
   const out = compute(array, { $view: view, $el: el });
 
+  // By default
+  const accessProp = contentType === 'text' ? 'innerText' : 'innerHTML';
   if (out !== undefined) {
-    el.innerHTML = out.join(delimiter || '');
+    el[accessProp] = out.join(delimiter || '');
   } else {
-    el.innerHTML = array.join(delimiter || '');
+    el[accessProp] = array.join(delimiter || '');
   }
 
   // Create shallow nested Lucia app
