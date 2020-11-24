@@ -13,19 +13,19 @@ export class App {
   }
 
   public mount(el: string | Element, shallow: boolean = false): Record<string, unknown> {
-    this.vdom = this._compile(typeof el === 'string' ? document.querySelector(el) : el);
-    if (!shallow) this.view = observer(this.view, this._patch.bind(this));
+    this.vdom = this.compile(typeof el === 'string' ? document.querySelector(el) : el);
+    if (!shallow) this.view = observer(this.view, this.patch.bind(this));
 
-    this._patch();
+    this.patch();
     return this.view;
   }
 
   // Use internal private methods, should not be used when instantiated by the user
-  private _patch(keys?: string[]): void {
+  private patch(keys?: string[]): void {
     patch(this.vdom, this.view, keys);
   }
 
-  private _compile(el: Element | null): VNode {
+  private compile(el: Element | null): VNode {
     return compile(el, this.view) as VNode;
   }
 }
