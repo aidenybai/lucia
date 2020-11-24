@@ -20,6 +20,7 @@ export const VNodeTypes: Record<string, VNodeType> = {
 };
 
 export const h = (selector: string, children?: (VNode | string)[], props?: VNodeProps): VNode => {
+  // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
   const attributes: Record<string, string> = {};
@@ -34,6 +35,7 @@ export const h = (selector: string, children?: (VNode | string)[], props?: VNode
           attributes.id = token.slice(1);
           break;
         case '.':
+          if (!attributes.className) attributes.className = '';
           attributes.className += `${token.slice(1)} `;
           break;
         case '[':
@@ -44,14 +46,17 @@ export const h = (selector: string, children?: (VNode | string)[], props?: VNode
     }
   }
 
+  // Trim off trailing space
+  if (attributes.className) attributes.className = attributes.className.trim();
+
   return {
     tag,
     children: children || [],
-    props: props || {
-      attributes,
-      directives,
-      ref: undefined,
-      type: 0,
+    props: {
+      attributes: props?.attributes || attributes,
+      directives: props?.directives || directives,
+      ref: props?.ref || undefined,
+      type: props?.type || 0,
     },
   };
 };
