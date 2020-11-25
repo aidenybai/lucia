@@ -25,6 +25,7 @@ const createVNode = (el: Element | null, view: Record<string, unknown>, children
 const compile = (
   el: Element | null,
   view: Record<string, unknown> = {},
+  components: Record<string, string> = {},
   callSelf: boolean = false
 ): VNode[] | VNode => {
   if (!el) throw new Error('Please provide a Element');
@@ -39,7 +40,23 @@ const compile = (
         break;
       case Node.ELEMENT_NODE:
         // Fill children array
-        children.push(createVNode(child, view, compile(child, view, true) as VNode[]));
+        if (Object.keys(components).includes(child.tagName)) {
+          const temp = document.createElement('div');
+          temp.innerHTML = components[child.tagName];
+
+          children.push(
+            createVNode(
+              temp.firstChild as Element,
+              view,
+              compile(child, view, components, true) as VNode[]
+            )
+          );
+          el.replaceChild(temp.firstChild as Element, child);
+        } else {
+          children.push(
+            createVNode(child, view, compile(child, view, components, true) as VNode[])
+          );
+        }
         break;
     }
   }

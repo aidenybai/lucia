@@ -13,14 +13,21 @@ import { computeProperties, safeEval } from './utils/compute';
 export { App, createApp, h, compile, patch, observer, props, computeProperties };
 
 // Lucia.use function for user provided views in JavaScript
-export const use = (name: string, view: Record<string, unknown>): App | void => {
+export const use = (
+  name: string,
+  view: Record<string, unknown>,
+  components: Record<string, string> = {}
+): App | void => {
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
 
   for (const el of elements) {
-    const component = el.getAttribute(`${DIRECTIVE_PREFIX}use`);
+    const componentScope = el.getAttribute(`${DIRECTIVE_PREFIX}use`);
 
-    if (component === name) {
+    if (componentScope === name) {
       const app = createApp(view);
+      for (const [name, template] of Object.entries(components)) {
+        app.component(name, template);
+      }
       app.mount(el);
 
       return app;
