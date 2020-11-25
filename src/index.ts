@@ -12,11 +12,15 @@ import { computeProperties, safeEval } from './utils/compute';
 
 export { App, createApp, h, compile, patch, observer, props, computeProperties };
 
+export const component = (name: string, template: string) => {
+  return { name, template };
+};
+
 // Lucia.use function for user provided views in JavaScript
 export const use = (
   name: string,
   view: Record<string, unknown>,
-  components: Record<string, string> = {}
+  ...components: Record<string, string>[]
 ): App | void => {
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
 
@@ -25,7 +29,7 @@ export const use = (
 
     if (componentScope === name) {
       const app = createApp(view);
-      for (const [name, template] of Object.entries(components)) {
+      for (const { name, template } of components) {
         app.component(name, template);
       }
       app.mount(el);
