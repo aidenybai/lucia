@@ -40,4 +40,18 @@ describe('.h', () => {
       },
     });
   });
+  it('should allow a string for children', () => {
+    const vdom = h('div', 'Foo!');
+
+    expect(vdom).toEqual({
+      tag: 'div',
+      children: ['Foo!'],
+      props: {
+        attributes: {},
+        directives: {},
+        type: 0,
+        ref: undefined
+      }
+    })
+  });
 });
