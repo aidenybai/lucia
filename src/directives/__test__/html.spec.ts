@@ -17,8 +17,8 @@ describe('.htmlDirective', () => {
       el: fakeElem,
       name: 'l-html',
       value: 'count',
-      view: {}
+      view: {},
     });
     expect(fakeElem.innerHTML).toBe('count');
-  })
+  });
 });
