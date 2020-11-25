@@ -7,7 +7,7 @@ describe('.patch', () => {
 
     patch(
       h('div', [
-        h('div', [], { attributes: {}, directives: { text: 'hello' }, ref: fakeElem, type: 2 }),
+        h('div', [], { attributes: {}, directives: { text: 'this.hello' }, ref: fakeElem, type: 2 }),
       ]),
       { hello: 1 }
     );

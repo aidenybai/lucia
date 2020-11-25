@@ -4,7 +4,7 @@ Lucia is a tiny JavaScript library for building web apps.
 
 - **Declarative:** Lucia provides a declarative API similar to Vue/Alpine to create views, making development predictable and intuitive through markup-centric code.
 - **Reactive:** When the view is changed, the internal reference Virtual DOM will automatically react and will update and render the new view in realtime.
-- **Lightweight:** Lucia is extremely light and performant as it does not use a traditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through selectors.
+- **Lightweight:** Lucia is extremely light and performant as it does not use a traditional Virtual DOM, rather it renders directives only if necessary by skipping static nodes through element references.
 
 ![TravisCI Build](https://badgen.net/travis/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=build) ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=size) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?color=7460E1&labelColor=1D1E32&style=flat-square) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=7460E1&labelColor=1D1E32&style=flat-square) ![Code Coverage](https://img.shields.io/coveralls/github/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)
 
@@ -38,7 +38,7 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 
 ```html
 <div l-init="{ count: 0 }">
-  <button l-text="count" l-on:click="++count">0</button>
+  <button l-text="this.count" l-on:click="++this.count">0</button>
 </div>
 ```
 

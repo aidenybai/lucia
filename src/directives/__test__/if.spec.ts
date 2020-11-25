@@ -6,7 +6,7 @@ describe('.ifDirective', () => {
     ifDirective({
       el: fakeElem,
       name: 'l-if',
-      value: 'showme',
+      value: 'this.showme',
       view: { showme: false },
     });
     expect(fakeElem.hidden).toBe(true);

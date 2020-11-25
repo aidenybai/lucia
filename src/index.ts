@@ -8,9 +8,9 @@ import patch from './vdom/patch';
 import observer from './vdom/observer';
 
 import { props, DIRECTIVE_PREFIX } from './utils/props';
-import compute from './utils/compute';
+import { computeProperties, safeEval } from './utils/compute';
 
-export { App, createApp, h, compile, patch, observer, props, compute };
+export { App, createApp, h, compile, patch, observer, props, computeProperties };
 
 // Lucia.use function for user provided views in JavaScript
 export const use = (name: string, view: Record<string, unknown>): App | void => {
@@ -37,7 +37,7 @@ export const init = (element: HTMLElement | Document = document, directive: stri
     if (view === null) return;
 
     try {
-      const app = createApp(compute(view));
+      const app = createApp(safeEval(view));
       app.mount(el);
     } catch (err) {}
   }

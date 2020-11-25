@@ -6,7 +6,7 @@ describe('.onDirective', () => {
     onDirective({
       el: fakeElem,
       name: 'l-on:click',
-      value: 'test()',
+      value: 'this.test()',
       view: {
         test() {
           return 0;

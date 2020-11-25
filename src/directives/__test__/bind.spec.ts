@@ -6,7 +6,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el: fakeElem,
       name: 'l-bind:class',
-      value: '{ test }',
+      value: '{ test: this.test }',
       view: { test: true },
     });
     expect(fakeElem.className).toBe('test');
@@ -17,18 +17,18 @@ describe('.bindDirective', () => {
     bindDirective({
       el: fakeElem,
       name: 'l-bind:style',
-      value: '{ fontWeight: test }',
+      value: '{ fontWeight: this.test }',
       view: { test: 'bold' },
     });
     expect(fakeElem.style.cssText).toBe('font-weight: bold;');
   });
 
-  it('should bind href to anchor tag  based on view value', () => {
+  it('should bind href to anchor tag based on view value', () => {
     const fakeElem = document.createElement('a');
     bindDirective({
       el: fakeElem,
       name: 'l-bind:href',
-      value: 'url',
+      value: 'this.url',
       view: { url: 'https://example.com/' },
     });
     expect(fakeElem.href).toBe('https://example.com/');
@@ -39,7 +39,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el: fakeElem,
       name: 'l-bind:hidden',
-      value: 'hideme',
+      value: 'this.hideme',
       view: { hideme: true },
     });
     expect(fakeElem.hidden).toBe(true);

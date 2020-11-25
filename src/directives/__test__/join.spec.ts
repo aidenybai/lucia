@@ -6,7 +6,7 @@ describe('.joinDirective', () => {
     joinDirective({
       el: fakeElem,
       name: 'l-join',
-      value: `li`,
+      value: `this.li`,
       view: { li: ['<li>test</li>', '<li>test</li>', '<li>test</li>'] },
     });
     expect(fakeElem.innerHTML).toBe('<li>test</li><li>test</li><li>test</li>');

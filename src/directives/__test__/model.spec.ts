@@ -6,7 +6,7 @@ describe('.modelDirective', () => {
     modelDirective({
       el: fakeElem,
       name: 'l-model',
-      value: 'test',
+      value: 'this.test',
       view: {
         test: 0,
       },
