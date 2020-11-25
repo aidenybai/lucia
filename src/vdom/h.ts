@@ -19,7 +19,7 @@ export const VNodeTypes: Record<string, VNodeType> = {
   DYNAMIC: 2, // dynamic VNode (needs patch every time view changes)
 };
 
-export const h = (selector: string, children?: (VNode | string)[], props?: VNodeProps): VNode => {
+export const h = (selector: string, children?: (VNode | string)[] | string, props?: VNodeProps): VNode => {
   // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
@@ -51,7 +51,7 @@ export const h = (selector: string, children?: (VNode | string)[], props?: VNode
 
   return {
     tag,
-    children: children || [],
+    children: typeof children === 'string' ? [children] : (children ? children : []),
     props: {
       attributes: props?.attributes || attributes,
       directives: props?.directives || directives,
