@@ -3,7 +3,7 @@ import { createApp } from '../index';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const joinDirective = ({ el, value, view }: DirectiveArgs) => {
-  // Kind of bad way of implementing, quite bad on perf. 
+  // Kind of bad way of implementing, quite bad on perf.
   // Maybe think of a beter way in the future.
   const [array, contentType, delimiter] = value.split(/ as | by /);
   const out = compute(array, { $view: view, $el: el });
