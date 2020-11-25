@@ -23,7 +23,9 @@ export const h = (selector: string, children?: (VNode | string)[] | string, prop
   // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
-  const attributes: Record<string, string> = {};
+  const attributes: Record<string, string> = {
+    ...props?.attributes
+  };
   const directives: Record<string, string> = {};
 
   if (tokens.length > 1) {
@@ -53,7 +55,7 @@ export const h = (selector: string, children?: (VNode | string)[] | string, prop
     tag,
     children: typeof children === 'string' ? [children] : (children ? children : []),
     props: {
-      attributes: props?.attributes || attributes,
+      attributes: attributes,
       directives: props?.directives || directives,
       ref: props?.ref || undefined,
       type: props?.type || 0,
