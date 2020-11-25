@@ -15,8 +15,8 @@ describe('.App', () => {
     const fakeElem = document.createElement('div');
     const view = { test: 1 };
     const app = createApp(view);
+    app.component('Counter', '<div l-text="this.count"></div>');
     app.mount(fakeElem, true);
-    app.component('Counter', "<div l-text='this.count'></div>");
-    expect(app.components['COUNTER']).toBe("<div l-text='this.count'></div>");
+    expect(app.components['COUNTER']).toBe('<div l-text="this.count"></div>');
   });
 });
