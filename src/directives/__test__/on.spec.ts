@@ -11,7 +11,7 @@ describe('.onDirective', () => {
       name: 'l-on:click',
       value: 'mockCb',
       view: {
-        mockCb
+        mockCb,
       },
     });
     expect(typeof fakeElem.onclick).toBe('function');
