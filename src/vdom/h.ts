@@ -13,11 +13,11 @@ export interface VNodeProps {
 
 export type VNodeType = 0 | 1 | 2;
 
-export const VNodeTypes: Record<string, VNodeType> = {
-  STATIC: 0, // static VNode (no patching necessary)
-  NEEDS_PATCH: 1, // uninitialized static VNode (needs one patch)
-  DYNAMIC: 2, // dynamic VNode (needs patch every time view changes)
-};
+export enum VNodeTypes {
+  STATIC = 0,
+  NEEDS_PATCH = 1,
+  DYNAMIC = 2,
+}
 
 export const h = (selector: string, children?: (VNode | string)[] | string, props?: VNodeProps): VNode => {
   // Splits selector into tokens containing id, className, and other attrs
