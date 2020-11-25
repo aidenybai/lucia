@@ -19,12 +19,16 @@ export enum VNodeTypes {
   DYNAMIC = 2,
 }
 
-export const h = (selector: string, children?: (VNode | string)[] | string, props?: VNodeProps): VNode => {
+export const h = (
+  selector: string,
+  children?: (VNode | string)[] | string,
+  props?: VNodeProps
+): VNode => {
   // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
   const attributes: Record<string, string> = {
-    ...props?.attributes
+    ...props?.attributes,
   };
   const directives: Record<string, string> = {};
 
@@ -53,7 +57,7 @@ export const h = (selector: string, children?: (VNode | string)[] | string, prop
 
   return {
     tag,
-    children: typeof children === 'string' ? [children] : (children ? children : []),
+    children: typeof children === 'string' ? [children] : children ? children : [],
     props: {
       attributes: attributes,
       directives: props?.directives || directives,

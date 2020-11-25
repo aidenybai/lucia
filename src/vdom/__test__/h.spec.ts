@@ -50,24 +50,28 @@ describe('.h', () => {
         attributes: {},
         directives: {},
         type: 0,
-        ref: undefined
-      }
-    })
+        ref: undefined,
+      },
+    });
   });
   it('should trim the class', () => {
-    const vdom = h('div', undefined, { attributes: { className: '  foo  bar a f random-class-here    ' }, directives: {}, type: 0 });
+    const vdom = h('div', undefined, {
+      attributes: { className: '  foo  bar a f random-class-here    ' },
+      directives: {},
+      type: 0,
+    });
 
     expect(vdom).toEqual({
       tag: 'div',
       children: [],
       props: {
         attributes: {
-          className: 'foo  bar a f random-class-here'
+          className: 'foo  bar a f random-class-here',
         },
         directives: {},
         type: 0,
-        ref: undefined
-      }
-    })
-  })
+        ref: undefined,
+      },
+    });
+  });
 });
