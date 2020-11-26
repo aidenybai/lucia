@@ -3,11 +3,11 @@ import patch from '../patch';
 
 describe('.observer', () => {
   it('should create an observed proxy', () => {
-    const view = observer({ test: 1 }, patch);
+    const view = observer({ test: 1, deepTest: { deepChild: 2 } }, patch);
 
     expect({ ...view }).toEqual({
       ...new Proxy(
-        { test: 1 },
+        { test: 1, deepTest: { deepChild: 2 } },
         {
           get(target: Record<string, unknown>, key: string): unknown {
             return target[key];
@@ -23,6 +23,17 @@ describe('.observer', () => {
         }
       ),
     });
+  });
+
+  it('should react if changed', () => {
+    const mockCb = jest.fn();
+    const view = observer({ test: 1 }, mockCb);
+
+    view.test = 2;
+    delete view.test;
+
+    expect(mockCb.mock.calls[0]);
+    expect(mockCb.mock.calls[1]);
   });
 
   it('should handle array and return boolean', () => {

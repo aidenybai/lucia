@@ -11,4 +11,15 @@ describe('.joinDirective', () => {
     });
     expect(fakeElem.innerHTML).toBe('<li>test</li><li>test</li><li>test</li>');
   });
+
+  it('should join as text', () => {
+    const fakeElem = document.createElement('p');
+    joinDirective({
+      el: fakeElem,
+      name: 'l-join',
+      value: `this.li as text`,
+      view: { li: ['1', '2', '3'] },
+    });
+    expect(fakeElem.innerText).toBe('123');
+  });
 });

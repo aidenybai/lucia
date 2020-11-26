@@ -11,7 +11,7 @@ export const bindDirective = ({ el, name, value, view }: DirectiveArgs) => {
       }
       // Accept providing an array of classes and appending them
       if (classView instanceof Array) {
-        return el.setAttribute('class', `${el.className} ${classView.join(' ').trim()}`);
+        return el.setAttribute('class', `${el.className} ${classView.join(' ')}`.trim());
       } else {
         // Accept binding classes on/off based off of boolean view value
         const classes = [];
@@ -20,7 +20,7 @@ export const bindDirective = ({ el, name, value, view }: DirectiveArgs) => {
         }
         if (classes.length > 0) {
           return el.setAttribute('class', `${el.className} ${classes.join(' ').trim()}`.trim());
-        } else if (el.className.length.trim() > 0) {
+        } else if (el.className.trim().length > 0) {
           return el.setAttribute('class', el.className);
         } else {
           return el.removeAttribute('class');
