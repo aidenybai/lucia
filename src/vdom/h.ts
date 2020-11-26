@@ -30,7 +30,9 @@ export const h = (
   const attributes: Record<string, string> = {
     ...props?.attributes,
   };
-  const directives: Record<string, string> = {};
+  const directives: Record<string, string> = {
+    ...props?.directives,
+  };
 
   if (tokens.length > 1) {
     tokens.shift();
@@ -59,8 +61,8 @@ export const h = (
     tag,
     children: typeof children === 'string' ? [children] : children ? children : [],
     props: {
-      attributes: attributes,
-      directives: props?.directives || directives,
+      attributes,
+      directives,
       ref: props?.ref || undefined,
       type: props?.type || 0,
     },
