@@ -93,10 +93,10 @@ describe('.h', () => {
     });
   });
   it('should render the virtual nodes', () => {
-    const vdom = h('div.class1.class2.class3#id[foo=bar]');
+    const vdom = h('div.class1.class2.class3#id[foo=bar][l-text=foo]', ['text', h('div')]);
 
     expect(render(vdom).outerHTML).toEqual(
-      '<div classname="class1 class2 class3" id="id" foo="bar"></div>'
+      '<div classname="class1 class2 class3" id="id" foo="bar" l-text="foo">text<div></div></div>'
     );
   });
 });

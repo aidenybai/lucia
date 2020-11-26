@@ -1,3 +1,5 @@
+import { DIRECTIVE_PREFIX } from '../utils/props';
+
 export interface VNode {
   tag: string;
   children: (VNode | string)[];
@@ -48,7 +50,11 @@ export const h = (
           break;
         case '[':
           const [key, value] = token.slice(1, -1).split('=');
-          attributes[key] = value;
+          if (key.startsWith(DIRECTIVE_PREFIX)) {
+            directives[key.slice(DIRECTIVE_PREFIX.length)] = value;
+          } else {
+            attributes[key] = value;
+          }
           break;
       }
     }
