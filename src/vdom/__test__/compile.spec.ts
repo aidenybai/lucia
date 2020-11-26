@@ -26,7 +26,7 @@ describe('.compile', () => {
       props: {
         attributes: {},
         directives: {
-          text: 'foo'
+          text: 'foo',
         },
         type: 2,
         ref: fakeElem,
@@ -35,6 +35,6 @@ describe('.compile', () => {
   });
   it('should throw an error', () => {
     //@ts-ignore
-    expect(() => compile()).toThrowError(new Error('Please provide a Element'))
+    expect(() => compile()).toThrowError(new Error('Please provide a Element'));
   });
 });
