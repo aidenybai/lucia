@@ -39,7 +39,7 @@ describe('.compile', () => {
   });
   it('should compile with children', () => {
     const fakeElem = document.createElement('div');
-    const child = document.createElement('p')
+    const child = document.createElement('p');
     fakeElem.appendChild(child);
     const vdom = compile(fakeElem);
 
@@ -53,16 +53,16 @@ describe('.compile', () => {
             attributes: {},
             directives: {},
             type: 0,
-            ref: undefined
-          }
-        }
+            ref: undefined,
+          },
+        },
       ],
       props: {
         attributes: {},
         directives: {},
         type: 0,
-        ref: undefined
-      }
-    })
+        ref: undefined,
+      },
+    });
   });
 });
