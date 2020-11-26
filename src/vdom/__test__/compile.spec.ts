@@ -15,4 +15,22 @@ describe('.compile', () => {
       },
     });
   });
+  it('should detect key in directives', () => {
+    const fakeElem = document.createElement('div');
+    fakeElem.setAttribute('l-text', 'foo');
+    const vdom = compile(fakeElem, { foo: 'bar' });
+
+    expect(vdom).toEqual({
+      tag: 'div',
+      children: [],
+      props: {
+        attributes: {},
+        directives: {
+          text: 'foo'
+        },
+        type: 2,
+        ref: fakeElem,
+      },
+    });
+  });
 });

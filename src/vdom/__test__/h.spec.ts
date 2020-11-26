@@ -74,4 +74,22 @@ describe('.h', () => {
       },
     });
   });
+  it('should parse and apply the selector', () => {
+    const vdom = h('div.class1.class2.class3#id[foo=bar]');
+
+    expect(vdom).toEqual({
+      tag: 'div',
+      children: [],
+      props: {
+        attributes: {
+          className: 'class1 class2 class3',
+          id: 'id',
+          foo: 'bar',
+        },
+        directives: {},
+        type: 0,
+        ref: undefined,
+      },
+    });
+  });
 });
