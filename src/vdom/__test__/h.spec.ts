@@ -1,4 +1,4 @@
-import h from '../h';
+import { h, render } from '../h';
 
 describe('.h', () => {
   it('should render VNodes', () => {
@@ -91,5 +91,12 @@ describe('.h', () => {
         ref: undefined,
       },
     });
+  });
+  it('should render the virtual nodes', () => {
+    const vdom = h('div.class1.class2.class3#id[foo=bar]');
+
+    expect(render(vdom).outerHTML).toEqual(
+      '<div classname="class1 class2 class3" id="id" foo="bar"></div>'
+    );
   });
 });

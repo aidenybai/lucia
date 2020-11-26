@@ -2,15 +2,15 @@
 
 import { App, createApp } from './App';
 
-import h from './vdom/h';
+import { h, render } from './vdom/h';
 import compile from './vdom/compile';
 import patch from './vdom/patch';
 import observer from './vdom/observer';
 
 import { props, DIRECTIVE_PREFIX } from './utils/props';
-import { computeProperties, safeEval } from './utils/compute';
+import { computeProperties as compute, safeEval } from './utils/compute';
 
-export { App, createApp, h, compile, patch, observer, props, computeProperties };
+export { App, createApp, h, render, compile, patch, observer, props, compute };
 
 export const component = (name: string, template: string) => {
   return { name, template };
