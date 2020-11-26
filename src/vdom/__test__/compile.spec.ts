@@ -37,4 +37,32 @@ describe('.compile', () => {
     //@ts-ignore
     expect(() => compile()).toThrowError(new Error('Please provide a Element'));
   });
+  it('should compile with children', () => {
+    const fakeElem = document.createElement('div');
+    const child = document.createElement('p')
+    fakeElem.appendChild(child);
+    const vdom = compile(fakeElem);
+
+    expect(vdom).toEqual({
+      tag: 'div',
+      children: [
+        {
+          tag: 'p',
+          children: [],
+          props: {
+            attributes: {},
+            directives: {},
+            type: 0,
+            ref: undefined
+          }
+        }
+      ],
+      props: {
+        attributes: {},
+        directives: {},
+        type: 0,
+        ref: undefined
+      }
+    })
+  });
 });
