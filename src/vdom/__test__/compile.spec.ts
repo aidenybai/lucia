@@ -33,4 +33,8 @@ describe('.compile', () => {
       },
     });
   });
+  it('should throw an error', () => {
+    //@ts-ignore
+    expect(() => compile()).toThrowError(new Error('Please provide a Element'))
+  });
 });
