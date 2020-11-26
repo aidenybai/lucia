@@ -53,6 +53,3 @@ export const init = (element: HTMLElement | Document = document, directive: stri
     } catch (err) {}
   }
 };
-
-// Scan DOM for l-init attributes on DOM load
-document.addEventListener('DOMContentLoaded', () => init(document, 'init'));
