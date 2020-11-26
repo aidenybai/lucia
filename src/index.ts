@@ -24,26 +24,20 @@ export const use = (
 ): App | void => {
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
 
-  for (const el of elements) {
-    const componentScope = el.getAttribute(`${DIRECTIVE_PREFIX}use`);
-
-    if (componentScope === name) {
-      const app = createApp(view);
-      for (const { name, template } of components) {
-        app.component(name, template);
-      }
-      app.mount(el);
-
-      return app;
-    }
+  const element = elements.filter((el) => el.getAttribute(`${DIRECTIVE_PREFIX}use`) === name)[0];
+  const app = createApp(view);
+  for (const { name, template } of components) {
+    app.component(name, template);
   }
+  app.mount(element);
+  return app;
 };
 
 // Init function if requested. Normally used if l-use but no Lucia.use is provided
 export const init = (element: HTMLElement | Document = document, directive: string = 'use') => {
   const elements = Array.from(element.querySelectorAll(`[${DIRECTIVE_PREFIX + directive}]`));
 
-  for (const el of elements) {
+  elements.map((el) => {
     const view = el.getAttribute(DIRECTIVE_PREFIX + directive);
     if (view === null) return;
 
@@ -51,5 +45,5 @@ export const init = (element: HTMLElement | Document = document, directive: stri
       const app = createApp(safeEval(view));
       app.mount(el);
     } catch (err) {}
-  }
+  });
 };

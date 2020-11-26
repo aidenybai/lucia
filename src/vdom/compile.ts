@@ -61,10 +61,7 @@ const compile = (
     }
   }
 
-  if (callSelf) return children;
-  else {
-    return createVNode(el, view, children);
-  }
+  return callSelf ? children : createVNode(el, view, children);
 };
 
 export default compile;
