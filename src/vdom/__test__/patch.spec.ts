@@ -7,6 +7,7 @@ describe('.patch', () => {
 
     patch(
       h('div', [
+        // Wrapper node
         h('div', [], {
           attributes: {},
           directives: { text: 'this.hello' },
