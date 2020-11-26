@@ -1,6 +1,6 @@
 import arrayEquals from '../utils/arrayEquals';
 
-const handleArray = (
+export const handleArray = (
   target: Record<string, unknown> | unknown[],
   key: string,
   view: Record<string, unknown | unknown[]>,
@@ -8,18 +8,20 @@ const handleArray = (
 ) => {
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length') {
-    const affectedKeys = Object.keys(view).filter((key: string) => {
+    const affectedKeys = Object.keys(view).filter((k: string) => {
       // Filter out (arrays && if affected array is the array) from view
-      return view[key] instanceof Array && arrayEquals(target as unknown[], view[key] as unknown[]);
+      return view[k] instanceof Array && arrayEquals(target as unknown[], view[k] as unknown[]);
     });
     // Patch only if found any affected keys
     if (affectedKeys.length !== 0) patch(affectedKeys);
+    return true;
   } else {
     patch([key]);
+    return false;
   }
 };
 
-const observer = (
+export const observer = (
   view: Record<string, unknown | unknown[]>,
   patch: Function
 ): Record<string, unknown> => {

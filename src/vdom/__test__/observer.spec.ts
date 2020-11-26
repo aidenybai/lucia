@@ -1,4 +1,4 @@
-import observer from '../observer';
+import { observer, handleArray } from '../observer';
 import patch from '../patch';
 
 describe('.observer', () => {
@@ -23,5 +23,10 @@ describe('.observer', () => {
         }
       ),
     });
+  });
+
+  it('should handle array and return boolean', () => {
+    expect(handleArray({}, 'length', {}, () => {})).toEqual(true);
+    expect(handleArray({}, 'foo', {}, () => {})).toEqual(false);
   });
 });
