@@ -17,6 +17,13 @@
     "type": "git",
     "url": "git+https://github.com/aidenybai/lucia.git"
   },
+  "exports": {
+    "require": "./dist/index.cjs.min.js",
+    "import": "./dist/index.esm.min.js",
+    "node": "./dist/index.cjs.min.js",
+    "default": "./dist/index.cjs.min.js"
+  },
+  "sideEffects": false,
   "keywords": [
     "lucia",
     "lucia.js",
