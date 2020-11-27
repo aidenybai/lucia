@@ -1,7 +1,10 @@
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
-  el.value = view[value];
+  value = value.slice('this.'.length);
+  if (el.value !== view[value]) {
+    el.value = view[value];
+  }
   el.oninput = () => {
     const isNumber = typeof view[value] === 'number' && !isNaN(el.value);
     const isBoolean =
