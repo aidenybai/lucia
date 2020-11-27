@@ -26,9 +26,9 @@ export const use = (
 
   const element = elements.filter((el) => el.getAttribute(`${DIRECTIVE_PREFIX}use`) === name)[0];
   const app = createApp(view);
-  for (const { name, template } of components) {
+  components.map(({ name, template }) => {
     app.component(name, template);
-  }
+  });
   app.mount(element);
   return app;
 };
