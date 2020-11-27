@@ -1,3 +1,10 @@
+- [Virtual DOM Documentation](#virtual-dom-documentation)
+  - [Design principles](#design-principles)
+- [Overview](#overview)
+  - [Compile phase](#compilation-phase)
+  - [Patching phase](#patching-phase)
+  - [Watching phase](#watching-phase)
+
 # Virtual DOM Documentation
 
 This document covers how Lucia's Virtual DOM works. It's intended to aid in understanding the code, ad helping contributors work with it.
@@ -22,8 +29,7 @@ The Lucia Virtual DOM is designed to accomplish a balance between being **fast a
 
 ## Overview
 
-![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv&chl=graph{VDOM--Compiler[type=s];VDOM--Patcher[type=s];VDOM--Observer[type=s];Observer--Patch_if_necessary[type=s];}
-)
+![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv&chl=graph{Virtual_DOM--Compile[type=s];Virtual_DOM--Patch[type=s];Virtual_DOM--Watch[type=s];})
 
 ### Compilation phase
 
@@ -65,7 +71,7 @@ This phase takes compiled VNodes and a mutable view, traversig the tree and rend
     attributes: {},
     directives: {
 +     text: 'old',
--     text: 'new', 
+-     text: 'new',
     },
     ref: <HTMLElement>,
     type: 2,
