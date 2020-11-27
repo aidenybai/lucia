@@ -79,21 +79,17 @@ export const render = (node: VNode): Element => {
   const { tag, children, props }: VNode = node;
   const anchor = document.createElement(tag);
 
-  for (const [name, value] of Object.entries(props.attributes)) {
+  Object.entries(props.attributes).map(([name, value]) => {
     anchor.setAttribute(name, value);
-  }
+  });
 
-  for (const [name, value] of Object.entries(props.directives)) {
+  Object.entries(props.directives).map(([name, value]) => {
     anchor.setAttribute(`l-${name}`, value);
-  }
+  });
 
-  for (const child of children) {
-    if (typeof child === 'string') {
-      anchor.appendChild(document.createTextNode(child));
-    } else {
-      anchor.appendChild(render(child));
-    }
-  }
+  children.map((child) => {
+    anchor.appendChild(typeof child === 'string' ? document.createTextNode(child) : render(child));
+  });
 
   return anchor;
 };
