@@ -1,28 +1,30 @@
+import compute from '../utils/compute';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
-  value = value.replace('this.', '');
-  if (el.value !== view[value]) {
-    el.value = view[value];
+  const out = compute(value, { $view: view, $el: el });
+  if (el.value !== out) {
+    el.value = out;
   }
   el.oninput = () => {
-    const isNumber = typeof view[value] === 'number' && !isNaN(el.value);
-    const isBoolean =
-      typeof view[value] === 'boolean' && (el.value === 'true' || el.value === 'false');
+    const isNumber = typeof out === 'number' && !isNaN(el.value);
+    const isBoolean = typeof out === 'boolean' && (el.value === 'true' || el.value === 'false');
     const isNullish =
-      (view[value] === null || view[value] === undefined) &&
-      (el.value === 'null' || el.value === 'undefined');
+      (out === null || out === undefined) && (el.value === 'null' || el.value === 'undefined');
 
     // Perform type coercion
+    let payload;
     if (isNumber) {
-      view[value] = Number(el.value).toPrecision();
+      payload = `Number('${el.value}').toPrecision()`;
     } else if (isBoolean) {
-      view[value] = Boolean(el.value);
+      payload = `Boolean('${el.value}')`;
     } else if (isNullish) {
-      if (el.value === 'null') view[value] = null;
-      else view[value] = undefined;
+      if (el.value === 'null') payload = null;
+      else payload = undefined;
     } else {
-      view[value] = el.value;
+      payload = `'${el.value}'`;
     }
+
+    compute(`${value} = ${payload}`, { $view: view, $el: el }, false);
   };
 };

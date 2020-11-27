@@ -4,7 +4,7 @@ import { modelDirective } from '../model';
 
 describe('.modelDirective', () => {
   it('should attach and model input', () => {
-    const fakeElem = document.createElement('button');
+    const fakeElem = document.createElement('input');
     const mockCb = jest.fn();
     modelDirective({
       el: fakeElem,
