@@ -1,4 +1,4 @@
-import arrayEquals from '../utils/arrayEquals';
+import arrayEquals from './utils/arrayEquals';
 
 export const handleArray = (
   target: Record<string, unknown> | unknown[],

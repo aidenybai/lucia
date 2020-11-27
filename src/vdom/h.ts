@@ -1,4 +1,4 @@
-import { DIRECTIVE_PREFIX } from '../utils/props';
+import { DIRECTIVE_PREFIX } from './utils/props';
 
 export interface VNode {
   tag: string;

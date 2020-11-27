@@ -1,7 +1,7 @@
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
-  value = value.slice('this.'.length);
+  value = value.replace('this.', '');
   if (el.value !== view[value]) {
     el.value = view[value];
   }

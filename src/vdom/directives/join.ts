@@ -1,5 +1,5 @@
 import compute from '../utils/compute';
-import { createApp } from '../index';
+import { createApp } from '../../App';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const joinDirective = ({ el, value, view }: DirectiveArgs) => {

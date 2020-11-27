@@ -1,5 +1,5 @@
 import compute from '../utils/compute';
-import { createApp } from '../index';
+import { createApp } from '../../App';
 import { DirectiveArgs } from './IDirectiveArgs';
 
 export const htmlDirective = ({ el, value, view }: DirectiveArgs) => {
@@ -7,13 +7,9 @@ export const htmlDirective = ({ el, value, view }: DirectiveArgs) => {
   const app = createApp({ ...view });
   app.mount(el, true);
 
-  let out;
-
   try {
-    out = compute(value, { $view: view, $el: el });
+    el.innerHTML = compute(value, { $view: view, $el: el });
   } catch {
-    out = value;
+    el.innerHTML = value;
   }
-
-  el.innerHTML = out;
 };

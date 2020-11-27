@@ -2,15 +2,18 @@ import { VNode } from './vdom/h';
 import compile from './vdom/compile';
 import patch from './vdom/patch';
 import observer from './vdom/observer';
+import DirectivesManager from './vdom/directives';
 
 export class App {
   vdom: VNode | null;
   view: Record<string, unknown>;
+  manager: DirectivesManager;
   components: Record<string, string>;
 
   constructor(view: Record<string, unknown> = {}) {
     this.vdom = null;
     this.view = view;
+    this.manager = new DirectivesManager();
     this.components = {};
   }
 
@@ -26,9 +29,13 @@ export class App {
     this.components[name.toUpperCase()] = template;
   }
 
+  public directive(name: string, fn: Function) {
+    this.manager.register(name, fn);
+  }
+
   // Use internal private methods, should not be used when instantiated by the user
   private patch(keys?: string[]): void {
-    patch(this.vdom, this.view, keys);
+    patch(this.vdom, this.view, this.manager, keys);
   }
 
   private compile(el: Element | null): VNode {

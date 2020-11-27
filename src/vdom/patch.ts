@@ -1,4 +1,4 @@
-import renderDirective from '../directives/renderDirective';
+import DirectiveManager from './directives';
 import { VNode, VNodeTypes } from './h';
 
 // Using patch requires a wrapper parent VNode
@@ -6,6 +6,7 @@ import { VNode, VNodeTypes } from './h';
 const patch = (
   rootVNode: VNode | null,
   view: Record<string, unknown> = {},
+  manager?: DirectiveManager,
   keys?: string[]
 ): void => {
   if (!rootVNode) return;
@@ -50,16 +51,18 @@ const patch = (
         const el = attributes.id ? document.getElementById(attributes.id) : ref;
 
         // Render directive
-        renderDirective({
-          el,
-          name,
-          value,
-          view,
-        });
+        if (manager) {
+          manager.render({
+            el,
+            name,
+            value,
+            view,
+          });
+        }
       }
     }
 
-    if (node.children.length > 0) patch(node, view, keys);
+    if (node.children.length > 0) patch(node, view, manager, keys);
   }
 };
 

@@ -7,8 +7,8 @@ import compile from './vdom/compile';
 import patch from './vdom/patch';
 import observer from './vdom/observer';
 
-import { props, DIRECTIVE_PREFIX } from './utils/props';
-import { computeProperties as compute, safeEval } from './utils/compute';
+import { props, DIRECTIVE_PREFIX } from './vdom/utils/props';
+import { computeProperties as compute, safeEval } from './vdom/utils/compute';
 
 export { App, createApp, h, render, compile, patch, observer, props, compute };
 

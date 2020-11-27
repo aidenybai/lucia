@@ -1,5 +1,5 @@
 import { h, VNodeTypes, VNode } from './h';
-import props from '../utils/props';
+import props from './utils/props';
 
 const createVNode = (el: Element | null, view: Record<string, unknown>, children: VNode[]) => {
   const { attributes, directives } = props(el);
