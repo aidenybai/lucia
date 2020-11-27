@@ -79,9 +79,11 @@ export const render = (node: VNode): Element => {
   const { tag, children, props }: VNode = node;
   const anchor = document.createElement(tag);
 
-  Object.entries(props.attributes).filter(([name]) => name !== 'className').map(([name, value]) => {
-    anchor.setAttribute(name, value);
-  });
+  Object.entries(props.attributes)
+    .filter(([name]) => name !== 'className')
+    .map(([name, value]) => {
+      anchor.setAttribute(name, value);
+    });
 
   if (props.attributes.className) anchor.setAttribute('class', props.attributes.className);
 
