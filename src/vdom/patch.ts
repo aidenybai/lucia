@@ -46,20 +46,19 @@ const patch = (
         node.props.type = VNodeTypes.STATIC;
       }
 
-      for (const name of affectedDirectives) {
+      affectedDirectives.map((name) => {
         const value = directives[name];
         const el = attributes.id ? document.getElementById(attributes.id) : ref;
 
-        // Render directive
         if (manager) {
           manager.render({
             el,
             name,
             value,
-            view,
+            view
           });
         }
-      }
+      });
     }
 
     if (node.children.length > 0) patch(node, view, manager, keys);
