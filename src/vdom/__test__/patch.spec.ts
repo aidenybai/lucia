@@ -1,3 +1,4 @@
+import DirectivesManager from '../directives';
 import patch from '../patch';
 import h from '../h';
 
@@ -26,7 +27,8 @@ describe('.patch', () => {
         foo() {
           return 'bar';
         },
-      }
+      },
+      new DirectivesManager()
     );
 
     expect(fakeElem1.textContent).toEqual('1');
