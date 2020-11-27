@@ -42,9 +42,7 @@ const patch = (
       }
 
       // Switch one time patch nodes to static (l-use and l-init unaffected)
-      if (node.props.type === VNodeTypes.NEEDS_PATCH) {
-        node.props.type = VNodeTypes.STATIC;
-      }
+      node.props.type = node.props.type === VNodeTypes.NEEDS_PATCH ? VNodeTypes.STATIC : node.props.type;
 
       affectedDirectives.map((name) => {
         const value = directives[name];
