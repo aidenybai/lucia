@@ -12,22 +12,22 @@ import { computeProperties as compute, safeEval } from './vdom/utils/compute';
 
 export { App, createApp, h, render, compile, patch, observer, props, compute };
 
-export const component = (name: string, template: string) => {
-  return { name, template };
+export const component = (name: string, cb: Function) => {
+  return { name, cb };
 };
 
 // Lucia.use function for user provided views in JavaScript
 export const use = (
   name: string,
   view: Record<string, unknown>,
-  ...components: Record<string, string>[]
+  ...components: Record<string, Function>[]
 ): App | void => {
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
 
   const element = elements.filter((el) => el.getAttribute(`${DIRECTIVE_PREFIX}use`) === name)[0];
   const app = createApp(view);
-  components.map(({ name, template }) => {
-    app.component(name, template);
+  components.map(({ name, cb }: Record<string, string | Function>) => {
+    app.component(name as string, cb as Function);
   });
   app.mount(element);
   return app;

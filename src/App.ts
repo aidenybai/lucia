@@ -8,7 +8,7 @@ export class App {
   vdom: VNode | null;
   view: Record<string, unknown>;
   manager: DirectivesManager;
-  components: Record<string, string>;
+  components: Record<string, Function>;
 
   constructor(view: Record<string, unknown> = {}) {
     this.vdom = null;
@@ -25,8 +25,8 @@ export class App {
     return this.view;
   }
 
-  public component(name: string, template: string) {
-    this.components[name.toUpperCase()] = template;
+  public component(name: string, cb: Function) {
+    this.components[name.toUpperCase()] = cb;
   }
 
   public directive(name: string, fn: Function) {

@@ -1,5 +1,6 @@
+import { props, DIRECTIVE_PREFIX } from './utils/props';
 import { h, VNodeTypes, VNode } from './h';
-import props from './utils/props';
+import { safeEval } from './utils/compute';
 
 const createVNode = (el: Element | null, view: Record<string, unknown>, children: VNode[]) => {
   const { attributes, directives } = props(el);
@@ -25,12 +26,12 @@ const createVNode = (el: Element | null, view: Record<string, unknown>, children
 const compile = (
   el: Element | null,
   view: Record<string, unknown> = {},
-  components: Record<string, string> = {},
+  components: Record<string, Function> = {},
   callSelf: boolean = false
 ): VNode[] | VNode => {
   if (!el) throw new Error('Please provide a Element');
 
-  const children = [];
+  const children: VNode[] | VNode = [];
   const childNodes = Array.prototype.slice.call(el.childNodes);
 
   for (const child of childNodes) {
@@ -42,16 +43,17 @@ const compile = (
         // Fill children array
         if (Object.keys(components).includes(child.tagName)) {
           const temp = document.createElement('div');
-          temp.innerHTML = components[child.tagName];
+          temp.innerHTML = components[child.tagName]({
+            children: child.innerHTML,
+            args: safeEval(`[${child.getAttribute(`${DIRECTIVE_PREFIX}bind`) ?? ''}]`),
+            view,
+          });
 
-          children.push(
-            createVNode(
-              temp.firstChild as Element,
-              view,
-              compile(child, view, components, true) as VNode[]
-            )
-          );
-          el.replaceChild(temp.firstChild as Element, child);
+          child.innerHTML = temp.innerHTML;
+
+          for (const componentChild of compile(child, view, components, true) as VNode[]) {
+            children.push(componentChild);
+          }
         } else {
           children.push(
             createVNode(child, view, compile(child, view, components, true) as VNode[])
