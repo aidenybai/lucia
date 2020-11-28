@@ -22,6 +22,8 @@ const patch = (
 
       for (const name in directives as Record<string, unknown>) {
         const value = directives[name];
+
+        const needsInit = node.props.type === 1;
         // Iterate through affected keys and check if directive value has key
         const hasKey = keys.some((key) => value.toString().includes(key));
         // Iterate through view keys
@@ -35,8 +37,9 @@ const patch = (
             )
           );
         });
+
         // If affected, then push to render queue
-        if (hasKey || hasKeyInFunction) {
+        if (hasKey || hasKeyInFunction || needsInit) {
           affectedDirectives.push(name);
         }
       }
