@@ -69,7 +69,7 @@ describe('.compile', () => {
     const fakeElem = document.createElement('div');
     const child = document.createElement('customcomponent');
     fakeElem.appendChild(child);
-    const vdom = compile(fakeElem, {}, { CUSTOMCOMPONENT: `<p></p>` });
+    const vdom = compile(fakeElem, {}, { CUSTOMCOMPONENT: () => `<p></p>` });
 
     expect(vdom).toEqual({
       tag: 'div',

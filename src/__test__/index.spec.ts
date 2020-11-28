@@ -2,11 +2,9 @@ import { component, use, init } from '../index';
 
 describe('.component', () => {
   it('should create it properly', () => {
-    const comp = component('Counter', '<div l-text="this.count"></div>');
-    expect(comp).toEqual({
-      name: 'Counter',
-      template: '<div l-text="this.count"></div>',
-    });
+    const comp = component('Counter', () => '<div l-text="this.count"></div>');
+    expect(comp.name).toEqual('Counter');
+    expect(comp.cb()).toEqual('<div l-text="this.count"></div>');
   });
 
   it('register use correctly', () => {
