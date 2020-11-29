@@ -50,7 +50,7 @@ const compile = (
           });
 
           el.replaceChild(temp, child);
-          
+
           for (const componentChild of compile(temp, view, components, true) as VNode[]) {
             children.push(componentChild);
           }

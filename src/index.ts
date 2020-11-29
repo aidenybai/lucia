@@ -25,7 +25,7 @@ export const use = (
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
   const element = elements.filter((el) => el.getAttribute(`${DIRECTIVE_PREFIX}use`) === name)[0];
   const app = createApp(view);
-  
+
   components.map(({ name, cb }: Record<string, string | Function>) => {
     app.component(name as string, cb as Function);
   });
