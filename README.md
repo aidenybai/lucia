@@ -34,6 +34,8 @@ The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
 - [Installation](https://lucia.js.org/docs/essentials/installation)
 - [Clicker Game Example](https://lucia.js.org/docs/essentials/introduction#clicker-game-example)
 
+[**→ Learn how the Lucia Virtual DOM works**](https://github.com/aidenybai/lucia/tree/master/src/vdom#readme)
+
 ## Example
 
 Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
