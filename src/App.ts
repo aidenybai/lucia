@@ -34,7 +34,7 @@ export class App {
   }
 
   // Use internal private methods, should not be used when instantiated by the user
-  private patch(keys?: string[]): void {
+  private patch(this: App, keys?: string[]): void {
     patch(this.vdom, this.view, this.manager, keys);
   }
 
