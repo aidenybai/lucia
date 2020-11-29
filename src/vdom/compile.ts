@@ -49,7 +49,7 @@ const compile = (
             view,
           });
 
-          child.innerHTML = temp.innerHTML;
+          child.outerHTML = temp.innerHTML;
 
           for (const componentChild of compile(child, view, components, true) as VNode[]) {
             children.push(componentChild);
