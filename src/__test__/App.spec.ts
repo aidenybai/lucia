@@ -19,4 +19,10 @@ describe('.App', () => {
     app.mount(fakeElem, true);
     expect(app.components['COUNTER']()).toBe('<div l-text="this.count"></div>');
   });
+  it('should set a directive', () => {
+    const view = { test: 1 };
+    const app = createApp(view);
+    app.directive('foo', () => {});
+    expect(typeof app.manager.directives.foo).toBe('function');
+  });
 });
