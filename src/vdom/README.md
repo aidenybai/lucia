@@ -4,6 +4,7 @@
   - [Compile phase](#compilation-phase)
   - [Patching phase](#patching-phase)
   - [Watching phase](#watching-phase)
+  - [Directive phase](#directive-phase)
 
 # Virtual DOM Documentation
 
