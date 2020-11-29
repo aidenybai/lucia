@@ -39,7 +39,7 @@ const patch = (
         });
 
         // If affected, then push to render queue
-        if (hasKey || hasKeyInFunction || needsInit) {
+        if (needsInit || hasKey || hasKeyInFunction) {
           affectedDirectives.push(name);
         }
       }

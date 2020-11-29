@@ -49,9 +49,9 @@ const compile = (
             view,
           });
 
-          child.outerHTML = temp.innerHTML;
-
-          for (const componentChild of compile(child, view, components, true) as VNode[]) {
+          el.replaceChild(temp, child);
+          
+          for (const componentChild of compile(temp, view, components, true) as VNode[]) {
             children.push(componentChild);
           }
         } else {
