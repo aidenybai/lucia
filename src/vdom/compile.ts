@@ -2,7 +2,11 @@ import { props, DIRECTIVE_PREFIX } from './utils/props';
 import { h, VNodeTypes, VNode } from './h';
 import { safeEval } from './utils/compute';
 
-const createVNode = (el: Element | null, view: Record<string, unknown>, children: VNode[]) => {
+const createVNode = (
+  el: Element | null,
+  view: Record<string, unknown>,
+  children: (VNode | string)[]
+) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
 
@@ -28,21 +32,21 @@ const compile = (
   view: Record<string, unknown> = {},
   components: Record<string, Function> = {},
   callSelf: boolean = false
-): VNode[] | VNode => {
+): (VNode | string)[] | VNode => {
   if (!el) throw new Error('Please provide a Element');
 
-  const children: VNode[] | VNode = [];
+  const children: (VNode | string)[] = [];
   const childNodes = Array.prototype.slice.call(el.childNodes);
 
   for (const child of childNodes) {
     switch (child.nodeType) {
       case Node.TEXT_NODE:
-        children.push(child.nodeValue);
+        if (child.nodeValue) children.push(child.nodeValue);
         break;
       case Node.ELEMENT_NODE:
         // Fill children array
         if (Object.keys(components).includes(child.tagName)) {
-          const temp = document.createElement('div');
+          const temp = document.createElement(`${DIRECTIVE_PREFIX}component`);
           temp.innerHTML = components[child.tagName]({
             children: child.innerHTML,
             args: safeEval(`[${child.getAttribute(`${DIRECTIVE_PREFIX}bind`) ?? ''}]`),

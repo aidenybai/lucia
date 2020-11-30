@@ -10,7 +10,7 @@ A tiny `3kb` JavaScript library for prototyping web applications.
 
 [**→ Check out the Lucia Website**](https://lucia.js.org)
 
-## Installation
+## 📩 Installation
 
 Lucia is currently is installable through a CDN and also supports UMD (ES Module, CommonJS, IIFE). Put this within your `<head>` tags in HTML.
 
@@ -26,7 +26,7 @@ npm install lucia
 
 [**→ Learn more about installing Lucia**](https://lucia.js.org/docs/essentials/installation)
 
-## Documentation
+## 📕 Documentation
 
 The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
 
@@ -36,7 +36,7 @@ The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
 
 [**→ Learn how the Lucia Virtual DOM works**](https://github.com/aidenybai/lucia/tree/master/src/vdom#readme)
 
-## Example
+## 📺 Example
 
 Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
 
@@ -48,7 +48,7 @@ Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you
 
 [**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/jOrXdKj)
 
-## Similar Projects
+## 👍 Similar Projects
 
 It should be noted that Lucia should not be implemented in all use cases. Lucia aims to tackle projects that need to be quickly implemented. This means if you're looking for something production-ready and has a API similar to Lucia, check these projects out!
 
@@ -58,13 +58,13 @@ It should be noted that Lucia should not be implemented in all use cases. Lucia 
 - [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
 - [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
 
-## Contributing
+## 🧑‍🤝‍🧑 Contributing
 
 Refer to the [CONTRIBUTING.md](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md) file for instructions.
 
 <a href="https://github.com/aidenybai/lucia/graphs/contributors"><img src="https://opencollective.com/lucialand/contributors.svg?width=890" /></a>
 
-## License
+## 📑 License
 
 Lucia is [MIT licensed](LICENSE.md).
 
