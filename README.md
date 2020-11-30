@@ -60,7 +60,10 @@ It should be noted that Lucia should not be implemented in all use cases. Lucia 
 
 ## 🧑‍🤝‍🧑 Contributing
 
-Refer to the [CONTRIBUTING.md](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md) file for instructions.
+Refer to the [CONTRIBUTING.md](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md) file for instructions. Below are some of the projects under `lucialand`:
+
+- [Luciascript](https://github.com/lucialand/luciascript) - Hastscript like utility to create HTML strings
+- [Luciex](https://github.com/lucialand/luciex) - Simplistic state management
 
 <a href="https://github.com/aidenybai/lucia/graphs/contributors"><img src="https://opencollective.com/lucialand/contributors.svg?width=890" /></a>
 
