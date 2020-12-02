@@ -1,8 +1,9 @@
+import { DirectiveProps } from '../../defaults';
+
 import compute from '../utils/compute';
 import { createApp } from '../../App';
-import { DirectiveArgs } from './IDirectiveArgs';
 
-export const htmlDirective = ({ el, value, view }: DirectiveArgs) => {
+export const htmlDirective = ({ el, value, view }: DirectiveProps) => {
   // Create shallow nested Lucia app
   const app = createApp({ ...view });
   app.mount(el, true);

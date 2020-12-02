@@ -1,38 +1,17 @@
-import { DIRECTIVE_PREFIX } from './utils/props';
-
-export interface VNode {
-  tag: string;
-  children: (VNode | string)[];
-  props: VNodeProps;
-}
-
-export interface VNodeProps {
-  ref?: Element;
-  type: VNodeType;
-  attributes: Record<string, string>;
-  directives: Record<string, string>;
-}
-
-export type VNodeType = 0 | 1 | 2;
-
-export enum VNodeTypes {
-  STATIC = 0,
-  NEEDS_PATCH = 1,
-  DYNAMIC = 2,
-}
+import { DIRECTIVE_PREFIX, StringKV, VNode, VNodeProps, VNodeChild, VNodeChildren } from '../defaults';
 
 export const h = (
   selector: string,
-  children?: (VNode | string)[] | string,
+  children?: VNodeChildren | string,
   props?: VNodeProps
 ): VNode => {
   // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
-  const attributes: Record<string, string> = {
+  const attributes: StringKV = {
     ...props?.attributes,
   };
-  const directives: Record<string, string> = {
+  const directives: StringKV = {
     ...props?.directives,
   };
 
@@ -75,7 +54,7 @@ export const h = (
   };
 };
 
-export const render = (node: VNode): Element => {
+export const render = (node: VNode): HTMLElement => {
   const { tag, children, props }: VNode = node;
   const anchor = document.createElement(tag);
 
@@ -91,7 +70,7 @@ export const render = (node: VNode): Element => {
     anchor.setAttribute(`l-${name}`, value);
   });
 
-  children.map((child) => {
+  children.map((child: VNodeChild) => {
     anchor.appendChild(typeof child === 'string' ? document.createTextNode(child) : render(child));
   });
 

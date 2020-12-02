@@ -1,12 +1,13 @@
-import DirectiveManager from './directives';
-import { VNode, VNodeTypes } from './h';
+import { View, Directives, VNode, VNodeTypes, UnknownKV } from '../defaults';
+
+import { renderDirective } from './directive';
 
 // Using patch requires a wrapper parent VNode
 
 const patch = (
-  rootVNode: VNode | null,
-  view: Record<string, unknown> = {},
-  manager?: DirectiveManager,
+  rootVNode: VNode,
+  view: View = {},
+  directiveKV: Directives = {},
   keys?: string[]
 ): void => {
   if (!rootVNode) return;
@@ -20,7 +21,7 @@ const patch = (
       const { attributes, directives, ref } = node.props;
       const affectedDirectives = [];
 
-      for (const name in directives as Record<string, unknown>) {
+      for (const name in directives as UnknownKV) {
         const value = directives[name];
 
         const needsInit = node.props.type === 1;
@@ -30,12 +31,10 @@ const patch = (
         const hasKeyInFunction = Object.keys(view).some((key: string) => {
           // Check if function and function content, iterate through affected
           // keys and check if function content contains affected key
-          return (
-            typeof view[key] === 'function' &&
-            (keys as string[]).some((k) =>
-              (view[key] as Record<string, unknown>).toString().includes(`this.${k}`)
-            )
+          const iterKeysInFunction = (keys as string[]).some((k) =>
+            (view[key] as Function).toString().includes(`this.${k}`)
           );
+          return typeof view[key] === 'function' && iterKeysInFunction;
         });
 
         // If affected, then push to render queue
@@ -50,20 +49,13 @@ const patch = (
 
       affectedDirectives.map((name) => {
         const value = directives[name];
-        const el = attributes.id ? document.getElementById(attributes.id) : ref;
+        const el = (attributes.id ? document.getElementById(attributes.id) : ref) as HTMLElement;
 
-        if (manager) {
-          manager.render({
-            el,
-            name,
-            value,
-            view,
-          });
-        }
+        renderDirective({ el, name, value, view }, { ...directiveKV });
       });
     }
 
-    if (node.children.length > 0) patch(node, view, manager, keys);
+    if (node.children.length > 0) patch(node, view, directiveKV, keys);
   }
 };
 

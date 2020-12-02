@@ -1,12 +1,9 @@
-interface Data {
-  $el?: Element;
-  $view: Record<string, unknown>;
-}
+import { Data, UnknownKV } from '../../defaults';
 
 export const safeEval = (
   expression: string,
-  argsKV: Record<string, unknown> = {},
-  bindKV: Record<string, unknown> = {},
+  argsKV: UnknownKV = {},
+  bindKV: UnknownKV = {},
   returnable: boolean = true
 ): any => {
   // Use Function class to perform scoped string eval, wrap in with to provide

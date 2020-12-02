@@ -1,8 +1,8 @@
-export const DIRECTIVE_PREFIX = 'l-';
+import { DIRECTIVE_PREFIX, StringKV } from '../../defaults';
 
-export const props = (el: Element | null): Record<string, Record<string, string>> => {
-  const attributes: Record<string, string> = {};
-  const directives: Record<string, string> = {};
+export const props = (el: Element | null): Record<string, StringKV> => {
+  const attributes: StringKV = {};
+  const directives: StringKV = {};
 
   el = el as Element;
 

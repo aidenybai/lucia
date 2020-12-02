@@ -1,49 +1,59 @@
-import { VNode } from './vdom/h';
+import { Directives, Components, View, VNode } from './defaults';
+
 import compile from './vdom/compile';
-import patch from './vdom/patch';
+import { directives } from './vdom/directive';
 import observer from './vdom/observer';
-import DirectivesManager from './vdom/directives';
+import patch from './vdom/patch';
 
 export class App {
   vdom: VNode | null;
-  view: Record<string, unknown>;
-  manager: DirectivesManager;
-  components: Record<string, Function>;
+  view: View;
+  directives: Directives;
+  components: Components;
+  mounted: boolean;
 
-  constructor(view: Record<string, unknown> = {}) {
+  constructor(view: View = {}) {
     this.vdom = null;
     this.view = view;
-    this.manager = new DirectivesManager();
+    this.directives = {};
     this.components = {};
+    this.mounted = false;
   }
 
-  public mount(el: string | Element, shallow: boolean = false): Record<string, unknown> {
-    this.vdom = this.compile(typeof el === 'string' ? document.querySelector(el) : el);
-    if (!shallow) this.view = observer(this.view, this.patch.bind(this));
+  public mount(el: HTMLElement | string, shallow: boolean = false): View {
+    this.vdom = this.compile(
+      (typeof el === 'string' ? document.querySelector(el) : el) as HTMLElement
+    );
+    if (!shallow) {
+      this.view = observer(this.view, this.patch.bind(this));
+      this.directives = directives;
+    }
 
+    this.mounted = true;
     this.patch();
     return this.view;
   }
 
-  public component(name: string, cb: Function) {
-    this.components[name.toUpperCase()] = cb;
+  public component(name: string, fn: Function) {
+    this.components[name.toUpperCase()] = fn;
   }
 
   public directive(name: string, fn: Function) {
-    this.manager.register(name, fn);
+    this.directives[name] = fn;
   }
 
   // Use internal private methods, should not be used when instantiated by the user
   private patch(this: App, keys?: string[]): void {
-    patch(this.vdom, this.view, this.manager, keys);
+    if (!this.mounted) throw new Error('App is not mounted.');
+    patch(this.vdom as VNode, this.view, this.directives, keys);
   }
 
-  private compile(el: Element | null): VNode {
+  private compile(el: HTMLElement): VNode {
     return compile(el, this.view, this.components) as VNode;
   }
 }
 
-export const createApp = (view: Record<string, unknown>) => {
+export const createApp = (view: View) => {
   return new App(view);
 };
 

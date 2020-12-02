@@ -23,6 +23,6 @@ describe('.App', () => {
     const view = { test: 1 };
     const app = createApp(view);
     app.directive('foo', () => {});
-    expect(typeof app.manager.directives.foo).toBe('function');
+    expect(typeof app.directives.foo).toBe('function');
   });
 });

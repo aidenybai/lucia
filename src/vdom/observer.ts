@@ -1,9 +1,11 @@
+import { View, UnknownKV } from '../defaults';
+
 import arrayEquals from './utils/arrayEquals';
 
 export const handleArray = (
-  target: Record<string, unknown> | unknown[],
+  target: UnknownKV | unknown[],
   key: string,
-  view: Record<string, unknown | unknown[]>,
+  view: View,
   patch: Function
 ) => {
   // Capture array mutators, as they will pass 'length' as key
@@ -21,25 +23,22 @@ export const handleArray = (
   }
 };
 
-export const observer = (
-  view: Record<string, unknown | unknown[]>,
-  patch: Function
-): Record<string, unknown> => {
+export const observer = (view: View, patch: Function): UnknownKV => {
   const handler = {
-    get(target: Record<string, unknown>, key: string): unknown {
+    get(target: UnknownKV, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
         // Deep proxy - if there is an object in an object, need to proxify that.
-        return new Proxy(target[key] as Record<string, unknown>, handler);
+        return new Proxy(target[key] as UnknownKV, handler);
       } else {
         return target[key];
       }
     },
-    set(target: Record<string, unknown>, key: string, value: unknown): boolean {
+    set(target: UnknownKV, key: string, value: unknown): boolean {
       target[key] = value;
       handleArray(target, key, view, patch);
       return true;
     },
-    deleteProperty(target: Record<string, unknown>, key: string): boolean {
+    deleteProperty(target: UnknownKV, key: string): boolean {
       delete target[key];
       handleArray(target, key, view, patch);
       return true;

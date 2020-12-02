@@ -20,7 +20,7 @@ Lucia is currently is installable through a CDN and also supports UMD (ES Module
 
 If you are using a module bunder like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org):
 
-```sh
+```bash
 npm install lucia
 ```
 

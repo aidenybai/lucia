@@ -1,4 +1,4 @@
-import DirectivesManager from '../directives';
+import { directives } from '../directive';
 import patch from '../patch';
 import h from '../h';
 
@@ -28,7 +28,7 @@ describe('.patch', () => {
           return 'bar';
         },
       },
-      new DirectivesManager()
+      directives
     );
 
     expect(fakeElem1.textContent).toEqual('1');

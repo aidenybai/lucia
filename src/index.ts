@@ -1,35 +1,32 @@
 // Exports wrapped in Lucia namespace
+import { DIRECTIVE_PREFIX, Components, View } from './defaults';
 
 import { App, createApp } from './App';
 
-import { h, render } from './vdom/h';
 import compile from './vdom/compile';
-import patch from './vdom/patch';
+import { h, render } from './vdom/h';
 import observer from './vdom/observer';
+import patch from './vdom/patch';
 
-import { props, DIRECTIVE_PREFIX } from './vdom/utils/props';
 import { computeProperties as compute, safeEval } from './vdom/utils/compute';
+import props from './vdom/utils/props';
 
 export { App, createApp, h, render, compile, patch, observer, props, compute };
 
-export const component = (name: string, cb: Function) => {
-  return { name, cb };
+export const component = (name: string, fn: Function) => {
+  return { name, fn };
 };
 
 // Lucia.use function for user provided views in JavaScript
-export const use = (
-  name: string,
-  view: Record<string, unknown>,
-  ...components: Record<string, Function>[]
-): App | void => {
+export const use = (name: string, view: View, ...components: Components[]): App | void => {
   const elements = Array.from(document.querySelectorAll(`[${DIRECTIVE_PREFIX}use]`));
   const element = elements.filter((el) => el.getAttribute(`${DIRECTIVE_PREFIX}use`) === name)[0];
   const app = createApp(view);
 
-  components.map(({ name, cb }: Record<string, string | Function>) => {
-    app.component(name as string, cb as Function);
+  components.map(({ name, fn }: Record<string, string | Function>) => {
+    app.component(name as string, fn as Function);
   });
-  app.mount(element);
+  app.mount(element as HTMLElement);
   return app;
 };
 
@@ -43,7 +40,7 @@ export const init = (element: HTMLElement | Document = document, directive: stri
 
     try {
       const app = createApp(safeEval(view));
-      app.mount(el);
+      app.mount(el as HTMLElement);
     } catch (err) {}
   });
 };

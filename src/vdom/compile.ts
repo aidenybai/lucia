@@ -1,12 +1,17 @@
-import { props, DIRECTIVE_PREFIX } from './utils/props';
-import { h, VNodeTypes, VNode } from './h';
-import { safeEval } from './utils/compute';
+import {
+  DIRECTIVE_PREFIX,
+  Components,
+  View,
+  VNodeChild,
+  VNodeChildren,
+  VNodeTypes,
+} from '../defaults';
 
-const createVNode = (
-  el: Element | null,
-  view: Record<string, unknown>,
-  children: (VNode | string)[]
-) => {
+import { h } from './h';
+import { safeEval } from './utils/compute';
+import props from './utils/props';
+
+const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
 
@@ -19,23 +24,23 @@ const createVNode = (
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
   if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
-  return h((el as Element).tagName.toLowerCase(), children, {
+  return h(el.tagName.toLowerCase(), children, {
     attributes,
     directives,
-    ref: type === VNodeTypes.STATIC || attributes.id ? undefined : (el as Element),
+    ref: type === VNodeTypes.STATIC || attributes.id ? undefined : el,
     type,
   });
 };
 
 const compile = (
-  el: Element | null,
-  view: Record<string, unknown> = {},
-  components: Record<string, Function> = {},
+  el: HTMLElement,
+  view: View = {},
+  components: Components = {},
   callSelf: boolean = false
-): (VNode | string)[] | VNode => {
+): VNodeChildren | VNodeChild => {
   if (!el) throw new Error('Please provide a Element');
 
-  const children: (VNode | string)[] = [];
+  const children: VNodeChildren = [];
   const childNodes = Array.prototype.slice.call(el.childNodes);
 
   for (const child of childNodes) {
@@ -55,12 +60,12 @@ const compile = (
 
           el.replaceChild(temp, child);
 
-          for (const componentChild of compile(temp, view, components, true) as VNode[]) {
+          for (const componentChild of compile(temp, view, components, true) as VNodeChildren) {
             children.push(componentChild);
           }
         } else {
           children.push(
-            createVNode(child, view, compile(child, view, components, true) as VNode[])
+            createVNode(child, view, compile(child, view, components, true) as VNodeChildren)
           );
         }
         break;

@@ -1,7 +1,8 @@
-import compute from '../utils/compute';
-import { DirectiveArgs } from './IDirectiveArgs';
+import { DirectiveProps } from '../../defaults';
 
-export const onDirective = ({ el, name, value, view }: DirectiveArgs) => {
+import compute from '../utils/compute';;
+
+export const onDirective = ({ el, name, value, view }: DirectiveProps) => {
   const [directiveAndEventName, prop] = name.split('.');
   const eventName = directiveAndEventName.split(':')[1];
   const eventProp = prop || null;

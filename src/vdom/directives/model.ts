@@ -1,13 +1,15 @@
-import compute from '../utils/compute';
-import { DirectiveArgs } from './IDirectiveArgs';
+import { DirectiveProps } from '../../defaults';
 
-export const modelDirective = ({ el, value, view }: DirectiveArgs) => {
+import compute from '../utils/compute';
+
+export const modelDirective = ({ el: awaitingTypecastEl, value, view }: DirectiveProps) => {
+  const el = awaitingTypecastEl as HTMLInputElement;
   const out = compute(value, { $view: view, $el: el });
   if (el.value !== out) {
     el.value = out;
   }
   el.oninput = () => {
-    const isNumber = typeof out === 'number' && !isNaN(el.value);
+    const isNumber = typeof out === 'number' && !isNaN(el.value as any);
     const isBoolean = typeof out === 'boolean' && (el.value === 'true' || el.value === 'false');
     const isNullish =
       (out === null || out === undefined) && (el.value === 'null' || el.value === 'undefined');
