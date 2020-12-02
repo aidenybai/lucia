@@ -9,13 +9,13 @@ import { onDirective } from './directives/on';
 import { textDirective } from './directives/text';
 
 export const directives: Directives = {
-  bind: bindDirective,
-  join: joinDirective,
-  html: htmlDirective,
-  if: ifDirective,
-  model: modelDirective,
-  on: onDirective,
-  text: textDirective,
+  BIND: bindDirective,
+  JOIN: joinDirective,
+  HTML: htmlDirective,
+  IF: ifDirective,
+  MODEL: modelDirective,
+  ON: onDirective,
+  TEXT: textDirective,
 };
 
 export const renderDirective = (
@@ -23,7 +23,7 @@ export const renderDirective = (
   directives: Directives
 ) => {
   const rootName = name.split(/:|\./)[0]; // Split directive:modifier.property
-  directives[rootName]({ el, name, value, view });
+  directives[rootName.toUpperCase()]({ el, name, value, view });
 };
 
 export default renderDirective;

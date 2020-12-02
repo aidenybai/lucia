@@ -39,7 +39,7 @@ export class App {
   }
 
   public directive(name: string, fn: Function) {
-    this.directives[name] = fn;
+    this.directives[name.toUpperCase()] = fn;
   }
 
   // Use internal private methods, should not be used when instantiated by the user

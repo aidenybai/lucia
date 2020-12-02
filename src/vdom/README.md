@@ -22,7 +22,7 @@ The Lucia Virtual DOM is designed to accomplish a balance between being **fast a
 
 - **Avoid doing unnecessary work**
 
-  Many JavaScript libraries use Virtual DOMs like Lucia does, however Lucia's footprint is small and considers state as immutable, meaning instead of compiling and diffing, it just changes the Element reference when necessary.
+  Many JavaScript libraries use Virtual DOMs like Lucia does, however Lucia's footprint is small and considers state as immutable, meaning instead of compiling and diffing during reconciliation, it just changes the Element reference when necessary.
 
 - **Utilize modularity and functional programming**
 
