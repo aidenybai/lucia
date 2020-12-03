@@ -1,10 +1,11 @@
 export const DIRECTIVE_PREFIX = 'l-';
 
-export type Directives = Record<string, Function>;
-export type Components = Record<string, Function>;
-export type View = Record<string, unknown>;
 export type UnknownKV = Record<string, unknown>;
 export type StringKV = Record<string, string>;
+
+export type Directives = Record<string, Function>;
+export type Components = Record<string, Function>;
+export type View = UnknownKV;
 
 export interface DirectiveProps {
   el: HTMLElement;
@@ -15,7 +16,7 @@ export interface DirectiveProps {
 
 export interface Data {
   $el?: HTMLElement;
-  $view: Record<string, unknown>;
+  $view: UnknownKV;
 }
 
 export interface VNode {

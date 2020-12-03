@@ -1,4 +1,4 @@
-import { View, UnknownKV } from '../defaults';
+import { UnknownKV, View } from '../defaults';
 
 import arrayEquals from './utils/arrayEquals';
 

@@ -1,10 +1,8 @@
 import { DIRECTIVE_PREFIX, StringKV } from '../../defaults';
 
-export const props = (el: Element | null): Record<string, StringKV> => {
+export const props = (el: HTMLElement): Record<string, StringKV> => {
   const attributes: StringKV = {};
   const directives: StringKV = {};
-
-  el = el as Element;
 
   if (el.attributes) {
     for (const { name, value } of Array.prototype.slice.call(el.attributes)) {

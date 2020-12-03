@@ -8,7 +8,6 @@ import {
 } from '../defaults';
 
 import { h } from './h';
-import { safeEval } from './utils/compute';
 import props from './utils/props';
 
 const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
@@ -51,18 +50,28 @@ const compile = (
       case Node.ELEMENT_NODE:
         // Fill children array
         if (Object.keys(components).includes(child.tagName)) {
-          const temp = document.createElement(`${DIRECTIVE_PREFIX}component`);
-          temp.innerHTML = components[child.tagName]({
+          const container = document.createElement('div');
+          const template = components[child.tagName]({
             children: child.innerHTML,
-            args: safeEval(`[${child.getAttribute(`${DIRECTIVE_PREFIX}bind`) ?? ''}]`),
             view,
           });
 
-          el.replaceChild(temp, child);
+          container.innerHTML = template;
 
-          for (const componentChild of compile(temp, view, components, true) as VNodeChildren) {
+          for (const [key, value] of Object.entries(props(child).directives)) {
+            container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value);
+          }
+
+          for (const componentChild of compile(
+            container,
+            view,
+            components,
+            true
+          ) as VNodeChildren) {
             children.push(componentChild);
           }
+
+          el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
           children.push(
             createVNode(child, view, compile(child, view, components, true) as VNodeChildren)

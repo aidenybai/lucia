@@ -1,4 +1,4 @@
-import { View, Directives, VNode, VNodeTypes, UnknownKV } from '../defaults';
+import { View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
 
 import { renderDirective } from './directive';
 
