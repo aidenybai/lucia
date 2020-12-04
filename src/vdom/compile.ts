@@ -10,6 +10,8 @@ import {
 import { h } from './h';
 import props from './utils/props';
 
+type CompileGroup = Record<string, VNodeChildren | VNodeChild | boolean>;
+
 const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
@@ -23,6 +25,7 @@ const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
   if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
+
   return h(el.tagName.toLowerCase(), children, {
     attributes,
     directives,
@@ -36,8 +39,9 @@ const compile = (
   view: View = {},
   components: Components = {},
   callSelf: boolean = false
-): VNodeChildren | VNodeChild => {
+): VNodeChildren | VNodeChild | CompileGroup => {
   if (!el) throw new Error('Please provide a Element');
+  let isDynamicGroup = false;
 
   const children: VNodeChildren = [];
   const childNodes = Array.prototype.slice.call(el.childNodes);
@@ -45,7 +49,6 @@ const compile = (
   for (const child of childNodes) {
     switch (child.nodeType) {
       case Node.TEXT_NODE:
-        if (child.nodeValue) children.push(child.nodeValue);
         break;
       case Node.ELEMENT_NODE:
         // Fill children array
@@ -62,26 +65,29 @@ const compile = (
             container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value);
           }
 
-          for (const componentChild of compile(
-            container,
-            view,
-            components,
-            true
-          ) as VNodeChildren) {
-            children.push(componentChild);
+          const childrenCompileGroup = compile(container, view, components, true) as CompileGroup;
+
+          if (childrenCompileGroup.isDynamicGroup) {
+            for (const componentChild of childrenCompileGroup.children as VNodeChildren) {
+              isDynamicGroup = true;
+              children.push(componentChild);
+            }
           }
 
           el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
-          children.push(
-            createVNode(child, view, compile(child, view, components, true) as VNodeChildren)
-          );
+          const childrenCompileGroup = compile(child, view, components, true) as CompileGroup;
+          const node = createVNode(child, view, childrenCompileGroup.children as VNodeChildren);
+          if (node.props.type !== 0 || childrenCompileGroup.isDynamicGroup) {
+            isDynamicGroup = true;
+            children.push(node);
+          }
         }
         break;
     }
   }
 
-  return callSelf ? children : createVNode(el, view, children);
+  return callSelf ? { children, isDynamicGroup } : createVNode(el, view, children);
 };
 
 export default compile;

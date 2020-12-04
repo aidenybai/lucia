@@ -1,6 +1,6 @@
 # <a href="http://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="http://lucia.js.org" /></a>
 
-A tiny `3kb` JavaScript library for prototyping web applications.
+A tiny <kbd>3kb</kbd> JavaScript library for prototyping web applications.
 
 - **Declarative:** Lucia provides a declarative API similar to Vue to create views, making development predictable and intuitive through markup-centric code.
 - **Reactive:** When the view is changed and trapped by the observer, the internal Virtual DOM will automatically react and will update and render the new view in realtime.
@@ -18,11 +18,11 @@ Lucia is currently is installable through a CDN and also supports UMD (ES Module
 <script src="https://unpkg.com/lucia"></script>
 ```
 
-If you are using a module bunder like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org):
+If you are using a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org):
 
-```bash
-npm install lucia
-```
+<pre>
+npm install <b>lucia</b>
+</pre>
 
 [**→ Learn more about installing Lucia**](https://lucia.js.org/docs/essentials/installation)
 
