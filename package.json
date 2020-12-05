@@ -26,7 +26,7 @@
   "size-limit": [
     {
       "path": "dist/lucia.js",
-      "limit": "40 KB"
+      "limit": "10 KB"
     }
   ],
   "sideEffects": false,
