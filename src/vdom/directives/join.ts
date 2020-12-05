@@ -14,6 +14,6 @@ export const joinDirective = ({ el, value, view }: DirectiveProps) => {
   el[accessProp] = out.join(delimiter || '');
 
   // Create shallow nested Lucia app
-  const app = createApp({ ...view });
+  const app = createApp(Object.assign({}, view));
   app.mount(el, true);
 };
