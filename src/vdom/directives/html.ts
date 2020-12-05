@@ -5,7 +5,7 @@ import { createApp } from '../../App';
 
 export const htmlDirective = ({ el, value, view }: DirectiveProps) => {
   // Create shallow nested Lucia app
-  const app = createApp(Object.assign({}, view));
+  const app = createApp({ ...view });
   app.mount(el, true);
 
   try {

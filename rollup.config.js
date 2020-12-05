@@ -87,6 +87,6 @@ const index = (format, folder = '') => ({
 export default [
   browser('es2020'),
   index('es2020'),
-  browser('es5', '/polyfills'),
-  index('es5', '/polyfills'),
+  browser('es5', '/legacy'),
+  index('es5', '/legacy'),
 ];

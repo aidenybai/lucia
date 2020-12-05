@@ -78,7 +78,7 @@ const compile = (
           ) as CompileGroup;
 
           if (childrenCompileGroup.isDynamicGroup) {
-            // Check if children group has isDynamicGroup prop, which returns true when 
+            // Check if children group has isDynamicGroup prop, which returns true when
             // children have dynamic nodes.
             for (const componentChild of childrenCompileGroup.children as VNodeChildren) {
               isDynamicGroup = true;

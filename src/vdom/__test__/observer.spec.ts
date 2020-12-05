@@ -7,7 +7,6 @@ describe('.observer', () => {
     const view = observer({ test: 1, deepTest: { deepChild: 2 } }, patch);
 
     expect({ ...view }).toEqual(objectView);
-
   });
   it('should react if changed', () => {
     const mockCb = jest.fn();

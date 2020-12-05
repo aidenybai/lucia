@@ -1,4 +1,11 @@
-import { DIRECTIVE_PREFIX, StringKV, VNode, VNodeProps, VNodeChild, VNodeChildren } from '../defaults';
+import {
+  DIRECTIVE_PREFIX,
+  StringKV,
+  VNode,
+  VNodeProps,
+  VNodeChild,
+  VNodeChildren,
+} from '../defaults';
 
 export const h = (
   selector: string,
@@ -8,8 +15,8 @@ export const h = (
   // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
-  const attributes: StringKV = Object.assign({}, props?.attributes);
-  const directives: StringKV = Object.assign({}, props?.directives);
+  const attributes: StringKV = { ...props?.attributes };
+  const directives: StringKV = { ...props?.directives };
 
   if (tokens.length > 1) {
     tokens.shift();

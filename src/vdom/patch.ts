@@ -51,7 +51,7 @@ const patch = (
         const value = directives[name];
         const el = (attributes.id ? document.getElementById(attributes.id) : ref) as HTMLElement;
 
-        renderDirective({ el, name, value, view }, Object.assign({}, directiveKV));
+        renderDirective({ el, name, value, view }, { ...directiveKV });
       });
     }
 
