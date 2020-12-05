@@ -32,17 +32,6 @@ const browser = (format, folder = '') => ({
       format: 'umd',
       ...config,
     },
-    {
-      file: `dist${folder}/lucia.iife.js`,
-      format: 'iife',
-      ...config,
-    },
-    {
-      file: `dist${folder}/lucia.iife.min.js`,
-      plugins: [terser({ format: { comments: false } })],
-      format: 'iife',
-      ...config,
-    },
   ],
 });
 
@@ -85,8 +74,8 @@ const index = (format, folder = '') => ({
 });
 
 export default [
-  browser('es2020'),
-  index('es2020'),
+  browser('es6'),
+  index('es6'),
   browser('es5', '/legacy'),
   index('es5', '/legacy'),
 ];

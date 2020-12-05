@@ -10,9 +10,9 @@ import {
 import { h } from './h';
 import props from './utils/props';
 
-type CompileGroup = Record<string, VNodeChildren | VNodeChild | boolean>;
+export type CompileGroup = Record<string, VNodeChildren | VNodeChild | boolean>;
 
-const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
+export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
 
@@ -34,7 +34,7 @@ const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
   });
 };
 
-const compile = (
+export const compile = (
   el: HTMLElement,
   view: View = {},
   components: Components = {},

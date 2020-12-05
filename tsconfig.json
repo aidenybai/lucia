@@ -12,7 +12,6 @@
     "noImplicitAny": true,
     "declarationDir": "dist/types",
     "declaration": true,
-    "target": "es2020",
     "module": "esnext",
     "removeComments": true,
     "downlevelIteration": true,
