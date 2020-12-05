@@ -8,12 +8,8 @@ export const h = (
   // Splits selector into tokens containing id, className, and other attrs
   const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
   const tag = tokens[0];
-  const attributes: StringKV = {
-    ...props?.attributes,
-  };
-  const directives: StringKV = {
-    ...props?.directives,
-  };
+  const attributes: StringKV = Object.assign({}, props?.attributes);
+  const directives: StringKV = Object.assign({}, props?.directives);
 
   if (tokens.length > 1) {
     tokens.shift();
