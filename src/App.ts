@@ -49,7 +49,7 @@ export class App {
   }
 
   private compile(el: HTMLElement): VNode {
-    return compile(el, this.view, this.components) as VNode;
+    return compile(el, this.view, this.components, true) as VNode;
   }
 }
 

@@ -38,10 +38,13 @@ const compile = (
   el: HTMLElement,
   view: View = {},
   components: Components = {},
+  strip: boolean = false,
   callSelf: boolean = false
 ): VNodeChildren | VNodeChild | CompileGroup => {
   if (!el) throw new Error('Please provide a Element');
-  let isDynamicGroup = false;
+
+  // Dynamic group propogates up the tree, marked as true only if a child is dynamic
+  let isDynamicGroup = !strip;
 
   const children: VNodeChildren = [];
   const childNodes = Array.prototype.slice.call(el.childNodes);
@@ -61,23 +64,40 @@ const compile = (
 
           container.innerHTML = template;
 
+          // Grab all the directives on the custom component element
           for (const [key, value] of Object.entries(props(child).directives)) {
             container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value);
           }
 
-          const childrenCompileGroup = compile(container, view, components, true) as CompileGroup;
+          const childrenCompileGroup = compile(
+            container,
+            view,
+            components,
+            strip,
+            true
+          ) as CompileGroup;
 
           if (childrenCompileGroup.isDynamicGroup) {
+            // Check if children group has isDynamicGroup prop, which returns true when 
+            // children have dynamic nodes.
             for (const componentChild of childrenCompileGroup.children as VNodeChildren) {
               isDynamicGroup = true;
+              // Push only if dynamic
               children.push(componentChild);
             }
           }
 
           el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
-          const childrenCompileGroup = compile(child, view, components, true) as CompileGroup;
+          const childrenCompileGroup = compile(
+            child,
+            view,
+            components,
+            strip,
+            true
+          ) as CompileGroup;
           const node = createVNode(child, view, childrenCompileGroup.children as VNodeChildren);
+          // Check if contains dynamic group or is non-static
           if (node.props.type !== 0 || childrenCompileGroup.isDynamicGroup) {
             isDynamicGroup = true;
             children.push(node);
