@@ -23,6 +23,12 @@
     "node": "./dist/index.cjs.min.js",
     "default": "./dist/index.cjs.min.js"
   },
+  "size-limit": [
+    {
+      "path": "dist/lucia.js",
+      "limit": "40 KB"
+    }
+  ],
   "sideEffects": false,
   "keywords": [
     "lucia",
