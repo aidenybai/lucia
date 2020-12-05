@@ -6,76 +6,87 @@ import { terser } from 'rollup-plugin-terser';
 const config = {
   name: 'Lucia',
   globals: {},
-  strict: false,
+  strict: true,
 };
 
+const browser = (format, folder = '') => ({
+  input: './src/browser.ts',
+  external: [],
+  plugins: [
+    resolve({ extensions: ['.ts'] }),
+    commonjs(),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      tsconfigOverride: { compilerOptions: { target: format } },
+    }),
+  ],
+  output: [
+    {
+      file: `dist${folder}/lucia.js`,
+      format: 'umd',
+      ...config,
+    },
+    {
+      file: `dist${folder}/lucia.min.js`,
+      plugins: [terser({ format: { comments: false } })],
+      format: 'umd',
+      ...config,
+    },
+    {
+      file: `dist${folder}/lucia.iife.js`,
+      format: 'iife',
+      ...config,
+    },
+    {
+      file: `dist${folder}/lucia.iife.min.js`,
+      plugins: [terser({ format: { comments: false } })],
+      format: 'iife',
+      ...config,
+    },
+  ],
+});
+
+const index = (format, folder = '') => ({
+  input: './src/index.ts',
+  external: [],
+  plugins: [
+    resolve({ extensions: ['.ts'] }),
+    commonjs(),
+    typescript({
+      useTsconfigDeclarationDir: true,
+      tsconfigOverride: { compilerOptions: { target: format } },
+    }),
+  ],
+
+  output: [
+    {
+      file: `dist${folder}/lucia.esm.js`,
+      format: 'esm',
+      ...config,
+    },
+    {
+      file: `dist${folder}/lucia.esm.min.js`,
+      plugins: terser({ format: { comments: false } }),
+      format: 'esm',
+      ...config,
+    },
+    {
+      file: `dist${folder}/lucia.cjs.js`,
+      format: 'cjs',
+      ...config,
+    },
+    {
+      file: `dist${folder}/lucia.cjs.min.js`,
+      plugins: terser({ format: { comments: false } }),
+      format: 'cjs',
+      ...config,
+    },
+  ],
+});
+
 export default [
-  {
-    input: './src/browser.ts',
-    external: [],
-    plugins: [
-      resolve({ extensions: ['.ts'] }),
-      commonjs(),
-      typescript({ useTsconfigDeclarationDir: true }),
-    ],
-    output: [
-      {
-        file: 'dist/lucia.js',
-        format: 'umd',
-        ...config,
-      },
-      {
-        file: 'dist/lucia.min.js',
-        plugins: [terser({ format: { comments: false } })],
-        format: 'umd',
-        ...config,
-      },
-      {
-        file: 'dist/lucia.iife.js',
-        format: 'iife',
-        ...config,
-      },
-      {
-        file: 'dist/lucia.iife.min.js',
-        plugins: [terser({ format: { comments: false } })],
-        format: 'iife',
-        ...config,
-      },
-    ],
-  },
-
-  {
-    input: './src/index.ts',
-    external: [],
-    plugins: [
-      resolve({ extensions: ['.ts'] }),
-      commonjs(),
-      typescript({ useTsconfigDeclarationDir: true }),
-    ],
-
-    output: [
-      {
-        file: 'dist/lucia.esm.js',
-        format: 'esm',
-        ...config,
-      },
-      {
-        file: 'dist/lucia.esm.min.js',
-        plugins: terser({ format: { comments: false } }),
-        format: 'esm',
-        ...config,
-      },
-      {
-        file: 'dist/lucia.cjs.js',
-        format: 'cjs',
-        ...config,
-      },
-      {
-        file: 'dist/lucia.cjs.min.js',
-        plugins: terser({ format: { comments: false } }),
-        format: 'cjs',
-        ...config,
-      },
-    ],
-  },
+  browser('es2020'),
+  index('es2020'),
+  browser('es5', '/polyfills'),
+  index('es5', '/polyfills'),
 ];
