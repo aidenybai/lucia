@@ -3,7 +3,7 @@ import { DIRECTIVE_PREFIX, Components, View } from './defaults';
 
 import { App, createApp } from './App';
 
-import compile from './vdom/compile';
+import { compile, flat } from './vdom/compile';
 import { h, render } from './vdom/h';
 import observer from './vdom/observer';
 import patch from './vdom/patch';
@@ -11,7 +11,7 @@ import patch from './vdom/patch';
 import { computeProperties as compute, safeEval } from './vdom/utils/compute';
 import props from './vdom/utils/props';
 
-export { App, createApp, h, render, compile, patch, observer, props, compute };
+export { App, createApp, h, render, compile, patch, observer, props, compute, flat };
 
 export const component = (name: string, fn: Function) => {
   return { name, fn };
