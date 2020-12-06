@@ -10,9 +10,12 @@ import {
 import { h } from './h';
 import props from './utils/props';
 
-export type CompileGroup = Record<string, VNodeChildren | VNodeChild | boolean>;
-
-export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
+export const createVNode = (
+  el: HTMLElement,
+  view: View,
+  children: VNodeChildren,
+  minimal: boolean = false
+) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
 
@@ -26,8 +29,8 @@ export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
   if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
 
-  return h(el.tagName.toLowerCase(), children, {
-    attributes,
+  return h(minimal ? '' : el.tagName.toLowerCase(), children, {
+    attributes: minimal ? {} : attributes,
     directives,
     ref: type === VNodeTypes.STATIC || attributes.id ? undefined : el,
     type,
@@ -40,11 +43,10 @@ export const compile = (
   components: Components = {},
   strip: boolean = false,
   callSelf: boolean = false
-): VNodeChildren | VNodeChild | CompileGroup => {
+): VNodeChildren | VNodeChild => {
   if (!el) throw new Error('Please provide a Element');
 
   // Dynamic group propogates up the tree, marked as true only if a child is dynamic
-  let isDynamicGroup = !strip;
 
   const children: VNodeChildren = [];
   const childNodes = Array.prototype.slice.call(el.childNodes);
@@ -52,6 +54,9 @@ export const compile = (
   for (const child of childNodes) {
     switch (child.nodeType) {
       case Node.TEXT_NODE:
+        if (!strip && child.nodeValue) {
+          children.push(child.nodeValue);
+        }
         break;
       case Node.ELEMENT_NODE:
         // Fill children array
@@ -69,19 +74,11 @@ export const compile = (
             container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value);
           }
 
-          const childrenCompileGroup = compile(
-            container,
-            view,
-            components,
-            strip,
-            true
-          ) as CompileGroup;
-
-          if (childrenCompileGroup.isDynamicGroup) {
+          if (!strip || child.outerHTML.includes(DIRECTIVE_PREFIX)) {
+            const compiledChildren = compile(container, view, components, strip, true);
             // Check if children group has isDynamicGroup prop, which returns true when
             // children have dynamic nodes.
-            for (const componentChild of childrenCompileGroup.children as VNodeChildren) {
-              isDynamicGroup = true;
+            for (const componentChild of compiledChildren as VNodeChildren) {
               // Push only if dynamic
               children.push(componentChild);
             }
@@ -89,17 +86,10 @@ export const compile = (
 
           el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
-          const childrenCompileGroup = compile(
-            child,
-            view,
-            components,
-            strip,
-            true
-          ) as CompileGroup;
-          const node = createVNode(child, view, childrenCompileGroup.children as VNodeChildren);
-          // Check if contains dynamic group or is non-static
-          if (node.props.type !== 0 || childrenCompileGroup.isDynamicGroup) {
-            isDynamicGroup = true;
+          if (!strip || child.outerHTML.includes(DIRECTIVE_PREFIX)) {
+            const compiledChildren = compile(child, view, components, strip, true);
+            const node = createVNode(child, view, compiledChildren as VNodeChildren, strip);
+            // Check if contains dynamic group or is non-static
             children.push(node);
           }
         }
@@ -107,7 +97,7 @@ export const compile = (
     }
   }
 
-  return callSelf ? { children, isDynamicGroup } : createVNode(el, view, children);
+  return callSelf ? children : createVNode(el, view, children, strip);
 };
 
 export default compile;
