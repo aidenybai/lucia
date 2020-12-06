@@ -101,13 +101,10 @@ export const compile = (
 
 export const flat = (vdom: VNode): VNode => {
   const flattenedVDom = { ...vdom };
-  flattenedVDom.children = [];
+  flattenedVDom.children.filter((child) => typeof child === 'object' && child.props.type > 0);
 
   for (const child of vdom.children) {
     if (typeof child === 'string') continue;
-    if (child.props.type !== 0) {
-      flattenedVDom.children.push(child);
-    }
     if (child.children.length > 0) {
       for (const nestedChild of flat(child).children) {
         if (typeof nestedChild === 'string') continue;

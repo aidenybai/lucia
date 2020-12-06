@@ -1,4 +1,5 @@
-import compile from '../compile';
+import { compile, flat } from '../compile';
+import { VNode } from '../../defaults';
 
 describe('.compile', () => {
   it('should compile a VNode tree', () => {
@@ -68,8 +69,12 @@ describe('.compile', () => {
   it('should compile components', () => {
     const fakeElem = document.createElement('div');
     const child = document.createElement('customcomponent');
+    child.setAttribute('l-text', '1');
     fakeElem.appendChild(child);
     const vdom = compile(fakeElem, {}, { CUSTOMCOMPONENT: () => `<p></p>` });
+
+    const expectedRef = document.createElement('p');
+    expectedRef.setAttribute('l-text', '1');
 
     expect(vdom).toEqual({
       tag: 'div',
@@ -79,12 +84,36 @@ describe('.compile', () => {
           children: [],
           props: {
             attributes: {},
-            directives: {},
-            type: 0,
-            ref: undefined,
+            directives: {
+              text: '1',
+            },
+            type: 1,
+            ref: expectedRef,
           },
         },
       ],
+      props: {
+        attributes: {},
+        directives: {},
+        type: 0,
+        ref: undefined,
+      },
+    });
+  });
+  it('should strip vdom', () => {
+    const fakeElem = document.createElement('div');
+    const child = document.createElement('div');
+    const textNode = document.createTextNode('hello world');
+    fakeElem.appendChild(child);
+    child.appendChild(textNode);
+
+    const vdom = compile(fakeElem, {}, {}) as VNode;
+    const flatVDom = compile(fakeElem, {}, {}, true);
+
+    expect(flat(vdom));
+    expect(flatVDom).toEqual({
+      tag: 'div',
+      children: [],
       props: {
         attributes: {},
         directives: {},
