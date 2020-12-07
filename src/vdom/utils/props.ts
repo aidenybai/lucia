@@ -5,7 +5,7 @@ export const props = (el: HTMLElement): Record<string, StringKV> => {
   const directives: StringKV = {};
 
   if (el.attributes) {
-    for (const { name, value } of Array.prototype.slice.call(el.attributes)) {
+    for (const { name, value } of [...el.attributes]) {
       if (name.startsWith(DIRECTIVE_PREFIX)) {
         directives[name.slice(DIRECTIVE_PREFIX.length)] = value;
       } else {

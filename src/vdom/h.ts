@@ -3,7 +3,6 @@ import {
   StringKV,
   VNode,
   VNodeProps,
-  VNodeChild,
   VNodeChildren,
 } from '../defaults';
 
@@ -55,29 +54,6 @@ export const h = (
       type: props?.type || 0,
     },
   };
-};
-
-export const render = (node: VNode): HTMLElement => {
-  const { tag, children, props }: VNode = node;
-  const anchor = document.createElement(tag);
-
-  Object.entries(props.attributes)
-    .filter(([name]) => name !== 'className')
-    .map(([name, value]) => {
-      anchor.setAttribute(name, value);
-    });
-
-  if (props.attributes.className) anchor.setAttribute('class', props.attributes.className);
-
-  Object.entries(props.directives).map(([name, value]) => {
-    anchor.setAttribute(`l-${name}`, value);
-  });
-
-  children.map((child: VNodeChild) => {
-    anchor.appendChild(typeof child === 'string' ? document.createTextNode(child) : render(child));
-  });
-
-  return anchor;
 };
 
 export default h;
