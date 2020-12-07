@@ -1,17 +1,15 @@
 // Exports wrapped in Lucia namespace
 import { DIRECTIVE_PREFIX } from './defaults';
+import createApp from './App';
 
-import { App, createApp } from './App';
-
-import { compile, flat } from './vdom/compile';
 import h from './vdom/h';
-import observer from './vdom/observer';
 import patch from './vdom/patch';
+import compile from './vdom/compile';
+import observer from './vdom/observer';
+import { directives, renderDirective } from './vdom/directive';
+import { safeEval } from './vdom/utils/compute';
 
-import { computeProperties as compute, safeEval } from './vdom/utils/compute';
-import props from './vdom/utils/props';
-
-export { App, createApp, h, compile, patch, observer, props, compute, flat };
+export { createApp, h, compile, patch, observer, directives, renderDirective };
 
 export const init = (element: HTMLElement | Document = document, directive: string = 'use') => {
   const elements = [...element.querySelectorAll(`[${DIRECTIVE_PREFIX + directive}]`)];
