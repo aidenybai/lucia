@@ -1,4 +1,4 @@
-<img src="https://res.cloudinary.com/practicaldev/image/fetch/s--VcrLD2E8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.imgur.com/gK5PmYc.png" width="100px" align="right"> 
+<img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/pogchamp.png" width="100px" align="right"> 
 
 # Pogchamp VDOM Engine
 
