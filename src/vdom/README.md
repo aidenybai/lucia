@@ -1,3 +1,7 @@
+<img src="https://res.cloudinary.com/practicaldev/image/fetch/s--VcrLD2E8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.imgur.com/gK5PmYc.png" width="100px" align="right"> 
+
+# Pogchamp VDOM Engine
+
 - [Virtual DOM Documentation](#virtual-dom-documentation)
   - [Design principles](#design-principles)
 - [Overview](#overview)
@@ -8,7 +12,7 @@
 
 # Virtual DOM Documentation
 
-This document covers how Lucia's Virtual DOM works. It's intended to aid in understanding the code, and helping contributors work with it.
+This document covers how Lucia's Virtual DOM (Pogchamp) works. It's intended to aid in understanding the code, and helping contributors work with it.
 
 Note that there are some design decisions that make Lucia's Virtual DOM somewhat unorthodox. Keep in mind that this project is quite young and unstable, and some of the implementations are bound to change down the road.
 
@@ -34,7 +38,7 @@ The Lucia Virtual DOM is designed to accomplish a balance between being **fast a
 
 ## Overview
 
-![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv&chl=graph{Virtual_DOM--Compile[type=s];Reconciliation--Directives[type=s];Compile--Reconciliation[type=s];Reconciliation--Patch[type=s];Reconciliation--Observer[type=s];})
+![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv&chl=graph{Pogchamp--Compile[type=s];Reconciliation--Directives[type=s];Compile--Reconciliation[type=s];Reconciliation--Patch[type=s];Reconciliation--Observer[type=s];})
 
 ### Compilation phases
 
