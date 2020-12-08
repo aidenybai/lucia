@@ -15,7 +15,8 @@
     "module": "esnext",
     "removeComments": true,
     "downlevelIteration": true,
-    "strict": true
+    "strict": true,
+    "target": "es5"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules", "build", "dist", "src/**/*.js", "src/**/*.spec.ts"]

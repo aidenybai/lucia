@@ -51,6 +51,7 @@ export const compile = (
   for (const child of childNodes) {
     switch (child.nodeType) {
       case Node.TEXT_NODE:
+        // Only push string if not stripped
         if (!strip && child.nodeValue) {
           children.push(child.nodeValue);
         }
@@ -71,10 +72,11 @@ export const compile = (
             container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value);
           }
 
-          if (!strip || child.outerHTML.includes(DIRECTIVE_PREFIX)) {
+          // Only allow during strip if outerHTML has directives
+          if (!strip || child.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
             const compiledChildren = compile(container, view, components, strip, true);
             // Check if children group has isDynamicGroup prop, which returns true when
-            // children have dynamic nodes.
+            // children have dynamic nodes
             for (const componentChild of compiledChildren as VNodeChildren) {
               // Push only if dynamic
               children.push(componentChild);
@@ -83,7 +85,8 @@ export const compile = (
 
           el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
-          if (!strip || child.outerHTML.includes(DIRECTIVE_PREFIX)) {
+          // Only allow during strip if outerHTML has directives
+          if (!strip || child.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
             const compiledChildren = compile(child, view, components, strip, true);
             const node = createVNode(child, view, compiledChildren as VNodeChildren);
             children.push(node);
@@ -93,18 +96,21 @@ export const compile = (
     }
   }
 
-  let vnode = createVNode(el, view, children);
-
-  if (strip) vnode = flat(vnode);
-
-  return callSelf ? children : vnode;
+  if (callSelf) {
+    return children;
+  } else {
+    let vnode = createVNode(el, view, children);
+    return strip ? flat(vnode) : vnode;
+  }
 };
 
 export const flat = (vdom: VNode): VNode => {
   const flattenedVDom = { ...vdom };
+  // Clone vdom and remove all the non-dynamic nodes
   flattenedVDom.children.filter((child) => typeof child === 'object' && child.props.type > 0);
 
   for (const child of vdom.children) {
+    // Iterate down the children and push to parent child array clone if dynamic
     if (typeof child === 'string') continue;
     if (child.children.length > 0) {
       for (const nestedChild of flat(child).children) {
