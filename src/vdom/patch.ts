@@ -2,6 +2,8 @@ import { View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
 
 import { renderDirective } from './directive';
 
+import keyPattern from './utils/keyPattern';
+
 // Using patch requires a wrapper parent VNode
 
 const patch = (
@@ -26,13 +28,13 @@ const patch = (
 
         const needsInit = node.props.type === 1;
         // Iterate through affected keys and check if directive value has key
-        const hasKey = keys.some((key) => value.toString().includes(key));
+        const hasKey = keys.some((key) => keyPattern(key).test(value.toString()));
         // Iterate through view keys
         const hasKeyInFunction = Object.keys(view).some((key: string) => {
           // Check if function and function content, iterate through affected
           // keys and check if function content contains affected key
           const iterKeysInFunction = (keys as string[]).some((k) =>
-            (view[key] as Function).toString().includes(`this.${k}`)
+            keyPattern(k).test((view[key] as Function).toString())
           );
           return typeof view[key] === 'function' && iterKeysInFunction;
         });

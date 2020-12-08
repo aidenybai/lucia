@@ -10,6 +10,7 @@ import {
 
 import { h } from './h';
 import props from './utils/props';
+import keyPattern from './utils/keyPattern';
 
 export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
@@ -19,7 +20,7 @@ export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren
   const hasDirectives = Object.keys(directives).length > 0;
   // Check if there are affected keys in values
   const hasKeyInDirectives = Object.values(directives).some((value) =>
-    Object.keys(view).some((key) => (value as string).includes(key))
+    Object.keys(view).some((key) => keyPattern(key, false).test(value as string))
   );
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
