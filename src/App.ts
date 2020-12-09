@@ -1,4 +1,4 @@
-import { LUCIA_COMPILE_REQUEST, Directives, Components, View, VNode } from './defaults';
+import { Directives, Components, View, VNode } from './defaults';
 
 import compile from './vdom/compile';
 import { directives } from './vdom/directive';
@@ -30,7 +30,7 @@ export class App {
     }
 
     this.mounted = true;
-    this.patch([LUCIA_COMPILE_REQUEST]);
+    this.patch(['LUCIA_COMPILE_REQUEST']);
     return this.view;
   }
 

@@ -23,7 +23,8 @@ export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren
     Object.keys(view).some((key) => keyPattern(key, false).test(value as string))
   );
 
-  if (hasDirectives && hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
+  if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
+  if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
 
   return h(el.tagName.toLowerCase(), children, {
     attributes,

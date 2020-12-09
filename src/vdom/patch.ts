@@ -1,4 +1,4 @@
-import { LUCIA_COMPILE_REQUEST, View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
+import { View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
 
 import { renderDirective } from './directive';
 
@@ -17,20 +17,21 @@ const patch = (
   if (!rootVNode) return;
   if (!keys) keys = Object.keys(view);
   // Compile request is for sweeping initialization
-  if (keys[0] === LUCIA_COMPILE_REQUEST) compileRequest = true;
+  if (keys[0] === 'LUCIA_COMPILE_REQUEST') compileRequest = true;
 
   for (let node of rootVNode.children) {
     if (typeof node === 'string') continue;
 
     // Check if it is not a static VNode by type
     if (node.props.type > VNodeTypes.STATIC) {
-      const { attributes, directives, ref } = node.props;
+      const { attributes, directives, ref, type } = node.props;
       let affectedDirectives: string[] = [];
 
       if (!compileRequest) {
         for (const name in directives as UnknownKV) {
           const value = directives[name];
 
+          const needsInit = type === 1;
           // Iterate through affected keys and check if directive value has key
           const hasKey = keys.some((key) => keyPattern(key).test(value.toString()));
           // Iterate through view keys
@@ -44,11 +45,14 @@ const patch = (
           });
 
           // If affected, then push to render queue
-          if (hasKey || hasKeyInFunction) {
+          if (needsInit || hasKey || hasKeyInFunction) {
             affectedDirectives.push(name);
           }
         }
       }
+
+      // Switch one time patch nodes to static (l-use and l-init unaffected)
+      node.props.type = type === VNodeTypes.NEEDS_PATCH ? VNodeTypes.STATIC : type;
 
       // If compileRequest, then use keys of norm directives
       const directivesToRender: string[] = compileRequest

@@ -71,7 +71,8 @@ This phase takes compiled VNodes and a mutable view, traversing the tree and ren
 | ID  | Description                                                     |
 | --- | --------------------------------------------------------------- |
 | 0   | `STATIC` - Static VNode (no patching necessary)                 |
-| 1   | `DYNAMIC` - Dynamic VNode (needs patch every time view changes) |
+| 1   | `NEEDS_PATCH` - Uninitialized static VNode (needs one patch)    |
+| 2   | `DYNAMIC` - dynamic VNode (needs patch every time view changes) |
 
 **Example:**
 
