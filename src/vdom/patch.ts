@@ -12,44 +12,54 @@ const patch = (
   directiveKV: Directives = {},
   keys?: string[]
 ): void => {
+  let compileRequest = false;
+
   if (!rootVNode) return;
   if (!keys) keys = Object.keys(view);
+  // Compile request is for sweeping initialization
+  if (keys[0] === 'LUCIA_COMPILE_REQUEST') compileRequest = true;
 
   for (let node of rootVNode.children) {
     if (typeof node === 'string') continue;
 
     // Check if it is not a static VNode by type
     if (node.props.type > VNodeTypes.STATIC) {
-      const { attributes, directives, ref } = node.props;
-      const affectedDirectives = [];
+      const { attributes, directives, ref, type } = node.props;
+      let affectedDirectives: string[] = [];
 
-      for (const name in directives as UnknownKV) {
-        const value = directives[name];
+      if (!compileRequest) {
+        for (const name in directives as UnknownKV) {
+          const value = directives[name];
 
-        const needsInit = node.props.type === 1;
-        // Iterate through affected keys and check if directive value has key
-        const hasKey = keys.some((key) => keyPattern(key).test(value.toString()));
-        // Iterate through view keys
-        const hasKeyInFunction = Object.keys(view).some((key: string) => {
-          // Check if function and function content, iterate through affected
-          // keys and check if function content contains affected key
-          const iterKeysInFunction = (keys as string[]).some((k) =>
-            keyPattern(k).test((view[key] as Function).toString())
-          );
-          return typeof view[key] === 'function' && iterKeysInFunction;
-        });
+          const needsInit = type === 1;
+          // Iterate through affected keys and check if directive value has key
+          const hasKey = keys.some((key) => keyPattern(key).test(value.toString()));
+          // Iterate through view keys
+          const hasKeyInFunction = Object.keys(view).some((key: string) => {
+            // Check if function and function content, iterate through affected
+            // keys and check if function content contains affected key
+            const iterKeysInFunction = (keys as string[]).some((k) =>
+              keyPattern(k).test((view[key] as Function).toString())
+            );
+            return typeof view[key] === 'function' && iterKeysInFunction;
+          });
 
-        // If affected, then push to render queue
-        if (needsInit || hasKey || hasKeyInFunction) {
-          affectedDirectives.push(name);
+          // If affected, then push to render queue
+          if (needsInit || hasKey || hasKeyInFunction) {
+            affectedDirectives.push(name);
+          }
         }
       }
 
       // Switch one time patch nodes to static (l-use and l-init unaffected)
-      node.props.type =
-        node.props.type === VNodeTypes.NEEDS_PATCH ? VNodeTypes.STATIC : node.props.type;
+      node.props.type = type === VNodeTypes.NEEDS_PATCH ? VNodeTypes.STATIC : type;
 
-      affectedDirectives.map((name) => {
+      // If compileRequest, then use keys of norm directives
+      const directivesToRender: string[] = compileRequest
+        ? Object.keys(directives)
+        : affectedDirectives;
+
+      directivesToRender.map((name) => {
         const value = directives[name];
         const el = (attributes.id ? document.getElementById(attributes.id) : ref) as HTMLElement;
 

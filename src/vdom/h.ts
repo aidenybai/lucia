@@ -1,10 +1,4 @@
-import {
-  DIRECTIVE_PREFIX,
-  StringKV,
-  VNode,
-  VNodeProps,
-  VNodeChildren,
-} from '../defaults';
+import { DIRECTIVE_PREFIX, StringKV, VNode, VNodeProps, VNodeChildren } from '../defaults';
 
 export const h = (
   selector: string,

@@ -30,7 +30,7 @@ export class App {
     }
 
     this.mounted = true;
-    this.patch();
+    this.patch(['LUCIA_COMPILE_REQUEST']);
     return this.view;
   }
 

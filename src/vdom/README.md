@@ -1,7 +1,3 @@
-<img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/pogchamp.png" width="100px" align="right"> 
-
-# Pogchamp VDOM Engine
-
 - [Virtual DOM Documentation](#virtual-dom-documentation)
   - [Design principles](#design-principles)
 - [Overview](#overview)
@@ -12,7 +8,7 @@
 
 # Virtual DOM Documentation
 
-This document covers how Lucia's Virtual DOM (Pogchamp) works. It's intended to aid in understanding the code, and helping contributors work with it.
+This document covers how Lucia's Virtual DOM works. It's intended to aid in understanding the code, and helping contributors work with it.
 
 Note that there are some design decisions that make Lucia's Virtual DOM somewhat unorthodox. Keep in mind that this project is quite young and unstable, and some of the implementations are bound to change down the road.
 

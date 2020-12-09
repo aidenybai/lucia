@@ -21,6 +21,12 @@ describe('.patch', () => {
           ref: fakeElem2,
           type: 1,
         }),
+        h('p', [], {
+          attributes: {},
+          directives: {},
+          ref: undefined,
+          type: 0,
+        }),
       ]),
       {
         hello: 1,
