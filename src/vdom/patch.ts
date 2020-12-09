@@ -1,4 +1,4 @@
-import { View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
+import { LUCIA_COMPILE_REQUEST, View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
 
 import { renderDirective } from './directive';
 
@@ -17,7 +17,7 @@ const patch = (
   if (!rootVNode) return;
   if (!keys) keys = Object.keys(view);
   // Compile request is for sweeping initialization
-  if (keys[0] === 'LUCIA_COMPILE_REQUEST') compileRequest = true;
+  if (keys[0] === LUCIA_COMPILE_REQUEST) compileRequest = true;
 
   for (let node of rootVNode.children) {
     if (typeof node === 'string') continue;

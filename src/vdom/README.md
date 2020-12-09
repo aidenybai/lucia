@@ -34,7 +34,7 @@ The Lucia Virtual DOM is designed to accomplish a balance between being **fast a
 
 ## Overview
 
-![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv&chl=graph{Pogchamp--Compile[type=s];Reconciliation--Directives[type=s];Compile--Reconciliation[type=s];Reconciliation--Patch[type=s];Reconciliation--Observer[type=s];})
+![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv&chl=graph{Virtual_DOM--Compile[type=s];Reconciliation--Directives[type=s];Compile--Reconciliation[type=s];Reconciliation--Patch[type=s];Reconciliation--Observer[type=s];})
 
 ### Compilation phases
 
