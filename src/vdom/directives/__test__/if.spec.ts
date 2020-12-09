@@ -9,6 +9,6 @@ describe('.ifDirective', () => {
       value: 'this.showme',
       view: { showme: false },
     });
-    expect(fakeElem.hidden).toBe(true);
+    expect(fakeElem.style.display).toBe('none');
   });
 });
