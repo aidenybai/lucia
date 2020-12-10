@@ -1,7 +1,6 @@
 import { LUCIA_COMPILE_REQUEST, View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
 
 import { renderDirective } from './directive';
-
 import keyPattern from './utils/keyPattern';
 
 // Using patch requires a wrapper parent VNode
