@@ -1,5 +1,5 @@
 import { LUCIA_COMPILE_REQUEST, UnknownKV } from '../models/generics';
-import { Directives, View } from '../models/structs';
+import { Directives, State } from '../models/structs';
 import { VNode, VNodeTypes } from '../models/vnode';
 
 import { renderDirective } from './directive';
@@ -9,14 +9,14 @@ import keyPattern from './utils/keyPattern';
 
 const patch = (
   rootVNode: VNode,
-  view: View = {},
+  state: State = {},
   directiveKV: Directives = {},
   keys?: string[]
 ): void => {
   let compileRequest = false;
 
   if (!rootVNode) return;
-  if (!keys) keys = Object.keys(view);
+  if (!keys) keys = Object.keys(state);
   // Compile request is for sweeping initialization
   if (keys[0] === LUCIA_COMPILE_REQUEST) compileRequest = true;
 
@@ -35,14 +35,14 @@ const patch = (
           const needsInit = type === 1;
           // Iterate through affected keys and check if directive value has key
           const hasKey = keys.some((key) => keyPattern(key).test(value.toString()));
-          // Iterate through view keys
-          const hasKeyInFunction = Object.keys(view).some((key: string) => {
+          // Iterate through state keys
+          const hasKeyInFunction = Object.keys(state).some((key: string) => {
             // Check if function and function content, iterate through affected
             // keys and check if function content contains affected key
             const iterKeysInFunction = (keys as string[]).some((k) =>
-              keyPattern(k).test((view[key] as Function).toString())
+              keyPattern(k).test((state[key] as Function).toString())
             );
-            return typeof view[key] === 'function' && iterKeysInFunction;
+            return typeof state[key] === 'function' && iterKeysInFunction;
           });
 
           // If affected, then push to render queue
@@ -64,11 +64,11 @@ const patch = (
         const value = directives[name];
         const el = (attributes.id ? document.getElementById(attributes.id) : ref) as HTMLElement;
 
-        renderDirective({ el, name, value, view }, { ...directiveKV });
+        renderDirective({ el, name, value, state }, { ...directiveKV });
       });
     }
 
-    if (node.children.length > 0) patch(node, view, directiveKV, keys);
+    if (node.children.length > 0) patch(node, state, directiveKV, keys);
   }
 };
 

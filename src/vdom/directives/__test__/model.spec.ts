@@ -10,7 +10,7 @@ describe('.modelDirective', () => {
       el: fakeElem,
       name: 'l-model',
       value: 'this.mockCb',
-      view: {
+      state: {
         mockCb,
       },
     });

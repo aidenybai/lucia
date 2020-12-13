@@ -1,12 +1,12 @@
 import { DIRECTIVE_PREFIX } from '../models/generics';
-import { Components, View } from '../models/structs';
+import { Components, State } from '../models/structs';
 import { VNode, VNodeChild, VNodeChildren, VNodeTypes } from '../models/vnode';
 
 import { h } from './h';
 import props from './utils/props';
 import keyPattern from './utils/keyPattern';
 
-export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren) => {
+export const createVNode = (el: HTMLElement, state: State, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
   let type = VNodeTypes.STATIC;
 
@@ -14,7 +14,7 @@ export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren
   const hasDirectives = Object.keys(directives).length > 0;
   // Check if there are affected keys in values
   const hasKeyInDirectives = Object.values(directives).some((value) =>
-    Object.keys(view).some((key) => keyPattern(key, false).test(value as string))
+    Object.keys(state).some((key) => keyPattern(key, false).test(value as string))
   );
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
@@ -30,7 +30,7 @@ export const createVNode = (el: HTMLElement, view: View, children: VNodeChildren
 
 export const compile = (
   el: HTMLElement,
-  view: View = {},
+  state: State = {},
   components: Components = {},
   strip: boolean = false,
   callSelf: boolean = false
@@ -56,7 +56,7 @@ export const compile = (
           const container = document.createElement('div');
           const template = components[child.tagName]({
             children: child.innerHTML,
-            view,
+            state,
           });
 
           container.innerHTML = template;
@@ -68,7 +68,7 @@ export const compile = (
 
           // Only allow during strip if outerHTML has directives
           if (!strip || child.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
-            const compiledChildren = compile(container, view, components, strip, true);
+            const compiledChildren = compile(container, state, components, strip, true);
             // Check if children group has isDynamicGroup prop, which returns true when
             // children have dynamic nodes
             for (const componentChild of compiledChildren as VNodeChildren) {
@@ -81,8 +81,8 @@ export const compile = (
         } else {
           // Only allow during strip if outerHTML has directives
           if (!strip || child.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
-            const compiledChildren = compile(child, view, components, strip, true);
-            const node = createVNode(child, view, compiledChildren as VNodeChildren);
+            const compiledChildren = compile(child, state, components, strip, true);
+            const node = createVNode(child, state, compiledChildren as VNodeChildren);
             children.push(node);
           }
         }
@@ -93,7 +93,7 @@ export const compile = (
   if (callSelf) {
     return children;
   } else {
-    let vnode = createVNode(el, view, children);
+    let vnode = createVNode(el, state, children);
     return strip ? flat(vnode) : vnode;
   }
 };

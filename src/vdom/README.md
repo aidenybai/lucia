@@ -18,7 +18,7 @@ The reasoning behind this architectural decision isn't necessarily because it is
 
 ## Design Principles
 
-The Lucia Virtual DOM is designed to accomplish a balance between being **fast and compact**, by trying to execute as **few DOM operations** as it can. It achieves this by relying on directives, taking the view from a root DOM node.
+The Lucia Virtual DOM is designed to accomplish a balance between being **fast and compact**, by trying to execute as **few DOM operations** as it can. It achieves this by relying on directives, taking the state from a root DOM node.
 
 - **Avoid doing unnecessary work**
 
@@ -64,15 +64,15 @@ h('div', [h('div', ['Hello World!'])]);
 
 ### Patching phase
 
-This phase takes compiled VNodes and a mutable view, traversing the tree and rendering dynamic nodes' directives. The patch phase skips over static VNodes to maintain performance. Note that `patch()` requires a parent wrapper VNode.
+This phase takes compiled VNodes and a mutable state, traversing the tree and rendering dynamic nodes' directives. The patch phase skips over static VNodes to maintain performance. Note that `patch()` requires a parent wrapper VNode.
 
 **VNode Types:**
 
-| ID  | Description                                                     |
-| --- | --------------------------------------------------------------- |
-| 0   | `STATIC` - Static VNode (no patching necessary)                 |
-| 1   | `NEEDS_PATCH` - Uninitialized static VNode (needs one patch)    |
-| 2   | `DYNAMIC` - dynamic VNode (needs patch every time view changes) |
+| ID  | Description                                                      |
+| --- | ---------------------------------------------------------------- |
+| 0   | `STATIC` - Static VNode (no patching necessary)                  |
+| 1   | `NEEDS_PATCH` - Uninitialized static VNode (needs one patch)     |
+| 2   | `DYNAMIC` - dynamic VNode (needs patch every time state changes) |
 
 **Example:**
 
@@ -94,17 +94,17 @@ This phase takes compiled VNodes and a mutable view, traversing the tree and ren
 
 ### Watching phase
 
-This phase observes the view and emits a patch request every time the view is changed. This uses deep proxy function `observer()` that captures and propogates a callback, such as `patch()` on change. `observer()` allows for concise key selection, meaning that specific keys can be passed, ignoring other view data to speed up performance. Its also handles Array traps as props are passed on mutation.
+This phase observes the state and emits a patch request every time the state is changed. This uses deep proxy function `reactive()` that captures and propogates a callback, such as `patch()` on change. `reactive()` allows for concise key selection, meaning that specific keys can be passed, ignoring other view data to speed up performance. Its also handles Array traps as props are passed on mutation.
 
 **Example:**
 
 ```js
-// Wrap object with observer to create view
-const view = observer({...}, callback);
+// Wrap object with observer to create state
+const state = observer({...}, callback);
 
-view.foo // Nothing is called
-view.foo = 'bar'; // callback(...) is called
-delete view.foo; // callback(...) is called
+state.foo // Nothing is called
+state.foo = 'bar'; // callback(...) is called
+delete state.foo; // callback(...) is called
 ```
 
 ### Directive phase
@@ -117,4 +117,4 @@ PREFIX-DIRECTIVE:MODIFIER.PROPERTY="VALUE"
 ex. l-on:click.prevent="this.click()"
 ```
 
-Logic through the directive is supported by property computation, which runs the value through a sandbox, binded with the view and grabs the output. In this value, you are also able to access "magic properties", prefixed with `$`, such as `$el` without referencing `this`.
+Logic through the directive is supported by property computation, which runs the value through a sandbox, binded with the state and grabs the output. In this value, you are also able to access "magic properties", prefixed with `$`, such as `$el` without referencing `this`.

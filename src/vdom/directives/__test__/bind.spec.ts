@@ -1,13 +1,13 @@
 import { bindDirective } from '../bind';
 
 describe('.bindDirective', () => {
-  it('should bind class based on view boolean value', () => {
+  it('should bind class based on state boolean value', () => {
     const fakeElem = document.createElement('p');
     bindDirective({
       el: fakeElem,
       name: 'l-bind:class',
       value: '{ test: this.test }',
-      view: { test: true },
+      state: { test: true },
     });
     expect(fakeElem.className).toBe('test');
   });
@@ -18,7 +18,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       value: '{ test: this.test }',
-      view: { test: false },
+      state: { test: false },
     });
     expect(fakeElem.className).toBe('test2');
   });
@@ -28,7 +28,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       value: '{ test: this.test }',
-      view: { test: false },
+      state: { test: false },
     });
     expect(fakeElem.className).toBe('');
   });
@@ -38,7 +38,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       value: 'this.test',
-      view: { test: 'foo' },
+      state: { test: 'foo' },
     });
     expect(fakeElem.className).toBe('foo');
   });
@@ -48,27 +48,27 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       value: 'this.test',
-      view: { test: ['foo', 'bar', 'baz'] },
+      state: { test: ['foo', 'bar', 'baz'] },
     });
     expect(fakeElem.className).toBe('foo bar baz');
   });
-  it('should bind style based on view value', () => {
+  it('should bind style based on state value', () => {
     const fakeElem = document.createElement('p');
     bindDirective({
       el: fakeElem,
       name: 'l-bind:style',
       value: '{ fontWeight: this.test }',
-      view: { test: 'bold' },
+      state: { test: 'bold' },
     });
     expect(fakeElem.style.cssText).toBe('font-weight: bold;');
   });
-  it('should bind href to anchor tag based on view value', () => {
+  it('should bind href to anchor tag based on state value', () => {
     const fakeElem = document.createElement('a');
     bindDirective({
       el: fakeElem,
       name: 'l-bind:href',
       value: 'this.url',
-      view: { url: 'https://example.com/' },
+      state: { url: 'https://example.com/' },
     });
     expect(fakeElem.href).toBe('https://example.com/');
   });
@@ -78,14 +78,14 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:hidden',
       value: 'this.hideme',
-      view: { hideme: true },
+      state: { hideme: true },
     });
     expect(fakeElem.hidden).toBe(true);
     bindDirective({
       el: fakeElem,
       name: 'l-bind:hidden',
       value: 'this.hideme',
-      view: { hideme: false },
+      state: { hideme: false },
     });
     expect(fakeElem.hidden).toBe(false);
   });

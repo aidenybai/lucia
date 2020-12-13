@@ -5,11 +5,11 @@ import { App, createApp } from './App';
 import h from './vdom/h';
 import patch from './vdom/patch';
 import compile from './vdom/compile';
-import observer from './vdom/observer';
+import reactive from './vdom/reactive';
 import { directives, renderDirective } from './vdom/directive';
 import { safeEval } from './vdom/utils/compute';
 
-export { createApp, h, compile, patch, observer, directives, renderDirective };
+export { createApp, h, compile, patch, reactive, directives, renderDirective };
 
 export const init = (
   element: HTMLElement | Document = document,
@@ -19,11 +19,11 @@ export const init = (
   const apps: App[] = [];
 
   elements.map((el) => {
-    const view = el.getAttribute(DIRECTIVE_PREFIX + directive);
-    if (view === null) return;
+    const state = el.getAttribute(DIRECTIVE_PREFIX + directive);
+    if (state === null) return;
 
     try {
-      const app = createApp(safeEval(view));
+      const app = createApp(safeEval(state));
       app.mount(el as HTMLElement);
       apps.push(app);
     } catch (err) {}

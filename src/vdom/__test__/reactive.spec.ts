@@ -1,19 +1,19 @@
-import { observer, handleArray } from '../observer';
+import { reactive, handleArray } from '../reactive';
 import patch from '../patch';
 
-describe('.observer', () => {
+describe('.reactive', () => {
   it('should create an observed proxy', () => {
-    const objectView = { test: 1, deepTest: { deepChild: 2 } };
-    const view = observer({ test: 1, deepTest: { deepChild: 2 } }, patch);
+    const objectState = { test: 1, deepTest: { deepChild: 2 } };
+    const state = reactive({ test: 1, deepTest: { deepChild: 2 } }, patch);
 
-    expect({ ...view }).toEqual(objectView);
+    expect({ ...state }).toEqual(objectState);
   });
   it('should react if changed', () => {
     const mockCb = jest.fn();
-    const view = observer({ test: 1 }, mockCb);
+    const state = reactive({ test: 1 }, mockCb);
 
-    view.test = 2;
-    delete view.test;
+    state.test = 2;
+    delete state.test;
 
     expect(mockCb.mock.calls[0]);
     expect(mockCb.mock.calls[1]);

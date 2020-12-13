@@ -2,16 +2,16 @@ import { UnknownKV } from './generics';
 
 export type Directives = Record<string, Function>;
 export type Components = Record<string, Function>;
-export type View = UnknownKV;
+export type State = UnknownKV;
 
 export interface DirectiveProps {
   el: HTMLElement;
   name: string;
   value: string;
-  view: View;
+  state: State;
 }
 
 export interface Data {
   $el?: HTMLElement;
-  $view: UnknownKV;
+  $state: UnknownKV;
 }

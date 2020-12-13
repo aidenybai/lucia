@@ -7,7 +7,7 @@ describe('.ifDirective', () => {
       el: fakeElem,
       name: 'l-if',
       value: 'this.showme',
-      view: { showme: false },
+      state: { showme: false },
     });
     expect(fakeElem.style.display).toBe('none');
   });
@@ -17,7 +17,7 @@ describe('.ifDirective', () => {
       el: fakeElem,
       name: 'l-if',
       value: 'this.showme',
-      view: { showme: true },
+      state: { showme: true },
     });
     expect(fakeElem.style.display).toBe('');
   });

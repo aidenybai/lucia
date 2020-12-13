@@ -1,13 +1,13 @@
 import { joinDirective } from '../join';
 
 describe('.joinDirective', () => {
-  it('should join the view array into HTML', () => {
+  it('should join the state array into HTML', () => {
     const fakeElem = document.createElement('ul');
     joinDirective({
       el: fakeElem,
       name: 'l-join',
       value: `this.li`,
-      view: { li: ['<li>test</li>', '<li>test</li>', '<li>test</li>'] },
+      state: { li: ['<li>test</li>', '<li>test</li>', '<li>test</li>'] },
     });
     expect(fakeElem.innerHTML).toBe('<li>test</li><li>test</li><li>test</li>');
   });
@@ -18,7 +18,7 @@ describe('.joinDirective', () => {
       el: fakeElem,
       name: 'l-join',
       value: `this.li as text`,
-      view: { li: ['1', '2', '3'] },
+      state: { li: ['1', '2', '3'] },
     });
     expect(fakeElem.innerText).toBe('123');
   });

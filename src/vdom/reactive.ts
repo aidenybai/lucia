@@ -1,19 +1,19 @@
 import { UnknownKV } from '../models/generics';
-import { View } from '../models/structs';
+import { State } from '../models/structs';
 
 import arrayEquals from './utils/arrayEquals';
 
 export const handleArray = (
   target: UnknownKV | unknown[],
   key: string,
-  view: View,
+  state: State,
   patch: Function
 ) => {
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length') {
-    const affectedKeys = Object.keys(view).filter((k: string) => {
-      // Filter out (arrays && if affected array is the array) from view
-      return view[k] instanceof Array && arrayEquals(target as unknown[], view[k] as unknown[]);
+    const affectedKeys = Object.keys(state).filter((k: string) => {
+      // Filter out (arrays && if affected array is the array) from state
+      return state[k] instanceof Array && arrayEquals(target as unknown[], state[k] as unknown[]);
     });
     // Patch only if found any affected keys
     if (affectedKeys.length !== 0) patch(affectedKeys);
@@ -24,7 +24,7 @@ export const handleArray = (
   }
 };
 
-export const observer = (view: View, patch: Function): UnknownKV => {
+export const reactive = (state: State, patch: Function): UnknownKV => {
   const handler = {
     get(target: UnknownKV, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
@@ -36,16 +36,16 @@ export const observer = (view: View, patch: Function): UnknownKV => {
     },
     set(target: UnknownKV, key: string, value: unknown): boolean {
       target[key] = value;
-      handleArray(target, key, view, patch);
+      handleArray(target, key, state, patch);
       return true;
     },
     deleteProperty(target: UnknownKV, key: string): boolean {
       delete target[key];
-      handleArray(target, key, view, patch);
+      handleArray(target, key, state, patch);
       return true;
     },
   };
-  return new Proxy(view, handler);
+  return new Proxy(state, handler);
 };
 
-export default observer;
+export default reactive;

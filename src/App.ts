@@ -1,39 +1,39 @@
 import { LUCIA_COMPILE_REQUEST } from './models/generics';
-import { Directives, Components, View } from './models/structs';
+import { Directives, Components, State } from './models/structs';
 import { VNode } from './models/vnode';
 
 import compile from './vdom/compile';
 import { directives } from './vdom/directive';
-import observer from './vdom/observer';
+import reactive from './vdom/reactive';
 import patch from './vdom/patch';
 
 export class App {
   vdom: VNode | null;
-  view: View;
+  state: State;
   directives: Directives;
   components: Components;
   mounted: boolean;
 
-  constructor(view: View = {}) {
+  constructor(state: State = {}) {
     this.vdom = null;
-    this.view = view;
+    this.state = state;
     this.directives = {};
     this.components = {};
     this.mounted = false;
   }
 
-  public mount(el: HTMLElement | string, shallow: boolean = false): View {
+  public mount(el: HTMLElement | string, shallow: boolean = false): State {
     this.vdom = this.compile(
       (typeof el === 'string' ? document.querySelector(el) : el) as HTMLElement
     );
     if (!shallow) {
-      this.view = observer(this.view, this.patch.bind(this));
+      this.state = reactive(this.state, this.patch.bind(this));
       this.directives = directives;
     }
 
     this.mounted = true;
     this.patch([LUCIA_COMPILE_REQUEST]);
-    return this.view;
+    return this.state;
   }
 
   public component(name: string, fn: Function) {
@@ -47,16 +47,16 @@ export class App {
   // Use internal private methods, should not be used when instantiated by the user
   private patch(this: App, keys?: string[]): void {
     if (!this.mounted) throw new Error('App is not mounted.');
-    patch(this.vdom as VNode, this.view, this.directives, keys);
+    patch(this.vdom as VNode, this.state, this.directives, keys);
   }
 
   private compile(el: HTMLElement): VNode {
-    return compile(el, this.view, this.components, true) as VNode;
+    return compile(el, this.state, this.components, true) as VNode;
   }
 }
 
-export const createApp = (view: View) => {
-  return new App(view);
+export const createApp = (state: State) => {
+  return new App(state);
 };
 
 export default createApp;

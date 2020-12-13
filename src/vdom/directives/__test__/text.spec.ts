@@ -7,7 +7,7 @@ describe('.textDirective', () => {
       el: fakeElem,
       name: `l-text`,
       value: `'$' + this.money`,
-      view: { money: 0 },
+      state: { money: 0 },
     });
     expect(fakeElem.textContent).toBe('$0');
   });
@@ -17,7 +17,7 @@ describe('.textDirective', () => {
       el: fakeElem,
       name: `l-text`,
       value: `count`,
-      view: {},
+      state: {},
     });
     expect(fakeElem.textContent).toBe('count');
   });

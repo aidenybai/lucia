@@ -10,7 +10,7 @@ describe('.onDirective', () => {
       el: fakeElem,
       name: 'l-on:click',
       value: 'this.mockCb',
-      view: {
+      state: {
         mockCb,
       },
     });
