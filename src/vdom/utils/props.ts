@@ -1,4 +1,4 @@
-import { DIRECTIVE_PREFIX, StringKV } from '../../defaults';
+import { DIRECTIVE_PREFIX, StringKV } from '../../models/generics';
 
 export const props = (el: HTMLElement): Record<string, StringKV> => {
   const attributes: StringKV = {};

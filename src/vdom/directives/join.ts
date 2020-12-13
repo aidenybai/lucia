@@ -1,4 +1,4 @@
-import { DirectiveProps } from '../../defaults';
+import { DirectiveProps } from '../../models/structs';
 
 import compute from '../utils/compute';
 import { createApp } from '../../App';

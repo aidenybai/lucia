@@ -1,4 +1,5 @@
-import { Data, UnknownKV } from '../../defaults';
+import { UnknownKV } from '../../models/generics';
+import { Data } from '../../models/structs';
 
 export const safeEval = (
   expression: string,

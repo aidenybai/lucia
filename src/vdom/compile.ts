@@ -1,12 +1,6 @@
-import {
-  DIRECTIVE_PREFIX,
-  Components,
-  View,
-  VNode,
-  VNodeChild,
-  VNodeChildren,
-  VNodeTypes,
-} from '../defaults';
+import { DIRECTIVE_PREFIX } from '../models/generics';
+import { Components, View } from '../models/structs';
+import { VNode, VNodeChild, VNodeChildren, VNodeTypes } from '../models/vnode';
 
 import { h } from './h';
 import props from './utils/props';
@@ -69,7 +63,7 @@ export const compile = (
 
           // Grab all the directives on the custom component element
           for (const [key, value] of Object.entries(props(child).directives)) {
-            container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value);
+            container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value as string);
           }
 
           // Only allow during strip if outerHTML has directives

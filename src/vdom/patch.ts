@@ -1,4 +1,6 @@
-import { LUCIA_COMPILE_REQUEST, View, UnknownKV, Directives, VNode, VNodeTypes } from '../defaults';
+import { LUCIA_COMPILE_REQUEST, UnknownKV } from '../models/generics';
+import { Directives, View } from '../models/structs';
+import { VNode, VNodeTypes } from '../models/vnode';
 
 import { renderDirective } from './directive';
 import keyPattern from './utils/keyPattern';

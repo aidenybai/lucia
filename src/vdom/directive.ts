@@ -1,4 +1,4 @@
-import { Directives, DirectiveProps } from '../defaults';
+import { Directives, DirectiveProps } from '../models/structs';
 
 import { bindDirective } from './directives/bind';
 import { htmlDirective } from './directives/html';

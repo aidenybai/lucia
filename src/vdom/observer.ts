@@ -1,4 +1,5 @@
-import { UnknownKV, View } from '../defaults';
+import { UnknownKV } from '../models/generics';
+import { View } from '../models/structs';
 
 import arrayEquals from './utils/arrayEquals';
 

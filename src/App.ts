@@ -1,4 +1,6 @@
-import { LUCIA_COMPILE_REQUEST, Directives, Components, View, VNode } from './defaults';
+import { LUCIA_COMPILE_REQUEST } from './models/generics';
+import { Directives, Components, View } from './models/structs';
+import { VNode } from './models/vnode';
 
 import compile from './vdom/compile';
 import { directives } from './vdom/directive';

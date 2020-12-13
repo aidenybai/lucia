@@ -1,5 +1,5 @@
 // Exports wrapped in Lucia namespace
-import { DIRECTIVE_PREFIX } from './defaults';
+import { DIRECTIVE_PREFIX } from './models/generics';
 import { App, createApp } from './App';
 
 import h from './vdom/h';
