@@ -1,6 +1,6 @@
-import keyPattern from '../keyPattern';
+import { keyPattern, selectorSplitPattern, rawDirectiveSplitPattern } from '../patterns';
 
-describe('.keyPattern', () => {
+describe('.patterns', () => {
   it('should test as true with this', () => {
     expect(keyPattern('1').test('this.1')).toBe(true);
   });
@@ -13,4 +13,10 @@ describe('.keyPattern', () => {
   it('should test as false without this', () => {
     expect(keyPattern('11', false).test('1')).toBe(false);
   });
+  it('should not break directive split', () => {
+    expect(rawDirectiveSplitPattern).toStrictEqual(/:|\./);
+  })
+  it('should not break selector split', () => {
+    expect(selectorSplitPattern).toStrictEqual(/(?=\.)|(?=#)|(?=\[)/);
+  })
 });
