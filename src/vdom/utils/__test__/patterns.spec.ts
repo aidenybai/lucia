@@ -15,8 +15,8 @@ describe('.patterns', () => {
   });
   it('should not break directive split', () => {
     expect(rawDirectiveSplitPattern).toStrictEqual(/:|\./);
-  })
+  });
   it('should not break selector split', () => {
     expect(selectorSplitPattern).toStrictEqual(/(?=\.)|(?=#)|(?=\[)/);
-  })
+  });
 });
