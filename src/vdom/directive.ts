@@ -1,5 +1,7 @@
 import { Directives, DirectiveProps } from '../models/structs';
 
+import { rawDirectiveSplitPattern } from './utils/patterns';
+
 import { bindDirective } from './directives/bind';
 import { htmlDirective } from './directives/html';
 import { ifDirective } from './directives/if';
@@ -21,8 +23,8 @@ export const directives: Directives = {
 export const renderDirective = (
   { el, name, value, state }: DirectiveProps,
   directives: Directives
-) => {
-  const rootName = name.split(/:|\./)[0]; // Split directive:modifier.property
+): void => {
+  const rootName = name.split(rawDirectiveSplitPattern)[0]; // Split directive:modifier.property
   directives[rootName.toUpperCase()]({ el, name, value, state });
 };
 

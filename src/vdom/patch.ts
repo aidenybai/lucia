@@ -3,7 +3,7 @@ import { Directives, State } from '../models/structs';
 import { VNode, VNodeTypes } from '../models/vnode';
 
 import { renderDirective } from './directive';
-import keyPattern from './utils/keyPattern';
+import { keyPattern } from './utils/patterns';
 
 // Using patch requires a wrapper parent VNode
 

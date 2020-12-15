@@ -1,13 +1,15 @@
 import { DIRECTIVE_PREFIX, StringKV } from '../models/generics';
 import { VNode, VNodeProps, VNodeChildren } from '../models/vnode';
 
+import { selectorSplitPattern } from './utils/patterns';
+
 export const h = (
   selector: string,
   children?: VNodeChildren | string,
   props?: VNodeProps
 ): VNode => {
   // Splits selector into tokens containing id, className, and other attrs
-  const tokens = selector.split(/(?=\.)|(?=#)|(?=\[)/);
+  const tokens = selector.split(selectorSplitPattern);
   const tag = tokens[0];
   const attributes: StringKV = { ...props?.attributes };
   const directives: StringKV = { ...props?.directives };

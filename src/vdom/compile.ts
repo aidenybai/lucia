@@ -2,9 +2,9 @@ import { DIRECTIVE_PREFIX } from '../models/generics';
 import { Components, State } from '../models/structs';
 import { VNode, VNodeChild, VNodeChildren, VNodeTypes } from '../models/vnode';
 
-import { h } from './h';
+import h from './h';
 import props from './utils/props';
-import keyPattern from './utils/keyPattern';
+import { keyPattern } from './utils/patterns';
 
 export const createVNode = (el: HTMLElement, state: State, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
