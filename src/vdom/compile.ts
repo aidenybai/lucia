@@ -67,7 +67,7 @@ export const compile = (
           }
 
           // Only allow during strip if outerHTML has directives
-          if (!strip || child.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
+          if (!strip || container.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
             const compiledChildren = compile(container, state, components, strip, true);
             // Check if children group has isDynamicGroup prop, which returns true when
             // children have dynamic nodes
