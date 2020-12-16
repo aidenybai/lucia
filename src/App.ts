@@ -12,14 +12,14 @@ export class App {
   state: State;
   directives: Directives;
   components: Components;
-  mounted: boolean;
+  mountHook: Function | undefined;
 
-  constructor(state: State = {}) {
+  constructor(state: State = {}, mountHook?: Function) {
     this.vdom = null;
     this.state = state;
     this.directives = {};
     this.components = {};
-    this.mounted = false;
+    this.mountHook = mountHook;
   }
 
   public mount(el: HTMLElement | string, shallow: boolean = false): State {
@@ -31,8 +31,8 @@ export class App {
       this.directives = directives;
     }
 
-    this.mounted = true;
     this.patch([LUCIA_COMPILE_REQUEST]);
+    if (this.mountHook) this.mountHook(this.state);
     return this.state;
   }
 
@@ -46,7 +46,6 @@ export class App {
 
   // Use internal private methods, should not be used when instantiated by the user
   private patch(this: App, keys?: string[]): void {
-    if (!this.mounted) throw new Error('App is not mounted.');
     patch(this.vdom as VNode, this.state, this.directives, keys);
   }
 
@@ -55,8 +54,8 @@ export class App {
   }
 }
 
-export const createApp = (state: State) => {
-  return new App(state);
+export const createApp = (state: State, mountHook?: Function) => {
+  return new App(state, mountHook);
 };
 
 export default createApp;

@@ -20,7 +20,11 @@ export const computeProperties = (
   data: Data,
   returnable: boolean = true
 ): any => {
-  return safeEval(expression, { $el: data.$el }, data.$state, returnable);
+  try {
+    return safeEval(expression, { $el: data.$el }, data.$state, returnable);
+  } catch (err) {
+    console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, data.$el);
+  }
 };
 
 export default computeProperties;
