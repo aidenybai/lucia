@@ -16,7 +16,7 @@ describe('.textDirective', () => {
     textDirective({
       el: fakeElem,
       name: `l-text`,
-      value: `count`,
+      value: `'count'`,
       state: {},
     });
     expect(fakeElem.textContent).toBe('count');

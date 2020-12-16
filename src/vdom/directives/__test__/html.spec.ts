@@ -16,7 +16,7 @@ describe('.htmlDirective', () => {
     htmlDirective({
       el: fakeElem,
       name: 'l-html',
-      value: 'count',
+      value: `'count'`,
       state: {},
     });
     expect(fakeElem.innerHTML).toBe('count');
