@@ -1,15 +1,19 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS, StringKV } from '../../models/generics';
+import { DirectiveKV } from '../../models/structs';
 
-export const props = (el: HTMLElement): Record<string, StringKV> => {
+import compute from '../utils/compute';
+
+export const props = (el: HTMLElement): Record<string, StringKV | DirectiveKV> => {
   const attributes: StringKV = {};
-  const directives: StringKV = {};
+  const directives: DirectiveKV = {};
 
   if (el.attributes) {
     for (const { name, value } of [...el.attributes]) {
+      const run = compute(value, { $el: el });
       if (name.startsWith(DIRECTIVE_PREFIX)) {
-        directives[name.slice(DIRECTIVE_PREFIX.length)] = value;
+        directives[name.slice(DIRECTIVE_PREFIX.length)] = { run, value };
       } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
-        directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = value;
+        directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = { run, value };
       } else {
         attributes[name] = value;
       }

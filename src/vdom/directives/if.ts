@@ -1,10 +1,7 @@
 import { DirectiveProps } from '../../models/structs';
 
-import compute from '../utils/compute';
-
-export const ifDirective = ({ el, value, state }: DirectiveProps) => {
-  // Need !! to assert as boolean
-  const out = compute(value, { $state: state, $el: el });
+export const ifDirective = ({ el, data, state }: DirectiveProps) => {
+  const out = data.run(state);
 
   if (out) {
     el.style.removeProperty('display');

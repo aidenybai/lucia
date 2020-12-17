@@ -7,7 +7,8 @@ export const handleArray = (
   target: UnknownKV | unknown[],
   key: string,
   state: State,
-  patch: Function
+  patch: Function,
+  shouldPatch = false
 ) => {
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length') {
@@ -19,7 +20,7 @@ export const handleArray = (
     if (affectedKeys.length !== 0) patch(affectedKeys);
     return true;
   } else {
-    patch([key]);
+    if (shouldPatch) patch([key]);
     return false;
   }
 };
@@ -35,8 +36,11 @@ export const reactive = (state: State, patch: Function): UnknownKV => {
       }
     },
     set(target: UnknownKV, key: string, value: unknown): boolean {
-      target[key] = value;
-      handleArray(target, key, state, patch);
+      const needsUpdate = target[key] !== value;
+      if (needsUpdate) {
+        target[key] = value;
+      }
+      handleArray(target, key, state, patch, needsUpdate);
       return true;
     },
     deleteProperty(target: UnknownKV, key: string): boolean {

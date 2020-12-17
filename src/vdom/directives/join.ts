@@ -3,11 +3,11 @@ import { DirectiveProps } from '../../models/structs';
 import compute from '../utils/compute';
 import { createApp } from '../../App';
 
-export const joinDirective = ({ el, value, state }: DirectiveProps) => {
+export const joinDirective = ({ el, data, state }: DirectiveProps) => {
   // Kind of bad way of implementing, quite bad on perf.
   // Maybe think of a better way in the future.
-  const [array, contentType, delimiter] = value.split(/ as | by /);
-  const out = compute(array, { $state: state, $el: el });
+  const [array, contentType, delimiter] = data.value.split(/ as | by /);
+  const out = compute(array, { $el: el })(state);
 
   // By default, use innerHTML
   const accessProp = contentType === 'text' ? 'innerText' : 'innerHTML';

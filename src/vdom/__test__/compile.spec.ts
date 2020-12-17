@@ -1,5 +1,6 @@
 import { compile, flat } from '../compile';
 import { VNode } from '../../models/vnode';
+import compute from '../utils/compute';
 
 describe('.compile', () => {
   it('should compile a VNode tree', () => {
@@ -18,24 +19,26 @@ describe('.compile', () => {
   });
   it('should detect key in directives', () => {
     const fakeElem = document.createElement('div');
-    fakeElem.setAttribute('l-text', 'foo');
+    fakeElem.setAttribute('l-text', 'this.foo');
     const vdom = compile(fakeElem, { foo: 'bar' });
 
-    expect(vdom).toEqual({
-      tag: 'div',
-      children: [],
-      props: {
-        attributes: {},
-        directives: {
-          text: 'foo',
+    expect(JSON.stringify(vdom)).toEqual(
+      JSON.stringify({
+        tag: 'div',
+        children: [],
+        props: {
+          attributes: {},
+          directives: {
+            text: { value: 'this.foo', run: compute('this.foo', { $el: fakeElem }) },
+          },
+          ref: fakeElem,
+          type: 2,
         },
-        type: 2,
-        ref: fakeElem,
-      },
-    });
+      })
+    );
   });
   it('should throw an error', () => {
-    //@ts-ignore
+    // @ts-ignore
     expect(() => compile()).toThrowError(new Error('Please provide a Element'));
   });
   it('should compile with children', () => {
@@ -76,29 +79,31 @@ describe('.compile', () => {
     const expectedRef = document.createElement('p');
     expectedRef.setAttribute('l-text', '1');
 
-    expect(vdom).toEqual({
-      tag: 'div',
-      children: [
-        {
-          tag: 'p',
-          children: [],
-          props: {
-            attributes: {},
-            directives: {
-              text: '1',
+    expect(JSON.stringify(vdom)).toEqual(
+      JSON.stringify({
+        tag: 'div',
+        children: [
+          {
+            tag: 'p',
+            children: [],
+            props: {
+              attributes: {},
+              directives: {
+                text: { value: '1', run: compute('1', { $el: fakeElem }) },
+              },
+              ref: expectedRef,
+              type: 1,
             },
-            type: 1,
-            ref: expectedRef,
           },
+        ],
+        props: {
+          attributes: {},
+          directives: {},
+          type: 0,
+          ref: undefined,
         },
-      ],
-      props: {
-        attributes: {},
-        directives: {},
-        type: 0,
-        ref: undefined,
-      },
-    });
+      })
+    );
   });
   it('should strip vdom', () => {
     const fakeElem = document.createElement('div');

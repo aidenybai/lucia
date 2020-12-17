@@ -1,8 +1,6 @@
 import { DirectiveProps } from '../../models/structs';
 
-import compute from '../utils/compute';
-
-export const onDirective = ({ el, name, value, state }: DirectiveProps) => {
+export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const [directiveAndEventName, prop] = name.split('.');
   const eventName = directiveAndEventName.split(':')[1];
   const eventProp = prop || null;
@@ -12,6 +10,6 @@ export const onDirective = ({ el, name, value, state }: DirectiveProps) => {
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
 
-    compute(value, { $state: state, $el: el }, false);
+    data.run(state);
   };
 };

@@ -1,11 +1,9 @@
 import { DirectiveProps } from '../../models/structs';
 
-import compute from '../utils/compute';
-
-export const bindDirective = ({ el, name, value, state }: DirectiveProps) => {
+export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const classState = compute(value, { $state: state, $el: el });
+      const classState = data.run(state);
       // Accept just providing classes regularly
       if (typeof classState === 'string') {
         return el.setAttribute('class', `${el.className} ${classState}`.trim());
@@ -29,7 +27,7 @@ export const bindDirective = ({ el, name, value, state }: DirectiveProps) => {
       }
     case 'style':
       // Accept object and set properties based on boolean state value
-      const styleState = compute(value, { $state: state, $el: el });
+      const styleState = data.run(state);
       el.removeAttribute('style');
       for (const key in styleState) {
         el.style[key] = styleState[key];
@@ -37,7 +35,7 @@ export const bindDirective = ({ el, name, value, state }: DirectiveProps) => {
       break;
     default:
       // Bind arbitrary attributes based on boolean state value
-      const out = compute(value, { $state: state, $el: el });
+      const out = data.run(state);
       if (out) {
         el.setAttribute(name.split(':')[1], out);
       } else {

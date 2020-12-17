@@ -1,4 +1,5 @@
 import { StringKV } from './generics';
+import { DirectiveKV } from './structs';
 
 export interface VNode {
   tag: string;
@@ -10,7 +11,7 @@ export interface VNodeProps {
   ref?: HTMLElement;
   type: VNodeTypes.STATIC | VNodeTypes.NEEDS_PATCH | VNodeTypes.DYNAMIC;
   attributes: StringKV;
-  directives: StringKV;
+  directives: DirectiveKV;
 }
 
 export type VNodeChild = VNode | string;

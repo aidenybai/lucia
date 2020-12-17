@@ -30,17 +30,17 @@ const patch = (
 
       if (!compileRequest) {
         for (const name in directives as UnknownKV) {
-          const value = directives[name];
+          const { value } = directives[name];
 
           const needsInit = type === 1;
           // Iterate through affected keys and check if directive value has key
-          const hasKey = keys.some((key) => keyPattern(key).test(value.toString()));
+          const hasKey = keys.some((key) => keyPattern(key).test(String(value)));
           // Iterate through state keys
           const hasKeyInFunction = Object.keys(state).some((key: string) => {
             // Check if function and function content, iterate through affected
             // keys and check if function content contains affected key
             const iterKeysInFunction = (keys as string[]).some((k) =>
-              keyPattern(k).test((state[key] as Function).toString())
+              keyPattern(k).test(String(state[key] as Function))
             );
             return typeof state[key] === 'function' && iterKeysInFunction;
           });
@@ -61,10 +61,10 @@ const patch = (
         : affectedDirectives;
 
       directivesToRender.map((name) => {
-        const value = directives[name];
+        const data = directives[name];
         const el = (attributes.id ? document.getElementById(attributes.id) : ref) as HTMLElement;
 
-        renderDirective({ el, name, value, state }, { ...directiveKV });
+        renderDirective({ el, name, data, state }, { ...directiveKV });
       });
     }
 

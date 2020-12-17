@@ -1,5 +1,5 @@
-import { DIRECTIVE_PREFIX } from '../models/generics';
-import { Components, State } from '../models/structs';
+import { DIRECTIVE_PREFIX, StringKV } from '../models/generics';
+import { DirectiveKV, Components, State } from '../models/structs';
 import { VNode, VNodeChild, VNodeChildren, VNodeTypes } from '../models/vnode';
 
 import h from './h';
@@ -13,16 +13,16 @@ export const createVNode = (el: HTMLElement, state: State, children: VNodeChildr
   // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
   // Check if there are affected keys in values
-  const hasKeyInDirectives = Object.values(directives).some((value) =>
-    Object.keys(state).some((key) => keyPattern(key, false).test(value as string))
+  const hasKeyInDirectives = Object.values(directives).some(({ value }) =>
+    Object.keys(state).some((key) => keyPattern(key, false).test(value))
   );
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
   if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
 
   return h(el.tagName.toLowerCase(), children, {
-    attributes,
-    directives,
+    attributes: attributes as StringKV,
+    directives: directives as DirectiveKV,
     ref: type === VNodeTypes.STATIC || attributes.id ? undefined : el,
     type,
   });
@@ -62,8 +62,8 @@ export const compile = (
           container.innerHTML = template;
 
           // Grab all the directives on the custom component element
-          for (const [key, value] of Object.entries(props(child).directives)) {
-            container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, value as string);
+          for (const [key, data] of Object.entries(props(child).directives)) {
+            container.firstElementChild?.setAttribute(`${DIRECTIVE_PREFIX}${key}`, data.value);
           }
 
           // Only allow during strip if outerHTML has directives

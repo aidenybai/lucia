@@ -2,9 +2,9 @@ import { DirectiveProps } from '../../models/structs';
 
 import compute from '../utils/compute';
 
-export const modelDirective = ({ el: awaitingTypecastEl, value, state }: DirectiveProps) => {
+export const modelDirective = ({ el: awaitingTypecastEl, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
-  const out = compute(value, { $state: state, $el: el });
+  const out = compute(data.run(), { $el: el })(state);
   if (el.value !== out) {
     el.value = out;
   }
@@ -27,6 +27,6 @@ export const modelDirective = ({ el: awaitingTypecastEl, value, state }: Directi
       payload = `'${el.value}'`;
     }
 
-    compute(`${value} = ${payload}`, { $state: state, $el: el }, false);
+    compute(`${data.value} = ${payload}`, { $el: el }, false)(state);
   };
 };

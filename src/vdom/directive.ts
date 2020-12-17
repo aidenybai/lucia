@@ -21,11 +21,11 @@ export const directives: Directives = {
 };
 
 export const renderDirective = (
-  { el, name, value, state }: DirectiveProps,
+  { el, name, data, state }: DirectiveProps,
   directives: Directives
 ): void => {
-  const rootName = name.split(rawDirectiveSplitPattern)[0]; // Split directive:modifier.property
-  directives[rootName.toUpperCase()]({ el, name, value, state });
+  const rootName = name.split(rawDirectiveSplitPattern)[0];
+  directives[rootName.toUpperCase()]({ el, name, data, state });
 };
 
 export default renderDirective;

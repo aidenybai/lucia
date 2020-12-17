@@ -1,5 +1,5 @@
+// Split directive:modifier.property
 export const rawDirectiveSplitPattern = /:|\./;
-export const selectorSplitPattern = /(?=\.)|(?=#)|(?=\[)/;
 export const keyPattern = (key: string, hasThis: boolean = true): RegExp => {
   // Utilizes \b (word boundary) for key differentiation.
   // Fails when next character is a \w (Word).
