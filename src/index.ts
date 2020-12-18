@@ -18,14 +18,16 @@ export const init = (
   const apps: App[] = [];
 
   elements.map((el) => {
-    const state = el.getAttribute(DIRECTIVE_PREFIX + directive);
-    if (state === null) return;
+    const expression = el.getAttribute(DIRECTIVE_PREFIX + directive);
+    if (expression === null) return;
 
     try {
-      const app = createApp(new Function(`return ${state}`)());
+      const app = createApp(new Function(`return ${expression}`)());
       app.mount(el as HTMLElement);
       apps.push(app);
-    } catch (err) {}
+    } catch (err) {
+      console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
+    }
   });
 
   return apps;
