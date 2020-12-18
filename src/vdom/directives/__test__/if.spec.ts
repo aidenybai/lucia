@@ -9,7 +9,7 @@ describe('.ifDirective', () => {
     ifDirective({
       el: fakeElem,
       name: 'l-if',
-      data: { value: expression, run: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
       state,
     });
     expect(fakeElem.style.display).toBe('none');
@@ -21,7 +21,7 @@ describe('.ifDirective', () => {
     ifDirective({
       el: fakeElem,
       name: 'l-if',
-      data: { value: expression, run: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
       state,
     });
     expect(fakeElem.style.display).toBe('');

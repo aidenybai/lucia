@@ -7,5 +7,5 @@ export const htmlDirective = ({ el, data, state }: DirectiveProps) => {
   const app = createApp({ ...state });
   app.mount(el, true);
 
-  el.innerHTML = data.run(state);
+  el.innerHTML = data.compute(state);
 };

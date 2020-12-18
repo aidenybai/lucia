@@ -3,7 +3,6 @@ import { DirectiveKV } from '../models/structs';
 import { VNode, VNodeProps, VNodeChildren } from '../models/vnode';
 
 export const h = (tag: string, children?: VNodeChildren | string, props?: VNodeProps): VNode => {
-  // Splits selector into tokens containing id, className, and other attrs
   const attributes: StringKV = { ...props?.attributes };
   const directives: DirectiveKV = { ...props?.directives };
 

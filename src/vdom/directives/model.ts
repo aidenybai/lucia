@@ -4,7 +4,7 @@ import compute from '../utils/compute';
 
 export const modelDirective = ({ el: awaitingTypecastEl, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
-  const out = compute(data.run(), { $el: el })(state);
+  const out = compute(data.compute(), { $el: el })(state);
   if (el.value !== out) {
     el.value = out;
   }

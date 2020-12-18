@@ -10,6 +10,6 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
 
-    data.run(state);
+    data.compute(state);
   };
 };

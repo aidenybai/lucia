@@ -7,7 +7,7 @@ export type State = UnknownKV;
 export type DirectiveKV = Record<string, DirectiveData>;
 
 export interface DirectiveData {
-  run: Function;
+  compute: Function;
   value: string;
 }
 

@@ -1,39 +1,28 @@
 import { UnknownKV } from '../../models/generics';
 import { Data } from '../../models/structs';
 
-interface safeEvalArgs {
+interface computeFunctionArgs {
   expression: string;
   argsKV: UnknownKV;
   returnable: boolean;
 }
 
-export const safeEval = (
-  expression: string,
-  argsKV: UnknownKV = {},
-  returnable: boolean = true
-): Function => {
-  // Use Function class to perform scoped string eval, wrap in with to provide
-  // state keys as global properties.
-  function run(this: safeEvalArgs, state: UnknownKV) {
+function createComputeFunction(this: computeFunctionArgs, state: UnknownKV) {
+  try {
     const expression = this.returnable ? `return ${this.expression}` : this.expression;
     return new Function(...Object.keys(this.argsKV), expression).bind(state)(
       ...Object.values(this.argsKV)
     );
-  }
-
-  return run.bind({ expression, argsKV, returnable });
-};
-
-export const computeExpression = (
-  expression: string,
-  data: Data,
-  returnable: boolean = true
-): any => {
-  try {
-    return safeEval(expression, { $el: data.$el }, returnable);
   } catch (err) {
-    console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, data.$el);
+    console.warn(
+      `Lucia Error: "${err}"\n\nExpression: "${this.expression}"\nElement:`,
+      this.argsKV.$el
+    );
   }
+}
+
+export const compute = (expression: string, data: Data, returnable: boolean = true): any => {
+  return createComputeFunction.bind({ expression, argsKV: { $el: data.$el }, returnable });
 };
 
-export default computeExpression;
+export default compute;

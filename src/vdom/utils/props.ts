@@ -9,11 +9,11 @@ export const props = (el: HTMLElement): Record<string, StringKV | DirectiveKV> =
 
   if (el.attributes) {
     for (const { name, value } of [...el.attributes]) {
-      const run = compute(value, { $el: el });
+      const directiveData = { compute: compute(value, { $el: el }), value };
       if (name.startsWith(DIRECTIVE_PREFIX)) {
-        directives[name.slice(DIRECTIVE_PREFIX.length)] = { run, value };
+        directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
       } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
-        directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = { run, value };
+        directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = directiveData;
       } else {
         attributes[name] = value;
       }

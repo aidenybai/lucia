@@ -9,7 +9,7 @@ describe('.joinDirective', () => {
     joinDirective({
       el: fakeElem,
       name: 'l-join',
-      data: { value: expression, run: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
       state,
     });
     expect(fakeElem.innerHTML).toBe('<li>test</li><li>test</li><li>test</li>');
@@ -22,7 +22,7 @@ describe('.joinDirective', () => {
     joinDirective({
       el: fakeElem,
       name: 'l-join',
-      data: { value: expression, run: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
       state,
     });
     expect(fakeElem.innerText).toBe('123');

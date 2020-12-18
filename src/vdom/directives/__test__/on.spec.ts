@@ -14,7 +14,7 @@ describe('.onDirective', () => {
     onDirective({
       el: fakeElem,
       name: 'l-on:click',
-      data: { value: expression, run: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
       state,
     });
     expect(typeof fakeElem.onclick).toBe('function');

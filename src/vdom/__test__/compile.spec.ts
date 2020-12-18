@@ -29,7 +29,7 @@ describe('.compile', () => {
         props: {
           attributes: {},
           directives: {
-            text: { value: 'this.foo', run: compute('this.foo', { $el: fakeElem }) },
+            text: { value: 'this.foo', computecompute: compute('this.foo', { $el: fakeElem }) },
           },
           ref: fakeElem,
           type: 2,
@@ -89,7 +89,7 @@ describe('.compile', () => {
             props: {
               attributes: {},
               directives: {
-                text: { value: '1', run: compute('1', { $el: fakeElem }) },
+                text: { value: '1', compute: compute('1', { $el: fakeElem }) },
               },
               ref: expectedRef,
               type: 1,

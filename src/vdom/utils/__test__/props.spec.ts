@@ -9,7 +9,7 @@ describe('.props', () => {
     expect(JSON.stringify(props(fakeElem))).toEqual(
       JSON.stringify({
         attributes: { name: '0' },
-        directives: { text: { value: '1', run: compute('1', {}) } },
+        directives: { text: { value: '1', compute: compute('1', {}) } },
       })
     );
   });

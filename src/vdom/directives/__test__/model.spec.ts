@@ -14,7 +14,7 @@ describe('.modelDirective', () => {
     modelDirective({
       el: fakeElem,
       name: 'l-model',
-      data: { value: expression, run: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
       state,
     });
     expect(typeof fakeElem.oninput).toBe('function');
