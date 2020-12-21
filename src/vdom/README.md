@@ -1,3 +1,5 @@
+### Table of Contents
+
 - [Virtual DOM Documentation](#virtual-dom-documentation)
   - [Design principles](#design-principles)
 - [Overview](#overview)
@@ -100,7 +102,7 @@ This phase observes the state and emits a patch request every time the state is 
 
 ```js
 // Wrap object with observer to create state
-const state = observer({...}, callback);
+const state = reactive({...}, callback);
 
 state.foo // Nothing is called
 state.foo = 'bar'; // callback(...) is called

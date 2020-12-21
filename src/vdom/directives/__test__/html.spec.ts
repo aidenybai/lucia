@@ -10,7 +10,7 @@ describe('.htmlDirective', () => {
       el: fakeElem,
       name: 'l-html',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.innerHTML).toBe('0');
   });
@@ -22,7 +22,7 @@ describe('.htmlDirective', () => {
       el: fakeElem,
       name: 'l-html',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.innerHTML).toBe('count');
   });

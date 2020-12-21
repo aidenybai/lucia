@@ -1,7 +1,7 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const ifDirective = ({ el, data, state }: DirectiveProps) => {
-  const out = data.compute(state);
+export const ifDirective = ({ el, data, app }: DirectiveProps) => {
+  const out = data.compute(app.state);
 
   if (out) {
     el.style.removeProperty('display');

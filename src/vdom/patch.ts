@@ -1,5 +1,5 @@
 import { LUCIA_COMPILE_REQUEST, UnknownKV } from '../models/generics';
-import { Directives, State } from '../models/structs';
+import { DirectiveApp } from '../models/structs';
 import { VNode, VNodeTypes } from '../models/vnode';
 
 import { renderDirective } from './directive';
@@ -7,13 +7,9 @@ import { keyPattern } from './utils/patterns';
 
 // Using patch requires a wrapper parent VNode
 
-const patch = (
-  rootVNode: VNode,
-  state: State = {},
-  directiveKV: Directives = {},
-  keys?: string[]
-): void => {
+const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void => {
   let compileRequest = false;
+  const state = app.state || {};
 
   if (!rootVNode) return;
   if (!keys) keys = Object.keys(state);
@@ -64,11 +60,11 @@ const patch = (
         const data = directives[name];
         const el = (attributes.id ? document.getElementById(attributes.id) : ref) as HTMLElement;
 
-        renderDirective({ el, name, data, state }, { ...directiveKV });
+        renderDirective({ el, name, data, app }, { ...app.directives });
       });
     }
 
-    if (node.children.length > 0) patch(node, state, directiveKV, keys);
+    if (node.children.length > 0) patch(node, state, keys);
   }
 };
 

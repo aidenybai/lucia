@@ -11,11 +11,17 @@ export interface DirectiveData {
   value: string;
 }
 
+export interface DirectiveApp {
+  state?: State;
+  directives?: Directives;
+  components?: Components;
+}
+
 export interface DirectiveProps {
   el: HTMLElement;
   name: string;
   data: DirectiveData;
-  state: State;
+  app: DirectiveApp;
 }
 
 export interface Data {

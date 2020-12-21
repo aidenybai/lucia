@@ -15,7 +15,7 @@ describe('.modelDirective', () => {
       el: fakeElem,
       name: 'l-model',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(typeof fakeElem.oninput).toBe('function');
     fireEvent.input(fakeElem);

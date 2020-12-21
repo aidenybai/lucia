@@ -10,7 +10,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.className).toBe('test');
   });
@@ -23,7 +23,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.className).toBe('test2');
   });
@@ -35,7 +35,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.className).toBe('');
   });
@@ -47,7 +47,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.className).toBe('foo');
   });
@@ -59,7 +59,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:class',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.className).toBe('foo bar baz');
   });
@@ -71,7 +71,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:style',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.style.cssText).toBe('font-weight: bold;');
   });
@@ -83,7 +83,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:href',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.href).toBe('https://example.com/');
   });
@@ -95,7 +95,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:hidden',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.hidden).toBe(true);
     state = { hideme: false };
@@ -103,7 +103,7 @@ describe('.bindDirective', () => {
       el: fakeElem,
       name: 'l-bind:hidden',
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.hidden).toBe(false);
   });

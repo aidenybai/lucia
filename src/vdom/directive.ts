@@ -20,12 +20,9 @@ export const directives: Directives = {
   TEXT: textDirective,
 };
 
-export const renderDirective = (
-  { el, name, data, state }: DirectiveProps,
-  directives: Directives
-): void => {
-  const rootName = name.split(rawDirectiveSplitPattern)[0];
-  directives[rootName.toUpperCase()]({ el, name, data, state });
+export const renderDirective = (props: DirectiveProps, directives: Directives): void => {
+  const name = props.name.split(rawDirectiveSplitPattern)[0];
+  directives[name.toUpperCase()](props);
 };
 
 export default renderDirective;

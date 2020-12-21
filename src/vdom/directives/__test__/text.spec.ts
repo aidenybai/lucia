@@ -10,7 +10,7 @@ describe('.textDirective', () => {
       el: fakeElem,
       name: `l-text`,
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.textContent).toBe('$0');
   });
@@ -22,7 +22,7 @@ describe('.textDirective', () => {
       el: fakeElem,
       name: `l-text`,
       data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
-      state,
+      app: { state },
     });
     expect(fakeElem.textContent).toBe('count');
   });

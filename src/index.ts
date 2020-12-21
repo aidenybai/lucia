@@ -14,11 +14,13 @@ export const init = (
   element: HTMLElement | Document = document,
   directive: string = 'use'
 ): App[] => {
-  const elements = [...element.querySelectorAll(`[${DIRECTIVE_PREFIX + directive}]`)];
+  directive = DIRECTIVE_PREFIX + directive;
+
+  const elements = [...element.querySelectorAll(`[${directive}]`)];
   const apps: App[] = [];
 
   elements.map((el) => {
-    const expression = el.getAttribute(DIRECTIVE_PREFIX + directive);
+    const expression = el.getAttribute(directive);
     if (expression === null) return;
 
     try {

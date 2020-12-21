@@ -43,8 +43,7 @@ describe('.patch', () => {
           type: 0,
         }),
       ]),
-      state,
-      directives
+      { state, directives }
     );
 
     expect(fakeElem1.textContent).toEqual('1');
