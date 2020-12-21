@@ -107,4 +107,19 @@ describe('.bindDirective', () => {
     });
     expect(fakeElem.hidden).toBe(false);
   });
+  it('should accept object format for attributes', () => {
+    const fakeElem = document.createElement('a');
+    const expression = `{ id: 'test', class: 'test', title: 'test', translate: null }`;
+    let state = {};
+    bindDirective({
+      el: fakeElem,
+      name: 'l-bind',
+      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
+      app: { state },
+    });
+    expect(fakeElem.id).toBe('test');
+    expect(fakeElem.className).toBe('test');
+    expect(fakeElem.title).toBe('test');
+    expect(fakeElem.translate).toBe(null);
+  });
 });
