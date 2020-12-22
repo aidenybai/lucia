@@ -8,7 +8,7 @@ export const handlePatch = (
   key: string,
   state: State,
   patch: Function,
-  needsUpdate = false
+  needsUpdate: boolean = false
 ) => {
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length') {
