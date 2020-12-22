@@ -26,11 +26,9 @@ const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void 
 
       if (!compileRequest) {
         for (const name in directives as UnknownKV) {
-          const { value } = directives[name];
-
           const needsInit = type === 1;
           // Iterate through affected keys and check if directive value has key
-          const hasKey = keys.some((key) => keyPattern(key).test(String(value)));
+          const hasKey = keys.some((key) => keyPattern(key).test(String(directives[name].value)));
           // Iterate through state keys
           const hasKeyInFunction = Object.keys(state).some((key: string) => {
             // Check if function and function content, iterate through affected

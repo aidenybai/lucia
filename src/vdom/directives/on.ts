@@ -6,7 +6,6 @@ export const onDirective = ({ el, name, data, app }: DirectiveProps) => {
   const eventProp = prop || null;
 
   el[`on${eventName}`] = ($event: Event) => {
-    console.log('hit!');
     // Parse event modifiers based on directive prop
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();

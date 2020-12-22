@@ -2,8 +2,8 @@ import { LUCIA_COMPILE_REQUEST } from './models/generics';
 import { Directives, Components, State } from './models/structs';
 import { VNode } from './models/vnode';
 
-import compile from './vdom/compile';
 import { directives } from './vdom/directive';
+import compile from './vdom/compile';
 import reactive from './vdom/reactive';
 import patch from './vdom/patch';
 

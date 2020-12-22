@@ -13,16 +13,16 @@ export const joinDirective = ({ el, data, app }: DirectiveProps) => {
   const accessProp = contentType === 'text' ? 'innerText' : 'innerHTML';
   el[accessProp] = out.join(delimiter || '');
 
-  // Create shallow nested Lucia app
+  // Create shallow Lucia app
   const scope = createApp({ ...app.state });
 
-  for (const [name, evaluationCallback] of Object.entries(app.directives || {})) {
+  Object.entries(app.directives || {}).map(([name, evaluationCallback]) => {
     scope.directive(name, evaluationCallback);
-  }
+  });
 
-  for (const [name, templateCallback] of Object.entries(app.components || {})) {
+  Object.entries(app.components || {}).map(([name, templateCallback]) => {
     scope.component(name, templateCallback);
-  }
+  });
 
   scope.mount(el);
 };

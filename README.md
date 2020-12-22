@@ -41,7 +41,7 @@ The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
 Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
 
 ```html
-<div l-init="{ count: 0 }">
+<div l-state="{ count: 0 }">
   <button l-text="this.count" l-on:click="++this.count">0</button>
 </div>
 ```

@@ -35,14 +35,17 @@ export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
     default:
       // Bind arbitrary attributes based on boolean state value
       const out = data.compute(app.state);
+      // Allow object syntax in binding without modifier
       if (typeof out === 'object' && out !== null) {
         for (const key in out) {
+          // Only set attr if not falsy
           if (out[key]) {
             el.setAttribute(key, out[key]);
           } else {
             el.removeAttribute(key);
           }
         }
+        // Only set attr if not falsy
       } else if (out) {
         el.setAttribute(name.split(':')[1], out);
       } else {
