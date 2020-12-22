@@ -7,6 +7,7 @@ export const props = (el: HTMLElement): Record<string, StringKV | DirectiveKV> =
   const attributes: StringKV = {};
   const directives: DirectiveKV = {};
 
+  // Seperate directives and attributes
   if (el.attributes) {
     for (const { name, value } of [...el.attributes]) {
       const directiveData = { compute: compute(value, { $el: el }), value };

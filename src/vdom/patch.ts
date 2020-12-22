@@ -1,4 +1,4 @@
-import { LUCIA_COMPILE_REQUEST, UnknownKV } from '../models/generics';
+import { LUCIA_FIRST_RENDER, UnknownKV } from '../models/generics';
 import { DirectiveApp } from '../models/structs';
 import { VNode, VNodeTypes } from '../models/vnode';
 
@@ -8,13 +8,13 @@ import { keyPattern } from './utils/patterns';
 // Using patch requires a wrapper parent VNode
 
 const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void => {
-  let compileRequest = false;
+  let firstRender = false;
   const state = app.state || {};
 
   if (!rootVNode) return;
   if (!keys) keys = Object.keys(state);
   // Compile request is for sweeping initialization
-  if (keys[0] === LUCIA_COMPILE_REQUEST) compileRequest = true;
+  if (keys[0] === LUCIA_FIRST_RENDER) firstRender = true;
 
   for (let node of rootVNode.children) {
     if (typeof node === 'string') continue;
@@ -24,7 +24,7 @@ const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void 
       const { attributes, directives, ref, type } = node.props;
       let affectedDirectives: string[] = [];
 
-      if (!compileRequest) {
+      if (!firstRender) {
         for (const name in directives as UnknownKV) {
           const needsInit = type === 1;
           // Iterate through affected keys and check if directive value has key
@@ -50,7 +50,7 @@ const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void 
       node.props.type = type === VNodeTypes.NEEDS_PATCH ? VNodeTypes.STATIC : type;
 
       // If compileRequest, then use keys of norm directives
-      const directivesToRender: string[] = compileRequest
+      const directivesToRender: string[] = firstRender
         ? Object.keys(directives)
         : affectedDirectives;
 

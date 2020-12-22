@@ -1,4 +1,4 @@
-import { reactive, handleArray } from '../reactive';
+import { reactive, handlePatch } from '../reactive';
 import patch from '../patch';
 
 describe('.reactive', () => {
@@ -19,7 +19,7 @@ describe('.reactive', () => {
     expect(mockCb.mock.calls[1]);
   });
   it('should handle array and return boolean', () => {
-    expect(handleArray({}, 'length', {}, () => {})).toEqual(true);
-    expect(handleArray({}, 'foo', {}, () => {})).toEqual(false);
+    expect(handlePatch({}, 'length', {}, () => {})).toEqual(true);
+    expect(handlePatch({}, 'foo', {}, () => {})).toEqual(false);
   });
 });

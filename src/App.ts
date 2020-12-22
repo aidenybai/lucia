@@ -1,4 +1,4 @@
-import { LUCIA_COMPILE_REQUEST } from './models/generics';
+import { LUCIA_FIRST_RENDER } from './models/generics';
 import { Directives, Components, State } from './models/structs';
 import { VNode } from './models/vnode';
 
@@ -8,14 +8,13 @@ import reactive from './vdom/reactive';
 import patch from './vdom/patch';
 
 export class App {
-  vdom: VNode | null;
   state: State;
   directives: Directives;
   components: Components;
-  mountHook: Function | undefined;
+  vdom?: VNode;
+  mountHook?: Function;
 
   constructor(state: State = {}, mountHook?: Function) {
-    this.vdom = null;
     this.state = state;
     this.directives = {};
     this.components = {};
@@ -23,24 +22,27 @@ export class App {
   }
 
   public mount(el: HTMLElement | string, shallow: boolean = false): State {
-    el = (typeof el === 'string' ? document.querySelector(el) : el) as HTMLElement;
-    this.vdom = this.compile(el);
+    // Accepts both selector and element reference
+    const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
+    this.vdom = this.compile(rootEl as HTMLElement);
+    // Do not generate directives or reactive state if shallow
     if (!shallow) {
       this.state = reactive(this.state, this.patch.bind(this));
       this.directives = { ...this.directives, ...directives };
     }
 
-    this.patch([LUCIA_COMPILE_REQUEST]);
+    // Render everything
+    this.patch([LUCIA_FIRST_RENDER]);
 
     if (this.mountHook) this.mountHook(this.state);
     return this.state;
   }
 
-  public component(name: string, templateCallback: Function) {
+  public component(name: string, templateCallback: Function): void {
     this.components[name.toUpperCase()] = templateCallback;
   }
 
-  public directive(name: string, evaluationCallback: Function) {
+  public directive(name: string, evaluationCallback: Function): void {
     this.directives[name.toUpperCase()] = evaluationCallback;
   }
 

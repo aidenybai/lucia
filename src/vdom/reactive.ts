@@ -3,12 +3,12 @@ import { State } from '../models/structs';
 
 import arrayEquals from './utils/arrayEquals';
 
-export const handleArray = (
+export const handlePatch = (
   target: UnknownKV | unknown[],
   key: string,
   state: State,
   patch: Function,
-  shouldPatch = false
+  needsUpdate = false
 ) => {
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length') {
@@ -20,7 +20,7 @@ export const handleArray = (
     if (affectedKeys.length !== 0) patch(affectedKeys);
     return true;
   } else {
-    if (shouldPatch) patch([key]);
+    if (needsUpdate) patch([key]);
     return false;
   }
 };
@@ -40,12 +40,12 @@ export const reactive = (state: State, patch: Function): UnknownKV => {
       if (needsUpdate) {
         target[key] = value;
       }
-      handleArray(target, key, state, patch, needsUpdate);
+      handlePatch(target, key, state, patch, needsUpdate);
       return true;
     },
     deleteProperty(target: UnknownKV, key: string): boolean {
       delete target[key];
-      handleArray(target, key, state, patch);
+      handlePatch(target, key, state, patch);
       return true;
     },
   };

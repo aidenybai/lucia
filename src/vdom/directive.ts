@@ -22,7 +22,7 @@ export const directives: Directives = {
 
 export const renderDirective = (props: DirectiveProps, directives: Directives): void => {
   const name = props.name.split(rawDirectiveSplitPattern)[0];
-  directives[name.toUpperCase()](props);
+  directives[name.toUpperCase()](props); // Runner
 };
 
 export default renderDirective;

@@ -1,5 +1,5 @@
 export const DIRECTIVE_PREFIX = 'l-';
-export const LUCIA_COMPILE_REQUEST = '%LUCIA_COMPILE_REQUEST%';
+export const LUCIA_FIRST_RENDER = '%LUCIA_FIRST_RENDER%';
 export enum DIRECTIVE_SHORTHANDS {
   '@' = 'on',
   ':' = 'bind',

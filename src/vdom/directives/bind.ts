@@ -3,18 +3,18 @@ import { DirectiveProps } from '../../models/structs';
 export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const classState = data.compute(app.state);
+      const hydratedClasses = data.compute(app.state);
       // Accept just providing classes regularly
-      if (typeof classState === 'string') {
-        return el.setAttribute('class', `${el.className} ${classState}`.trim());
+      if (typeof hydratedClasses === 'string') {
+        return el.setAttribute('class', `${el.className} ${hydratedClasses}`.trim());
         // Accept providing an array of classes and appending them
-      } else if (classState instanceof Array) {
-        return el.setAttribute('class', `${el.className} ${classState.join(' ')}`.trim());
+      } else if (hydratedClasses instanceof Array) {
+        return el.setAttribute('class', `${el.className} ${hydratedClasses.join(' ')}`.trim());
       } else {
         // Accept binding classes on/off based off of boolean state value
         const classes = [];
-        for (const key in classState) {
-          if (classState[key]) classes.push(key);
+        for (const key in hydratedClasses) {
+          if (hydratedClasses[key]) classes.push(key);
         }
         if (classes.length > 0) {
           return el.setAttribute('class', `${el.className} ${classes.join(' ').trim()}`.trim());
@@ -26,28 +26,28 @@ export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
       }
     case 'style':
       // Accept object and set properties based on boolean state value
-      const styleState = data.compute(app.state);
+      const hydratedStyles = data.compute(app.state);
       el.removeAttribute('style');
-      for (const key in styleState) {
-        el.style[key] = styleState[key];
+      for (const key in hydratedStyles) {
+        el.style[key] = hydratedStyles[key];
       }
       break;
     default:
       // Bind arbitrary attributes based on boolean state value
-      const out = data.compute(app.state);
+      const hydratedAttributes = data.compute(app.state);
       // Allow object syntax in binding without modifier
-      if (typeof out === 'object' && out !== null) {
-        for (const key in out) {
+      if (typeof hydratedAttributes === 'object' && hydratedAttributes !== null) {
+        for (const key in hydratedAttributes) {
           // Only set attr if not falsy
-          if (out[key]) {
-            el.setAttribute(key, out[key]);
+          if (hydratedAttributes[key]) {
+            el.setAttribute(key, hydratedAttributes[key]);
           } else {
             el.removeAttribute(key);
           }
         }
         // Only set attr if not falsy
-      } else if (out) {
-        el.setAttribute(name.split(':')[1], out);
+      } else if (hydratedAttributes) {
+        el.setAttribute(name.split(':')[1], hydratedAttributes);
       } else {
         el.removeAttribute(name.split(':')[1]);
       }

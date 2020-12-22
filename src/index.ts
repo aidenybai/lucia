@@ -8,22 +8,22 @@ import compile from './vdom/compile';
 import reactive from './vdom/reactive';
 import { directives, renderDirective } from './vdom/directive';
 
-export { DIRECTIVE_PREFIX, createApp, h, compile, patch, reactive, directives, renderDirective };
+const stateDirective = `${DIRECTIVE_PREFIX}state`;
+
+export { createApp, h, compile, patch, reactive, directives, renderDirective };
 
 export const init = (element: HTMLElement | Document = document): void => {
-  const directive = `${DIRECTIVE_PREFIX}state`;
-  const elements = [...element.querySelectorAll(`[${directive}]`)];
+  const elements = [...element.querySelectorAll(`[${stateDirective}]`)];
 
   elements
     // @ts-ignore
-    .filter((el) => el.__l === undefined)
+    .filter((el) => el.__l === undefined) // Filter out uninit scopes only
     .map((el) => {
-      const expression = el.getAttribute(directive);
-      // @ts-ignore
-      if (expression === null) return;
+      const expression = el.getAttribute(stateDirective);
 
       try {
-        const app = createApp(new Function(`return ${expression}`)());
+        const state = new Function(`return ${expression}`)();
+        const app = createApp(state);
         app.mount(el as HTMLElement);
 
         // @ts-ignore
@@ -34,7 +34,7 @@ export const init = (element: HTMLElement | Document = document): void => {
     });
 };
 
-// Adapted from alpine.js
+// Adapted from Alpine.js
 export const listen = (
   callback: Function,
   element: HTMLElement | Document = document,
@@ -48,8 +48,7 @@ export const listen = (
           if (node.nodeType !== 1) return;
 
           // Discard any changes happening within an existing component.
-          if (node.parentElement && node.parentElement.closest(`[${DIRECTIVE_PREFIX}state]`))
-            return;
+          if (node.parentElement && node.parentElement.closest(`[${stateDirective}]`)) return;
 
           callback(node.parentElement as HTMLElement);
         });

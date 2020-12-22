@@ -4,15 +4,17 @@ import compute from '../utils/compute';
 
 export const modelDirective = ({ el: awaitingTypecastEl, data, app }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
-  const out = compute(data.compute(), { $el: el })(app.state);
-  if (el.value !== out) {
-    el.value = out;
+  const hydratedValue = compute(data.compute(), { $el: el })(app.state);
+  if (el.value !== hydratedValue) {
+    el.value = hydratedValue;
   }
   el.oninput = () => {
-    const isNumber = typeof out === 'number' && !isNaN(el.value as any);
-    const isBoolean = typeof out === 'boolean' && (el.value === 'true' || el.value === 'false');
+    const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value as any);
+    const isBoolean =
+      typeof hydratedValue === 'boolean' && (el.value === 'true' || el.value === 'false');
     const isNullish =
-      (out === null || out === undefined) && (el.value === 'null' || el.value === 'undefined');
+      (hydratedValue === null || hydratedValue === undefined) &&
+      (el.value === 'null' || el.value === 'undefined');
 
     // Perform type coercion
     let payload;
