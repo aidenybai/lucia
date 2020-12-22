@@ -8,7 +8,7 @@ import compile from './vdom/compile';
 import reactive from './vdom/reactive';
 import { directives, renderDirective } from './vdom/directive';
 
-export { createApp, h, compile, patch, reactive, directives, renderDirective };
+export { DIRECTIVE_PREFIX, createApp, h, compile, patch, reactive, directives, renderDirective };
 
 export const init = (element: HTMLElement | Document = document): void => {
   const directive = `${DIRECTIVE_PREFIX}state`;
@@ -33,3 +33,20 @@ export const init = (element: HTMLElement | Document = document): void => {
       }
     });
 };
+
+// Adapted from alpine.js
+export const observer = new MutationObserver((mutations) => {
+  mutations.map((mut) => {
+    if (mut.addedNodes.length > 0) {
+      mut.addedNodes.forEach((node) => {
+        // Discard non-element nodes (like line-breaks)
+        if (node.nodeType !== 1) return;
+
+        // Discard any changes happening within an existing component.
+        if (node.parentElement && node.parentElement.closest(`[${DIRECTIVE_PREFIX}state]`)) return;
+
+        init(node.parentElement as HTMLElement);
+      });
+    }
+  });
+});
