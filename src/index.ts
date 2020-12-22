@@ -35,18 +35,33 @@ export const init = (element: HTMLElement | Document = document): void => {
 };
 
 // Adapted from alpine.js
-export const observer = new MutationObserver((mutations) => {
-  mutations.map((mut) => {
-    if (mut.addedNodes.length > 0) {
-      mut.addedNodes.forEach((node) => {
-        // Discard non-element nodes (like line-breaks)
-        if (node.nodeType !== 1) return;
+export const listen = (
+  callback: Function,
+  element: HTMLElement | Document = document,
+  config?: Record<string, boolean>
+): void => {
+  const observer = new MutationObserver((mutations) => {
+    mutations.map((mut) => {
+      if (mut.addedNodes.length > 0) {
+        mut.addedNodes.forEach((node) => {
+          // Discard non-element nodes (like line-breaks)
+          if (node.nodeType !== 1) return;
 
-        // Discard any changes happening within an existing component.
-        if (node.parentElement && node.parentElement.closest(`[${DIRECTIVE_PREFIX}state]`)) return;
+          // Discard any changes happening within an existing component.
+          if (node.parentElement && node.parentElement.closest(`[${DIRECTIVE_PREFIX}state]`))
+            return;
 
-        init(node.parentElement as HTMLElement);
-      });
-    }
+          callback(node.parentElement as HTMLElement);
+        });
+      }
+    });
+    observer.observe(
+      element,
+      config || {
+        childList: true,
+        attributes: true,
+        subtree: true,
+      }
+    );
   });
-});
+};

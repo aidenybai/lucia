@@ -27,7 +27,7 @@ export class App {
     this.vdom = this.compile(el);
     if (!shallow) {
       this.state = reactive(this.state, this.patch.bind(this));
-      this.directives = directives;
+      this.directives = { ...this.directives, ...directives };
     }
 
     this.patch([LUCIA_COMPILE_REQUEST]);
