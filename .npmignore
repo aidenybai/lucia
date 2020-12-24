@@ -30,3 +30,4 @@ docs/
 settings.json
 CNAME
 .DS_Store
+test/

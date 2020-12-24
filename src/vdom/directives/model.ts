@@ -4,7 +4,7 @@ import compute from '../utils/compute';
 
 export const modelDirective = ({ el: awaitingTypecastEl, data, app }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
-  const hydratedValue = compute(data.compute(), { $el: el })(app.state);
+  const hydratedValue = data.compute(app.state);
   if (el.value !== hydratedValue) {
     el.value = hydratedValue;
   }
