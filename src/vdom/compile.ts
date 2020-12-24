@@ -4,7 +4,7 @@ import { VNode, VNodeChild, VNodeChildren, VNodeTypes } from '../models/vnode';
 
 import h from './h';
 import props from './utils/props';
-import { keyPattern } from './utils/patterns';
+import { keyPattern, hasDirectivePattern } from './utils/patterns';
 
 export const createVNode = (el: HTMLElement, state: State, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
@@ -67,7 +67,7 @@ export const compile = (
           }
 
           // Only allow during strip if outerHTML has directives
-          if (!strip || container.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
+          if (!strip || hasDirectivePattern().test(container.outerHTML)) {
             const compiledChildren = compile(container, state, components, strip, true);
             // Check if children group has isDynamicGroup prop, which returns true when
             // children have dynamic nodes
@@ -80,7 +80,7 @@ export const compile = (
           el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
           // Only allow during strip if outerHTML has directives
-          if (!strip || child.outerHTML.includes(` ${DIRECTIVE_PREFIX}`)) {
+          if (!strip || hasDirectivePattern().test(child.outerHTML)) {
             const compiledChildren = compile(child, state, components, strip, true);
             const node = createVNode(child, state, compiledChildren as VNodeChildren);
             children.push(node);
@@ -101,18 +101,18 @@ export const compile = (
 export const flat = (vdom: VNode): VNode => {
   const flattenedVDom = { ...vdom };
   // Clone vdom and remove all the non-dynamic nodes
-  flattenedVDom.children.filter((child) => typeof child === 'object' && child.props.type > 0);
+  flattenedVDom.children = flattenedVDom.children.filter(
+    (child) => typeof child === 'object' && child.props.type > 0 && child.children.length === 0
+  );
 
   for (const child of vdom.children) {
     // Iterate down the children and push to parent child array clone if dynamic
     if (typeof child === 'string') continue;
     if (child.children.length > 0) {
-      for (const nestedChild of flat(child).children) {
-        if (typeof nestedChild === 'string') continue;
-        if (nestedChild.props.type !== 0) {
-          flattenedVDom.children.push(nestedChild);
-        }
-      }
+      flattenedVDom.children = [
+        ...flattenedVDom.children,
+        ...flat({ children: child.children } as VNode).children,
+      ];
     }
   }
 

@@ -62,7 +62,7 @@ const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void 
       });
     }
 
-    if (node.children.length > 0) patch(node, state, keys);
+    if (node.children.length > 0) patch(node, app, keys);
   }
 };
 
