@@ -17,6 +17,6 @@ describe('.patterns', () => {
     expect(rawDirectiveSplitRE()).toStrictEqual(/:|\./);
   });
   it('should have working directive pattern', () => {
-    expect(hasDirectiveRE()).toStrictEqual(/(l-|@|:)\w+=/gim);
+    expect(hasDirectiveRE()).toStrictEqual(/(l-|@|:)\w+/gim);
   });
 });
