@@ -3,7 +3,7 @@ import { DirectiveApp } from '../models/structs';
 import { VNode, VNodeTypes } from '../models/vnode';
 
 import { renderDirective } from './directive';
-import { keyPattern } from './utils/patterns';
+import { expressionPropRE } from './utils/patterns';
 
 // Using patch requires a wrapper parent VNode
 
@@ -28,13 +28,15 @@ const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void 
         for (const name in directives as UnknownKV) {
           const needsInit = type === 1;
           // Iterate through affected keys and check if directive value has key
-          const hasKey = keys.some((key) => keyPattern(key).test(String(directives[name].value)));
+          const hasKey = keys.some((key) =>
+            expressionPropRE(key).test(String(directives[name].value))
+          );
           // Iterate through state keys
           const hasKeyInFunction = Object.keys(state).some((key: string) => {
             // Check if function and function content, iterate through affected
             // keys and check if function content contains affected key
             const iterKeysInFunction = (keys as string[]).some((k) =>
-              keyPattern(k).test(String(state[key] as Function))
+              expressionPropRE(k).test(String(state[key] as Function))
             );
             return typeof state[key] === 'function' && iterKeysInFunction;
           });

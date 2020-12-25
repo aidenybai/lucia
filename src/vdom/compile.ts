@@ -4,7 +4,7 @@ import { VNode, VNodeChild, VNodeChildren, VNodeTypes } from '../models/vnode';
 
 import h from './h';
 import props from './utils/props';
-import { keyPattern, hasDirectivePattern } from './utils/patterns';
+import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
 export const createVNode = (el: HTMLElement, state: State, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
@@ -14,7 +14,7 @@ export const createVNode = (el: HTMLElement, state: State, children: VNodeChildr
   const hasDirectives = Object.keys(directives).length > 0;
   // Check if there are affected keys in values
   const hasKeyInDirectives = Object.values(directives).some(({ value }) =>
-    Object.keys(state).some((key) => keyPattern(key, false).test(value))
+    Object.keys(state).some((key) => expressionPropRE(key, false).test(value))
   );
 
   if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
@@ -67,7 +67,7 @@ export const compile = (
           }
 
           // Only allow during strip if outerHTML has directives
-          if (!strip || hasDirectivePattern().test(container.outerHTML)) {
+          if (!strip || hasDirectiveRE().test(container.outerHTML)) {
             const compiledChildren = compile(container, state, components, strip, true);
             // Check if children group has isDynamicGroup prop, which returns true when
             // children have dynamic nodes
@@ -80,7 +80,7 @@ export const compile = (
           el.replaceChild(container.firstElementChild as HTMLElement, child);
         } else {
           // Only allow during strip if outerHTML has directives
-          if (!strip || hasDirectivePattern().test(child.outerHTML)) {
+          if (!strip || hasDirectiveRE().test(child.outerHTML)) {
             const compiledChildren = compile(child, state, components, strip, true);
             const node = createVNode(child, state, compiledChildren as VNodeChildren);
             children.push(node);
@@ -102,7 +102,7 @@ export const flat = (vdom: VNode): VNode => {
   const flattenedVDom = { ...vdom };
   // Clone vdom and remove all the non-dynamic nodes
   flattenedVDom.children = flattenedVDom.children.filter(
-    (child) => typeof child === 'object' && child.props.type > 0 && child.children.length === 0
+    (child) => typeof child === 'object' && child.props.type > 0
   );
 
   for (const child of vdom.children) {
@@ -113,6 +113,7 @@ export const flat = (vdom: VNode): VNode => {
         ...flattenedVDom.children,
         ...flat({ children: child.children } as VNode).children,
       ];
+      child.children = [];
     }
   }
 

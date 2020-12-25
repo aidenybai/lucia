@@ -7,7 +7,7 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "del-cli dist/ && rollup -c -w",
+    "dev": "rollup -c -w",
     "build": "del-cli dist/ && rollup -c",
     "test": "jest --coverage",
     "cleanup": "prettier -w src",

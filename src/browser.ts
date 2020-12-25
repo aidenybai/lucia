@@ -1,6 +1,6 @@
 import * as Lucia from './index';
 
-const DOMIsReady = () => {
+const DOMReady = () => {
   return new Promise((resolve) => {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', resolve);
@@ -12,7 +12,7 @@ const DOMIsReady = () => {
 };
 
 const start = async () => {
-  await DOMIsReady();
+  await DOMReady();
   Lucia.init();
 
   // Turbolink support by default
