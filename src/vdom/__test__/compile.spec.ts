@@ -86,7 +86,7 @@ describe('.compile', () => {
     const vdom = compile(el, { foo: 'bar' }, { CUSTOMCOMPONENT: () => `<p></p>` });
     const compute = jest.fn();
 
-    (vdom as VNode).props.directives.text.compute = compute;
+    ((vdom as VNode).children[0] as VNode).props.directives.text.compute = compute;
 
     expect(vdom).toEqual({
       tag: 'div',
@@ -97,10 +97,10 @@ describe('.compile', () => {
           props: {
             attributes: {},
             directives: {
-              text: { value: '1', compute },
+              text: { value: 'this.foo', compute },
             },
             ref,
-            type: 1,
+            type: 2,
           },
         },
       ],
