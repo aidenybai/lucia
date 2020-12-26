@@ -46,8 +46,7 @@ export class App {
     this.directives[name.toUpperCase()] = evaluationCallback;
   }
 
-  // Use internal private methods, should not be used when instantiated by the user
-  private patch(this: App, keys?: string[]): void {
+  public patch(this: App, keys?: string[]): void {
     const app = {
       state: this.state,
       directives: this.directives,
@@ -56,7 +55,7 @@ export class App {
     patch(this.vdom as VNode, app, keys);
   }
 
-  private compile(el: HTMLElement): VNode {
+  public compile(el: HTMLElement): VNode {
     return compile(el, this.state, this.components, true) as VNode;
   }
 }

@@ -5,8 +5,8 @@ import h from '../h';
 
 describe('.patch', () => {
   it('should patch a directive', () => {
-    const fakeElem1 = document.createElement('p');
-    const fakeElem2 = document.createElement('p');
+    const el1 = document.createElement('p');
+    const el2 = document.createElement('p');
     const state = {
       hello: 1,
       foo() {
@@ -19,21 +19,21 @@ describe('.patch', () => {
         h('p', [], {
           attributes: {},
           directives: {
-            text: { value: 'this.hello', compute: compute('this.hello', { $el: fakeElem1 }) },
+            text: { value: 'this.hello', compute: compute('this.hello', { $el: el1 }) },
             'bind:id': {
               value: 'this.foo()',
-              compute: compute('this.foo()', { $el: fakeElem1 }),
+              compute: compute('this.foo()', { $el: el1 }),
             },
           },
-          ref: fakeElem1,
+          ref: el1,
           type: 2,
         }),
         h('p', [], {
           attributes: {},
           directives: {
-            text: { value: `'foo'`, compute: compute(`'foo'`, { $el: fakeElem1 }) },
+            text: { value: `'foo'`, compute: compute(`'foo'`, { $el: el1 }) },
           },
-          ref: fakeElem2,
+          ref: el2,
           type: 1,
         }),
         h('p', [], {
@@ -46,8 +46,8 @@ describe('.patch', () => {
       { state, directives }
     );
 
-    expect(fakeElem1.textContent).toEqual('1');
-    expect(fakeElem1.id).toEqual('bar');
-    expect(fakeElem2.textContent).toEqual('foo');
+    expect(el1.textContent).toEqual('1');
+    expect(el1.id).toEqual('bar');
+    expect(el2.textContent).toEqual('foo');
   });
 });

@@ -5,20 +5,20 @@ import compute from '../../utils/compute';
 
 describe('.onDirective', () => {
   it('should attach onclick', () => {
-    const fakeElem = document.createElement('button');
+    const el = document.createElement('button');
     const mockCb = jest.fn();
     const expression = 'this.mockCb';
     const state = {
       mockCb,
     };
     onDirective({
-      el: fakeElem,
+      el: el,
       name: 'l-on:click',
-      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(typeof fakeElem.onclick).toBe('function');
-    fireEvent.click(fakeElem);
+    expect(typeof el.onclick).toBe('function');
+    fireEvent.click(el);
     expect(mockCb.mock.calls[0]);
   });
 });

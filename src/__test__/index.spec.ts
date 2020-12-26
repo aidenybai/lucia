@@ -1,44 +1,66 @@
 import { init, listen } from '../index';
 
 describe('.component', () => {
-  it('should init without error', () => {
-    document.body.innerHTML = '';
+  it('should create component scope and attach __l prop', async () => {
+    const root = document.createElement('div');
+    const el = document.createElement('div');
 
-    const fakeElem = document.createElement('div');
-    fakeElem.setAttribute('l-state', '{ test: 1 }');
-    document.body.appendChild(fakeElem);
-    init();
+    el.setAttribute('l-state', '{ test: 1 }');
+    root.appendChild(el);
 
     // @ts-ignore
-    expect(fakeElem.__l);
+    expect(el.__l).toBeUndefined();
+
+    init(root);
+
+    // @ts-ignore
+    expect(el.__l).toBeDefined();
   });
+
   it('should not init if null', () => {
-    document.body.innerHTML = '';
+    const root = document.createElement('div');
+    const el = document.createElement('div');
 
-    const fakeElem = document.createElement('div');
-    fakeElem.setAttribute('l-state', 'null');
-    document.body.appendChild(fakeElem);
-    init();
+    el.setAttribute('l-state', 'null');
+    root.appendChild(el);
+    init(root);
 
     // @ts-ignore
-    expect(fakeElem.__l);
+    expect(el.__l).toBeUndefined();
   });
+
   it('should listen and init at runtime', () => {
-    document.body.innerHTML = '';
+    const root = document.createElement('div');
+    const el1 = document.createElement('div');
+    const el2 = document.createElement('div');
+    const el3 = document.createElement('div');
+    el1.setAttribute('l-state', '{}');
+    el2.setAttribute('l-state', '{}');
 
-    const fakeElem1 = document.createElement('div');
-    fakeElem1.setAttribute('l-state', '{}');
-    document.body.appendChild(fakeElem1);
-    init();
-    listen((el: HTMLElement) => init(el));
+    root.appendChild(el1);
+    init(root);
 
-    const fakeElem2 = document.createElement('div');
-    fakeElem2.setAttribute('l-state', '{}');
-    document.body.appendChild(fakeElem2);
+    // Testing muts
+    listen((el: HTMLElement) => init(el), root);
+    root.appendChild(el2);
+    root.appendChild(el3);
 
-    // @ts-ignore
-    expect(fakeElem1.__l);
-    // @ts-ignore
-    expect(fakeElem2.__l);
+    // For some odd reason race conditions are messing this up
+    // Removing the setTimeout will result in el2.__l and el3.__l
+    // being undefined
+    setTimeout(() => {
+      // @ts-ignore
+      expect(el1.__l).toBeDefined();
+      // @ts-ignore
+      expect(el2.__l).toBeDefined();
+      // @ts-ignore
+      expect(el3.__l).toBeUndefined();
+    }, 0);
+
+    el3.setAttribute('l-state', '{}');
+    setTimeout(() => {
+      // @ts-ignore
+      expect(el3.__l).toBeDefined();
+    }, 0);
   });
 });

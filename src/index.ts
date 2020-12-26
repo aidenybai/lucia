@@ -42,6 +42,7 @@ export const listen = (
 ): void => {
   const observer = new MutationObserver((mutations) => {
     mutations.map((mut) => {
+      // Handle Node creation
       if (mut.addedNodes.length > 0) {
         mut.addedNodes.forEach((node) => {
           // Discard non-element nodes (like line-breaks)
@@ -50,17 +51,27 @@ export const listen = (
           // Discard any changes happening within an existing component.
           if (node.parentElement && node.parentElement.closest(`[${stateDirective}]`)) return;
 
+          // Discard if not a new component scope
+          if (!(node as Element).getAttribute(stateDirective)) return;
+
           callback(node.parentElement as HTMLElement);
         });
+        // Handle Node mutation
+      } else if (mut.type === 'attributes') {
+        // Discard any changes happening within an existing component.
+        if (mut.target.parentElement && mut.target.parentElement.closest(`[${stateDirective}]`))
+          return;
+
+        callback(mut.target.parentElement as HTMLElement);
       }
     });
-    observer.observe(
-      element,
-      config || {
-        childList: true,
-        attributes: true,
-        subtree: true,
-      }
-    );
   });
+  observer.observe(
+    element,
+    config || {
+      childList: true,
+      attributes: true,
+      subtree: true,
+    }
+  );
 };

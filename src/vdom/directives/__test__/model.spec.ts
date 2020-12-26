@@ -5,20 +5,20 @@ import compute from '../../utils/compute';
 
 describe('.modelDirective', () => {
   it('should attach and model input', () => {
-    const fakeElem = document.createElement('input');
+    const el = document.createElement('input');
     const mockCb = jest.fn();
     const expression = 'this.mockCb';
     const state = {
       mockCb,
     };
     modelDirective({
-      el: fakeElem,
+      el: el,
       name: 'l-model',
-      data: { value: expression, compute: compute(expression, { $el: fakeElem }) },
+      data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(typeof fakeElem.oninput).toBe('function');
-    fireEvent.input(fakeElem);
+    expect(typeof el.oninput).toBe('function');
+    fireEvent.input(el);
     expect(mockCb.mock.calls[0]);
   });
 });
