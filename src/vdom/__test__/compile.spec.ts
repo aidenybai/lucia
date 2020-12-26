@@ -1,6 +1,5 @@
 import { compile, flat } from '../compile';
 import { VNode } from '../../models/vnode';
-import compute from '../utils/compute';
 
 describe('.compile', () => {
   it('should compile a VNode tree', () => {
