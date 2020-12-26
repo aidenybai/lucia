@@ -15,15 +15,16 @@ describe('.h', () => {
       },
     });
   });
+
   it('should set children', () => {
-    const vdom = h('div', [h('p', ['Foo!'])]);
+    const vdom = h('div', [h('p', ['foo'])]);
 
     expect(vdom).toEqual({
       tag: 'div',
       children: [
         {
           tag: 'p',
-          children: ['Foo!'],
+          children: ['foo'],
           props: {
             attributes: {},
             directives: {},
@@ -40,12 +41,13 @@ describe('.h', () => {
       },
     });
   });
+
   it('should allow a string for children', () => {
-    const vdom = h('div', 'Foo!');
+    const vdom = h('div', 'foo');
 
     expect(vdom).toEqual({
       tag: 'div',
-      children: ['Foo!'],
+      children: ['foo'],
       props: {
         attributes: {},
         directives: {},
@@ -54,6 +56,7 @@ describe('.h', () => {
       },
     });
   });
+
   it('should trim the class', () => {
     const vdom = h('div', undefined, {
       attributes: { className: '  foo  bar a f random-class-here    ' },

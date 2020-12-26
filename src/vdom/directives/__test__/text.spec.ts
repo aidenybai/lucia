@@ -7,19 +7,20 @@ describe('.textDirective', () => {
     const expression = `'$' + this.money`;
     const state = { money: 0 };
     textDirective({
-      el: el,
+      el,
       name: `l-text`,
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
     expect(el.textContent).toBe('$0');
   });
+  
   it('should set the text content to the value', () => {
     const el = document.createElement('div');
     const expression = `'count'`;
     const state = {};
     textDirective({
-      el: el,
+      el,
       name: `l-text`,
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },

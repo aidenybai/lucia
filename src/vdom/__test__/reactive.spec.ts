@@ -3,23 +3,35 @@ import patch from '../patch';
 
 describe('.reactive', () => {
   it('should create an observed proxy', () => {
-    const objectState = { test: 1, deepTest: { deepChild: 2 } };
-    const state = reactive({ test: 1, deepTest: { deepChild: 2 } }, patch);
+    const objectState = { foo: 'bar', deepTest: { deepChild: 'bar' } };
+    const state = reactive({ foo: 'bar', deepTest: { deepChild: 'bar' } }, patch);
 
     expect({ ...state }).toEqual(objectState);
   });
+
   it('should react if changed', () => {
-    const mockCb = jest.fn();
-    const state = reactive({ test: 1 }, mockCb);
+    let count = 0;
+    const state = reactive({ foo: 'bar' }, () => ++count);
 
-    state.test = 2;
-    delete state.test;
+    state.foo = 'baz';
+    delete state.foo;
 
-    expect(mockCb.mock.calls[0]);
-    expect(mockCb.mock.calls[1]);
+    expect(count).toEqual(2);
   });
+
   it('should handle array and return boolean', () => {
     expect(handlePatch({}, 'length', {}, () => {})).toEqual(true);
     expect(handlePatch({}, 'foo', {}, () => {})).toEqual(false);
+  });
+
+  it('should react if array is changed', () => {
+    let count = 0;
+    const state = reactive({ foo: [] }, () => ++count);
+
+    // @ts-ignore
+    state.foo.push('bar');
+    delete state.foo;
+
+    expect(count).toEqual(3);
   });
 });

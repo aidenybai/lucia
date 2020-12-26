@@ -12,7 +12,7 @@ describe('.onDirective', () => {
       mockCb,
     };
     onDirective({
-      el: el,
+      el,
       name: 'l-on:click',
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },

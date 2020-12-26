@@ -2,7 +2,10 @@ import { DirectiveProps } from '../../models/structs';
 
 import compute from '../utils/compute';
 
-export const modelDirective = ({ el: awaitingTypecastEl, data, app }: DirectiveProps) => {
+export const modelDirective = (
+  { el: awaitingTypecastEl, data, app }: DirectiveProps,
+  isTest = false
+) => {
   const el = awaitingTypecastEl as HTMLInputElement;
   const hydratedValue = data.compute(app.state);
   if (el.value !== hydratedValue) {
@@ -30,5 +33,12 @@ export const modelDirective = ({ el: awaitingTypecastEl, data, app }: DirectiveP
     }
 
     compute(`${data.value} = ${payload}`, { $el: el }, false)(app.state);
+
+    if (isTest) {
+      // @ts-ignore
+      el.__l_model_payload = payload;
+      // @ts-ignore
+      el.__l_model_state = app.state;
+    }
   };
 };

@@ -8,7 +8,7 @@ describe('.patch', () => {
     const el1 = document.createElement('p');
     const el2 = document.createElement('p');
     const state = {
-      hello: 1,
+      baz: 'boo',
       foo() {
         return 'bar';
       },
@@ -19,7 +19,7 @@ describe('.patch', () => {
         h('p', [], {
           attributes: {},
           directives: {
-            text: { value: 'this.hello', compute: compute('this.hello', { $el: el1 }) },
+            text: { value: 'this.baz', compute: compute('this.baz', { $el: el1 }) },
             'bind:id': {
               value: 'this.foo()',
               compute: compute('this.foo()', { $el: el1 }),
@@ -46,7 +46,7 @@ describe('.patch', () => {
       { state, directives }
     );
 
-    expect(el1.textContent).toEqual('1');
+    expect(el1.textContent).toEqual('boo');
     expect(el1.id).toEqual('bar');
     expect(el2.textContent).toEqual('foo');
   });

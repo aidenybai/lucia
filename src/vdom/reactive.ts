@@ -45,7 +45,7 @@ export const reactive = (state: State, patch: Function): UnknownKV => {
     },
     deleteProperty(target: UnknownKV, key: string): boolean {
       delete target[key];
-      handlePatch(target, key, state, patch);
+      handlePatch(target, key, state, patch, true);
       return true;
     },
   };

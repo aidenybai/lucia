@@ -7,19 +7,20 @@ describe('.ifDirective', () => {
     const expression = 'this.showme';
     const state = { showme: false };
     ifDirective({
-      el: el,
+      el,
       name: 'l-if',
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
     expect(el.style.display).toBe('none');
   });
+  
   it('should remove display', () => {
     const el = document.createElement('div');
     const expression = 'this.showme';
     const state = { showme: true };
     ifDirective({
-      el: el,
+      el,
       name: 'l-if',
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },

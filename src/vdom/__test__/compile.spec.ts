@@ -86,7 +86,8 @@ describe('.compile', () => {
     const vdom = compile(el, { foo: 'bar' }, { CUSTOMCOMPONENT: () => `<p></p>` });
     const compute = jest.fn();
 
-    ((vdom as VNode).children[0] as VNode).props.directives.text.compute = compute;
+    // @ts-ignore
+    vdom.children[0].props.directives.text.compute = compute;
 
     expect(vdom).toEqual({
       tag: 'div',
