@@ -6,10 +6,11 @@ describe('.forDirective', () => {
     const el = document.createElement('ul');
     const expression = `bar in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    el.innerHTML = '<li l-text="this.bar"></li>';
+    // @ts-ignore
+    el.__l_for = '<li l-text="this.bar"></li>';
     forDirective({
       el,
-      name: 'l-join',
+      name: 'l-for',
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
@@ -22,9 +23,11 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `bar in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
+    // @ts-ignore
+    el.__l_for = '';
     forDirective({
       el,
-      name: 'l-join',
+      name: 'l-for',
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
@@ -35,9 +38,11 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `bar in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
+    // @ts-ignore
+    el.__l_for = '';
     forDirective({
       el,
-      name: 'l-join',
+      name: 'l-for',
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: {
         state,

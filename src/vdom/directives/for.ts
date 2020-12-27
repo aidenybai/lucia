@@ -6,7 +6,8 @@ import { createApp } from '../../App';
 export const forDirective = ({ el, data, app }: DirectiveProps) => {
   const [item, target] = data.value.split(/ +in +/g);
   const hydratedArray = compute(target, { $el: el })(app.state);
-  const template = el.innerHTML;
+  // @ts-ignore
+  const template = String(el.__l_for);
   if (template) {
     let accumulator = '';
 

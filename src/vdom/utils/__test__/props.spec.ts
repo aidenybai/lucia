@@ -28,4 +28,14 @@ describe('.props', () => {
       directives: {},
     });
   });
+
+  it('should attach __l_for for l-for directives', () => {
+    const el = document.createElement('div');
+    el.setAttribute('l-for', 'foo in bar');
+    el.innerHTML = 'foo';
+    props(el);
+
+    // @ts-ignore
+    expect(el.__l_for).toEqual('foo');
+  });
 });

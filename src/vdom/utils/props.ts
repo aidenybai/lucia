@@ -10,6 +10,11 @@ export const props = (el: HTMLElement): Record<string, StringKV | DirectiveKV> =
   // Seperate directives and attributes
   if (el.attributes) {
     for (const { name, value } of [...el.attributes]) {
+      // @ts-ignore
+      if (name.includes('for') && el.__l_for === undefined) {
+        // @ts-ignore
+        el.__l_for = String(el.innerHTML).trim();
+      }
       const directiveData = { compute: compute(value, { $el: el }), value };
       if (name.startsWith(DIRECTIVE_PREFIX)) {
         directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;

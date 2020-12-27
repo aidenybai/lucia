@@ -7,7 +7,7 @@ describe('.onDirective', () => {
   it('should attach onclick', () => {
     const el = document.createElement('button');
     const mockCb = jest.fn();
-    const expression = 'this.mockCb';
+    const expression = 'this.mockCb()';
     const state = {
       mockCb,
     };
@@ -19,6 +19,6 @@ describe('.onDirective', () => {
     });
     expect(typeof el.onclick).toBe('function');
     fireEvent.click(el);
-    expect(mockCb.mock.calls[0]);
+    expect(mockCb).toBeCalled();
   });
 });
