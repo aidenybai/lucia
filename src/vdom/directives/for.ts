@@ -4,7 +4,7 @@ import compute from '../utils/compute';
 import { createApp } from '../../App';
 
 export const forDirective = ({ el, data, app }: DirectiveProps) => {
-  const [expression, target] = data.value.split(/ +in +/g);
+  const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.split(',');
   const hydratedArray = compute(target, { $el: el })(app.state);
 
