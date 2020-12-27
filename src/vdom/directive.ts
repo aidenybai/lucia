@@ -5,19 +5,19 @@ import { rawDirectiveSplitRE } from './utils/patterns';
 import { bindDirective } from './directives/bind';
 import { htmlDirective } from './directives/html';
 import { ifDirective } from './directives/if';
-import { joinDirective } from './directives/join';
 import { modelDirective } from './directives/model';
 import { onDirective } from './directives/on';
 import { textDirective } from './directives/text';
+import { forDirective } from './directives/for';
 
 export const directives: Directives = {
   BIND: bindDirective,
-  JOIN: joinDirective,
   HTML: htmlDirective,
   IF: ifDirective,
   MODEL: modelDirective,
   ON: onDirective,
   TEXT: textDirective,
+  FOR: forDirective,
 };
 
 export const renderDirective = (props: DirectiveProps, directives: Directives): void => {
