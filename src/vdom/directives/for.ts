@@ -4,15 +4,21 @@ import compute from '../utils/compute';
 import { createApp } from '../../App';
 
 export const forDirective = ({ el, data, app }: DirectiveProps) => {
-  const [item, target] = data.value.split(/ +in +/g);
+  const [expression, target] = data.value.split(/ +in +/g);
+  const [item, index] = expression.split(',');
   const hydratedArray = compute(target, { $el: el })(app.state);
+
   // @ts-ignore
   const template = String(el.__l_for);
   if (template) {
     let accumulator = '';
 
     for (let i = 0; i < hydratedArray.length; i++) {
-      accumulator += template.replace(new RegExp(`this.${item}`, 'g'), `${target}[${i}]`);
+      let content = template;
+      if (item)
+        content = content.replace(new RegExp(`this.${item.trim()}`, 'g'), `${target}[${i}]`);
+      if (index) content = content.replace(new RegExp(`this.${index.trim()}`, 'g'), String(i));
+      accumulator += content;
     }
 
     el.innerHTML = accumulator;
