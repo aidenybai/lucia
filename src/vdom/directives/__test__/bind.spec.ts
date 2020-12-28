@@ -114,7 +114,7 @@ describe('.bindDirective', () => {
     });
     expect(el.hidden).toBe(false);
   });
-  
+
   it('should accept object format for attributes', () => {
     const el = document.createElement('a');
     const expression = `{ id: 'test', class: 'test', title: 'test', translate: null }`;

@@ -14,7 +14,7 @@ describe('.textDirective', () => {
     });
     expect(el.textContent).toBe('$0');
   });
-  
+
   it('should set the text content to the value', () => {
     const el = document.createElement('div');
     const expression = `'count'`;

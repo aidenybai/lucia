@@ -20,7 +20,7 @@ describe('.patterns', () => {
   it('should not break directive split', () => {
     expect(rawDirectiveSplitRE()).toStrictEqual(/:|\./);
   });
-  
+
   it('should have working directive pattern', () => {
     expect(hasDirectiveRE()).toStrictEqual(/(l-|@|:)\w+/gim);
   });

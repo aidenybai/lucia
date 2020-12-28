@@ -57,6 +57,7 @@ It should be noted that Lucia should not be implemented in all use cases. Lucia 
 - [Remake](https://github.com/remake/remake-cli) - Create interactive web apps with just HTML.
 - [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
 - [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
+- [htmx](https://github.com/bigskysoftware/htmx) - High power tools for HTML.
 
 ## 🧑‍🤝‍🧑 Contributing
 

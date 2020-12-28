@@ -14,7 +14,7 @@ describe('.ifDirective', () => {
     });
     expect(el.style.display).toBe('none');
   });
-  
+
   it('should remove display', () => {
     const el = document.createElement('div');
     const expression = 'this.showme';

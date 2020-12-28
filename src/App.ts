@@ -33,7 +33,7 @@ export class App {
 
     // Render everything
     this.patch([LUCIA_FIRST_RENDER]);
-    
+
     if (this.mountHook) this.mountHook(this.state);
     return this.state;
   }

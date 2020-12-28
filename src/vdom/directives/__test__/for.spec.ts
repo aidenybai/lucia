@@ -46,7 +46,9 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe('<li l-text="this.foo[0] + 0">bar0</li><li l-text="this.foo[1] + 1">bar1</li><li l-text="this.foo[2] + 2">bar2</li>');
+    expect(el.innerHTML).toBe(
+      '<li l-text="this.foo[0] + 0">bar0</li><li l-text="this.foo[1] + 1">bar1</li><li l-text="this.foo[2] + 2">bar2</li>'
+    );
   });
 
   it('should string together __l_for if item and index are not present', () => {
