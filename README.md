@@ -32,21 +32,28 @@ The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
 
 - [Introduction](https://lucia.js.org/docs/essentials/introduction)
 - [Installation](https://lucia.js.org/docs/essentials/installation)
-- [Clicker Game Example](https://lucia.js.org/docs/essentials/introduction#clicker-game-example)
+- [Todo App Example](https://lucia.js.org/docs/essentials/introduction#todo-app-example)
 
 [**→ Learn how the Lucia Virtual DOM works**](https://github.com/aidenybai/lucia/tree/master/src/vdom#readme)
 
 ## 📺 Example
 
-Below is an example of a clicker game in Lucia. No, your eyes aren't fooling you - it's really that simple.
+Below is an example of a todo app in Lucia. No, your eyes aren't fooling you - it's really that simple.
 
 ```html
-<div l-state="{ count: 0 }">
-  <button l-text="this.count" l-on:click="++this.count">0</button>
+<div l-state="{ value: '', todo: [] }">
+  <!-- two-way-binds `value` prop to value -->
+  <input l-model="this.value"> 
+  <!-- captures click event, pushing current `value` to `todo` -->
+  <button l-on:click="this.todo.push(this.value)">Create</button>
+  <!-- joins array together -->
+  <ul l-for="task in this.todo">
+    <li l-text="this.task"></li>
+  </ul>
 </div>
 ```
 
-[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/jOrXdKj)
+[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN)
 
 ## 👍 Similar Projects
 
