@@ -26,7 +26,7 @@ describe('.component', () => {
     init(root);
 
     // @ts-ignore
-    expect(el.__l).toBeUndefined();
+    expect(el.__l.state).toEqual({});
   });
 
   it('should listen and init at runtime', () => {

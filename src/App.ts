@@ -23,8 +23,8 @@ export class App {
 
   public mount(el: HTMLElement | string, shallow: boolean = false): State {
     // Accepts both selector and element reference
-    const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
-    this.vdom = this.compile(rootEl as HTMLElement);
+    const rootEl = (typeof el === 'string' ? document.querySelector(el) : el) as HTMLElement;
+    this.vdom = this.compile(rootEl);
     // Do not generate directives or reactive state if shallow
     if (!shallow) {
       this.state = reactive(this.state, this.patch.bind(this));
@@ -35,6 +35,7 @@ export class App {
     this.patch([LUCIA_FIRST_RENDER]);
 
     if (this.mountHook) this.mountHook(this.state);
+    rootEl.setAttribute('data-l-app', '');
     return this.state;
   }
 

@@ -17,7 +17,7 @@ export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
           if (hydratedClasses[key]) classes.push(key);
         }
         if (classes.length > 0) {
-          return el.setAttribute('class', `${el.className} ${classes.join(' ').trim()}`.trim());
+          return el.setAttribute('class', `${el.className} ${classes.join(' ')}`.trim());
         } else if (el.className.trim().length > 0) {
           return el.setAttribute('class', el.className);
         } else {

@@ -23,7 +23,7 @@ export const init = (element: HTMLElement | Document = document): void => {
 
       try {
         const state = new Function(`return ${expression}`)();
-        const app = createApp(state);
+        const app = createApp(state || {});
         app.mount(el as HTMLElement);
 
         // @ts-ignore

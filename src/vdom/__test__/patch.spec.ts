@@ -40,7 +40,7 @@ describe('.patch', () => {
           attributes: {},
           directives: {},
           ref: undefined,
-          type: 0, 
+          type: 0,
         }),
       ]),
       { state, directives }

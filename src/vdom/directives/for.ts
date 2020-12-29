@@ -2,6 +2,7 @@ import { DirectiveProps } from '../../models/structs';
 
 import compute from '../utils/compute';
 import { createApp } from '../../App';
+import { expressionPropRE } from '../utils/patterns';
 
 export const forDirective = ({ el, data, app }: DirectiveProps) => {
   const [expression, target] = data.value.split(/in +/g);
@@ -15,9 +16,8 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
 
     for (let i = 0; i < hydratedArray.length; i++) {
       let content = template;
-      if (item)
-        content = content.replace(new RegExp(`this.${item.trim()}`, 'g'), `${target}[${i}]`);
-      if (index) content = content.replace(new RegExp(`this.${index.trim()}`, 'g'), String(i));
+      if (item) content = content.replace(expressionPropRE(item.trim()), `${target}[${i}]`);
+      if (index) content = content.replace(expressionPropRE(index.trim()), String(i));
       accumulator += content;
     }
 
