@@ -15,7 +15,7 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe(
+    expect(el.innerHTML).toEqual(
       '<li l-text="this.foo[0]">bar</li><li l-text="this.foo[1]">bar</li><li l-text="this.foo[2]">bar</li>'
     );
   });
@@ -33,7 +33,7 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe('barbarbar');
+    expect(el.innerHTML).toEqual('barbarbar');
   });
 
   it('should provide both item and index upon request', () => {
@@ -49,7 +49,7 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe(
+    expect(el.innerHTML).toEqual(
       '<li l-text="this.foo[0] + 0">bar0</li><li l-text="this.foo[1] + 1">bar1</li><li l-text="this.foo[2] + 2">bar2</li>'
     );
   });
@@ -66,7 +66,7 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe('<li></li><li></li><li></li>');
+    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
   });
 
   it('should handle basic addition', () => {
@@ -84,7 +84,7 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe('<li></li><li></li><li></li>');
+    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
   });
 
   it('should handle basic deletion', () => {
@@ -102,7 +102,7 @@ describe('.forDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe('<li></li><li></li><li></li>');
+    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
   });
 
   it('should allow creation of directives and components', () => {
@@ -126,6 +126,6 @@ describe('.forDirective', () => {
         },
       },
     });
-    expect(el.innerHTML).toBe('barbarbar');
+    expect(el.innerHTML).toEqual('barbarbar');
   });
 });

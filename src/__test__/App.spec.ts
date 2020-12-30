@@ -8,7 +8,7 @@ describe('.App', () => {
     const state = { foo: 'bar' };
     const app = createApp(state);
     app.mount(el, true);
-    expect(app.state).toBe(state);
+    expect(app.state).toEqual(state);
   });
 
   it('should have an empty object as the default state', () => {

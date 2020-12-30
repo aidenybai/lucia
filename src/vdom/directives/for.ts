@@ -2,13 +2,13 @@ import { DirectiveProps } from '../../models/structs';
 
 import compute from '../utils/compute';
 import { createApp } from '../../App';
-import { expressionPropRE } from '../utils/patterns';
+import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
 export const forDirective = ({ el, data, app }: DirectiveProps) => {
   // Doesn't handle dupe items in array correctly
 
   const [expression, target] = data.value.split(/in +/g);
-  const [item, index] = expression.split(',');
+  const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
   const currArray = [...compute(target, { $el: el })(app.state)];
 
   // @ts-ignore

@@ -38,7 +38,7 @@ describe('.htmlDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.innerHTML).toBe('<p l-text="foo">foo</p>');
+    expect(el.innerHTML).toEqual('<p l-text="foo">foo</p>');
   });
 
   it('should allow creation of directives and components', () => {
@@ -59,6 +59,6 @@ describe('.htmlDirective', () => {
         },
       },
     });
-    expect(el.innerHTML).toBe('<p l-text="foo">foo</p>');
+    expect(el.innerHTML).toEqual('<p l-text="foo">foo</p>');
   });
 });

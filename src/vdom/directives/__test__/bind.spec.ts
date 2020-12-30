@@ -12,7 +12,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.className).toBe('test');
+    expect(el.className).toEqual('test');
   });
 
   it('should retain original className prop', () => {
@@ -26,7 +26,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.className).toBe('test2');
+    expect(el.className).toEqual('test2');
   });
 
   it('should not have className prop', () => {
@@ -39,7 +39,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.className).toBe('');
+    expect(el.className).toEqual('');
   });
 
   it('should accept string for class', () => {
@@ -52,7 +52,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.className).toBe('foo');
+    expect(el.className).toEqual('foo');
   });
 
   it('should accept array for class', () => {
@@ -65,7 +65,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.className).toBe('foo bar baz');
+    expect(el.className).toEqual('foo bar baz');
   });
 
   it('should bind style based on state value', () => {
@@ -78,7 +78,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.style.cssText).toBe('font-weight: bold;');
+    expect(el.style.cssText).toEqual('font-weight: bold;');
   });
 
   it('should bind href to anchor tag based on state value', () => {
@@ -91,7 +91,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.href).toBe('https://example.com/');
+    expect(el.href).toEqual('https://example.com/');
   });
 
   it('should allow boolean input for attributes', () => {
@@ -104,7 +104,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.hidden).toBe(true);
+    expect(el.hidden).toEqual(true);
     state = { hideme: false };
     bindDirective({
       el,
@@ -112,7 +112,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.hidden).toBe(false);
+    expect(el.hidden).toEqual(false);
   });
 
   it('should accept object format for attributes', () => {
@@ -125,9 +125,9 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.id).toBe('test');
-    expect(el.className).toBe('test');
-    expect(el.title).toBe('test');
-    expect(el.translate).toBe(null);
+    expect(el.id).toEqual('test');
+    expect(el.className).toEqual('test');
+    expect(el.title).toEqual('test');
+    expect(el.translate).toEqual(null);
   });
 });

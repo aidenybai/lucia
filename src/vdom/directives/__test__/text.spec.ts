@@ -12,7 +12,7 @@ describe('.textDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.textContent).toBe('$0');
+    expect(el.textContent).toEqual('$0');
   });
 
   it('should set the text content to the value', () => {
@@ -25,6 +25,6 @@ describe('.textDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.textContent).toBe('count');
+    expect(el.textContent).toEqual('count');
   });
 });

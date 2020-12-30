@@ -12,7 +12,7 @@ describe('.ifDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.style.display).toBe('none');
+    expect(el.style.display).toEqual('none');
   });
 
   it('should remove display', () => {
@@ -25,6 +25,6 @@ describe('.ifDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(el.style.display).toBe('');
+    expect(el.style.display).toEqual('');
   });
 });
