@@ -7,7 +7,8 @@ describe('.forDirective', () => {
     const expression = `bar in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     // @ts-ignore
-    el.__l_for = '<li l-text="this.bar"></li>';
+    el.__l_for_template = '<li l-text="this.bar"></li>';
+    el.innerHTML = '<li l-text="this.bar"></li>';
     forDirective({
       el,
       name: 'l-for',
@@ -24,7 +25,8 @@ describe('.forDirective', () => {
     const expression = `bar in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     // @ts-ignore
-    el.__l_for = '';
+    el.__l_for_template = '';
+    el.innerHTML = '';
     forDirective({
       el,
       name: 'l-for',
@@ -39,7 +41,8 @@ describe('.forDirective', () => {
     const expression = `bar, i in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     // @ts-ignore
-    el.__l_for = '<li l-text="this.bar + this.i"></li>';
+    el.__l_for_template = '<li l-text="this.bar + this.i"></li>';
+    el.innerHTML = '<li l-text="this.bar + this.i"></li>';
     forDirective({
       el,
       name: 'l-for',
@@ -51,12 +54,48 @@ describe('.forDirective', () => {
     );
   });
 
-  it('should string together __l_for if item and index are not present', () => {
+  it('should string together __l_for_template if item and index are not present', () => {
     const el = document.createElement('p');
     const expression = `in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     // @ts-ignore
-    el.__l_for = '<li></li>';
+    el.__l_for_template = '<li></li>';
+    forDirective({
+      el,
+      name: 'l-for',
+      data: { value: expression, compute: compute(expression, { $el: el }) },
+      app: { state },
+    });
+    expect(el.innerHTML).toBe('<li></li><li></li><li></li>');
+  });
+
+  it('should handle basic addition', () => {
+    const el = document.createElement('p');
+    const expression = `in this.foo`;
+    const state = { foo: ['bar', 'bar', 'bar'] };
+    // @ts-ignore
+    el.__l_for_template = '<li></li>';
+    // @ts-ignore
+    el.__l_for_state = ['bar', 'bar'];
+    el.innerHTML = '<li></li><li></li>';
+    forDirective({
+      el,
+      name: 'l-for',
+      data: { value: expression, compute: compute(expression, { $el: el }) },
+      app: { state },
+    });
+    expect(el.innerHTML).toBe('<li></li><li></li><li></li>');
+  });
+
+  it('should handle basic deletion', () => {
+    const el = document.createElement('p');
+    const expression = `in this.foo`;
+    const state = { foo: ['bar', 'bar', 'bar'] };
+    // @ts-ignore
+    el.__l_for_template = '<li></li>';
+    // @ts-ignore
+    el.__l_for_state = ['bar', 'bar', 'bar', 'bar'];
+    el.innerHTML = '<li></li><li></li><li></li><li></li>';
     forDirective({
       el,
       name: 'l-for',
@@ -70,8 +109,9 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `bar in this.foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
+    el.innerHTML = '';
     // @ts-ignore
-    el.__l_for = '';
+    el.__l_for_template = '';
     forDirective({
       el,
       name: 'l-for',

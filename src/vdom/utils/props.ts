@@ -1,5 +1,6 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS, StringKV } from '../../models/generics';
 import { DirectiveKV } from '../../models/structs';
+import { eventDirectivePrefixRE } from './patterns';
 
 import compute from '../utils/compute';
 
@@ -12,13 +13,13 @@ export const props = (el: HTMLElement): Record<string, StringKV | DirectiveKV> =
     for (const { name, value } of [...el.attributes]) {
       let returnable = true;
       // @ts-ignore
-      if (name.includes('for') && el.__l_for === undefined) {
+      if (name.includes('for') && el.__l_for_template === undefined) {
         // @ts-ignore
-        el.__l_for = String(el.innerHTML).trim();
+        el.__l_for_template = String(el.innerHTML).trim();
         returnable = false;
       }
 
-      if (/on|@/.test(name)) returnable = false;
+      if (eventDirectivePrefixRE().test(name)) returnable = false;
 
       const directiveData = { compute: compute(value, { $el: el }, returnable), value };
       if (name.startsWith(DIRECTIVE_PREFIX)) {

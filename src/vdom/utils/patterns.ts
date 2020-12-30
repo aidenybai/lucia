@@ -3,6 +3,7 @@ import { DIRECTIVE_SHORTHANDS } from '../../models/generics';
 
 // Split directive:modifier.property
 export const rawDirectiveSplitRE = () => /:|\./;
+export const eventDirectivePrefixRE = () => /on|@/;
 export const hasDirectiveRE = () =>
   new RegExp(`(${DIRECTIVE_PREFIX}|${Object.keys(DIRECTIVE_SHORTHANDS).join('|')})\\w+`, 'gim');
 export const expressionPropRE = (key: string, hasThis: boolean = true): RegExp => {

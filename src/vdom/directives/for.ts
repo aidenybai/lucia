@@ -5,25 +5,40 @@ import { createApp } from '../../App';
 import { expressionPropRE } from '../utils/patterns';
 
 export const forDirective = ({ el, data, app }: DirectiveProps) => {
+  // Doesn't handle dupe items in array correctly
+
   const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.split(',');
-  const hydratedArray = compute(target, { $el: el })(app.state);
+  const currArray = [...compute(target, { $el: el })(app.state)];
 
   // @ts-ignore
-  const template = String(el.__l_for);
-  if (template) {
-    let accumulator = '';
-
-    for (let i = 0; i < hydratedArray.length; i++) {
-      let content = template;
-      if (item) content = content.replace(expressionPropRE(item.trim()), `${target}[${i}]`);
-      if (index) content = content.replace(expressionPropRE(index.trim()), String(i));
-      accumulator += content;
-    }
-
-    el.innerHTML = accumulator;
+  const template = String(el.__l_for_template);
+  if (template.trim() === '') {
+    el.innerHTML = currArray.join('');
   } else {
-    el.innerHTML = hydratedArray.join('');
+    if (el.innerHTML.trim() === template) el.innerHTML = '';
+
+    const arrayDiff = currArray.length - el.children.length;
+    if (arrayDiff !== 0) {
+      for (let i = Math.abs(arrayDiff); i > 0; i--) {
+        if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
+        else {
+          const temp = document.createElement('div');
+          let content = template;
+
+          if (item)
+            content = content.replace(
+              expressionPropRE(item.trim()),
+              `${target}[${currArray.length - i}]`
+            );
+          if (index)
+            content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
+
+          temp.innerHTML = content;
+          el.appendChild(temp.firstChild as HTMLElement);
+        }
+      }
+    }
   }
 
   const scope = createApp({ ...app.state });
