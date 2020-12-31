@@ -32,7 +32,7 @@ The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
 
 - [Introduction](https://lucia.js.org/docs/essentials/introduction)
 - [Installation](https://lucia.js.org/docs/essentials/installation)
-- [Todo App Example](https://lucia.js.org/docs/essentials/introduction#todo-app-example)
+- [Examples](https://lucia.js.org/docs/essentials/examples)
 
 [**→ Learn how the Lucia Virtual DOM works**](https://github.com/aidenybai/lucia/tree/master/src/vdom#readme)
 
@@ -43,7 +43,7 @@ Below is an example of a todo app in Lucia. No, your eyes aren't fooling you - i
 ```html
 <div l-state="{ value: '', todo: [] }">
   <!-- two-way-binds `value` prop to value -->
-  <input l-model="this.value"> 
+  <input l-model="this.value" />
   <!-- captures click event, pushing current `value` to `todo` -->
   <button l-on:click="this.todo.push(this.value)">Create</button>
   <!-- joins array together -->
@@ -53,7 +53,7 @@ Below is an example of a todo app in Lucia. No, your eyes aren't fooling you - i
 </div>
 ```
 
-[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN)
+[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN) | [**→ View more examples**](https://lucia.js.org/docs/essentials/examples)
 
 ## 👍 Similar Projects
 
