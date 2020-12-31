@@ -7,10 +7,10 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "del-cli dist/ && rollup -c",
-    "test": "jest --coverage",
-    "cleanup": "prettier -w src",
+    "dev": "npx rollup -c rollup-dev.config.js -w",
+    "build": "npx del-cli dist/ && npx rollup -c",
+    "test": "npx jest --coverage",
+    "cleanup": "npx prettier -w src",
     "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {

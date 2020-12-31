@@ -12,7 +12,7 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
   const currArray = [...compute(target, { $el: el })(app.state)];
 
   // @ts-ignore
-  const template = String(el.__l_for_template);
+  let template = String(el.__l_for_template);
   if (template.trim() === '') {
     el.innerHTML = currArray.join('');
   } else {
@@ -24,17 +24,22 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
         if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
         else {
           const temp = document.createElement('div');
-          let content = template;
 
-          if (item)
-            content = content.replace(
+          if (item) {
+            template = template.replace(
               expressionPropRE(item.trim()),
               `${target}[${currArray.length - i}]`
             );
-          if (index)
-            content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
+          }
 
-          temp.innerHTML = content;
+          if (index) {
+            template = template.replace(
+              expressionPropRE(index.trim()),
+              String(currArray.length - i)
+            );
+          }
+
+          temp.innerHTML = template;
           el.appendChild(temp.firstChild as HTMLElement);
         }
       }
