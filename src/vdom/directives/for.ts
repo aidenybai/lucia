@@ -34,10 +34,7 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
           }
 
           if (index) {
-            content = content.replace(
-              expressionPropRE(index.trim()),
-              String(currArray.length - i)
-            );
+            content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
           }
 
           temp.innerHTML = content;
