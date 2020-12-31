@@ -20,12 +20,22 @@ export const handlePatch = (
     if (affectedKeys.length !== 0) patch(affectedKeys);
     return true;
   } else {
-    let keys = [key];
+    const keys = [key];
 
-    // WARN: Bad way of implementing arr, as l-for scopes do not sync with master, meaning that
-    // any scopes need to be repatched to update
-    for (const k of Object.keys(state)) {
-      if (state[k] instanceof Array) keys.push(k);
+    // WARN: Bad way of implementing arr, as l-for scopes do not sync with master
+    // meaning that any scopes need to be repatched to update.
+
+    for (const el of document.querySelectorAll('[l-for]')) {
+      // @ts-ignore
+      const stateKeys = Object.keys(el.__l.state);
+
+      if (stateKeys.indexOf(key) !== -1) {
+        stateKeys.splice(stateKeys.indexOf(key), 1);
+
+        for (const k of stateKeys) {
+          keys.push(k);
+        }
+      }
     }
 
     if (needsUpdate) patch(keys);
