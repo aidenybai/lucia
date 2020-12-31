@@ -35,7 +35,11 @@ export class App {
     this.patch([LUCIA_FIRST_RENDER]);
 
     if (this.mountHook) this.mountHook(this.state);
+
+    // @ts-ignore
+    rootEl.__l = this;
     rootEl.setAttribute('data-l-app', '');
+
     return this.state;
   }
 

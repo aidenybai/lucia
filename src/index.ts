@@ -25,9 +25,6 @@ export const init = (element: HTMLElement | Document = document): void => {
         const state = new Function(`return ${expression}`)();
         const app = createApp(state || {});
         app.mount(el as HTMLElement);
-
-        // @ts-ignore
-        el.__l = app;
       } catch (err) {
         console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
       }

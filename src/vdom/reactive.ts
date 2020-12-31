@@ -11,7 +11,7 @@ export const handlePatch = (
   needsUpdate: boolean = false
 ) => {
   // Capture array mutators, as they will pass 'length' as key
-  if (key === 'length') {
+  if (key === 'length' || target instanceof Array) {
     const affectedKeys = Object.keys(state).filter((k: string) => {
       // Filter out (arrays && if affected array is the array) from state
       return state[k] instanceof Array && arrayEquals(target as unknown[], state[k] as unknown[]);
@@ -20,7 +20,15 @@ export const handlePatch = (
     if (affectedKeys.length !== 0) patch(affectedKeys);
     return true;
   } else {
-    if (needsUpdate) patch([key]);
+    let keys = [key];
+
+    // WARN: Bad way of implementing arr, as l-for scopes do not sync with master, meaning that
+    // any scopes need to be repatched to update
+    for (const k of Object.keys(state)) {
+      if (state[k] instanceof Array) keys.push(k);
+    }
+
+    if (needsUpdate) patch(keys);
     return false;
   }
 };
@@ -36,7 +44,9 @@ export const reactive = (state: State, patch: Function): UnknownKV => {
       }
     },
     set(target: UnknownKV, key: string, value: unknown): boolean {
-      const needsUpdate = target[key] !== value;
+      const needsUpdate =
+        target[key] !== value || target instanceof Array || typeof target === 'object';
+
       if (needsUpdate) {
         target[key] = value;
       }

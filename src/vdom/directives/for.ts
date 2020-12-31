@@ -43,13 +43,13 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
 
   const scope = createApp({ ...app.state });
 
-  Object.entries(app.directives || {}).map(([name, evaluationCallback]) => {
+  for (const [name, evaluationCallback] of Object.entries(app.directives || {})) {
     scope.directive(name, evaluationCallback);
-  });
+  }
 
-  Object.entries(app.components || {}).map(([name, templateCallback]) => {
+  for (const [name, templateCallback] of Object.entries(app.components || {})) {
     scope.component(name, templateCallback);
-  });
+  }
 
   scope.mount(el);
 };
