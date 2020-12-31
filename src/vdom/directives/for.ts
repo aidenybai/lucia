@@ -24,22 +24,23 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
         if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
         else {
           const temp = document.createElement('div');
+          let content = template;
 
           if (item) {
-            template = template.replace(
+            content = content.replace(
               expressionPropRE(item.trim()),
               `${target}[${currArray.length - i}]`
             );
           }
 
           if (index) {
-            template = template.replace(
+            content = content.replace(
               expressionPropRE(index.trim()),
               String(currArray.length - i)
             );
           }
 
-          temp.innerHTML = template;
+          temp.innerHTML = content;
           el.appendChild(temp.firstChild as HTMLElement);
         }
       }
