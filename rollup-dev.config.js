@@ -1,6 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
+import cleanup from 'rollup-plugin-cleanup';
 
 const config = {
   name: 'Lucia',
@@ -18,14 +19,15 @@ const browser = (format, folder = '') => ({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: format } },
     }),
+    cleanup(),
   ],
   output: [
     {
       file: `dist${folder}/lucia.js`,
-      format: 'umd',
+      format: 'iife',
       ...config,
     },
   ],
 });
 
-export default [browser('es6')];
+export default [browser('esnext')];

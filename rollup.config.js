@@ -2,6 +2,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
+import cleanup from 'rollup-plugin-cleanup';
 
 const config = {
   name: 'Lucia',
@@ -19,17 +20,18 @@ const browser = (format, folder = '') => ({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: format } },
     }),
+    cleanup()
   ],
   output: [
     {
       file: `dist${folder}/lucia.js`,
-      format: 'umd',
+      format: 'iife',
       ...config,
     },
     {
       file: `dist${folder}/lucia.min.js`,
       plugins: [terser({ format: { comments: false } })],
-      format: 'umd',
+      format: 'iife',
       ...config,
     },
   ],
@@ -45,6 +47,7 @@ const index = (format, folder = '') => ({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: format } },
     }),
+    cleanup()
   ],
 
   output: [
@@ -74,8 +77,8 @@ const index = (format, folder = '') => ({
 });
 
 export default [
-  browser('es6'),
-  index('es6'),
+  browser('esnext'),
+  index('esnext'),
   browser('es5', '/legacy'),
   index('es5', '/legacy'),
 ];

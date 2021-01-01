@@ -34,4 +34,28 @@ describe('.reactive', () => {
 
     expect(count).toEqual(3);
   });
+
+  it('should find arrays with deps through direct mutation', () => {
+    const mockCb = jest.fn();
+    const state = reactive({ foo: ['bar', 'bar', 'bar'], boo: '' }, mockCb);
+
+    const el1 = document.createElement('ul');
+    const el2 = document.createElement('li');
+    el1.setAttribute('l-for', 'item in this.foo');
+    el2.setAttribute('l-text', 'this.item + this.boo');
+    el1.appendChild(el2);
+    document.body.appendChild(el1);
+    // @ts-ignore
+    el1.__l = {};
+    // @ts-ignore
+    el1.__l.state = state;
+
+    // @ts-ignore
+    state.foo[1] = 'baz';
+    state.boo = 'boo';
+
+    const keys = mockCb.mock.calls[1][0];
+    expect(mockCb).toBeCalledTimes(2);
+    expect(keys).toEqual(['boo', 'foo']);
+  });
 });
