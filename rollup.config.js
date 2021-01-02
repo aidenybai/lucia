@@ -2,12 +2,20 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
-import cleanup from 'rollup-plugin-cleanup';
+import babel from '@rollup/plugin-babel';
 
 const config = {
   name: 'Lucia',
   globals: {},
   strict: true,
+};
+
+const legacy = () => {
+  return babel({
+    extensions: ['.ts'],
+    babelHelpers: 'bundled',
+    include: ['src/**/*'],
+  });
 };
 
 const browser = (format, folder = '') => ({
@@ -20,7 +28,7 @@ const browser = (format, folder = '') => ({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: format } },
     }),
-    cleanup()
+    folder === '/legacy' ? legacy() : undefined,
   ],
   output: [
     {
@@ -47,7 +55,7 @@ const index = (format, folder = '') => ({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: format } },
     }),
-    cleanup()
+    folder === '/legacy' ? legacy() : undefined,
   ],
 
   output: [

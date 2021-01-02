@@ -1,7 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
-import cleanup from 'rollup-plugin-cleanup';
 
 const config = {
   name: 'Lucia',
@@ -19,7 +18,6 @@ const browser = (format, folder = '') => ({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: format } },
     }),
-    cleanup(),
   ],
   output: [
     {
