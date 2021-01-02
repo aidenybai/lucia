@@ -16,12 +16,6 @@ Lucia is currently is installable through a CDN and also supports UMD, ES Module
 <script src="https://unpkg.com/lucia"></script>
 ```
 
-If you are using a module bundler like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org):
-
-<pre>
-npm install <b>lucia</b>
-</pre>
-
 [**→ Learn more about installing Lucia**](https://lucia.js.org/docs/essentials/installation)
 
 ## Documentation
@@ -53,28 +47,12 @@ Below is an example of a todo app in Lucia. No, your eyes aren't fooling you - i
 
 [**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN) | [**→ View more examples**](https://lucia.js.org/docs/essentials/examples)
 
-## Similar Projects
+## Acknowledgments
 
-It should be noted that Lucia should not be implemented in all use cases. Lucia aims to tackle projects that need to be quickly implemented. This means if you're looking for something production-ready and has a API similar to Lucia, check these projects out!
+Lucia is [MIT-licensed](LICENSE.md) open-source software.
 
-- [Vue](https://github.com/vuejs/vue) - A progressive, incrementally-adoptable JavaScript framework for building UI on the web.
-- [Alpine](https://github.com/alpinejs/alpine) - A rugged, minimal framework for composing JavaScript behavior in your markup.
-- [Remake](https://github.com/remake/remake-cli) - Create interactive web apps with just HTML.
-- [Stimulus](https://github.com/stimulusjs/stimulus) - A modest JavaScript framework for the HTML you already have.
-- [Mavo](https://github.com/mavoweb/mavo) - Create web applications entirely by writing HTML and CSS!
-- [htmx](https://github.com/bigskysoftware/htmx) - High power tools for HTML.
+Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philiosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Stimulus](https://github.com/stimulusjs/stimulus), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in a production-ready library to use.
 
-## Contributing
+---
 
-Refer to the [CONTRIBUTING.md](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md) file for instructions. Below are some of the projects under `lucialand`:
-
-- [Luciascript](https://github.com/lucialand/luciascript) - Hastscript like utility to create HTML strings
-- [Luciex](https://github.com/lucialand/luciex) - Simplistic state management
-
-<a href="https://github.com/aidenybai/lucia/graphs/contributors"><img src="https://opencollective.com/lucialand/contributors.svg?width=890" /></a>
-
-## 📑 License
-
-Lucia is [MIT licensed](LICENSE.md).
-
-＼＿ﾍ(◕‿◕ ✰)
+© 2020 The Lucia Authors.
