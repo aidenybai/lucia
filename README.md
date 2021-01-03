@@ -8,25 +8,17 @@ Sometimes, all you want to do is to try and do something—No boilerplate, bundl
 
 [**→ Check out the Lucia Website**](https://lucia.js.org)
 
-## Installation
+## Installing Lucia
 
-Lucia is currently is installable through a CDN and also supports UMD, ES Module, and CommonJS. Put this within your `<head>` tags in HTML.
+Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/essentials/installation/#cdn) in the head of your webpage.
 
 ```html
 <script src="https://unpkg.com/lucia"></script>
 ```
 
+It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), we recommend [specifying the exact build](https://lucia.js.org/docs/essentials/installation/#npm) if you import Lucia this way.
+
 [**→ Learn more about installing Lucia**](https://lucia.js.org/docs/essentials/installation)
-
-## Documentation
-
-The Lucia docs are located at [**https://lucia.js.org**](https://lucia.js.org):
-
-- [Introduction](https://lucia.js.org/docs/essentials/introduction)
-- [Installation](https://lucia.js.org/docs/essentials/installation)
-- [Examples](https://lucia.js.org/docs/essentials/examples)
-
-[**→ Learn how the Lucia Virtual DOM works**](https://github.com/aidenybai/lucia/tree/master/src/vdom#readme)
 
 ## Example
 
@@ -45,11 +37,11 @@ Below is an example of a todo app in Lucia. No, your eyes aren't fooling you - i
 </div>
 ```
 
-[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN) | [**→ View more examples**](https://lucia.js.org/docs/essentials/examples)
+[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN) | [**→ View more examples**](https://lucia.js.org/docs/examples/todo)
 
 ## Acknowledgments
 
-Lucia is [MIT-licensed](LICENSE.md) open-source software.
+Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai) [and contributors](https://github.com/aidenybai/lucia/graphs/contributors).
 
 Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philiosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Stimulus](https://github.com/stimulusjs/stimulus), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in a production-ready library to use.
 
