@@ -20,9 +20,9 @@ It also integrates well with module bundlers like [Webpack](https://webpack.js.o
 
 [**→ Learn more about installing Lucia**](https://lucia.js.org/docs/essentials/installation)
 
-## Example
+## Todo App Example
 
-Below is an example of a todo app in Lucia. No, your eyes aren't fooling you - it's really that simple.
+Below is an extremely simple implementation of a todo app using Lucia, utilizing zero JavaScript. Tasks can be added by submitting the form with the input. No, your eyes aren't fooling you - it's really that simple.
 
 ```html
 <div l-state="{ value: '', todo: [] }">

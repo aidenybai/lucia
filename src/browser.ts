@@ -15,8 +15,9 @@ const start = async () => {
   await DOMReady();
   Lucia.init();
 
-  // Turbolink support by default
+  // Turbolinks/Turbo Drive support by default
   document.addEventListener('turbolinks:load', () => Lucia.init());
+  document.addEventListener('turbo:load', () => Lucia.init());
 
   // MutationObserver listening to DOM at runtime
   Lucia.listen((el: HTMLElement) => Lucia.init(el));
