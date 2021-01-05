@@ -6,5 +6,5 @@ export const ifDirective = ({ el, name, data, app }: DirectiveProps) => {
 
   if (modifier === 'hidden') el.hidden = hydratedConditional;
   // @ts-ignore
-  else el.style.display = hydratedConditional ? 'none' : null;
+  else el.style.display = !!hydratedConditional === false ? 'none' : null;
 };
