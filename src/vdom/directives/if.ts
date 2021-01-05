@@ -1,11 +1,10 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const ifDirective = ({ el, data, app }: DirectiveProps) => {
+export const ifDirective = ({ el, name, data, app }: DirectiveProps) => {
+  const modifier = name.split(':')[1];
   const hydratedConditional = data.compute(app.state);
 
-  if (hydratedConditional) {
-    el.style.removeProperty('display');
-  } else {
-    el.style.display = 'none';
-  }
+  if (modifier === 'hidden') el.hidden = hydratedConditional;
+  // @ts-ignore
+  else el.style.display = hydratedConditional ? 'none' : null;
 };

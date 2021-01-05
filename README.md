@@ -39,6 +39,18 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 [**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN) | [**→ View more examples**](https://lucia.js.org/docs/examples/todo)
 
+## Resources & Contributing Back
+
+Looking for the docs? Check the [Lucia website](https://lucia.js.org) out.
+
+Have a question about Lucia? Join the [Lucia Discord server](https://discord.gg/q2pSU39) and ask the community for help.
+
+Find a bug? Head over to our [issue tracker](https://github.com/aidenybai/lucia/issues) and we'll do our best to help. We love pull requests, too!
+
+We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/.github/CODE_OF_CONDUCT.md).
+
+[**→ Start contributing on Github**](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md)
+
 ## Acknowledgments
 
 Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai) [and contributors](https://github.com/aidenybai/lucia/graphs/contributors).
