@@ -27,4 +27,17 @@ describe('.ifDirective', () => {
     });
     expect(el.style.display).toEqual('');
   });
+
+  it('should change visibility rather than display', () => {
+    const el = document.createElement('div');
+    const expression = 'this.showme';
+    const state = { showme: false };
+    ifDirective({
+      el,
+      name: 'l-if:hidden',
+      data: { value: expression, compute: compute(expression, { $el: el }) },
+      app: { state },
+    });
+    expect(el.hidden).toEqual(true);
+  });
 });
