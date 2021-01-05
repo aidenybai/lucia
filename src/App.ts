@@ -38,7 +38,6 @@ export class App {
 
     // @ts-ignore
     rootEl.__l = this;
-    rootEl.setAttribute('data-l-app', '');
 
     return this.state;
   }

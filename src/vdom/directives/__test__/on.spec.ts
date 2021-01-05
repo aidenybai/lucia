@@ -17,7 +17,8 @@ describe('.onDirective', () => {
       data: { value: expression, compute: compute(expression, { $el: el }) },
       app: { state },
     });
-    expect(typeof el.onclick).toEqual('function');
+    // @ts-ignore
+    expect(typeof el.__l_on_registered).toEqual('function');
     fireEvent.click(el);
     expect(mockCb).toBeCalled();
   });
