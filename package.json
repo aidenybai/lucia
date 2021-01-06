@@ -72,6 +72,9 @@
   "jest": {
     "transform": {
       ".(ts)": "ts-jest"
-    }
+    },
+    "collectCoverageFrom": [
+      "src/**/{!(index|browser),}.ts"
+    ]
   }
 }

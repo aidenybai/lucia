@@ -9,8 +9,47 @@ import reactive from './vdom/reactive';
 import { directives, renderDirective } from './vdom/directive';
 
 const stateDirective = `${DIRECTIVE_PREFIX}state`;
+const hrefDirective = `${DIRECTIVE_PREFIX}href`;
 
 export { createApp, h, compile, patch, reactive, directives, renderDirective };
+
+export const initHotswaps = (element: HTMLElement | Document = document): void => {
+  const searchAndAttachHotswaps = () => {
+    const elements = [...element.querySelectorAll(`[${hrefDirective}]`)];
+    elements
+      // @ts-ignore
+      .map((el) => {
+        el.addEventListener('click', () => {
+          hotswap(el.getAttribute(hrefDirective)!);
+        });
+      });
+  };
+
+  const hotswap = async (link: string) => {
+    const response = await fetch(link);
+
+    if (!response.ok) return;
+
+    const html = await response.text();
+
+    window.history.pushState({ id: window.history.length }, document.title, link);
+    document.body.innerHTML = html;
+
+    searchAndAttachHotswaps();
+  };
+
+  window.onpopstate = (event: PopStateEvent) => {
+    // @ts-ignore
+    const { pathname } = new URL(event.path[0].document.URL);
+
+    hotswap(window.location.href);
+
+    // Hacky way of getting this to work
+    location.reload();
+  };
+
+  searchAndAttachHotswaps();
+};
 
 export const init = (element: HTMLElement | Document = document): void => {
   const elements = [...element.querySelectorAll(`[${stateDirective}]`)];
