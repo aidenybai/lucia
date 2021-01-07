@@ -8,7 +8,6 @@ import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
 export const createVNode = (el: HTMLElement, state: State, children: VNodeChildren) => {
   const { attributes, directives } = props(el);
-  let type = VNodeTypes.STATIC;
 
   // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
@@ -17,8 +16,7 @@ export const createVNode = (el: HTMLElement, state: State, children: VNodeChildr
     Object.keys(state).some((key) => expressionPropRE(key, false).test(value))
   );
 
-  if (hasDirectives) type = VNodeTypes.NEEDS_PATCH;
-  if (hasKeyInDirectives) type = VNodeTypes.DYNAMIC;
+  const type = hasKeyInDirectives ? VNodeTypes.DYNAMIC : (hasDirectives ? VNodeTypes.NEEDS_PATCH : VNodeTypes.STATIC);
 
   return h(el.tagName.toLowerCase(), children, {
     attributes: attributes as StringKV,
