@@ -24,11 +24,8 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
         if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
         else {
           const temp = document.createElement('div');
-          let content = (item ? template.replace(expressionPropRE(item.trim()), `${target}[${currArray.length - i}]`) : template);
-
-          if (index) {
-            content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
-          }
+          const contentStart = (item ? template.replace(expressionPropRE(item.trim()), `${target}[${currArray.length - i}]`) : template);
+          const content = index ? contentStart.replace(expressionPropRE(index.trim()), String(currArray.length - i)) : contentStart;
 
           temp.innerHTML = content;
           el.appendChild(temp.firstChild as HTMLElement);
