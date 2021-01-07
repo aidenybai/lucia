@@ -95,7 +95,7 @@ export const compile = (
   if (callSelf) {
     return children;
   } else {
-    let vnode = createVNode(el, state, children);
+    const vnode = createVNode(el, state, children);
     return strip ? flat(vnode) : vnode;
   }
 };

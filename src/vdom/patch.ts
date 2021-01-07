@@ -15,13 +15,13 @@ const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void 
   // Compile request is for sweeping initialization
   const firstRender = keys[0] === LUCIA_FIRST_RENDER;
 
-  for (let node of rootVNode.children) {
+  for (const node of rootVNode.children) {
     if (typeof node === 'string') continue;
 
     // Check if it is not a static VNode by type
     if (node.props.type > VNodeTypes.STATIC) {
       const { attributes, directives, ref, type } = node.props;
-      let affectedDirectives: string[] = [];
+      const affectedDirectives: string[] = [];
 
       if (!firstRender) {
         for (const name in directives as UnknownKV) {
