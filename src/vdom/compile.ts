@@ -16,7 +16,11 @@ export const createVNode = (el: HTMLElement, state: State, children: VNodeChildr
     Object.keys(state).some((key) => expressionPropRE(key, false).test(value))
   );
 
-  const type = hasKeyInDirectives ? VNodeTypes.DYNAMIC : (hasDirectives ? VNodeTypes.NEEDS_PATCH : VNodeTypes.STATIC);
+  const type = hasKeyInDirectives
+    ? VNodeTypes.DYNAMIC
+    : hasDirectives
+    ? VNodeTypes.NEEDS_PATCH
+    : VNodeTypes.STATIC;
 
   return h(el.tagName.toLowerCase(), children, {
     attributes: attributes as StringKV,
