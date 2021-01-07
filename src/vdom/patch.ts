@@ -8,13 +8,12 @@ import { expressionPropRE } from './utils/patterns';
 // Using patch requires a wrapper parent VNode
 
 const patch = (rootVNode: VNode, app: DirectiveApp = {}, keys?: string[]): void => {
-  let firstRender = false;
-  const state = app.state || {};
-
   if (!rootVNode) return;
+
+  const state = app.state || {};
   if (!keys) keys = Object.keys(state);
   // Compile request is for sweeping initialization
-  if (keys[0] === LUCIA_FIRST_RENDER) firstRender = true;
+  const firstRender = keys[0] === LUCIA_FIRST_RENDER;
 
   for (let node of rootVNode.children) {
     if (typeof node === 'string') continue;
