@@ -16,17 +16,15 @@ export const inputCallback = (
     (el.value === 'null' || el.value === 'undefined');
 
   // Perform type coercion
-  let payload;
-  if (isNumber) {
-    payload = `Number('${el.value}').toPrecision()`;
-  } else if (isBoolean) {
-    payload = `Boolean('${el.value}')`;
-  } else if (isNullish) {
-    if (el.value === 'null') payload = null;
-    else payload = undefined;
-  } else {
-    payload = `'${el.value}'`;
-  }
+  const payload = isNumber
+    ? `Number('${el.value}').toPrecision()`
+    : isBoolean
+    ? `Boolean('${el.value}')`
+    : isNullish && el.value === 'null'
+    ? null
+    : isNullish
+    ? undefined
+    : `${el.value}`;
 
   compute(`${data.value} = ${payload}`, { $el: el }, false)(app.state);
 
