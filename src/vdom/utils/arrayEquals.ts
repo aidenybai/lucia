@@ -1,11 +1,14 @@
 const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
-  // Deep Array equality check
-  return (
-    firstArray instanceof Array &&
-    secondArray instanceof Array &&
-    firstArray.length === secondArray.length &&
-    firstArray.every((value: unknown, i: number) => value === secondArray[i])
-  );
+  // adapted from stackoverflow: https://stackoverflow.com/a/16436975/14949493
+  if (firstArray === secondArray) return true;
+  if (firstArray == null || secondArray == null) return false;
+  if (firstArray.length !== secondArray.length) return false;
+
+  for (var i = 0; i < firstArray.length; ++i) {
+    if (firstArray[i] !== secondArray[i]) return false;
+  }
+
+  return true;
 };
 
 export default arrayEquals;
