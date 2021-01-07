@@ -9,15 +9,13 @@ import patch from './vdom/patch';
 
 export class App {
   state: State;
-  directives: Directives;
-  components: Components;
+  directives: Directives = {};
+  components: Components = {};
   vdom?: VNode;
   mountHook?: Function;
 
   constructor(state: State = {}, mountHook?: Function) {
     this.state = state;
-    this.directives = {};
-    this.components = {};
     this.mountHook = mountHook;
   }
 
