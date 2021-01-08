@@ -34,9 +34,9 @@ export const isUnderListRenderScope = (el: HTMLElement) => {
 };
 
 export const extractNodeChildrenAsCollection = (rootNode: HTMLElement) => {
-  let collection: HTMLElement[] = [rootNode];
-
   if (isUnderListRenderScope(rootNode) || isListRenderScope(rootNode)) return [];
+  
+  const collection: HTMLElement[] = [rootNode];
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
