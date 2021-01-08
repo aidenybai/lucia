@@ -33,16 +33,22 @@ export const isUnderListRenderScope = (el: HTMLElement) => {
   return el.parentElement!.hasAttribute(`${DIRECTIVE_PREFIX}for`);
 };
 
-export const extractNodeChildrenAsCollection = (rootNode: HTMLElement) => {
-  if (isUnderListRenderScope(rootNode) || isListRenderScope(rootNode)) return [];
-  
-  const collection: HTMLElement[] = [rootNode];
+export const extractNodeChildrenAsCollection = (
+  rootNode: HTMLElement,
+  isListGroup: boolean = false
+) => {
+  const collection: HTMLElement[] = [];
+  const isList = isListRenderScope(rootNode);
+  const isUnderList = isUnderListRenderScope(rootNode);
+
+  if (!isListGroup && (isList || isUnderList)) return collection;
+  if (!isListGroup || !isList) collection.push(rootNode);
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
-      if (isListRenderScope(childNode as HTMLElement)) collection.push(childNode as HTMLElement);
+      if (!isListGroup && isListRenderScope(childNode as HTMLElement)) collection.push(childNode as HTMLElement);
       else {
-        collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement));
+        collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement, true));
       }
     }
   }
@@ -54,7 +60,9 @@ export const compile = (el: HTMLElement, state: State = {}): DOMNode[] => {
   if (!el) throw new Error('Please provide a Element');
 
   const DOMNodes: DOMNode[] = [];
-  const nodes: HTMLElement[] = extractNodeChildrenAsCollection(el);
+  // @ts-ignore
+  const isListGroup = el.__l !== undefined && isListRenderScope(el);
+  const nodes: HTMLElement[] = extractNodeChildrenAsCollection(el, isListGroup);
 
   for (const node of nodes) {
     if (hasDirectiveRE().test(node.outerHTML)) {

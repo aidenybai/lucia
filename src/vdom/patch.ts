@@ -22,7 +22,6 @@ const patch = (
 
       // If affected, then push to render queue
       if (hasKey || !node.isDynamic) {
-        console.log(node.el.tagName + 'is updated');
         renderDirective(
           { el: node.el, name: directiveName, data: directiveData, state },
           { ...directives }

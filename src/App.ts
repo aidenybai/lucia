@@ -9,12 +9,10 @@ export class App {
   state: State;
   directives: Directives;
   vdom?: DOMNode[];
-  mountHook?: Function;
 
-  constructor(state: State = {}, mountHook?: Function) {
+  constructor(state: State = {}) {
     this.state = state;
     this.directives = {};
-    this.mountHook = mountHook;
   }
 
   public mount(el: HTMLElement | string, shallow: boolean = false): State {
@@ -29,8 +27,6 @@ export class App {
 
     // Render everything
     this.patch(Object.keys(this.state));
-
-    if (this.mountHook) this.mountHook(this.state);
 
     // @ts-ignore
     rootEl.__l = this;
@@ -47,8 +43,8 @@ export class App {
   }
 }
 
-export const createApp = (state: State, mountHook?: Function) => {
-  return new App(state, mountHook);
+export const createApp = (state: State) => {
+  return new App(state);
 };
 
 export default createApp;

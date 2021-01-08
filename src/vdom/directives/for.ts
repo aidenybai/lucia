@@ -1,7 +1,10 @@
 import { DirectiveProps } from '../../models/structs';
 
+import compile from '../../vdom/compile';
+import patch from '../../vdom/patch';
+import { directives } from '../../vdom/directive';
+
 import compute from '../utils/computeExpression';
-import { createApp } from '../../App';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
 export const forDirective = ({ el, data, state }: DirectiveProps) => {
@@ -13,36 +16,36 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
 
   // @ts-ignore
   let template = String(el.__l_for_template);
-  if (template.trim() === '') {
-    el.innerHTML = currArray.join('');
-  } else {
-    if (el.innerHTML.trim() === template) el.innerHTML = '';
+  if (el.innerHTML.trim() === template) el.innerHTML = '';
 
-    const arrayDiff = currArray.length - el.children.length;
-    if (arrayDiff !== 0) {
-      for (let i = Math.abs(arrayDiff); i > 0; i--) {
-        if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
-        else {
-          const temp = document.createElement('div');
-          let content = template;
+  const arrayDiff = currArray.length - el.children.length;
+  if (currArray.length === 0) el.innerHTML = '';
+  else if (arrayDiff !== 0) {
+    for (let i = Math.abs(arrayDiff); i > 0; i--) {
+      if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
+      else {
+        const temp = document.createElement('div');
+        let content = template;
 
-          if (item) {
-            content = content.replace(
-              expressionPropRE(item.trim()),
-              `${target}[${currArray.length - i}]`
-            );
-          }
-
-          if (index) {
-            content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
-          }
-
-          temp.innerHTML = content;
-          el.appendChild(temp.firstChild as HTMLElement);
+        if (item) {
+          content = content.replace(
+            expressionPropRE(item.trim()),
+            `${target}[${currArray.length - i}]`
+          );
         }
+
+        if (index) {
+          content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
+        }
+
+        temp.innerHTML = content;
+        el.appendChild(temp.firstChild as HTMLElement);
       }
     }
   }
 
-  createApp({ ...state }).mount(el);
+  // @ts-ignore
+  el.__l = {};
+  const vdom = compile(el, state);
+  patch(vdom, directives, state, data.keys);
 };

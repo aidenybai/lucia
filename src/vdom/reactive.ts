@@ -10,38 +10,17 @@ export const handlePatch = (
   patch: Function,
   needsUpdate: boolean = false
 ) => {
-  // @ts-ignore
-  if (!isNaN(key) && target instanceof Array) return true;
-  // Capture array mutators, as they will pass 'length' as key
-  if (key === 'length' || target instanceof Array) {
+  // Currently double patches - bad perf
+  if ((!isNaN(Number(key)) || key === 'length') && target instanceof Array) {
     const keys = Object.keys(state).filter((k) =>
       arrayEquals(state[k] as unknown[], target as unknown[])
     );
 
     // Patch only if found any affected keys
     if (keys.length !== 0) patch(keys);
-    return true;
   } else {
     const keys = [key];
-
-    // WARN: Bad way of implementing arr, as l-for scopes do not sync with master
-    // meaning that any scopes need to be repatched to update.
-
-    for (const el of document.querySelectorAll('[l-for]')) {
-      // @ts-ignore
-      const stateKeys = Object.keys(el.__l.state);
-
-      if (stateKeys.indexOf(key) !== -1) {
-        stateKeys.splice(stateKeys.indexOf(key), 1);
-
-        for (const k of stateKeys) {
-          keys.push(k);
-        }
-      }
-    }
-
     if (needsUpdate) patch(keys);
-    return false;
   }
 };
 
@@ -58,7 +37,6 @@ export const reactive = (state: State, patch: Function): UnknownKV => {
     set(target: UnknownKV, key: string, value: unknown): boolean {
       const needsUpdate =
         target[key] !== value || target instanceof Array || typeof target === 'object';
-
       if (needsUpdate) {
         target[key] = value;
       }
@@ -72,7 +50,7 @@ export const reactive = (state: State, patch: Function): UnknownKV => {
     },
   };
 
-  return new Proxy(state, handler);
+  return new Proxy(Object.seal(state), handler);
 };
 
 export default reactive;
