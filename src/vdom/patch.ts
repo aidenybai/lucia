@@ -1,5 +1,5 @@
 import { UnknownKV } from '../models/generics';
-import { Directives, FunctionGroup, DOMNode } from '../models/structs';
+import { Directives, DOMNode } from '../models/structs';
 
 import { renderDirective } from './directive';
 
@@ -13,26 +13,16 @@ const patch = (
 
   for (let i = 0; i < DOMNodes.length; i++) {
     const node = DOMNodes[i];
-    if (
-      node.isDynamic === undefined
-    )
-      deleteDOMNodes.push(i);
+    if (node.isDynamic === undefined) deleteDOMNodes.push(i);
     if (!node.isDynamic) node.isDynamic = undefined;
+
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
       // Iterate through affected keys and check if directive value has key
-      const hasKey = changedKeys.some((key) => {
-        if (Object.keys(state.$functionKeys as FunctionGroup).includes(key)) {
-          for (const k of changedKeys) {
-            if ((state.$functionKeys as FunctionGroup)[key].includes(k)) return true;
-          }
-          return false;
-        } else {
-          return directiveData.keys.includes(key);
-        }
-      });
+      const hasKey = changedKeys.some((key) => directiveData.keys.includes(key));
 
       // If affected, then push to render queue
       if (hasKey || !node.isDynamic) {
+        console.log(node.el.tagName + 'is updated');
         renderDirective(
           { el: node.el, name: directiveName, data: directiveData, state },
           { ...directives }

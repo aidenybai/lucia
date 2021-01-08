@@ -10,10 +10,20 @@ export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): Di
   if (el.attributes) {
     for (const { name, value } of el.attributes) {
       let returnable = true;
+      let keysInFunctions: string[] = [];
 
-      const keys: string[] = Object.keys(state).filter((key) => {
-        return expressionPropRE(key).test(String(value));
+      let keys: string[] = Object.keys(state).filter((key) => {
+        const hasKey = expressionPropRE(key).test(String(value));
+
+        if (typeof state[key] === 'function' && hasKey) {
+          const keysInFunction = Object.keys(state).filter((k) =>
+            expressionPropRE(k).test(String(state[key]))
+          );
+          keysInFunctions = [...keysInFunctions, ...keysInFunction];
+        }
+        return hasKey;
       });
+      let allKeys = [...new Set([...keys, ...keysInFunctions])]; // Removes duplicates
 
       if (eventDirectivePrefixRE().test(name)) returnable = false;
       // @ts-ignore
@@ -25,7 +35,7 @@ export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): Di
 
       const directiveData = {
         compute: computeExpression(value, { $el: el }, returnable),
-        keys,
+        keys: allKeys,
         value,
       };
 

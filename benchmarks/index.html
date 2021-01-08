@@ -57,29 +57,29 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <p l-text="this.t"></p>
+          <p l-text="this.c"></p>
         `,
-          '{ t: \'\' }'
+          '{ c: "" }'
         );
         const vueEl = createVueApp(
           `
-          <p>{{ t + t }}</p>
+          <p>{{ c + c }}</p>
         `,
-          { t: '', c: '' }
+          { c: '' }
         );
         const jsEl = createJSApp('<p></p>');
         const alpineEl = createAlpineApp(
           `
-          <p x-text="t + t"></p>
+          <p x-text="c + c"></p>
         `,
-          '{ t: this.c, c: "" }'
+          '{ c: "" }'
         );
 
         Lucia.init(luciaEl);
 
         const vueApp = Vue.createApp({
           data() {
-            return { t: this.c, c: '' };
+            return { c: '' };
           },
         }).mount(vueEl.querySelector('#app'));
 
@@ -95,11 +95,10 @@
           suite
             .add('JavaScript', () => {
               const c = Date.now();
-              const t = c;
-              jsApp.textContent = t + t;
+              jsApp.textContent = c + c;
             })
             .add('Lucia', () => {
-              luciaApp.state.t = Date.now();
+              luciaApp.state.c = Date.now();
             })
             .add('Vue', () => {
               vueApp.$data.c = Date.now();
