@@ -34,15 +34,15 @@ export const isUnderListRenderScope = (el: HTMLElement) => {
 };
 
 export const extractNodeChildrenAsCollection = (rootNode: HTMLElement) => {
-  let collection: HTMLElement[] = [rootNode];
-
   if (isUnderListRenderScope(rootNode) || isListRenderScope(rootNode)) return [];
+  
+  const collection: HTMLElement[] = [rootNode];
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
       if (isListRenderScope(childNode as HTMLElement)) collection.push(childNode as HTMLElement);
       else {
-        collection = [...collection, ...extractNodeChildrenAsCollection(childNode as HTMLElement)];
+        collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement));
       }
     }
   }
