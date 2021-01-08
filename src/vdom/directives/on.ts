@@ -1,6 +1,6 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const onDirective = ({ el, name, data, app }: DirectiveProps) => {
+export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   // @ts-ignore
   if (el.__l_on_registered) return;
 
@@ -13,7 +13,7 @@ export const onDirective = ({ el, name, data, app }: DirectiveProps) => {
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
 
-    data.compute(app.state);
+    data.compute(state);
   };
 
   el.addEventListener(eventName, handler);

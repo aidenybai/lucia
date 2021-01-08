@@ -1,15 +1,15 @@
 import { DirectiveProps } from '../../models/structs';
 
-import compute from '../utils/compute';
+import compute from '../utils/computeExpression';
 import { createApp } from '../../App';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
-export const forDirective = ({ el, data, app }: DirectiveProps) => {
+export const forDirective = ({ el, data, state }: DirectiveProps) => {
   // Doesn't handle dupe items in array correctly
 
   const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
-  const currArray = [...compute(target, { $el: el })(app.state)];
+  const currArray = [...compute(target, { $el: el })(state)];
 
   // @ts-ignore
   let template = String(el.__l_for_template);
@@ -44,15 +44,5 @@ export const forDirective = ({ el, data, app }: DirectiveProps) => {
     }
   }
 
-  const scope = createApp({ ...app.state });
-
-  for (const [name, evaluationCallback] of Object.entries(app.directives || {})) {
-    scope.directive(name, evaluationCallback);
-  }
-
-  for (const [name, templateCallback] of Object.entries(app.components || {})) {
-    scope.component(name, templateCallback);
-  }
-
-  scope.mount(el);
+  createApp({ ...state }).mount(el);
 };

@@ -2,7 +2,6 @@
 import { DIRECTIVE_PREFIX } from './models/generics';
 import { createApp } from './App';
 
-import h from './vdom/h';
 import patch from './vdom/patch';
 import compile from './vdom/compile';
 import reactive from './vdom/reactive';
@@ -11,7 +10,7 @@ import { directives, renderDirective } from './vdom/directive';
 const stateDirective = `${DIRECTIVE_PREFIX}state`;
 const hrefDirective = `${DIRECTIVE_PREFIX}href`;
 
-export { createApp, h, compile, patch, reactive, directives, renderDirective };
+export { createApp, compile, patch, reactive, directives, renderDirective };
 
 export const initHotswaps = (element: HTMLElement | Document = document): void => {
   const searchAndAttachHotswaps = () => {
@@ -38,10 +37,8 @@ export const initHotswaps = (element: HTMLElement | Document = document): void =
     searchAndAttachHotswaps();
   };
 
-  window.onpopstate = (event: PopStateEvent) => {
+  window.onpopstate = () => {
     // @ts-ignore
-    const { pathname } = new URL(event.path[0].document.URL);
-
     hotswap(window.location.href);
 
     // Hacky way of getting this to work

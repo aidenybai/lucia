@@ -1,6 +1,4 @@
-import { LUCIA_FIRST_RENDER } from './models/generics';
-import { Directives, Components, State } from './models/structs';
-import { VNode } from './models/vnode';
+import { Directives, State, DOMNode } from './models/structs';
 
 import { directives } from './vdom/directive';
 import compile from './vdom/compile';
@@ -10,14 +8,12 @@ import patch from './vdom/patch';
 export class App {
   state: State;
   directives: Directives;
-  components: Components;
-  vdom?: VNode;
+  vdom?: DOMNode[];
   mountHook?: Function;
 
   constructor(state: State = {}, mountHook?: Function) {
     this.state = state;
     this.directives = {};
-    this.components = {};
     this.mountHook = mountHook;
   }
 
@@ -32,7 +28,7 @@ export class App {
     }
 
     // Render everything
-    this.patch([LUCIA_FIRST_RENDER]);
+    this.patch(Object.keys(this.state));
 
     if (this.mountHook) this.mountHook(this.state);
 
@@ -42,25 +38,12 @@ export class App {
     return this.state;
   }
 
-  public component(name: string, templateCallback: Function): void {
-    this.components[name.toUpperCase()] = templateCallback;
-  }
-
-  public directive(name: string, evaluationCallback: Function): void {
-    this.directives[name.toUpperCase()] = evaluationCallback;
-  }
-
   public patch(this: App, keys?: string[]): void {
-    const app = {
-      state: this.state,
-      directives: this.directives,
-      components: this.components,
-    };
-    patch(this.vdom as VNode, app, keys);
+    patch(this.vdom!, directives, this.state, keys);
   }
 
-  public compile(el: HTMLElement): VNode {
-    return compile(el, this.state, this.components, true) as VNode;
+  public compile(el: HTMLElement): DOMNode[] {
+    return compile(el, this.state);
   }
 }
 

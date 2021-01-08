@@ -1,12 +1,12 @@
-import { DirectiveProps, DirectiveData, DirectiveApp } from '../../models/structs';
+import { DirectiveProps, DirectiveData, State } from '../../models/structs';
 
-import compute from '../utils/compute';
+import compute from '../utils/computeExpression';
 
 export const inputCallback = (
   el: HTMLInputElement,
   hydratedValue: unknown,
   data: DirectiveData,
-  app: DirectiveApp
+  state: State
 ) => {
   const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value as any);
   const isBoolean =
@@ -28,16 +28,16 @@ export const inputCallback = (
     payload = `'${el.value}'`;
   }
 
-  compute(`${data.value} = ${payload}`, { $el: el }, false)(app.state);
+  compute(`${data.value} = ${payload}`, { $el: el }, false)(state);
 
   return payload;
 };
 
-export const modelDirective = ({ el: awaitingTypecastEl, data, app }: DirectiveProps) => {
+export const modelDirective = ({ el: awaitingTypecastEl, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
-  const hydratedValue = data.compute(app.state);
+  const hydratedValue = data.compute(state);
   if (el.value !== hydratedValue) {
     el.value = hydratedValue;
   }
-  el.oninput = () => inputCallback(el, hydratedValue, data, app);
+  el.oninput = () => inputCallback(el, hydratedValue, data, state);
 };

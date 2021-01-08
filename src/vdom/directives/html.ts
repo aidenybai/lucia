@@ -2,19 +2,8 @@ import { DirectiveProps } from '../../models/structs';
 
 import { createApp } from '../../App';
 
-export const htmlDirective = ({ el, data, app }: DirectiveProps) => {
-  el.innerHTML = data.compute(app.state) ?? data.value;
+export const htmlDirective = ({ el, data, state }: DirectiveProps) => {
+  el.innerHTML = data.compute(state) ?? data.value;
 
-  // Create nested Lucia app
-  const scope = createApp({ ...app.state });
-
-  Object.entries(app.directives || {}).map(([name, evaluationCallback]) => {
-    scope.directive(name, evaluationCallback);
-  });
-
-  Object.entries(app.components || {}).map(([name, templateCallback]) => {
-    scope.component(name, templateCallback);
-  });
-
-  scope.mount(el);
+  createApp({ ...state }).mount(el);
 };

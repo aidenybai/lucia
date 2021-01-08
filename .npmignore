@@ -28,6 +28,7 @@ src/
 docs/
 .vscode/
 .idea/
+benchmarks/
 settings.json
 CNAME
 .DS_Store

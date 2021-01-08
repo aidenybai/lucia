@@ -1,9 +1,9 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
+export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
   switch (name.split(':')[1]) {
     case 'class':
-      const hydratedClasses = data.compute(app.state);
+      const hydratedClasses = data.compute(state);
       // Accept just providing classes regularly
       if (typeof hydratedClasses === 'string') {
         return el.setAttribute('class', `${el.className} ${hydratedClasses}`.trim());
@@ -26,7 +26,7 @@ export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
       }
     case 'style':
       // Accept object and set properties based on boolean state value
-      const hydratedStyles = data.compute(app.state);
+      const hydratedStyles = data.compute(state);
       el.removeAttribute('style');
       for (const key in hydratedStyles) {
         el.style[key] = hydratedStyles[key];
@@ -34,7 +34,7 @@ export const bindDirective = ({ el, name, data, app }: DirectiveProps) => {
       break;
     default:
       // Bind arbitrary attributes based on boolean state value
-      const hydratedAttributes = data.compute(app.state);
+      const hydratedAttributes = data.compute(state);
       // Allow object syntax in binding without modifier
       if (typeof hydratedAttributes === 'object' && hydratedAttributes !== null) {
         for (const key in hydratedAttributes) {
