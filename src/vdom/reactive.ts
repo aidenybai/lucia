@@ -11,11 +11,15 @@ export const handlePatch = (
   patch: Function,
   needsUpdate: boolean = false
 ) => {
+  // @ts-ignore
+  if (!isNaN(key) && target instanceof Array) return true;
   // Capture array mutators, as they will pass 'length' as key
   if (key === 'length' || target instanceof Array) {
     const keys = Object.keys(state).filter((k) =>
       arrayEquals(state[k] as unknown[], target as unknown[])
     );
+
+    // console.log(keys);
 
     // Patch only if found any affected keys
     if (keys.length !== 0) patch(keys);

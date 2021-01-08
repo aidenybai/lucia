@@ -27,5 +27,5 @@ export interface MagicProps {
 export interface DOMNode {
   directives: DirectiveKV;
   el: HTMLElement;
-  isDynamic: boolean;
+  isDynamic?: boolean;
 }

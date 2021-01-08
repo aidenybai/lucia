@@ -58,6 +58,12 @@ export const compile = (el: HTMLElement, state: State = {}): DOMNode[] => {
 
   for (const node of nodes) {
     if (hasDirectiveRE().test(node.outerHTML)) {
+      if (
+        node.hasAttribute(`${DIRECTIVE_PREFIX}state`) ||
+        node.hasAttribute(`${DIRECTIVE_PREFIX}href`)
+      ) {
+        continue;
+      }
       const newDOMNode = createDOMNode(node, state);
       if (newDOMNode) DOMNodes.push(newDOMNode);
     }

@@ -9,8 +9,15 @@ const patch = (
   state: UnknownKV = {},
   changedKeys: string[] = []
 ): void => {
+  let deleteDOMNodes: number[] = [];
+
   for (let i = 0; i < DOMNodes.length; i++) {
     const node = DOMNodes[i];
+    if (
+      node.isDynamic === undefined
+    )
+      deleteDOMNodes.push(i);
+    if (!node.isDynamic) node.isDynamic = undefined;
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
       // Iterate through affected keys and check if directive value has key
       const hasKey = changedKeys.some((key) => {
@@ -25,12 +32,17 @@ const patch = (
       });
 
       // If affected, then push to render queue
-      if (hasKey) {
-        const el = node.el;
-
-        renderDirective({ el, name: directiveName, data: directiveData, state }, { ...directives });
+      if (hasKey || !node.isDynamic) {
+        renderDirective(
+          { el: node.el, name: directiveName, data: directiveData, state },
+          { ...directives }
+        );
       }
     }
+  }
+
+  for (const i of deleteDOMNodes) {
+    DOMNodes.splice(i, 1);
   }
 };
 
