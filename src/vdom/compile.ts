@@ -42,7 +42,7 @@ export const extractNodeChildrenAsCollection = (rootNode: HTMLElement) => {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
       if (isListRenderScope(childNode as HTMLElement)) collection.push(childNode as HTMLElement);
       else {
-        collection = [...collection, ...extractNodeChildrenAsCollection(childNode as HTMLElement)];
+        collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement));
       }
     }
   }
