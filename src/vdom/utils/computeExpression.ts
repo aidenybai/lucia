@@ -14,7 +14,7 @@ export const computeExpression = (
         Object.values(magicProps),
       ];
 
-      return new Function(...magicPropsKeys, formattedExpression).bind(state)(...magicPropsValues);
+      return new Function("$", ...magicPropsKeys, formattedExpression)(state, ...magicPropsValues);
     } catch (err) {
       console.warn(
         `Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`,
