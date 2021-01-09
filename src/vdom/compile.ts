@@ -2,7 +2,7 @@ import { DIRECTIVE_PREFIX } from '../models/generics';
 import { State, DOMNode } from '../models/structs';
 
 import collectAndInitDirectives from './utils/collectAndInitDirectives';
-import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
+import { curlyTemplateRE, expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
 export const createDOMNode = (el: HTMLElement, state: State): DOMNode | null => {
   let isDynamic = false;
@@ -46,9 +46,16 @@ export const extractNodeChildrenAsCollection = (
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
-      if (!isListGroup && isListRenderScope(childNode as HTMLElement)) collection.push(childNode as HTMLElement);
+      if (!isListGroup && isListRenderScope(childNode as HTMLElement))
+        collection.push(childNode as HTMLElement);
       else {
         collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement, true));
+      }
+    }
+    if (childNode.nodeType === Node.TEXT_NODE) {
+      if (curlyTemplateRE().test(String(childNode.nodeValue))) {
+        const [, key] = curlyTemplateRE().exec(String(childNode.nodeValue))!;
+        childNode.parentElement?.setAttribute(`${DIRECTIVE_PREFIX}text`, key.trim());
       }
     }
   }

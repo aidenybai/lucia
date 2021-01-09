@@ -5,6 +5,7 @@ import { DIRECTIVE_SHORTHANDS } from '../../models/generics';
 export const rawDirectiveSplitRE = () => /:|\./;
 export const eventDirectivePrefixRE = () => /on|@/;
 export const parenthesisWrapReplaceRE = () => /\(|\)/g;
+export const curlyTemplateRE = () => /{{\s*(.+)\s*}}/g
 export const hasDirectiveRE = () => {
   return new RegExp(
     `(${DIRECTIVE_PREFIX}|${Object.keys(DIRECTIVE_SHORTHANDS).join('|')})\\w+`,
@@ -14,5 +15,5 @@ export const hasDirectiveRE = () => {
 export const expressionPropRE = (key: string, hasThis: boolean = true): RegExp => {
   // Utilizes \b (word boundary) for key differentiation.
   // Fails when next character is a \w (Word).
-  return new RegExp(`${hasThis ? 'this\\.' : ''}${key}\\b`, 'g');
+  return new RegExp(`${hasThis ? '\\$\\.' : ''}${key}\\b`, 'g');
 };
