@@ -14,7 +14,7 @@
       defer
     ></script>
     <script src="https://unpkg.com/vue@next"></script>
-    <script src="../dist/legacy/lucia.min.js"></script>
+    <script src="../dist/lucia.js"></script>
 
     <script>
       const wrap = (el) => {
@@ -27,6 +27,8 @@
         const app = document.createElement('div');
         app.setAttribute('l-state', state);
         app.innerHTML = inside;
+        app.hidden = true;
+        app.id = 'lucia';
         return wrap(app);
       };
 
@@ -48,6 +50,7 @@
         app.setAttribute('x-data', state);
         app.innerHTML = inside;
         app.hidden = true;
+        app.id = 'alpine';
         return wrap(app);
       };
 
@@ -57,7 +60,7 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <p l-text="this.c"></p>
+          <p l-text="$.c"></p>
         `,
           '{ c: "" }'
         );
@@ -84,25 +87,31 @@
         }).mount(vueEl.querySelector('#app'));
 
         const jsApp = jsEl.querySelector('div > p');
-        const luciaApp = luciaEl.querySelector('div').__l;
         document.body.appendChild(alpineEl);
+        document.body.appendChild(luciaEl);
 
         setTimeout(() => {
-          const alpineApp = document.querySelector('body > div > div').__x;
+          const alpineApp = document.querySelector('#alpine').__x;
+          const luciaApp = document.querySelector('#lucia').__l;
 
           alpineApp.$data.arr = [];
 
+          const fn = (state) => new Function(['$'], 'return $.a')({ a: 1 });
+
           suite
-            .add('JavaScript', () => {
-              const c = Date.now();
-              jsApp.textContent = c + c;
+            .add('new Function', () => {
+              fn({ a: 1 });
             })
-            .add('Lucia', () => {
-              luciaApp.state.c = Date.now();
-            })
-            .add('Vue', () => {
-              vueApp.$data.c = Date.now();
-            })
+            // .add('JavaScript', () => {
+            //   const c = Date.now();
+            //   jsApp.textContent = c + c;
+            // })
+            // .add('Lucia', () => {
+            //   luciaApp.state.c = Date.now();
+            // })
+            // // .add('Vue', () => {
+            // //   vueApp.$data.c = Date.now();
+            // // })
             .add('Alpine', () => {
               alpineApp.$data.c = Date.now();
             })
