@@ -133,8 +133,8 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <ul l-for="i in this.arr">
-            <li l-text="this.i"></li>
+          <ul l-for="i in $.arr">
+            <li l-text="$.i"></li>
           </ul>
         `,
           '{ arr: [] }'
