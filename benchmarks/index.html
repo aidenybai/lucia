@@ -14,7 +14,7 @@
       defer
     ></script>
     <script src="https://unpkg.com/vue@next"></script>
-    <script src="../dist/legacy/lucia.min.js"></script>
+    <script src="../dist/lucia.js"></script>
 
     <script>
       const wrap = (el) => {
@@ -57,7 +57,7 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <p l-text="this.c"></p>
+          <p l-text="$.c"></p>
         `,
           '{ c: "" }'
         );
@@ -124,8 +124,8 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <ul l-for="i in this.arr">
-            <li l-text="this.i"></li>
+          <ul l-for="i in $.arr">
+            <li l-text="$.i"></li>
           </ul>
         `,
           '{ arr: [] }'
