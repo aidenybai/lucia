@@ -6,13 +6,14 @@ export const computeExpression = (
   magicProps: MagicProps,
   returnable: boolean = true
 ): any => {
-  return (state: UnknownKV) => {
-    try {
-      const formattedExpression = returnable ? `return ${expression}` : expression;
+  const formattedExpression = returnable ? `return ${expression}` : expression;
       const [magicPropsKeys, magicPropsValues] = [
         Object.keys(magicProps),
         Object.values(magicProps),
       ];
+  return (state: UnknownKV) => {
+    try {
+      
 
       return new Function("$", ...magicPropsKeys, formattedExpression)(state, ...magicPropsValues);
     } catch (err) {
