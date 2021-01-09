@@ -6,11 +6,31 @@ export const computeExpression = (
   magicProps: MagicProps,
   returnable: boolean = true
 ): any => {
-  const formattedExpression = returnable ? `return ${expression}` : expression;
+  let formattedExpression = returnable ? `return ${expression}` : expression;
   const [magicPropsKeys, magicPropsValues] = [Object.keys(magicProps), Object.values(magicProps)];
   return (state: UnknownKV) => {
     try {
-      return new Function('$', ...magicPropsKeys, formattedExpression)(state, ...magicPropsValues);
+      const strippedExpression = expression.replace(/(\[\d+\];*)|(\$\.)|{(\(\);*)/gim, '');
+      const positionInState = returnable ? Object.keys(state).indexOf(strippedExpression) : -1;
+
+      if (positionInState !== -1) {
+        const value = Object.values(state)[positionInState];
+        const arrayIndex = /\[(\d+)\]/gim.exec(expression);
+        if (
+          arrayIndex &&
+          arrayIndex[1] &&
+          value instanceof Array &&
+          !isNaN((arrayIndex[1] as unknown) as number)
+        )
+          return value[Number(arrayIndex[1])];
+        else if (expression.endsWith('()')) return (value as Function)();
+        else return value;
+      } else {
+        return new Function('$', ...magicPropsKeys, formattedExpression)(
+          state,
+          ...magicPropsValues
+        );
+      }
     } catch (err) {
       console.warn(
         `Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`,

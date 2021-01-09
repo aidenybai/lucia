@@ -60,7 +60,7 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <p l-text="$.c"></p>
+          <p l-text="$.c + $.c"></p>
         `,
           '{ c: "" }'
         );
@@ -97,18 +97,23 @@
           alpineApp.$data.arr = [];
 
           const fn = (state) => new Function(['$'], 'return $.a')({ a: 1 });
+          const fnNone = (string) => new Function(string);
 
           suite
-            .add('new Function', () => {
-              fn({ a: 1 });
+            // .add('new Function', () => {
+            //   const val = 1;
+            //   fnNone(`return &.a`.replace('&.a', val))();
+            // })
+            // .add('new Function with state', () => {
+            //   fn({ a: 1 });
+            // })
+            .add('JavaScript', () => {
+              const c = Date.now();
+              jsApp.textContent = c + c;
             })
-            // .add('JavaScript', () => {
-            //   const c = Date.now();
-            //   jsApp.textContent = c + c;
-            // })
-            // .add('Lucia', () => {
-            //   luciaApp.state.c = Date.now();
-            // })
+            .add('Lucia', () => {
+              luciaApp.state.c = Date.now();
+            })
             // // .add('Vue', () => {
             // //   vueApp.$data.c = Date.now();
             // // })
