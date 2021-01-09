@@ -7,15 +7,10 @@ export const computeExpression = (
   returnable: boolean = true
 ): any => {
   const formattedExpression = returnable ? `return ${expression}` : expression;
-      const [magicPropsKeys, magicPropsValues] = [
-        Object.keys(magicProps),
-        Object.values(magicProps),
-      ];
+  const [magicPropsKeys, magicPropsValues] = [Object.keys(magicProps), Object.values(magicProps)];
   return (state: UnknownKV) => {
     try {
-      
-
-      return new Function("$", ...magicPropsKeys, formattedExpression)(state, ...magicPropsValues);
+      return new Function('$', ...magicPropsKeys, formattedExpression)(state, ...magicPropsValues);
     } catch (err) {
       console.warn(
         `Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`,

@@ -46,7 +46,8 @@ export const extractNodeChildrenAsCollection = (
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
-      if (!isListGroup && isListRenderScope(childNode as HTMLElement)) collection.push(childNode as HTMLElement);
+      if (!isListGroup && isListRenderScope(childNode as HTMLElement))
+        collection.push(childNode as HTMLElement);
       else {
         collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement, true));
       }
