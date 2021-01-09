@@ -1,23 +1,25 @@
 import { UnknownKV } from '../../models/generics';
 import { MagicProps } from '../../models/structs';
 
+const functionCache = new Map<[string, MagicProps, boolean], Function>();
+
+export const createFunction = (expression: string, magicProps: MagicProps, returnable = true) => {
+  return new Function('$', ...Object.keys(magicProps), returnable ? `return ${expression}` : expression);
+}
+
 export const computeExpression = (
   expression: string,
   magicProps: MagicProps,
   returnable: boolean = true
 ): any => {
-  const formattedExpression = returnable ? `return ${expression}` : expression;
-  const [magicPropsKeys, magicPropsValues] = [Object.keys(magicProps), Object.values(magicProps)];
-  return (state: UnknownKV) => {
-    try {
-      return new Function('$', ...magicPropsKeys, formattedExpression)(state, ...magicPropsValues);
-    } catch (err) {
-      console.warn(
-        `Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`,
-        magicProps.$el
-      );
-    }
-  };
+  if (functionCache.has([expression, magicProps, returnable])) {
+    //@ts-ignore
+    return (state: UnknownKV) => functionCache.get([expression, magicProps, returnable])(state, ...Object.values(magicProps));
+  } else {
+    functionCache.set([expression, magicProps, returnable], createFunction(expression, magicProps, returnable));
+    //@ts-ignore
+    return (state: UnknownKV) => functionCache.get([expression, magicProps, returnable])(state, ...Object.values(magicProps));
+  }
 };
 
 export default computeExpression;
