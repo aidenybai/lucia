@@ -60,20 +60,20 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <p l-text="$.c + $.c"></p>
+          <p>{{ c }}</p>
         `,
           '{ c: "" }'
         );
         const vueEl = createVueApp(
           `
-          <p>{{ c + c }}</p>
+          <p>{{ c }}</p>
         `,
           { c: '' }
         );
         const jsEl = createJSApp('<p></p>');
         const alpineEl = createAlpineApp(
           `
-          <p x-text="c + c"></p>
+          <p x-text="c"></p>
         `,
           '{ c: "" }'
         );
@@ -96,7 +96,7 @@
 
           alpineApp.$data.arr = [];
 
-          const fn = (state) => new Function(['$'], 'return $.a')({ a: 1 });
+          const fn = (state) => new Function(['$'], 'return this.a')({ a: 1 });
           const fnNone = (string) => new Function(string);
 
           suite
@@ -114,12 +114,12 @@
             .add('Lucia', () => {
               luciaApp.state.c = Date.now();
             })
-            // // .add('Vue', () => {
-            // //   vueApp.$data.c = Date.now();
-            // // })
-            .add('Alpine', () => {
-              alpineApp.$data.c = Date.now();
+            .add('Vue', () => {
+              vueApp.$data.c = Date.now();
             })
+            // .add('Alpine', () => {
+            //   alpineApp.$data.c = Date.now();
+            // })
             .on('cycle', (event) => {
               document.querySelector('#benchmark-output').innerText += `${String(event.target)}\n`;
             })
@@ -138,8 +138,8 @@
         const suite = new Benchmark.Suite();
         const luciaEl = createLuciaApp(
           `
-          <ul l-for="i in $.arr">
-            <li l-text="$.i"></li>
+          <ul l-for="i in this.arr">
+            <li l-text="this.i"></li>
           </ul>
         `,
           '{ arr: [] }'

@@ -12,8 +12,8 @@ export const hasDirectiveRE = () => {
     'gim'
   );
 };
-export const expressionPropRE = (key: string, hasThis: boolean = true): RegExp => {
+export const expressionPropRE = (key: string): RegExp => {
   // Utilizes \b (word boundary) for key differentiation.
   // Fails when next character is a \w (Word).
-  return new RegExp(`${hasThis ? '\\$\\.' : ''}${key}\\b`, 'gim');
+  return new RegExp(`\\b${key}\\b`, 'gim');
 };

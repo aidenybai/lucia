@@ -12,7 +12,7 @@ export const createDOMNode = (el: HTMLElement, state: State): DOMNode | null => 
   const hasDirectives = Object.keys(directives).length > 0;
   // Check if there are affected keys in values
   const hasKeyInDirectives = Object.values(directives).some(({ value }) =>
-    Object.keys(state).some((key) => expressionPropRE(key, false).test(value))
+    Object.keys(state).some((key) => expressionPropRE(key).test(value))
   );
   if (!hasDirectives) return null;
   if (hasKeyInDirectives) isDynamic = true;
@@ -55,7 +55,9 @@ export const extractNodeChildrenAsCollection = (
     if (childNode.nodeType === Node.TEXT_NODE) {
       if (curlyTemplateRE().test(String(childNode.nodeValue))) {
         const [, key] = curlyTemplateRE().exec(String(childNode.nodeValue))!;
-        childNode.parentElement?.setAttribute(`${DIRECTIVE_PREFIX}text`, key.trim());
+        const compiledTextTemplate = document.createElement('span');
+        compiledTextTemplate.setAttribute(`${DIRECTIVE_PREFIX}text`, key.trim());
+        childNode.replaceWith(compiledTextTemplate);
       }
     }
   }

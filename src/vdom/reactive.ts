@@ -27,7 +27,7 @@ export const handlePatch = (
 export const reactive = (state: State, patch: Function): UnknownKV => {
   const handler = {
     get(target: UnknownKV, key: string): unknown {
-      if (typeof target[key] === 'object' && target[key] !== null && !key.startsWith('$')) {
+      if (typeof target[key] === 'object' && target[key] !== null) {
         // Deep proxy - if there is an object in an object, need to proxify that.
         return new Proxy(target[key] as UnknownKV, handler);
       } else {

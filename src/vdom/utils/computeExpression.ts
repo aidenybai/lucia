@@ -6,11 +6,11 @@ export const computeExpression = (
   magicProps: MagicProps,
   returnable: boolean = true
 ): any => {
-  let formattedExpression = returnable ? `return ${expression}` : expression;
+  let formattedExpression = `with($state){${returnable ? `return ${expression}` : expression}}`;
   const [magicPropsKeys, magicPropsValues] = [Object.keys(magicProps), Object.values(magicProps)];
   return (state: UnknownKV) => {
     try {
-      const strippedExpression = expression.replace(/(\[\d+\];*)|(\$\.)|{(\(\);*)/gim, '');
+      const strippedExpression = expression.replace(/(\[\d+\])|(\$state\.)|(\(\))|;*/gim, '');
       const positionInState = returnable ? Object.keys(state).indexOf(strippedExpression) : -1;
 
       if (positionInState !== -1) {
@@ -26,7 +26,7 @@ export const computeExpression = (
         else if (expression.endsWith('()')) return (value as Function)();
         else return value;
       } else {
-        return new Function('$', ...magicPropsKeys, formattedExpression)(
+        return new Function('$state', ...magicPropsKeys, formattedExpression)(
           state,
           ...magicPropsValues
         );

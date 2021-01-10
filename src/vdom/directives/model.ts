@@ -39,5 +39,5 @@ export const modelDirective = ({ el: awaitingTypecastEl, data, state }: Directiv
   if (el.value !== hydratedValue) {
     el.value = hydratedValue;
   }
-  el.onchange = () => inputCallback(el, hydratedValue, data, state);
+  el.oninput = () => inputCallback(el, hydratedValue, data, state);
 };

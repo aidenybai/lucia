@@ -4,7 +4,6 @@ import compile from '../../vdom/compile';
 import patch from '../../vdom/patch';
 import { directives } from '../../vdom/directive';
 
-import compute from '../utils/computeExpression';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
 export const forDirective = ({ el, data, state }: DirectiveProps) => {
@@ -12,7 +11,7 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
 
   const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
-  const currArray = [...compute(target, { $el: el })(state)];
+  const currArray = state[target] as unknown[];
 
   // @ts-ignore
   let template = String(el.__l_for_template);
