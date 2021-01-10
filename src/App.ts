@@ -1,14 +1,14 @@
 import { Directives, State, DOMNode } from './models/structs';
 
-import { directives } from './vdom/directive';
-import compile from './vdom/compile';
-import reactive from './vdom/reactive';
-import patch from './vdom/patch';
+import { directives } from './dream/directive';
+import compile from './dream/compile';
+import reactive from './dream/reactive';
+import patch from './dream/patch';
 
 export class App {
   state: State;
   directives: Directives;
-  vdom?: DOMNode[];
+  ast?: DOMNode[];
 
   constructor(state: State = {}) {
     this.state = state;
@@ -18,7 +18,7 @@ export class App {
   public mount(el: HTMLElement | string, shallow: boolean = false): State {
     // Accepts both selector and element reference
     const rootEl = (typeof el === 'string' ? document.querySelector(el) : el) as HTMLElement;
-    this.vdom = this.compile(rootEl);
+    this.ast = this.compile(rootEl);
     // Do not generate directives or reactive state if shallow
     if (!shallow) {
       this.state = reactive(this.state, this.patch.bind(this));
@@ -35,7 +35,7 @@ export class App {
   }
 
   public patch(this: App, keys?: string[]): void {
-    patch(this.vdom!, directives, this.state, keys);
+    patch(this.ast!, directives, this.state, keys);
   }
 
   public compile(el: HTMLElement): DOMNode[] {

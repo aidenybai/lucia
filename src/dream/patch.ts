@@ -4,15 +4,15 @@ import { Directives, DOMNode } from '../models/structs';
 import { renderDirective } from './directive';
 
 const patch = (
-  DOMNodes: DOMNode[],
+  ast: DOMNode[],
   directives: Directives,
   state: UnknownKV = {},
   changedKeys: string[] = []
 ): void => {
   let deleteDOMNodes: number[] = [];
 
-  for (let i = 0; i < DOMNodes.length; i++) {
-    const node = DOMNodes[i];
+  for (let i = 0; i < ast.length; i++) {
+    const node = ast[i];
     if (node.isDynamic === undefined) deleteDOMNodes.push(i);
     if (!node.isDynamic) node.isDynamic = undefined;
 
@@ -31,7 +31,7 @@ const patch = (
   }
 
   for (const i of deleteDOMNodes) {
-    DOMNodes.splice(i, 1);
+    ast.splice(i, 1);
   }
 };
 

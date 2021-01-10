@@ -1,6 +1,6 @@
 import { createApp, App } from '../App';
-import reactive from '../vdom/reactive';
-import { directives } from '../vdom/directive';
+import reactive from '../dream/reactive';
+import { directives } from '../dream/directive';
 
 describe('.App', () => {
   it('should create and mount app properly', () => {
@@ -32,35 +32,10 @@ describe('.App', () => {
   it('should call mountHook when app is mounted', () => {
     const el = document.createElement('div');
     const mountHook = jest.fn();
-    const app = createApp({}, mountHook);
+    const app = createApp({});
     expect(mountHook.mock.calls.length).toEqual(0);
     app.mount(el);
     expect(mountHook.mock.calls.length).toEqual(1);
-  });
-
-  it('should create a component on an app', () => {
-    const el = document.createElement('div');
-    const state = { foo: 'bar' };
-    const app = createApp(state);
-    app.component(
-      'Counter',
-      ({ children }: Record<string, string>) => `<div l-text="this.foo">${children}</div>`
-    );
-    app.mount(el, true);
-    expect(app.components.COUNTER({ children: '' })).toEqual('<div l-text="this.foo"></div>');
-    expect(app.components.COUNTER({ children: 'bar' })).toEqual('<div l-text="this.foo">bar</div>');
-    expect(app.components.Counter).toEqual(undefined);
-    expect(Object.keys(app.components).length).toEqual(1);
-  });
-
-  it('should create a directive', () => {
-    const state = { foo: 'bar' };
-    const app = createApp(state);
-    app.directive('foo', () => {});
-    expect(typeof app.directives.FOO).toEqual('function');
-    expect(app.directives.FOO()).toEqual(undefined);
-    expect(app.directives.foo).toEqual(undefined);
-    expect(Object.keys(app.directives).length).toEqual(1);
   });
 
   it('should should create a non-shallow app instance', () => {

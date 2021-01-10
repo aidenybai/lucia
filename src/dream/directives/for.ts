@@ -1,8 +1,8 @@
 import { DirectiveProps } from '../../models/structs';
 
-import compile from '../../vdom/compile';
-import patch from '../../vdom/patch';
-import { directives } from '../../vdom/directive';
+import compile from '../../dream/compile';
+import patch from '../../dream/patch';
+import { directives } from '../../dream/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
@@ -45,6 +45,6 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
 
   // @ts-ignore
   el.__l = {};
-  const vdom = compile(el, state);
-  patch(vdom, directives, state, data.keys);
+  const ast = compile(el, state);
+  patch(ast, directives, state, data.keys);
 };

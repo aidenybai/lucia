@@ -2,10 +2,10 @@
 import { DIRECTIVE_PREFIX } from './models/generics';
 import { createApp } from './App';
 
-import patch from './vdom/patch';
-import compile from './vdom/compile';
-import reactive from './vdom/reactive';
-import { directives, renderDirective } from './vdom/directive';
+import patch from './dream/patch';
+import compile from './dream/compile';
+import reactive from './dream/reactive';
+import { directives, renderDirective } from './dream/directive';
 
 const stateDirective = `${DIRECTIVE_PREFIX}state`;
 const hrefDirective = `${DIRECTIVE_PREFIX}href`;

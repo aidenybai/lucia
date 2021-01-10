@@ -68,7 +68,7 @@ export const extractNodeChildrenAsCollection = (
 export const compile = (el: HTMLElement, state: State = {}): DOMNode[] => {
   if (!el) throw new Error('Please provide a Element');
 
-  const DOMNodes: DOMNode[] = [];
+  const ast: DOMNode[] = [];
   // @ts-ignore
   const isListGroup = el.__l !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = extractNodeChildrenAsCollection(el, isListGroup);
@@ -82,11 +82,11 @@ export const compile = (el: HTMLElement, state: State = {}): DOMNode[] => {
         continue;
       }
       const newDOMNode = createDOMNode(node, state);
-      if (newDOMNode) DOMNodes.push(newDOMNode);
+      if (newDOMNode) ast.push(newDOMNode);
     }
   }
 
-  return DOMNodes;
+  return ast;
 };
 
 export default compile;

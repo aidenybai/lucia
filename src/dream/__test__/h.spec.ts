@@ -2,9 +2,9 @@ import { h } from '../h';
 
 describe('.h', () => {
   it('should render VNodes', () => {
-    const vdom = h('div');
+    const ast = h('div');
 
-    expect(vdom).toEqual({
+    expect(ast).toEqual({
       tag: 'div',
       children: [],
       props: {
@@ -17,9 +17,9 @@ describe('.h', () => {
   });
 
   it('should set children', () => {
-    const vdom = h('div', [h('p', ['foo'])]);
+    const ast = h('div', [h('p', ['foo'])]);
 
-    expect(vdom).toEqual({
+    expect(ast).toEqual({
       tag: 'div',
       children: [
         {
@@ -43,9 +43,9 @@ describe('.h', () => {
   });
 
   it('should allow a string for children', () => {
-    const vdom = h('div', 'foo');
+    const ast = h('div', 'foo');
 
-    expect(vdom).toEqual({
+    expect(ast).toEqual({
       tag: 'div',
       children: ['foo'],
       props: {
@@ -58,13 +58,13 @@ describe('.h', () => {
   });
 
   it('should trim the class', () => {
-    const vdom = h('div', undefined, {
+    const ast = h('div', undefined, {
       attributes: { className: '  foo  bar a f random-class-here    ' },
       directives: {},
       type: 0,
     });
 
-    expect(vdom).toEqual({
+    expect(ast).toEqual({
       tag: 'div',
       children: [],
       props: {
