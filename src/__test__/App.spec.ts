@@ -1,6 +1,6 @@
 import { createApp, App } from '../App';
-import reactive from '../dream/reactive';
-import { directives } from '../dream/directive';
+import reactive from '../core/reactive';
+import { directives } from '../core/directive';
 
 describe('.App', () => {
   it('should create and mount app properly', () => {

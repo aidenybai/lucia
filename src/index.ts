@@ -2,65 +2,29 @@
 import { DIRECTIVE_PREFIX } from './models/generics';
 import { createApp } from './App';
 
-import patch from './dream/patch';
-import compile from './dream/compile';
-import reactive from './dream/reactive';
-import { directives, renderDirective } from './dream/directive';
+import patch from './core/patch';
+import compile from './core/compile';
+import reactive from './core/reactive';
+import { directives, renderDirective } from './core/directive';
 
 const stateDirective = `${DIRECTIVE_PREFIX}state`;
-const hrefDirective = `${DIRECTIVE_PREFIX}href`;
 
 export { createApp, compile, patch, reactive, directives, renderDirective };
 
-export const initHotswaps = (element: HTMLElement | Document = document): void => {
-  const searchAndAttachHotswaps = () => {
-    const elements = [...element.querySelectorAll(`[${hrefDirective}]`)];
-    elements
-      // @ts-ignore
-      .map((el) => {
-        el.addEventListener('click', () => {
-          hotswap(el.getAttribute(hrefDirective)!);
-        });
-      });
-  };
-
-  const hotswap = async (link: string) => {
-    const response = await fetch(link);
-
-    if (!response.ok) return;
-
-    const html = await response.text();
-
-    window.history.pushState({ id: window.history.length }, document.title, link);
-    document.body.innerHTML = html;
-
-    searchAndAttachHotswaps();
-  };
-
-  window.onpopstate = () => {
-    // @ts-ignore
-    hotswap(window.location.href);
-
-    // Hacky way of getting this to work
-    location.reload();
-  };
-
-  searchAndAttachHotswaps();
-};
-
 export const init = (element: HTMLElement | Document = document): void => {
-  const elements = [...element.querySelectorAll(`[${stateDirective}]`)];
+  const elements = element.querySelectorAll(`[${stateDirective}]`);
 
   elements
     // @ts-ignore
     .filter((el) => el.__l === undefined) // Filter out uninit scopes only
-    .map((el) => {
+    .map((el: HTMLElement) => {
       const expression = el.getAttribute(stateDirective);
 
       try {
+        // Parse state from state expression
         const state = new Function(`return ${expression}`)();
         const app = createApp(state || {});
-        app.mount(el as HTMLElement);
+        app.mount(el);
       } catch (err) {
         console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
       }
@@ -68,11 +32,7 @@ export const init = (element: HTMLElement | Document = document): void => {
 };
 
 // Adapted from Alpine.js
-export const listen = (
-  callback: Function,
-  element: HTMLElement | Document = document,
-  config?: Record<string, boolean>
-): void => {
+export const listen = (callback: Function, element: HTMLElement | Document = document): void => {
   const observer = new MutationObserver((mutations) => {
     mutations.map((mut) => {
       // Handle Node creation
@@ -99,12 +59,9 @@ export const listen = (
       }
     });
   });
-  observer.observe(
-    element,
-    config || {
-      childList: true,
-      attributes: true,
-      subtree: true,
-    }
-  );
+  observer.observe(element, {
+    childList: true,
+    attributes: true,
+    subtree: true,
+  });
 };

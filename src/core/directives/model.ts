@@ -1,7 +1,5 @@
 import { DirectiveProps, DirectiveData, State } from '../../models/structs';
 
-import compute from '../utils/computeExpression';
-
 export const inputCallback = (
   el: HTMLInputElement,
   hydratedValue: unknown,
@@ -18,26 +16,30 @@ export const inputCallback = (
   // Perform type coercion
   let payload;
   if (isNumber) {
-    payload = `Number('${el.value}').toPrecision()`;
+    payload = Number(el.value).toPrecision();
   } else if (isBoolean) {
-    payload = `Boolean('${el.value}')`;
+    payload = Boolean(el.value);
   } else if (isNullish) {
     if (el.value === 'null') payload = null;
     else payload = undefined;
   } else {
-    payload = `'${el.value}'`;
+    payload = String(el.value);
   }
 
-  compute(`${data.value} = ${payload}`, { $el: el }, false)(state);
+  state[data.value] = payload;
 
   return payload;
 };
 
-export const modelDirective = ({ el: awaitingTypecastEl, data, state }: DirectiveProps) => {
+export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
   const hydratedValue = data.compute(state);
   if (el.value !== hydratedValue) {
     el.value = hydratedValue;
   }
-  el.oninput = () => inputCallback(el, hydratedValue, data, state);
+  const [, prop] = name.split('.');
+  const callback = () => inputCallback(el, hydratedValue, data, state);
+
+  if (prop === 'debounce') el.onchange = callback;
+  else el.oninput = callback;
 };

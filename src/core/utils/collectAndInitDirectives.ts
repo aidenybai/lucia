@@ -12,6 +12,7 @@ export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): Di
       let returnable = true;
       let keysInFunctions: string[] = [];
 
+      // Finds the dependencies of a directive expression
       const keys: string[] = Object.keys(state).filter((key) => {
         const hasKey = expressionPropRE(key).test(String(value));
 
@@ -39,6 +40,7 @@ export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): Di
         value,
       };
 
+      // Handle normal and shorthand directives
       if (name.startsWith(DIRECTIVE_PREFIX)) {
         directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
       } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {

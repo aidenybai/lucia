@@ -1,19 +1,20 @@
 import { UnknownKV } from '../models/generics';
-import { Directives, DOMNode } from '../models/structs';
+import { Directives, ASTNode } from '../models/structs';
 
 import { renderDirective } from './directive';
 
 const patch = (
-  ast: DOMNode[],
+  ast: ASTNode[],
   directives: Directives,
   state: UnknownKV = {},
   changedKeys: string[] = []
 ): void => {
-  let deleteDOMNodes: number[] = [];
+  let deleteASTNodes: number[] = [];
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
-    if (node.isDynamic === undefined) deleteDOMNodes.push(i);
+    // Queue static nodes into garbage collection
+    if (node.isDynamic === undefined) deleteASTNodes.push(i);
     if (!node.isDynamic) node.isDynamic = undefined;
 
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
@@ -30,7 +31,7 @@ const patch = (
     }
   }
 
-  for (const i of deleteDOMNodes) {
+  for (const i of deleteASTNodes) {
     ast.splice(i, 1);
   }
 };

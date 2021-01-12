@@ -21,8 +21,6 @@ const start = async () => {
 
   // MutationObserver listening to DOM at runtime
   Lucia.listen((el: HTMLElement) => Lucia.init(el));
-
-  Lucia.initHotswaps();
 };
 
 // @ts-ignore

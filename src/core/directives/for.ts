@@ -1,14 +1,12 @@
 import { DirectiveProps } from '../../models/structs';
 
-import compile from '../../dream/compile';
-import patch from '../../dream/patch';
-import { directives } from '../../dream/directive';
+import compile from '../../core/compile';
+import patch from '../../core/patch';
+import { directives } from '../../core/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
 export const forDirective = ({ el, data, state }: DirectiveProps) => {
-  // Doesn't handle dupe items in array correctly
-
   const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
   const currArray = state[target] as unknown[];
@@ -32,7 +30,6 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
             `${target}[${currArray.length - i}]`
           );
         }
-
         if (index) {
           content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
         }

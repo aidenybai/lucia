@@ -1,10 +1,10 @@
 import { DIRECTIVE_PREFIX } from '../models/generics';
-import { State, DOMNode } from '../models/structs';
+import { State, ASTNode } from '../models/structs';
 
 import collectAndInitDirectives from './utils/collectAndInitDirectives';
 import { curlyTemplateRE, expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
-export const createDOMNode = (el: HTMLElement, state: State): DOMNode | null => {
+export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
   let isDynamic = false;
   const directives = collectAndInitDirectives(el, state);
 
@@ -41,23 +41,28 @@ export const extractNodeChildrenAsCollection = (
   const isList = isListRenderScope(rootNode);
   const isUnderList = isUnderListRenderScope(rootNode);
 
+  // Return nothing if it isn't list compilation and is a list or under a list
   if (!isListGroup && (isList || isUnderList)) return collection;
+  // Add root node to return array if it isn't a list or under a list
   if (!isListGroup || !isList) collection.push(rootNode);
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
       if (!isListGroup && isListRenderScope(childNode as HTMLElement))
+        // Push root if it is a list render (don't want to push unrendered template)
         collection.push(childNode as HTMLElement);
       else {
+        // Push all children into array (recursive flattening)
         collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement, true));
       }
-    }
-    if (childNode.nodeType === Node.TEXT_NODE) {
+    } else if (childNode.nodeType === Node.TEXT_NODE) {
+      // Changes {{ template }} into <span l-text="template"></span>
       if (curlyTemplateRE().test(String(childNode.nodeValue))) {
         const [, key] = curlyTemplateRE().exec(String(childNode.nodeValue))!;
         const compiledTextTemplate = document.createElement('span');
         compiledTextTemplate.setAttribute(`${DIRECTIVE_PREFIX}text`, key.trim());
         childNode.replaceWith(compiledTextTemplate);
+        collection.push(compiledTextTemplate);
       }
     }
   }
@@ -65,24 +70,22 @@ export const extractNodeChildrenAsCollection = (
   return collection;
 };
 
-export const compile = (el: HTMLElement, state: State = {}): DOMNode[] => {
+export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
   if (!el) throw new Error('Please provide a Element');
 
-  const ast: DOMNode[] = [];
+  const ast: ASTNode[] = [];
   // @ts-ignore
   const isListGroup = el.__l !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = extractNodeChildrenAsCollection(el, isListGroup);
 
   for (const node of nodes) {
     if (hasDirectiveRE().test(node.outerHTML)) {
-      if (
-        node.hasAttribute(`${DIRECTIVE_PREFIX}state`) ||
-        node.hasAttribute(`${DIRECTIVE_PREFIX}href`)
-      ) {
+      if (node.hasAttribute(`${DIRECTIVE_PREFIX}state`)) {
         continue;
       }
-      const newDOMNode = createDOMNode(node, state);
-      if (newDOMNode) ast.push(newDOMNode);
+      // Creates AST Node from real DOM nodes
+      const newASTNode = createASTNode(node, state);
+      if (newASTNode) ast.push(newASTNode);
     }
   }
 

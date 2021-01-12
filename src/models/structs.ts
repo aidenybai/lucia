@@ -23,7 +23,7 @@ export interface MagicProps {
   $el?: HTMLElement;
 }
 
-export interface DOMNode {
+export interface ASTNode {
   directives: DirectiveKV;
   el: HTMLElement;
   isDynamic?: boolean;

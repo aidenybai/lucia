@@ -1,11 +1,13 @@
 import { DirectiveProps } from '../../models/structs';
+import { semicolonCaptureRE } from '../utils/patterns';
 
-import compile from '../../dream/compile';
-import patch from '../../dream/patch';
-import { directives } from '../../dream/directive';
+import compile from '../../core/compile';
+import patch from '../../core/patch';
+import { directives } from '../../core/directive';
 
 export const htmlDirective = ({ el, data, state }: DirectiveProps) => {
-  const key = data.value.replace(/(;)/gim, '');
+  // Handle naked key in expression case
+  const key = data.value.replace(semicolonCaptureRE(), '');
   if (key in state) el.innerHTML = String(state[key]);
   el.innerHTML = data.compute(state) ?? data.value;
 

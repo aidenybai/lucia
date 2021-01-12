@@ -1,6 +1,8 @@
 import { UnknownKV } from '../../models/generics';
 import { MagicProps } from '../../models/structs';
 
+import { arrayIndexCaptureRE } from './patterns';
+
 export const computeExpression = (
   expression: string,
   magicProps: MagicProps,
@@ -15,16 +17,17 @@ export const computeExpression = (
 
       if (positionInState !== -1) {
         const value = Object.values(state)[positionInState];
-        const arrayIndex = /\[(\d+)\]/gim.exec(expression);
+        const arrayIndex = arrayIndexCaptureRE().exec(expression);
         if (
           arrayIndex &&
           arrayIndex[1] &&
           value instanceof Array &&
           !isNaN((arrayIndex[1] as unknown) as number)
-        )
+        ) {
           return value[Number(arrayIndex[1])];
-        else if (expression.endsWith('()')) return (value as Function)();
-        else return value;
+        } else if (expression.endsWith('()')) {
+          return (value as Function)();
+        } else return value;
       } else {
         return new Function('$state', ...magicPropsKeys, formattedExpression)(
           state,
