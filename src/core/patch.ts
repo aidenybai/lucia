@@ -9,20 +9,24 @@ const patch = (
   state: UnknownKV = {},
   changedKeys: string[] = []
 ): void => {
-  let deleteASTNodes: number[] = [];
+  let nodeTrashQueue: number[] = [];
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
     // Queue static nodes into garbage collection
-    if (node.isDynamic === undefined) deleteASTNodes.push(i);
-    if (!node.isDynamic) node.isDynamic = undefined;
+    if (node.type === 0) nodeTrashQueue.push(i);
+    if (node.type === 1) node.type--;
+
+    const nodeHasKey = changedKeys.some((key) => node.keys.includes(key));
+
+    if (!nodeHasKey) continue;
 
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
       // Iterate through affected keys and check if directive value has key
-      const hasKey = changedKeys.some((key) => directiveData.keys.includes(key));
+      const directiveHasKey = changedKeys.some((key) => directiveData.keys.includes(key));
 
       // If affected, then push to render queue
-      if (hasKey || !node.isDynamic) {
+      if (directiveHasKey || !node.type) {
         renderDirective(
           { el: node.el, name: directiveName, data: directiveData, state },
           { ...directives }
@@ -31,7 +35,7 @@ const patch = (
     }
   }
 
-  for (const i of deleteASTNodes) {
+  for (const i of nodeTrashQueue) {
     ast.splice(i, 1);
   }
 };

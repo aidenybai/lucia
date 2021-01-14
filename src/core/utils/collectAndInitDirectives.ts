@@ -4,23 +4,30 @@ import { eventDirectivePrefixRE, expressionPropRE } from './patterns';
 
 import computeExpression from './computeExpression';
 
-export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): DirectiveKV => {
+export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
+
+export const collectAndInitDirectives = (
+  el: HTMLElement,
+  state: State = {}
+): (DirectiveKV | string[])[] => {
   const directives: DirectiveKV = {};
+  const nodeKeys = [];
 
   if (el.attributes) {
     for (const { name, value } of el.attributes) {
+      const keysInFunctions: string[] = [];
+      const keysInState: string[] = Object.keys(state);
       let returnable = true;
-      let keysInFunctions: string[] = [];
 
       // Finds the dependencies of a directive expression
-      const keys: string[] = Object.keys(state).filter((key) => {
+      const keys: string[] = keysInState.filter((key) => {
         const hasKey = expressionPropRE(key).test(String(value));
 
         if (typeof state[key] === 'function' && hasKey) {
-          const keysInFunction = Object.keys(state).filter((k) =>
+          const keysInFunction = keysInState.filter((k) =>
             expressionPropRE(k).test(String(state[key]))
           );
-          keysInFunctions = [...keysInFunctions, ...keysInFunction];
+          keysInFunctions.push(...keysInFunction);
         }
 
         return hasKey;
@@ -34,9 +41,12 @@ export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): Di
         returnable = false;
       }
 
+      const uniqueCompiledKeys = removeDupesFromArray([...keys, ...keysInFunctions]);
+      nodeKeys.push(...uniqueCompiledKeys);
+
       const directiveData = {
-        compute: computeExpression(value, { $el: el }, returnable),
-        keys: [...new Set([...keys, ...keysInFunctions])], // Removes duplicates
+        compute: computeExpression(value, el, returnable),
+        keys: uniqueCompiledKeys,
         value,
       };
 
@@ -48,7 +58,7 @@ export const collectAndInitDirectives = (el: HTMLElement, state: State = {}): Di
       }
     }
   }
-  return directives;
+  return [directives, removeDupesFromArray(nodeKeys)];
 };
 
 export default collectAndInitDirectives;

@@ -19,12 +19,15 @@ export interface DirectiveProps {
   state: State;
 }
 
-export interface MagicProps {
-  $el?: HTMLElement;
-}
-
 export interface ASTNode {
   directives: DirectiveKV;
+  keys: string[];
   el: HTMLElement;
-  isDynamic?: boolean;
+  type: ASTNodeType;
+}
+
+export enum ASTNodeType {
+  NIL = 0,
+  STATIC = 1,
+  DYNAMIC = 2,
 }

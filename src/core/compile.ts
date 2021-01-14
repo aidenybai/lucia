@@ -1,12 +1,12 @@
 import { DIRECTIVE_PREFIX } from '../models/generics';
-import { State, ASTNode } from '../models/structs';
+import { State, DirectiveKV, ASTNode } from '../models/structs';
 
 import collectAndInitDirectives from './utils/collectAndInitDirectives';
-import { curlyTemplateRE, expressionPropRE, hasDirectiveRE } from './utils/patterns';
+import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
-  let isDynamic = false;
-  const directives = collectAndInitDirectives(el, state);
+  let type = 1;
+  const [directives, keys] = collectAndInitDirectives(el, state);
 
   // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
@@ -15,12 +15,13 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
     Object.keys(state).some((key) => expressionPropRE(key).test(value))
   );
   if (!hasDirectives) return null;
-  if (hasKeyInDirectives) isDynamic = true;
+  if (hasKeyInDirectives) type = 2;
 
   return {
     el,
-    directives,
-    isDynamic,
+    keys: keys as string[],
+    directives: directives as DirectiveKV,
+    type,
   };
 };
 
@@ -54,15 +55,6 @@ export const extractNodeChildrenAsCollection = (
       else {
         // Push all children into array (recursive flattening)
         collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement, true));
-      }
-    } else if (childNode.nodeType === Node.TEXT_NODE) {
-      // Changes {{ template }} into <span l-text="template"></span>
-      if (curlyTemplateRE().test(String(childNode.nodeValue))) {
-        const [, key] = curlyTemplateRE().exec(String(childNode.nodeValue))!;
-        const compiledTextTemplate = document.createElement('span');
-        compiledTextTemplate.setAttribute(`${DIRECTIVE_PREFIX}text`, key.trim());
-        childNode.replaceWith(compiledTextTemplate);
-        collection.push(compiledTextTemplate);
       }
     }
   }
