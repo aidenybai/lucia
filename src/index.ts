@@ -12,7 +12,7 @@ const stateDirective = `${DIRECTIVE_PREFIX}state`;
 export { createApp, compile, patch, reactive, directives, renderDirective };
 
 export const init = (element: HTMLElement | Document = document): void => {
-  const elements = element.querySelectorAll(`[${stateDirective}]`);
+  const elements = [...element.querySelectorAll(`[${stateDirective}]`)] as HTMLElement[];
 
   elements
     // @ts-ignore
