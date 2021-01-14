@@ -1,6 +1,7 @@
 import { DirectiveProps } from '../../models/structs';
 
 export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
+  const options: Record<string, boolean> = {};
   // @ts-ignore
   if (el.__l_on_registered) return;
 
@@ -16,7 +17,10 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
     data.compute(state);
   };
 
-  el.addEventListener(eventName, handler);
+  options.once = eventProp === 'once';
+  options.passive = eventProp === 'passive';
+
+  el.addEventListener(eventName, handler, options);
 
   // @ts-ignore
   el.__l_on_registered = handler;
