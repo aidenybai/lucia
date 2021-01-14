@@ -29,7 +29,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
   <!-- two-way-binds `value` prop to value -->
   <input l-model="value" />
   <!-- captures click event, pushing current `value` to `todo` -->
-  <button l-on:click="todo.push(value)">Create</button>
+  <button @click="todo.push(value)">Create</button>
   <!-- joins array together -->
   <ul l-for="task in todo">
     <li l-text="task"></li>

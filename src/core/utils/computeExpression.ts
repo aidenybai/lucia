@@ -1,20 +1,21 @@
 import { UnknownKV } from '../../models/generics';
-import { MagicProps } from '../../models/structs';
 
 import { arrayIndexCaptureRE } from './patterns';
 
 export const computeExpression = (
   expression: string,
-  magicProps: MagicProps,
-  returnable: boolean = true
-): any => {
-  let formattedExpression = `with($state){${returnable ? `return ${expression}` : expression}}`;
-  const [magicPropsKeys, magicPropsValues] = [Object.keys(magicProps), Object.values(magicProps)];
+  el?: HTMLElement,
+  returnable?: boolean
+): Function => {
+  let formattedExpression = `with($state){${
+    returnable || true ? `return ${expression}` : expression
+  }}`;
   return (state: UnknownKV) => {
     try {
       const strippedExpression = expression.replace(/(\[\d+\])|(\$state\.)|(\(\))|;*/gim, '');
       const positionInState = returnable ? Object.keys(state).indexOf(strippedExpression) : -1;
 
+      // TODO: Add prop access (ex: key.prop)
       if (positionInState !== -1) {
         const value = Object.values(state)[positionInState];
         const arrayIndex = arrayIndexCaptureRE().exec(expression);
@@ -24,21 +25,17 @@ export const computeExpression = (
           value instanceof Array &&
           !isNaN((arrayIndex[1] as unknown) as number)
         ) {
+          // Compute array access by index
           return value[Number(arrayIndex[1])];
         } else if (expression.endsWith('()')) {
+          // Call function
           return (value as Function)();
         } else return value;
       } else {
-        return new Function('$state', ...magicPropsKeys, formattedExpression)(
-          state,
-          ...magicPropsValues
-        );
+        return new Function('$state', '$el', formattedExpression)(state, el || null);
       }
     } catch (err) {
-      console.warn(
-        `Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`,
-        magicProps.$el
-      );
+      console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el || null);
     }
   };
 };

@@ -13,7 +13,7 @@
       src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
       defer
     ></script>
-    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/vue"></script>
     <script src="../dist/lucia.js"></script>
 
     <script>
@@ -80,11 +80,12 @@
 
         Lucia.init(luciaEl);
 
-        const vueApp = Vue.createApp({
+        const vueApp = new Vue({
+          el: vueEl.querySelector('#app'),
           data() {
             return { c: '' };
           },
-        }).mount(vueEl.querySelector('#app'));
+        });
 
         const jsApp = jsEl.querySelector('div > p');
         document.body.appendChild(alpineEl);
@@ -139,7 +140,7 @@
         const luciaEl = createLuciaApp(
           `
           <ul l-for="i in arr">
-            <li>{{ i }}</li>
+            <li l-text="i"></li>
           </ul>
         `,
           '{ arr: [] }'
@@ -164,11 +165,12 @@
 
         Lucia.init(luciaEl);
 
-        const vueApp = Vue.createApp({
+        const vueApp = new Vue({
+          el: vueEl.querySelector('#app'),
           data() {
             return { arr: [] };
           },
-        }).mount(vueEl.querySelector('#app'));
+        });
 
         const jsApp = jsEl.querySelector('div > ul');
         const luciaApp = luciaEl.querySelector('div').__l;

@@ -6,28 +6,24 @@ import reactive from './core/reactive';
 import patch from './core/patch';
 
 export class App {
-  state: State;
-  directives: Directives;
-  ast?: ASTNode[];
+  public state: State;
+  public directives: Directives;
+  public ast?: ASTNode[];
 
   constructor(state: State = {}) {
     this.state = state;
     this.directives = {};
   }
 
-  public mount(el: HTMLElement | string, shallow: boolean = false): State {
+  public mount(el: HTMLElement | string): State {
     // Accepts both selector and element reference
     const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
-    this.ast = this.compile(rootEl as HTMLElement);
+    // AST generation
+    this.ast = compile(rootEl as HTMLElement, this.state);
+    this.state = reactive(this.state, this.render.bind(this));
+    this.directives = { ...this.directives, ...directives };
 
-    // Do not generate directives or reactive state if shallow
-    if (!shallow) {
-      this.state = reactive(this.state, this.patch.bind(this));
-      this.directives = { ...this.directives, ...directives };
-    }
-
-    // Render everything
-    this.patch(Object.keys(this.state));
+    this.render(Object.keys(this.state));
 
     // @ts-ignore
     rootEl.__l = this;
@@ -40,12 +36,8 @@ export class App {
     this.directives[name.toUpperCase()] = callback;
   }
 
-  public patch(this: App, keys?: string[]): void {
-    patch(this.ast!, directives, this.state, keys);
-  }
-
-  public compile(el: HTMLElement): ASTNode[] {
-    return compile(el, this.state);
+  public render(keys?: string[]) {
+    patch(this.ast!, directives, this.state, keys || Object.keys(this.state));
   }
 }
 

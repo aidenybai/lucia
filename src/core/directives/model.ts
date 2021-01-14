@@ -1,5 +1,7 @@
 import { DirectiveProps, DirectiveData, State } from '../../models/structs';
 
+import compute from '../utils/computeExpression';
+
 export const inputCallback = (
   el: HTMLInputElement,
   hydratedValue: unknown,
@@ -18,7 +20,7 @@ export const inputCallback = (
   if (isNumber) {
     payload = Number(el.value).toPrecision();
   } else if (isBoolean) {
-    payload = Boolean(el.value);
+    payload = el.value === 'true';
   } else if (isNullish) {
     if (el.value === 'null') payload = null;
     else payload = undefined;
@@ -26,9 +28,10 @@ export const inputCallback = (
     payload = String(el.value);
   }
 
-  state[data.value] = payload;
-
-  return payload;
+  if (Object.keys(state).includes(data.value)) state[data.value] = payload;
+  else {
+    compute(`${data.value} = ${typeof payload === 'string' ? `'${payload}'` : payload}`)(state);
+  }
 };
 
 export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: DirectiveProps) => {

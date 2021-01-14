@@ -7,7 +7,7 @@ describe('.App', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
     const app = createApp(state);
-    app.mount(el, true);
+    app.mount(el);
     expect(app.state).toEqual(state);
   });
 
@@ -26,7 +26,7 @@ describe('.App', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
     const app = createApp(state);
-    const appState = app.mount(el, true);
+    const appState = app.mount(el);
     expect(appState).toEqual(state);
   });
   it('should call mountHook when app is mounted', () => {
@@ -44,9 +44,9 @@ describe('.App', () => {
     const app = createApp(state);
     const shallowApp = createApp(state);
     app.mount(el);
-    shallowApp.mount(el, true);
+    shallowApp.mount(el);
 
-    expect(app.state).toStrictEqual(reactive(state, app.patch));
+    expect(app.state).toStrictEqual(reactive(state, () => {}));
     expect(app.directives).toEqual(directives);
     expect(shallowApp.state).toStrictEqual(state);
     expect(shallowApp.directives).toEqual({});

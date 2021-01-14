@@ -7,7 +7,7 @@ export const semicolonCaptureRE = () => /(;)/gim;
 export const arrayIndexCaptureRE = () => /\[(\d+)\]/gim;
 export const eventDirectivePrefixRE = () => /on|@/gim;
 export const parenthesisWrapReplaceRE = () => /\(|\)/gim;
-export const curlyTemplateRE = () => /{{\s*(.+)\s*}}/gim;
+export const curlyTemplateRE = () => /{{\s*(\w+)\s*}}/gim;
 export const hasDirectiveRE = () => {
   return new RegExp(
     `(${DIRECTIVE_PREFIX}|${Object.keys(DIRECTIVE_SHORTHANDS).join('|')})\\w+`,
