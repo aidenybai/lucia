@@ -5,7 +5,6 @@ import collectAndInitDirectives from './utils/collectAndInitDirectives';
 import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
-  let type = 1;
   const [directives, keys] = collectAndInitDirectives(el, state);
 
   // Check if there are directives
@@ -14,14 +13,13 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
   const hasKeyInDirectives = Object.values(directives).some(({ value }) =>
     Object.keys(state).some((key) => expressionPropRE(key).test(value))
   );
-  if (!hasDirectives) return null;
-  if (hasKeyInDirectives) type = 2;
 
+  if (!hasDirectives) return null;
   return {
     el,
     keys: keys as string[],
     directives: directives as DirectiveKV,
-    type,
+    type: hasKeyInDirectives ? 1 : 0,
   };
 };
 
@@ -49,7 +47,7 @@ export const extractNodeChildrenAsCollection = (
 
   for (const childNode of rootNode.childNodes) {
     if (childNode.nodeType === Node.ELEMENT_NODE) {
-      if (!isListGroup && isListRenderScope(childNode as HTMLElement))
+      if (isListGroup && isListRenderScope(childNode as HTMLElement))
         // Push root if it is a list render (don't want to push unrendered template)
         collection.push(childNode as HTMLElement);
       else {

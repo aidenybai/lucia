@@ -13,20 +13,20 @@ const patch = (
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
+    const isStatic = node.type === 0;
     // Queue static nodes into garbage collection
-    if (node.type === 0) nodeTrashQueue.push(i);
-    if (node.type === 1) node.type--;
+    if (isStatic) nodeTrashQueue.push(i);
 
     const nodeHasKey = changedKeys.some((key) => node.keys.includes(key));
 
-    if (!nodeHasKey) continue;
+    if (!nodeHasKey && !isStatic) continue;
 
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
       // Iterate through affected keys and check if directive value has key
       const directiveHasKey = changedKeys.some((key) => directiveData.keys.includes(key));
 
       // If affected, then push to render queue
-      if (directiveHasKey || !node.type) {
+      if (directiveHasKey || isStatic) {
         renderDirective(
           { el: node.el, name: directiveName, data: directiveData, state },
           { ...directives }

@@ -13,13 +13,19 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
       } else {
         // Accept binding classes on/off based off of boolean state value
         const classes = [];
+
         for (const key in hydratedClasses) {
-          if (hydratedClasses[key]) classes.push(key);
+          if (hydratedClasses[key] && !el.className.includes(key)) classes.push(key);
         }
+
+        console.log(classes);
+        const removeDynamicClassesRE = new RegExp(Object.keys(hydratedClasses).join('|'), 'gim');
+        const rawClasses = el.className.replace(removeDynamicClassesRE, '');
+
         if (classes.length > 0) {
-          return el.setAttribute('class', `${el.className} ${classes.join(' ')}`.trim());
+          return el.setAttribute('class', `${rawClasses} ${classes.join(' ')}`.trim());
         } else if (el.className.trim().length > 0) {
-          return el.setAttribute('class', el.className);
+          return el.setAttribute('class', rawClasses.trim());
         } else {
           return el.removeAttribute('class');
         }

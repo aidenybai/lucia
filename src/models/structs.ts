@@ -27,7 +27,6 @@ export interface ASTNode {
 }
 
 export enum ASTNodeType {
-  NIL = 0,
-  STATIC = 1,
-  DYNAMIC = 2,
+  STATIC = 0,
+  DYNAMIC = 1,
 }

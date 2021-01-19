@@ -16,11 +16,6 @@ export const reactive = (state: State, callback: Function): UnknownKV => {
     set(target: UnknownKV, key: string, value: unknown): boolean {
       // Currently double patches - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
-      const needsUpdate =
-        hasArrayMutationKey ||
-        target instanceof Array ||
-        target[key] !== value ||
-        typeof target === 'object';
 
       if (typeof state[key] === 'function') {
         return false;
@@ -34,15 +29,13 @@ export const reactive = (state: State, callback: Function): UnknownKV => {
         // Patch only if found any affected keys
         if (keys.length !== 0) callback(keys);
       } else {
-        if (needsUpdate) {
-          target[key] = value;
+        target[key] = value;
 
-          // Bad perf way of handling nested objects
-          if (Object.keys(state).some((key) => !target[key])) {
-            callback(Object.keys(state).filter((key) => typeof state[key] === 'object'));
-          } else {
-            callback([key]);
-          }
+        // Bad perf way of handling nested objects
+        if (Object.keys(state).some((key) => target[key] === undefined)) {
+          callback(Object.keys(state).filter((key) => typeof state[key] === 'object'));
+        } else {
+          callback([key]);
         }
       }
 
