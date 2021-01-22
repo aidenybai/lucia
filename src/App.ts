@@ -20,7 +20,7 @@ export class App {
     const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
     // AST generation
     this.ast = compile(rootEl as HTMLElement, this.state);
-    this.state = reactive(this.state, this.render.bind(this));
+    this.state = reactive(this.state, this.render.bind(this)).proxy;
     this.directives = { ...this.directives, ...directives };
 
     this.render(Object.keys(this.state));

@@ -18,7 +18,6 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
           if (hydratedClasses[key] && !el.className.includes(key)) classes.push(key);
         }
 
-        console.log(classes);
         const removeDynamicClassesRE = new RegExp(Object.keys(hydratedClasses).join('|'), 'gim');
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
 

@@ -1,61 +1,85 @@
-import { reactive, handlePatch } from '../reactive';
-import patch from '../patch';
+import { StringKV } from '../../models/generics';
+import { reactive } from '../reactive';
 
 describe('.reactive', () => {
-  it('should create an observed proxy', () => {
-    const objectState = { foo: 'bar', deepTest: { deepChild: 'bar' } };
-    const state = reactive({ foo: 'bar', deepTest: { deepChild: 'bar' } }, patch);
+  it('should create a revocable proxy', () => {
+    const state = { foo: null };
+    const callback = jest.fn();
+    const revocableProxy = reactive(state, callback);
 
-    expect({ ...state }).toEqual(objectState);
+    expect(typeof revocableProxy.proxy).toEqual('object');
+    expect(typeof revocableProxy.revoke).toEqual('function');
   });
 
-  it('should react if changed', () => {
-    let count = 0;
-    const state = reactive({ foo: 'bar' }, () => ++count);
+  it('should run the callback function on mutation', () => {
+    const state = { foo: null };
+    const callback = jest.fn();
+    const revocableProxy = reactive(state, callback);
 
-    state.foo = 'baz';
-    delete state.foo;
+    revocableProxy.proxy.foo = 'baz';
 
-    expect(count).toEqual(2);
+    expect(callback).toBeCalledTimes(1);
+    expect(revocableProxy.proxy.foo).toEqual('baz');
+
+    for (let i = 0; i < 3; i++) {
+      revocableProxy.proxy.foo = i;
+    }
+
+    expect(callback).toBeCalledTimes(4);
+    expect(revocableProxy.proxy.foo).toEqual(2);
   });
 
-  it('should handle array and return boolean', () => {
-    expect(handlePatch({}, 'length', {}, () => {})).toEqual(true);
-    expect(handlePatch({}, 'foo', {}, () => {})).toEqual(false);
+  it('should seal object', () => {
+    const state = { foo: null };
+    const callback = jest.fn();
+    const revocableProxy = reactive(state, callback);
+
+    expect(() => {
+      revocableProxy.proxy.bar = 'baz';
+    }).toThrowError();
+
+    expect(Object.keys(revocableProxy.proxy).length).toEqual(1);
+
+    expect(() => {
+      delete revocableProxy.proxy.foo;
+    }).toThrowError();
+
+    expect(Object.keys(revocableProxy.proxy).length).toEqual(1);
   });
 
-  it('should react if array is changed', () => {
-    let count = 0;
-    const state = reactive({ foo: [] }, () => ++count);
+  it('should not allow function mutation', () => {
+    const state = {
+      foo: () => 0,
+    };
+    const callback = jest.fn();
+    const revocableProxy = reactive(state, callback);
 
-    // @ts-ignore
-    state.foo.push('bar');
-    delete state.foo;
+    expect(() => {
+      (revocableProxy.proxy.foo as Function) = () => 1;
+    }).toThrowError();
 
-    expect(count).toEqual(3);
+    expect((revocableProxy.proxy.foo as Function)()).toEqual(0);
   });
 
-  it('should find arrays with deps through direct mutation', () => {
-    const mockCb = jest.fn();
-    const state = reactive({ foo: ['bar', 'bar', 'bar'], boo: '' }, mockCb);
+  it('should find and pass array key', () => {
+    const state = { foo: [] };
+    let result = null;
+    const callback = (keys: string[]) => (result = keys[0]);
+    const revocableProxy = reactive(state, callback);
 
-    const el1 = document.createElement('ul');
-    const el2 = document.createElement('li');
-    el1.setAttribute('l-for', 'item in this.foo');
-    el2.setAttribute('l-text', 'this.item + this.boo');
-    el1.appendChild(el2);
-    document.body.appendChild(el1);
-    // @ts-ignore
-    el1.__l = {};
-    // @ts-ignore
-    el1.__l.state = state;
+    (revocableProxy.proxy.foo as string[]).push('baz');
 
-    // @ts-ignore
-    state.foo[1] = 'baz';
-    state.boo = 'boo';
+    expect(result).toEqual('foo');
+  });
 
-    const keys = mockCb.mock.calls[1][0];
-    expect(mockCb).toBeCalledTimes(2);
-    expect(keys).toEqual(['boo', 'foo']);
+  it('should handle nested proxies', () => {
+    const state = { foo: { bar: 'baz' } };
+    let result = null;
+    const callback = (keys: string[]) => (result = keys[0]);
+    const revocableProxy = reactive(state, callback);
+
+    (revocableProxy.proxy.foo as StringKV).bar = '1';
+
+    expect(result).toEqual('foo');
   });
 });

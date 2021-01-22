@@ -45,14 +45,19 @@ export const extractNodeChildrenAsCollection = (
   // Add root node to return array if it isn't a list or under a list
   if (!isListGroup || !isList) collection.push(rootNode);
 
-  for (const childNode of rootNode.childNodes) {
-    if (childNode.nodeType === Node.ELEMENT_NODE) {
-      if (isListGroup && isListRenderScope(childNode as HTMLElement))
-        // Push root if it is a list render (don't want to push unrendered template)
-        collection.push(childNode as HTMLElement);
-      else {
-        // Push all children into array (recursive flattening)
-        collection.push(...extractNodeChildrenAsCollection(childNode as HTMLElement, true));
+  // Is not a list or under a list, but pass if is a list group
+  if ((!isList && !isUnderList) || isListGroup) {
+    for (const childNode of rootNode.childNodes) {
+      if (childNode.nodeType === Node.ELEMENT_NODE) {
+        if (!isListGroup && isListRenderScope(childNode as HTMLElement)) {
+          // Push root if it is a list render (don't want to push unrendered template)
+          collection.push(childNode as HTMLElement);
+        } else {
+          // Push all children into array (recursive flattening)
+          collection.push(
+            ...extractNodeChildrenAsCollection(childNode as HTMLElement, isListGroup)
+          );
+        }
       }
     }
   }

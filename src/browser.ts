@@ -11,13 +11,15 @@ const DOMReady = () => {
   });
 };
 
+const init = () => Lucia.init();
+
 const start = async () => {
   await DOMReady();
-  Lucia.init();
+  init();
 
   // Turbolinks/Turbo Drive support by default
-  document.addEventListener('turbolinks:load', () => Lucia.init());
-  document.addEventListener('turbo:load', () => Lucia.init());
+  document.addEventListener('turbolinks:load', init);
+  document.addEventListener('turbo:load', init);
 };
 
 // @ts-ignore

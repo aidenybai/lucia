@@ -20,6 +20,7 @@ describe('.App', () => {
     const app1 = new App({});
     const app2 = createApp({});
     expect(app1).toEqual(app2);
+    expect(app1.state).toEqual(app2.state);
   });
 
   it('should return app state on mount', () => {
@@ -29,6 +30,7 @@ describe('.App', () => {
     const appState = app.mount(el);
     expect(appState).toEqual(state);
   });
+
   it('should call mountHook when app is mounted', () => {
     const el = document.createElement('div');
     const mountHook = jest.fn();
@@ -38,17 +40,14 @@ describe('.App', () => {
     expect(mountHook.mock.calls.length).toEqual(1);
   });
 
-  it('should should create a non-shallow app instance', () => {
+  it('should register custom directive', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
     const app = createApp(state);
-    const shallowApp = createApp(state);
+    app.directive('custom', () => {});
     app.mount(el);
-    shallowApp.mount(el);
 
     expect(app.state).toStrictEqual(reactive(state, () => {}));
-    expect(app.directives).toEqual(directives);
-    expect(shallowApp.state).toStrictEqual(state);
-    expect(shallowApp.directives).toEqual({});
+    expect(app.directives).toEqual({ ...directives, custom: () => {} });
   });
 });

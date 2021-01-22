@@ -8,7 +8,7 @@ export const computeExpression = (
   returnable?: boolean
 ): Function => {
   let formattedExpression = `with($state){${
-    returnable || true ? `return ${expression}` : expression
+    returnable ?? true ? `return ${expression}` : expression
   }}`;
   return (state: UnknownKV) => {
     try {

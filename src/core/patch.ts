@@ -9,13 +9,13 @@ const patch = (
   state: UnknownKV = {},
   changedKeys: string[] = []
 ): void => {
-  let nodeTrashQueue: number[] = [];
+  const staticNodeCleanupQueue: number[] = [];
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
     const isStatic = node.type === 0;
     // Queue static nodes into garbage collection
-    if (isStatic) nodeTrashQueue.push(i);
+    if (isStatic) staticNodeCleanupQueue.push(i);
 
     const nodeHasKey = changedKeys.some((key) => node.keys.includes(key));
 
@@ -27,15 +27,13 @@ const patch = (
 
       // If affected, then push to render queue
       if (directiveHasKey || isStatic) {
-        renderDirective(
-          { el: node.el, name: directiveName, data: directiveData, state },
-          { ...directives }
-        );
+        const directiveProps = { el: node.el, name: directiveName, data: directiveData, state };
+        renderDirective(directiveProps, directives);
       }
     }
   }
 
-  for (const i of nodeTrashQueue) {
+  for (const i of staticNodeCleanupQueue) {
     ast.splice(i, 1);
   }
 };
