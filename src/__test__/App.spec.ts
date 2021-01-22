@@ -31,15 +31,6 @@ describe('.App', () => {
     expect(appState).toEqual(state);
   });
 
-  it('should call mountHook when app is mounted', () => {
-    const el = document.createElement('div');
-    const mountHook = jest.fn();
-    const app = createApp({});
-    expect(mountHook.mock.calls.length).toEqual(0);
-    app.mount(el);
-    expect(mountHook.mock.calls.length).toEqual(1);
-  });
-
   it('should register custom directive', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
@@ -47,7 +38,9 @@ describe('.App', () => {
     app.directive('custom', () => {});
     app.mount(el);
 
-    expect(app.state).toStrictEqual(reactive(state, () => {}));
-    expect(app.directives).toEqual({ ...directives, custom: () => {} });
+    expect(app.state).toStrictEqual(reactive(state, () => {}).proxy);
+    expect(JSON.stringify(app.directives)).toEqual(
+      JSON.stringify({ ...directives, CUSTOM: () => {} })
+    );
   });
 });

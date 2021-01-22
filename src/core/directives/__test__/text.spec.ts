@@ -1,16 +1,16 @@
 import { textDirective } from '../text';
-import compute from '../../utils/compute';
+import compute from '../../utils/computeExpression';
 
 describe('.textDirective', () => {
   it('should set the text content', () => {
     const el = document.createElement('div');
-    const expression = `'$' + this.money`;
+    const expression = `'$' + money`;
     const state = { money: 0 };
     textDirective({
       el,
       name: `l-text`,
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: { state },
+      data: { value: expression, compute: compute(expression, el), keys: [] },
+      state,
     });
     expect(el.textContent).toEqual('$0');
   });
@@ -22,8 +22,8 @@ describe('.textDirective', () => {
     textDirective({
       el,
       name: `l-text`,
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: { state },
+      data: { value: expression, compute: compute(expression, el), keys: [] },
+      state,
     });
     expect(el.textContent).toEqual('count');
   });

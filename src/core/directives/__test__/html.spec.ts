@@ -1,16 +1,16 @@
 import { htmlDirective } from '../html';
-import compute from '../../utils/compute';
+import compute from '../../utils/computeExpression';
 
 describe('.htmlDirective', () => {
   it('should set the html', () => {
     const el = document.createElement('div');
-    const expression = 'this.foo';
+    const expression = 'foo';
     const state = { foo: 'bar' };
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: { state },
+      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      state,
     });
     expect(el.innerHTML).toEqual('bar');
   });
@@ -22,43 +22,35 @@ describe('.htmlDirective', () => {
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: { state },
+      data: { value: expression, compute: compute(expression, el), keys: [] },
+      state,
     });
     expect(el.innerHTML).toEqual('foo');
   });
 
   it('should create a nested component scope', () => {
     const el = document.createElement('div');
-    const expression = `this.foo`;
+    const expression = `foo`;
     const state = { foo: '<p l-text="foo"></p>' };
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: { state },
+      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      state,
     });
-    expect(el.innerHTML).toEqual('<p l-text="foo">foo</p>');
+    expect(el.innerHTML).toEqual('<p l-text="foo">&lt;p l-text="foo"&gt;&lt;/p&gt;</p>');
   });
 
   it('should allow creation of directives and components', () => {
     const el = document.createElement('div');
-    const expression = `this.foo`;
+    const expression = `foo`;
     const state = { foo: '<p l-text="foo"></p>' };
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: {
-        state,
-        components: {
-          FOO() {},
-        },
-        directives: {
-          FOO() {},
-        },
-      },
+      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      state,
     });
-    expect(el.innerHTML).toEqual('<p l-text="foo">foo</p>');
+    expect(el.innerHTML).toEqual('<p l-text="foo">&lt;p l-text="foo"&gt;&lt;/p&gt;</p>');
   });
 });

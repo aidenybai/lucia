@@ -1,20 +1,20 @@
 import { fireEvent } from '@testing-library/dom';
 
 import { modelDirective, inputCallback } from '../model';
-import compute from '../../utils/compute';
+import compute from '../../utils/computeExpression';
 
 describe('.modelDirective', () => {
   it('should attach and model input', () => {
     const el = document.createElement('input');
-    const expression = 'this.foo';
+    const expression = 'foo';
     const state = {
       foo: 'bar',
     };
     modelDirective({
       el,
       name: 'l-model',
-      data: { value: expression, compute: compute(expression, { $el: el }) },
-      app: { state },
+      data: { value: expression, compute: compute(expression, el), keys: [] },
+      state,
     });
     expect(typeof el.oninput).toEqual('function');
     el.value = 'baz';
@@ -23,23 +23,23 @@ describe('.modelDirective', () => {
 
   it('should parse number value', () => {
     const el = document.createElement('input');
-    const expression = 'this.foo';
+    const expression = 'foo';
     const state = {
-      foo: 'bar',
+      foo: 1,
     };
     el.value = '0';
     const payload = inputCallback(
       el,
       0,
-      { value: expression, compute: compute(expression, { $el: el }) },
-      { state }
+      { value: expression, compute: compute(expression, el), keys: [] },
+      state
     );
-    expect(payload).toEqual(`Number('0').toPrecision()`);
+    expect(payload).toEqual(0);
   });
 
   it('should parse boolean value', () => {
     const el = document.createElement('input');
-    const expression = 'this.foo';
+    const expression = 'foo';
     const state = {
       foo: 'bar',
     };
@@ -47,15 +47,15 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       true,
-      { value: expression, compute: compute(expression, { $el: el }) },
+      { value: expression, compute: compute(expression, el), keys: [] },
       { state }
     );
-    expect(payload).toEqual(`Boolean('true')`);
+    expect(payload).toEqual(true);
   });
 
   it('should parse null value', () => {
     const el = document.createElement('input');
-    const expression = 'this.foo';
+    const expression = 'foo';
     const state = {
       foo: 'bar',
     };
@@ -63,7 +63,7 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       null,
-      { value: expression, compute: compute(expression, { $el: el }) },
+      { value: expression, compute: compute(expression, el), keys: [] },
       { state }
     );
     expect(payload).toEqual(null);
@@ -71,7 +71,7 @@ describe('.modelDirective', () => {
 
   it('should parse undefined value', () => {
     const el = document.createElement('input');
-    const expression = 'this.foo';
+    const expression = 'foo';
     const state = {
       foo: 'bar',
     };
@@ -79,7 +79,7 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       undefined,
-      { value: expression, compute: compute(expression, { $el: el }) },
+      { value: expression, compute: compute(expression, el), keys: [] },
       { state }
     );
     expect(payload).toEqual(undefined);

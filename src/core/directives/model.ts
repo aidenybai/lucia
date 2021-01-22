@@ -18,7 +18,7 @@ export const inputCallback = (
   // Perform type coercion
   let payload;
   if (isNumber) {
-    payload = Number(el.value).toPrecision();
+    payload = parseFloat(el.value);
   } else if (isBoolean) {
     payload = el.value === 'true';
   } else if (isNullish) {
@@ -32,6 +32,8 @@ export const inputCallback = (
   else {
     compute(`${data.value} = ${typeof payload === 'string' ? `'${payload}'` : payload}`)(state);
   }
+
+  return payload;
 };
 
 export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: DirectiveProps) => {

@@ -7,24 +7,16 @@ import {
 } from '../patterns';
 
 describe('.patterns', () => {
-  it('should test as true with this', () => {
-    expect(expressionPropRE('1').test('this.1')).toEqual(true);
+  it('should test as true', () => {
+    expect(expressionPropRE('1').test('1')).toEqual(true);
   });
 
-  it('should false as true with this', () => {
-    expect(expressionPropRE('11').test('this.1')).toEqual(false);
-  });
-
-  it('should test as true without this', () => {
-    expect(expressionPropRE('1', false).test('1')).toEqual(true);
-  });
-
-  it('should test as false without this', () => {
-    expect(expressionPropRE('11', false).test('1')).toEqual(false);
+  it('should false as true', () => {
+    expect(expressionPropRE('11').test('1')).toEqual(false);
   });
 
   it('should not break directive split', () => {
-    expect(rawDirectiveSplitRE()).toStrictEqual(/:|\./);
+    expect(rawDirectiveSplitRE()).toStrictEqual(/:|\./gim);
   });
 
   it('should have working directive pattern', () => {
@@ -32,7 +24,7 @@ describe('.patterns', () => {
   });
 
   it('should have valid event directive prefix', () => {
-    expect(eventDirectivePrefixRE()).toStrictEqual(/on|@/);
+    expect(eventDirectivePrefixRE()).toStrictEqual(/on|@/gim);
   });
 
   it('should replace parenthesis', () => {
