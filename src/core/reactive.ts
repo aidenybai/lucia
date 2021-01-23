@@ -10,38 +10,39 @@ interface RevocableProxy {
 
 export const reactive = (state: State, callback: Function): RevocableProxy => {
   const handler = {
-    get(target: UnknownKV, key: string, receiver: unknown): unknown {
+    get(target: UnknownKV, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
         // Deep proxy - if there is an object in an object, need to proxify that.
         return new Proxy(target[key] as UnknownKV, handler);
       } else {
-        return Reflect.get(target, key, receiver);
+        return target[key];
       }
     },
-    set(target: UnknownKV, key: string, value: unknown, receiver: unknown): boolean {
+    set(target: UnknownKV, key: string, value: unknown): boolean {
+      // Do not allow function mutation
+      if (typeof state[key] === 'function') return false;
+
       // Currently double patches - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
+      let keys = [];
 
-      // Do not allow function mutation
-      if (typeof state[key] === 'function') {
-        return false;
-      } else if (target instanceof Array && hasArrayMutationKey) {
-        const keys = Object.keys(state).filter((k) =>
+      if (target instanceof Array && hasArrayMutationKey) {
+        keys = Object.keys(state).filter((k) =>
           arrayEquals(state[k] as unknown[], target as unknown[])
         );
-
-        // Patch only if found any affected keys
-        callback(keys);
       } else {
         // Bad perf way of handling nested objects
         if (Object.keys(state).some((key) => target[key] === undefined)) {
-          callback(Object.keys(state).filter((key) => typeof state[key] === 'object'));
+          keys = Object.keys(state).filter((key) => typeof state[key] === 'object');
         } else {
-          callback([key]);
+          keys = [key];
         }
       }
 
-      return Reflect.set(target, key, value, receiver);
+      target[key] = value;
+      callback(keys);
+
+      return true;
     },
   };
 

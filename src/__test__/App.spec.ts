@@ -1,4 +1,4 @@
-import { createApp, App } from '../App';
+import { component, Component } from '../component';
 import reactive from '../core/reactive';
 import { directives } from '../core/directive';
 
@@ -6,19 +6,19 @@ describe('.App', () => {
   it('should create and mount app properly', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
-    const app = createApp(state);
+    const app = component(state);
     app.mount(el);
     expect(app.state).toEqual(state);
   });
 
   it('should have an empty object as the default state', () => {
-    const app = createApp({});
+    const app = component({});
     expect(app.state).toEqual({});
   });
 
   it('should have createApp return value equal to new App instance', () => {
-    const app1 = new App({});
-    const app2 = createApp({});
+    const app1 = new Component({});
+    const app2 = component({});
     expect(app1).toEqual(app2);
     expect(app1.state).toEqual(app2.state);
   });
@@ -26,7 +26,7 @@ describe('.App', () => {
   it('should return app state on mount', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
-    const app = createApp(state);
+    const app = component(state);
     const appState = app.mount(el);
     expect(appState).toEqual(state);
   });
@@ -34,7 +34,7 @@ describe('.App', () => {
   it('should register custom directive', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
-    const app = createApp(state);
+    const app = component(state);
     app.directive('custom', () => {});
     app.mount(el);
 
