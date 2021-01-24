@@ -23,7 +23,7 @@ export class Component {
     this.state = reactive(this.state, this.render.bind(this)).proxy;
     this.directives = { ...this.directives, ...directives };
 
-    this.render(Object.keys(this.state));
+    this.render();
 
     // @ts-ignore
     rootEl.__l = this;
@@ -36,8 +36,8 @@ export class Component {
     this.directives[name.toUpperCase()] = callback;
   }
 
-  public render(keys?: string[]) {
-    patch(this.ast!, directives, this.state, keys || Object.keys(this.state));
+  public render(keys: string[] = Object.keys(this.state)) {
+    patch(this.ast!, directives, this.state, keys);
   }
 }
 

@@ -26,12 +26,15 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
 
         if (item) {
           content = content.replace(
-            expressionPropRE(item.trim()),
+            expressionPropRE(`this\\.${item.trim()}`),
             `${target}[${currArray.length - i}]`
           );
         }
         if (index) {
-          content = content.replace(expressionPropRE(index.trim()), String(currArray.length - i));
+          content = content.replace(
+            expressionPropRE(`this\\.${index.trim()}`),
+            String(currArray.length - i)
+          );
         }
 
         temp.innerHTML = content;

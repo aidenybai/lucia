@@ -7,8 +7,8 @@ describe('.forDirective', () => {
     const expression = `bar in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     // @ts-ignore
-    el.__l_for_template = '<li l-text="bar"></li>';
-    el.innerHTML = '<li l-text="bar"></li>';
+    el.__l_for_template = '<li l-text="this.bar"></li>';
+    el.innerHTML = '<li l-text="this.bar"></li>';
     forDirective({
       el,
       name: 'l-for',
@@ -25,8 +25,8 @@ describe('.forDirective', () => {
     const expression = `bar, i in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     // @ts-ignore
-    el.__l_for_template = '<li l-text="bar + i"></li>';
-    el.innerHTML = '<li l-text="bar + i"></li>';
+    el.__l_for_template = '<li l-text="this.bar + this.i"></li>';
+    el.innerHTML = '<li l-text="this.bar + this.i"></li>';
     forDirective({
       el,
       name: 'l-for',
