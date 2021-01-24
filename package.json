@@ -11,6 +11,7 @@
     "build": "npx del-cli dist/ && npx rollup -c",
     "test": "npx jest --coverage",
     "cleanup": "npx prettier -w src",
+    "np": "npm run build && npx np",
     "coverage": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
