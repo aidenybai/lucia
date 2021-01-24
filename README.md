@@ -32,7 +32,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
   <button @click="todo.push(value)">Create</button>
   <!-- joins array together -->
   <ul l-for="task in todo">
-    <li l-text="task"></li>
+    <li l-text="this.task"></li>
   </ul>
 </div>
 ```
