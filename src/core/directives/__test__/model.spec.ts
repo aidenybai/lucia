@@ -16,7 +16,6 @@ describe('.modelDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    expect(typeof el.oninput).toEqual('function');
     el.value = 'baz';
     fireEvent.input(el);
   });
