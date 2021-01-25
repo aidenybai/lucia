@@ -9,7 +9,7 @@ describe('.ifDirective', () => {
     ifDirective({
       el,
       name: 'l-if',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.style.display).toEqual('none');
@@ -22,7 +22,7 @@ describe('.ifDirective', () => {
     ifDirective({
       el,
       name: 'l-if',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.style.display).toEqual('');
@@ -35,7 +35,7 @@ describe('.ifDirective', () => {
     ifDirective({
       el,
       name: 'l-if:hidden',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.hidden).toEqual(true);

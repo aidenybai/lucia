@@ -9,7 +9,7 @@ describe('.htmlDirective', () => {
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual('bar');
@@ -22,7 +22,7 @@ describe('.htmlDirective', () => {
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.innerHTML).toEqual('foo');
@@ -35,7 +35,7 @@ describe('.htmlDirective', () => {
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual('<p l-text="foo">&lt;p l-text="foo"&gt;&lt;/p&gt;</p>');
@@ -48,7 +48,7 @@ describe('.htmlDirective', () => {
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual('<p l-text="foo">&lt;p l-text="foo"&gt;&lt;/p&gt;</p>');

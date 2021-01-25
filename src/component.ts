@@ -36,8 +36,8 @@ export class Component {
     this.directives[name.toUpperCase()] = callback;
   }
 
-  public render(keys: string[] = Object.keys(this.state)) {
-    patch(this.ast!, directives, this.state, keys);
+  public render(props: string[] = Object.keys(this.state)) {
+    patch(this.ast!, directives, this.state, props);
   }
 }
 

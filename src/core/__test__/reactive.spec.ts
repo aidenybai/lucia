@@ -64,7 +64,7 @@ describe('.reactive', () => {
   it('should find and pass array key', () => {
     const state = { foo: [] };
     let result = null;
-    const callback = (keys: string[]) => (result = keys[0]);
+    const callback = (deps: string[]) => (result = deps[0]);
     const revocableProxy = reactive(state, callback);
 
     (revocableProxy.proxy.foo as string[]).push('baz');
@@ -75,7 +75,7 @@ describe('.reactive', () => {
   it('should handle nested proxies', () => {
     const state = { foo: { bar: 'baz' } };
     let result = null;
-    const callback = (keys: string[]) => (result = keys[0]);
+    const callback = (deps: string[]) => (result = deps[0]);
     const revocableProxy = reactive(state, callback);
 
     (revocableProxy.proxy.foo as StringKV).bar = '1';

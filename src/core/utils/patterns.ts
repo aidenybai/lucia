@@ -3,7 +3,6 @@ import { DIRECTIVE_SHORTHANDS } from '../../models/generics';
 
 // Split directive:modifier.property
 export const rawDirectiveSplitRE = () => /:|\./gim;
-export const semicolonCaptureRE = () => /(;)/gim;
 export const arrayIndexCaptureRE = () => /\[(\d+)\]/gim;
 export const eventDirectivePrefixRE = () => /on|@/gim;
 export const parenthesisWrapReplaceRE = () => /\(|\)/gim;
@@ -14,8 +13,8 @@ export const hasDirectiveRE = () => {
     'gim'
   );
 };
-export const expressionPropRE = (key: string): RegExp => {
-  // Utilizes \b (word boundary) for key differentiation.
+export const expressionPropRE = (prop: string): RegExp => {
+  // Utilizes \b (word boundary) for prop differentiation.
   // Fails when next character is a \w (Word).
-  return new RegExp(`\\b${key}\\b`, 'gim');
+  return new RegExp(`\\b${prop}\\b`, 'gim');
 };

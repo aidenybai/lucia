@@ -14,7 +14,7 @@ describe('.onDirective', () => {
     onDirective({
       el,
       name: 'l-on:click',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     // @ts-ignore

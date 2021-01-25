@@ -11,26 +11,26 @@ export const collectAndInitDirectives = (
   state: State = {}
 ): (DirectiveKV | string[])[] => {
   const directives: DirectiveKV = {};
-  const nodeKeys = [];
+  const nodeDeps = [];
 
   if (el.attributes) {
     for (const { name, value } of el.attributes) {
-      const keysInFunctions: string[] = [];
-      const keysInState: string[] = Object.keys(state);
+      const depsInFunctions: string[] = [];
+      const propsInState: string[] = Object.keys(state);
       let returnable = true;
 
       // Finds the dependencies of a directive expression
-      const keys: string[] = keysInState.filter((key) => {
-        const hasKey = expressionPropRE(key).test(String(value));
+      const deps: string[] = propsInState.filter((prop) => {
+        const hasDep = expressionPropRE(prop).test(String(value));
 
-        if (typeof state[key] === 'function' && hasKey) {
-          const keysInFunction = keysInState.filter((k) =>
-            expressionPropRE(k).test(String(state[key]))
+        if (typeof state[prop] === 'function' && hasDep) {
+          const depsInFunction = propsInState.filter((p) =>
+            expressionPropRE(p).test(String(state[prop]))
           );
-          keysInFunctions.push(...keysInFunction);
+          depsInFunctions.push(...depsInFunction);
         }
 
-        return hasKey;
+        return hasDep;
       });
 
       if (eventDirectivePrefixRE().test(name)) returnable = false;
@@ -41,12 +41,12 @@ export const collectAndInitDirectives = (
         returnable = false;
       }
 
-      const uniqueCompiledKeys = removeDupesFromArray([...keys, ...keysInFunctions]);
-      nodeKeys.push(...uniqueCompiledKeys);
+      const uniqueCompiledDeps = removeDupesFromArray([...deps, ...depsInFunctions]);
+      nodeDeps.push(...uniqueCompiledDeps);
 
       const directiveData = {
         compute: computeExpression(value, el, returnable),
-        keys: uniqueCompiledKeys,
+        deps: uniqueCompiledDeps,
         value,
       };
 
@@ -58,7 +58,7 @@ export const collectAndInitDirectives = (
       }
     }
   }
-  return [directives, removeDupesFromArray(nodeKeys)];
+  return [directives, removeDupesFromArray(nodeDeps)];
 };
 
 export default collectAndInitDirectives;

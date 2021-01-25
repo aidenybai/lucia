@@ -44,13 +44,13 @@ describe('.compile', () => {
     const state = { foo: 'bar' };
     el.setAttribute('l-text', 'foo');
     const ast = compile(el, state);
-    const data = { compute: compute('foo', el), keys: ['foo'], value: 'foo' };
+    const data = { compute: compute('foo', el), deps: ['foo'], value: 'foo' };
 
     expect(JSON.stringify(ast)).toEqual(
       JSON.stringify([
         {
           el,
-          keys: ['foo'],
+          deps: ['foo'],
           directives: { text: data },
           type: 1,
         },

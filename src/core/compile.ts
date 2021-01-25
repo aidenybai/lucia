@@ -5,21 +5,21 @@ import collectAndInitDirectives from './utils/collectAndInitDirectives';
 import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
-  const [directives, keys] = collectAndInitDirectives(el, state);
+  const [directives, deps] = collectAndInitDirectives(el, state);
 
   // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
-  // Check if there are affected keys in values
-  const hasKeyInDirectives = Object.values(directives).some(({ value }) =>
-    Object.keys(state).some((key) => expressionPropRE(key).test(value))
+  // Check if there are affected props in state
+  const hasDepInDirectives = Object.values(directives).some(({ value }) =>
+    Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
   );
 
   if (!hasDirectives) return null;
   return {
     el,
-    keys: keys as string[],
+    deps: deps as string[],
     directives: directives as DirectiveKV,
-    type: hasKeyInDirectives ? 1 : 0,
+    type: hasDepInDirectives ? 1 : 0,
   };
 };
 

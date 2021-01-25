@@ -27,7 +27,7 @@ describe('.directive', () => {
     const data = {
       compute: () => {},
       value: '',
-      keys: [],
+      deps: [],
     };
     const props = {
       el,

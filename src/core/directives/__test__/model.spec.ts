@@ -13,7 +13,7 @@ describe('.modelDirective', () => {
     modelDirective({
       el,
       name: 'l-model',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(typeof el.oninput).toEqual('function');
@@ -31,7 +31,7 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       0,
-      { value: expression, compute: compute(expression, el), keys: [] },
+      { value: expression, compute: compute(expression, el), deps: [] },
       state
     );
     expect(payload).toEqual(0);
@@ -47,7 +47,7 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       true,
-      { value: expression, compute: compute(expression, el), keys: [] },
+      { value: expression, compute: compute(expression, el), deps: [] },
       { state }
     );
     expect(payload).toEqual(true);
@@ -63,7 +63,7 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       null,
-      { value: expression, compute: compute(expression, el), keys: [] },
+      { value: expression, compute: compute(expression, el), deps: [] },
       { state }
     );
     expect(payload).toEqual(null);
@@ -79,7 +79,7 @@ describe('.modelDirective', () => {
     const payload = inputCallback(
       el,
       undefined,
-      { value: expression, compute: compute(expression, el), keys: [] },
+      { value: expression, compute: compute(expression, el), deps: [] },
       { state }
     );
     expect(payload).toEqual(undefined);

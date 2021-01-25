@@ -14,8 +14,8 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
         // Accept binding classes on/off based off of boolean state value
         const classes = [];
 
-        for (const key in hydratedClasses) {
-          if (hydratedClasses[key] && !el.className.includes(key)) classes.push(key);
+        for (const prop in hydratedClasses) {
+          if (hydratedClasses[prop] && !el.className.includes(prop)) classes.push(prop);
         }
 
         const removeDynamicClassesRE = new RegExp(
@@ -36,8 +36,8 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
       // Accept object and set properties based on boolean state value
       const hydratedStyles = data.compute(state);
       el.removeAttribute('style');
-      for (const key in hydratedStyles) {
-        el.style[key] = hydratedStyles[key];
+      for (const prop in hydratedStyles) {
+        el.style[prop] = hydratedStyles[prop];
       }
       break;
     default:
@@ -45,12 +45,12 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
       const hydratedAttributes = data.compute(state);
       // Allow object syntax in binding without modifier
       if (typeof hydratedAttributes === 'object' && hydratedAttributes !== null) {
-        for (const key in hydratedAttributes) {
+        for (const prop in hydratedAttributes) {
           // Only set attr if not falsy
-          if (hydratedAttributes[key]) {
-            el.setAttribute(key, hydratedAttributes[key]);
+          if (hydratedAttributes[prop]) {
+            el.setAttribute(prop, hydratedAttributes[prop]);
           } else {
-            el.removeAttribute(key);
+            el.removeAttribute(prop);
           }
         }
         // Only set attr if not falsy

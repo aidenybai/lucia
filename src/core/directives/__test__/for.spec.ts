@@ -12,7 +12,7 @@ describe('.forDirective', () => {
     forDirective({
       el,
       name: 'l-for',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual(
@@ -30,7 +30,7 @@ describe('.forDirective', () => {
     forDirective({
       el,
       name: 'l-for',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual(
@@ -47,7 +47,7 @@ describe('.forDirective', () => {
     forDirective({
       el,
       name: 'l-for',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
@@ -65,7 +65,7 @@ describe('.forDirective', () => {
     forDirective({
       el,
       name: 'l-for',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
@@ -83,7 +83,7 @@ describe('.forDirective', () => {
     forDirective({
       el,
       name: 'l-for',
-      data: { value: expression, compute: compute(expression, el), keys: ['foo'] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');

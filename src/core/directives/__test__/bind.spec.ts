@@ -9,7 +9,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:class',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.className).toEqual('test');
@@ -23,7 +23,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:class',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.className).toEqual('test2');
@@ -36,7 +36,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:class',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.className).toEqual('');
@@ -49,7 +49,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:class',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.className).toEqual('foo');
@@ -62,7 +62,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:class',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.className).toEqual('foo bar baz');
@@ -75,7 +75,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:style',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.style.cssText).toEqual('font-weight: bold;');
@@ -88,7 +88,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:href',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.href).toEqual('https://example.com/');
@@ -101,7 +101,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:hidden',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.hidden).toEqual(true);
@@ -109,7 +109,7 @@ describe('.bindDirective', () => {
     bindDirective({
       el,
       name: 'l-bind:hidden',
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.hidden).toEqual(false);
@@ -125,7 +125,7 @@ describe('.bindDirective', () => {
       data: {
         value: expression,
         compute: compute(expression, el),
-        keys: ['id', 'class', 'title', 'translate'],
+        deps: ['id', 'class', 'title', 'translate'],
       },
       state,
     });

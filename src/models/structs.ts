@@ -9,7 +9,7 @@ export type DirectiveKV = Record<string, DirectiveData>;
 export interface DirectiveData {
   compute: Function;
   value: string;
-  keys: string[];
+  deps: string[];
 }
 
 export interface DirectiveProps {
@@ -21,7 +21,7 @@ export interface DirectiveProps {
 
 export interface ASTNode {
   directives: DirectiveKV;
-  keys: string[];
+  deps: string[];
   el: HTMLElement;
   type: ASTNodeType;
 }

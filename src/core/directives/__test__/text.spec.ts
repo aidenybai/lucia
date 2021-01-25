@@ -9,7 +9,7 @@ describe('.textDirective', () => {
     textDirective({
       el,
       name: `l-text`,
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.textContent).toEqual('$0');
@@ -22,7 +22,7 @@ describe('.textDirective', () => {
     textDirective({
       el,
       name: `l-text`,
-      data: { value: expression, compute: compute(expression, el), keys: [] },
+      data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
     expect(el.textContent).toEqual('count');

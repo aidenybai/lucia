@@ -24,23 +24,23 @@ export const reactive = (state: State, callback: Function): RevocableProxy => {
 
       // Currently double patches - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
-      let keys = [];
+      let props = [];
 
       if (target instanceof Array && hasArrayMutationKey) {
-        keys = Object.keys(state).filter((k) =>
-          arrayEquals(state[k] as unknown[], target as unknown[])
+        props = Object.keys(state).filter((prop) =>
+          arrayEquals(state[prop] as unknown[], target as unknown[])
         );
       } else {
         // Bad perf way of handling nested objects
-        if (Object.keys(state).some((key) => target[key] === undefined)) {
-          keys = Object.keys(state).filter((key) => typeof state[key] === 'object');
+        if (Object.keys(state).some((prop) => target[prop] === undefined)) {
+          props = Object.keys(state).filter((prop) => typeof state[prop] === 'object');
         } else {
-          keys = [key];
+          props = [key];
         }
       }
 
       target[key] = value;
-      callback(keys);
+      callback(props);
 
       return true;
     },
