@@ -13,6 +13,10 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
     // Parse event modifiers based on directive prop
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
+    if (eventProp === 'away') {
+      if (el.contains($event.target as Node)) return;
+      if (el.offsetWidth < 1 && el.offsetHeight < 1) return;
+    }
 
     data.compute(state);
   };
@@ -20,7 +24,7 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   options.once = eventProp === 'once';
   options.passive = eventProp === 'passive';
 
-  el.addEventListener(eventName, handler, options);
+  (eventProp === 'away' ? document : el).addEventListener(eventName, handler, options);
 
   // @ts-ignore
   el.__l_on_registered = handler;

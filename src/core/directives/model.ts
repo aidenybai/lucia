@@ -37,9 +37,15 @@ export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: Di
   if (el.value !== String(hydratedValue)) {
     el.value = String(hydratedValue);
   }
-  const [, prop] = name.split('.');
-  const callback = () => inputCallback(el, hydratedValue, data, state);
 
-  if (prop === 'debounce') el.onchange = callback;
-  else el.oninput = callback;
+  // @ts-ignore
+  if (!el.__l_model_registered) {
+    const [, prop] = name.split('.');
+    const callback = () => inputCallback(el, hydratedValue, data, state);
+
+    el.addEventListener(prop === 'debounce' ? 'change' : 'input', callback);
+
+    // @ts-ignore
+    el.__l_model_registered = true;
+  }
 };
