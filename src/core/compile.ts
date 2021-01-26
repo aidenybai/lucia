@@ -1,8 +1,18 @@
-import { DIRECTIVE_PREFIX } from '../models/generics';
+import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
 import { State, DirectiveKV, ASTNode } from '../models/structs';
+import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
+import compute from './utils/computeExpression';
 
-import collectAndInitDirectives from './utils/collectAndInitDirectives';
-import { expressionPropRE, hasDirectiveRE } from './utils/patterns';
+export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
+
+export const isListRenderScope = (el: HTMLElement) => {
+  return el.hasAttribute(`${DIRECTIVE_PREFIX}for`);
+};
+
+export const isUnderListRenderScope = (el: HTMLElement) => {
+  if (!el.parentElement) return false;
+  return el.parentElement!.hasAttribute(`${DIRECTIVE_PREFIX}for`);
+};
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
   const [directives, deps] = collectAndInitDirectives(el, state);
@@ -23,13 +33,59 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
   };
 };
 
-export const isListRenderScope = (el: HTMLElement) => {
-  return el.hasAttribute(`${DIRECTIVE_PREFIX}for`);
-};
+export const collectAndInitDirectives = (
+  el: HTMLElement,
+  state: State = {}
+): (DirectiveKV | string[])[] => {
+  const directives: DirectiveKV = {};
+  const nodeDeps = [];
 
-export const isUnderListRenderScope = (el: HTMLElement) => {
-  if (!el.parentElement) return false;
-  return el.parentElement!.hasAttribute(`${DIRECTIVE_PREFIX}for`);
+  if (el.attributes) {
+    for (const { name, value } of el.attributes) {
+      const depsInFunctions: string[] = [];
+      const propsInState: string[] = Object.keys(state);
+      let returnable = true;
+
+      // Finds the dependencies of a directive expression
+      const deps: string[] = propsInState.filter((prop) => {
+        const hasDep = expressionPropRE(prop).test(String(value));
+
+        if (typeof state[prop] === 'function' && hasDep) {
+          const depsInFunction = propsInState.filter((p) =>
+            expressionPropRE(p).test(String(state[prop]))
+          );
+          depsInFunctions.push(...depsInFunction);
+        }
+
+        return hasDep;
+      });
+
+      if (eventDirectivePrefixRE().test(name)) returnable = false;
+      // @ts-ignore
+      if (name.includes('for') && el.__l_for_template === undefined) {
+        // @ts-ignore
+        el.__l_for_template = String(el.innerHTML).trim();
+        returnable = false;
+      }
+
+      const uniqueCompiledDeps = removeDupesFromArray([...deps, ...depsInFunctions]);
+      nodeDeps.push(...uniqueCompiledDeps);
+
+      const directiveData = {
+        compute: compute(value, el, returnable),
+        deps: uniqueCompiledDeps,
+        value,
+      };
+
+      // Handle normal and shorthand directives
+      if (name.startsWith(DIRECTIVE_PREFIX)) {
+        directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
+      } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
+        directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = directiveData;
+      }
+    }
+  }
+  return [directives, removeDupesFromArray(nodeDeps)];
 };
 
 export const extractNodeChildrenAsCollection = (

@@ -1,12 +1,20 @@
 import { UnknownKV } from '../models/generics';
 import { State } from '../models/structs';
 
-import arrayEquals from './utils/arrayEquals';
-
-interface RevocableProxy {
+export interface RevocableProxy {
   proxy: UnknownKV;
   revoke: Function;
 }
+
+export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
+  // Deep Array equality check
+  return (
+    firstArray instanceof Array &&
+    secondArray instanceof Array &&
+    firstArray.length === secondArray.length &&
+    firstArray.every((value: unknown, i: number) => value === secondArray[i])
+  );
+};
 
 export const reactive = (state: State, callback: Function): RevocableProxy => {
   const handler = {
