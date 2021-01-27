@@ -43,8 +43,6 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
     }
   }
 
-  // @ts-ignore
-  el.__l = {};
   const ast = compile(el, state);
   patch(ast, directives, state, data.deps);
 };

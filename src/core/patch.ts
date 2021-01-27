@@ -27,7 +27,7 @@ const patch = (
 
       // If affected, then push to render queue
       if (directiveHasDep || isStatic) {
-        const directiveProps = { el: node.el, name: directiveName, data: directiveData, state };
+        const directiveProps = { el: node.el, name: directiveName, data: directiveData, node, state };
         renderDirective(directiveProps, directives);
       }
     }

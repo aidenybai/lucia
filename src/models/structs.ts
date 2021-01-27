@@ -17,6 +17,7 @@ export interface DirectiveProps {
   name: string;
   data: DirectiveData;
   state: State;
+  node?: ASTNode;
 }
 
 export interface ASTNode {

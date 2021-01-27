@@ -9,6 +9,8 @@ import { directives } from './core/directive';
 
 export { component, compile, patch, reactive, directives };
 
+export const luciaLoadEvent = new CustomEvent('lucia:load');
+
 export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const elements = [...element.querySelectorAll(`[${stateDirective}]`)];
@@ -27,4 +29,6 @@ export const init = (element: HTMLElement | Document = document): void => {
         console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
       }
     });
+
+  document.dispatchEvent(luciaLoadEvent);
 };

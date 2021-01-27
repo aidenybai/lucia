@@ -1,21 +1,31 @@
 import { DirectiveProps } from '../../models/structs';
 
+export const formatAcceptableWhitespace = (expression: string) => {
+  return expression.replace(/\s+/gim, ' ').trim();
+};
+
 export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
   switch (name.split(':')[1]) {
     case 'class':
       const hydratedClasses = data.compute(state);
       // Accept just providing classes regularly
       if (typeof hydratedClasses === 'string') {
-        return el.setAttribute('class', `${el.className} ${hydratedClasses}`.trim());
+        return el.setAttribute(
+          'class',
+          formatAcceptableWhitespace(`${el.className} ${hydratedClasses}`)
+        );
         // Accept providing an array of classes and appending them
       } else if (hydratedClasses instanceof Array) {
-        return el.setAttribute('class', `${el.className} ${hydratedClasses.join(' ')}`.trim());
+        return el.setAttribute(
+          'class',
+          formatAcceptableWhitespace(`${el.className} ${hydratedClasses.join(' ')}`)
+        );
       } else {
         // Accept binding classes on/off based off of boolean state value
         const classes = [];
 
         for (const prop in hydratedClasses) {
-          if (hydratedClasses[prop] && !el.className.includes(prop)) classes.push(prop);
+          if (hydratedClasses[prop]) classes.push(prop);
         }
 
         const removeDynamicClassesRE = new RegExp(
@@ -25,9 +35,12 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
 
         if (classes.length > 0) {
-          return el.setAttribute('class', `${rawClasses} ${classes.join(' ')}`.trim());
-        } else if (el.className.trim().length > 0) {
-          return el.setAttribute('class', rawClasses.trim());
+          return el.setAttribute(
+            'class',
+            formatAcceptableWhitespace(`${rawClasses} ${classes.join(' ')}`)
+          );
+        } else if (formatAcceptableWhitespace(el.className).length > 0) {
+          return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
         } else {
           return el.removeAttribute('class');
         }
@@ -43,6 +56,7 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
     default:
       // Bind arbitrary attributes based on boolean state value
       const hydratedAttributes = data.compute(state);
+
       // Allow object syntax in binding without modifier
       if (typeof hydratedAttributes === 'object' && hydratedAttributes !== null) {
         for (const prop in hydratedAttributes) {

@@ -8,8 +8,6 @@ export const htmlDirective = ({ el, data, state }: DirectiveProps) => {
   // Handle naked prop in expression case
   el.innerHTML = data.compute(state) ?? data.value;
 
-  // @ts-ignore
-  el.__l = {};
   const ast = compile(el, state);
   patch(ast, directives, state, data.deps);
 };

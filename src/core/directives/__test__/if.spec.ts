@@ -2,42 +2,24 @@ import { ifDirective } from '../if';
 import compute from '../../utils/computeExpression';
 
 describe('.ifDirective', () => {
-  it('should set display to none', () => {
+  it('should remove el', () => {
     const el = document.createElement('div');
     const expression = 'showme';
     const state = { showme: false };
+    const node = {
+      el,
+      directives: {},
+      deps: [],
+      type: 1,
+    };
     ifDirective({
       el,
       name: 'l-if',
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
+      node,
     });
-    expect(el.style.display).toEqual('none');
-  });
-
-  it('should remove display', () => {
-    const el = document.createElement('div');
-    const expression = 'showme';
-    const state = { showme: true };
-    ifDirective({
-      el,
-      name: 'l-if',
-      data: { value: expression, compute: compute(expression, el), deps: [] },
-      state,
-    });
-    expect(el.style.display).toEqual('');
-  });
-
-  it('should change visibility rather than display', () => {
-    const el = document.createElement('div');
-    const expression = 'showme';
-    const state = { showme: false };
-    ifDirective({
-      el,
-      name: 'l-if:hidden',
-      data: { value: expression, compute: compute(expression, el), deps: [] },
-      state,
-    });
-    expect(el.hidden).toEqual(true);
+    // @ts-ignore
+    expect(node.el.__l_if_template).toEqual(true);
   });
 });
