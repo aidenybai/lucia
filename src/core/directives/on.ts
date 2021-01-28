@@ -1,9 +1,11 @@
 import { DirectiveProps } from '../../models/structs';
 
+import { getCustomProp, setCustomProp } from '../utils/customProp';
+
 export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const options: Record<string, boolean> = {};
-  // @ts-ignore
-  if (el.__l_on_registered) return;
+
+  if (getCustomProp(el, '__l_on_registered')) return;
 
   const [directiveAndEventName, prop] = name.split('.');
   const eventName = directiveAndEventName.split(':')[1];
@@ -26,6 +28,5 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
 
   (eventProp === 'away' ? document : el).addEventListener(eventName, handler, options);
 
-  // @ts-ignore
-  el.__l_on_registered = handler;
+  setCustomProp(el, '__l_on_registered', true);
 };

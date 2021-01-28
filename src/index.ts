@@ -7,6 +7,8 @@ import compile from './core/compile';
 import reactive from './core/reactive';
 import { directives } from './core/directive';
 
+import { getCustomProp } from './core/utils/customProp';
+
 export { component, compile, patch, reactive, directives };
 
 export const luciaLoadEvent = new CustomEvent('lucia:load');
@@ -16,8 +18,7 @@ export const init = (element: HTMLElement | Document = document): void => {
   const elements = [...element.querySelectorAll(`[${stateDirective}]`)];
 
   elements
-    // @ts-ignore
-    .filter((el) => el.__l === undefined) // Filter out uninit scopes only
+    .filter((el) => getCustomProp(el as HTMLElement, '__l') === undefined) // Filter out uninit scopes only
     .map((el) => {
       const expression = el.getAttribute(stateDirective);
 

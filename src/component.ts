@@ -5,6 +5,8 @@ import compile from './core/compile';
 import reactive from './core/reactive';
 import patch from './core/patch';
 
+import { setCustomProp } from './core/utils/customProp';
+
 export class Component {
   public state: State;
   public directives: Directives;
@@ -25,8 +27,7 @@ export class Component {
 
     this.render();
 
-    // @ts-ignore
-    rootEl.__l = this;
+    setCustomProp(rootEl as HTMLElement, '__l', this);
 
     return this.state;
   }

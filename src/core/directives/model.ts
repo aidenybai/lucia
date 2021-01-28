@@ -1,5 +1,7 @@
 import { DirectiveProps, DirectiveData, State } from '../../models/structs';
 
+import { getCustomProp, setCustomProp } from '../utils/customProp';
+
 export const inputCallback = (
   el: HTMLInputElement,
   hydratedValue: unknown,
@@ -38,14 +40,12 @@ export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: Di
     el.value = String(hydratedValue);
   }
 
-  // @ts-ignore
-  if (!el.__l_model_registered) {
+  if (!getCustomProp(el, '__l_model_registered')) {
     const [, prop] = name.split('.');
     const callback = () => inputCallback(el, hydratedValue, data, state);
 
     el.addEventListener(prop === 'debounce' ? 'change' : 'input', callback);
 
-    // @ts-ignore
-    el.__l_model_registered = true;
+    setCustomProp(el, '__l_model_registered', true);
   }
 };

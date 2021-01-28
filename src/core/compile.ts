@@ -2,6 +2,7 @@ import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
 import { State, DirectiveKV, ASTNode } from '../models/structs';
 import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
 import compute from './utils/computeExpression';
+import { getCustomProp, setCustomProp } from './utils/customProp';
 
 export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
 
@@ -61,10 +62,8 @@ export const collectAndInitDirectives = (
       });
 
       if (eventDirectivePrefixRE().test(name)) returnable = false;
-      // @ts-ignore
-      if (name.includes('for') && el.__l_for_template === undefined) {
-        // @ts-ignore
-        el.__l_for_template = String(el.innerHTML).trim();
+      if (name.includes('for') && getCustomProp(el, '__l_for_template') === undefined) {
+        setCustomProp(el, '__l_for_template', String(el.innerHTML).trim());
         returnable = false;
       }
 
@@ -125,15 +124,12 @@ export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
   if (!el) throw new Error('Please provide a Element');
 
   const ast: ASTNode[] = [];
-  // @ts-ignore
-  const isListGroup = el.__l !== undefined && isListRenderScope(el);
+  const isListGroup = getCustomProp(el, '__l') !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = extractNodeChildrenAsCollection(el, isListGroup);
 
   for (const node of nodes) {
+    if (node.hasAttribute(`${DIRECTIVE_PREFIX}state`)) continue;
     if (hasDirectiveRE().test(node.outerHTML)) {
-      if (node.hasAttribute(`${DIRECTIVE_PREFIX}state`)) {
-        continue;
-      }
       // Creates AST Node from real DOM nodes
       const newASTNode = createASTNode(node, state);
       if (newASTNode) ast.push(newASTNode);

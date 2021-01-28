@@ -5,14 +5,14 @@ import patch from '../../core/patch';
 import { directives } from '../../core/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
+import { getCustomProp, setCustomProp } from '../utils/customProp';
 
 export const forDirective = ({ el, data, state }: DirectiveProps) => {
   const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
   const currArray = state[target] as unknown[];
 
-  // @ts-ignore
-  let template = String(el.__l_for_template);
+  let template = getCustomProp(el, '__l_for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
   const arrayDiff = currArray.length - el.children.length;
@@ -50,8 +50,7 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
     }
   }
 
-  // @ts-ignore
-  el.__l = true;
+  setCustomProp(el, '__l', true);
   const ast = compile(el, state);
   patch(ast, directives, state, data.deps);
 };
