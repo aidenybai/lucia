@@ -16,12 +16,19 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
   const arrayDiff = currArray.length - el.children.length;
+
   if (currArray.length === 0) el.innerHTML = '';
   else if (arrayDiff !== 0) {
     for (let i = Math.abs(arrayDiff); i > 0; i--) {
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
       else {
-        const temp = document.createElement('div');
+        // Handle table cases
+        const tag = template.startsWith('<th')
+          ? 'thead'
+          : template.startsWith('<td') || template.startsWith('<tr')
+          ? 'tbody'
+          : 'div';
+        const temp = document.createElement(tag);
         let content = template;
 
         if (item) {
@@ -38,11 +45,13 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
         }
 
         temp.innerHTML = content;
-        el.appendChild(temp.firstChild as HTMLElement);
+        el.appendChild(temp.firstElementChild!);
       }
     }
   }
 
+  // @ts-ignore
+  el.__l = true;
   const ast = compile(el, state);
   patch(ast, directives, state, data.deps);
 };
