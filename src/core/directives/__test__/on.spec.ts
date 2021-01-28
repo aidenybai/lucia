@@ -18,7 +18,7 @@ describe('.onDirective', () => {
       state,
     });
     // @ts-ignore
-    expect(typeof el.__l_on_registered).toEqual('function');
+    expect(typeof el.__l_on_registered).toEqual('boolean');
     fireEvent.click(el);
     expect(mockCb).toBeCalled();
   });
