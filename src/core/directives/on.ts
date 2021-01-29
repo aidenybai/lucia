@@ -4,6 +4,7 @@ import { getCustomProp, setCustomProp } from '../utils/customProp';
 
 export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const options: Record<string, boolean> = {};
+  const globalScopeEventProps = ['away', 'global'];
 
   if (getCustomProp(el, '__l_on_registered')) return;
 
@@ -26,7 +27,11 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   options.once = eventProp === 'once';
   options.passive = eventProp === 'passive';
 
-  (eventProp === 'away' ? document : el).addEventListener(eventName, handler, options);
+  (globalScopeEventProps.includes(String(eventProp)) ? document : el).addEventListener(
+    eventName,
+    handler,
+    options
+  );
 
   setCustomProp(el, '__l_on_registered', true);
 };

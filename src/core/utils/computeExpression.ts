@@ -43,10 +43,15 @@ export const computeExpression = (
       if (positionInState !== -1) {
         return interpretProps(expression, propValues, positionInState);
       } else {
-        return new Function('$state', '$el', formattedExpression)(state, el || null);
+        const emit = (name: string, options?: CustomEventInit) => {
+          const event = new CustomEvent(name, options);
+          document.dispatchEvent(event);
+        };
+
+        return new Function('$state', '$el', '$emit', formattedExpression)(state, el, emit);
       }
     } catch (err) {
-      console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el || null);
+      console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
     }
   };
 };

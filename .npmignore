@@ -5,7 +5,7 @@ yarn.lock
 yarn-error.log
 
 # Testing
-test.html
+test*.html
 coverage
 
 # Build Configs

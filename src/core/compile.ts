@@ -41,47 +41,45 @@ export const collectAndInitDirectives = (
   const directives: DirectiveKV = {};
   const nodeDeps = [];
 
-  if (el.attributes) {
-    for (const { name, value } of el.attributes) {
-      const depsInFunctions: string[] = [];
-      const propsInState: string[] = Object.keys(state);
-      let returnable = true;
+  for (const { name, value } of el.attributes) {
+    const depsInFunctions: string[] = [];
+    const propsInState: string[] = Object.keys(state);
+    let returnable = true;
 
-      // Finds the dependencies of a directive expression
-      const deps: string[] = propsInState.filter((prop) => {
-        const hasDep = expressionPropRE(prop).test(String(value));
+    // Finds the dependencies of a directive expression
+    const deps: string[] = propsInState.filter((prop) => {
+      const hasDep = expressionPropRE(prop).test(String(value));
 
-        if (typeof state[prop] === 'function' && hasDep) {
-          const depsInFunction = propsInState.filter((p) =>
-            expressionPropRE(p).test(String(state[prop]))
-          );
-          depsInFunctions.push(...depsInFunction);
-        }
-
-        return hasDep;
-      });
-
-      if (eventDirectivePrefixRE().test(name)) returnable = false;
-      if (name.includes('for') && getCustomProp(el, '__l_for_template') === undefined) {
-        setCustomProp(el, '__l_for_template', String(el.innerHTML).trim());
-        returnable = false;
+      if (typeof state[prop] === 'function' && hasDep) {
+        const depsInFunction = propsInState.filter((p) =>
+          expressionPropRE(p).test(String(state[prop]))
+        );
+        depsInFunctions.push(...depsInFunction);
       }
 
-      const uniqueCompiledDeps = removeDupesFromArray([...deps, ...depsInFunctions]);
-      nodeDeps.push(...uniqueCompiledDeps);
+      return hasDep;
+    });
 
-      const directiveData = {
-        compute: compute(value, el, returnable),
-        deps: uniqueCompiledDeps,
-        value,
-      };
+    if (eventDirectivePrefixRE().test(name)) returnable = false;
+    if (name.includes('for') && getCustomProp(el, '__l_for_template') === undefined) {
+      setCustomProp(el, '__l_for_template', String(el.innerHTML).trim());
+      returnable = false;
+    }
 
-      // Handle normal and shorthand directives
-      if (name.startsWith(DIRECTIVE_PREFIX)) {
-        directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
-      } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
-        directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = directiveData;
-      }
+    const uniqueCompiledDeps = removeDupesFromArray([...deps, ...depsInFunctions]);
+    nodeDeps.push(...uniqueCompiledDeps);
+
+    const directiveData = {
+      compute: compute(value, el, returnable),
+      deps: uniqueCompiledDeps,
+      value,
+    };
+
+    // Handle normal and shorthand directives
+    if (name.startsWith(DIRECTIVE_PREFIX)) {
+      directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
+    } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
+      directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = directiveData;
     }
   }
   return [directives, removeDupesFromArray(nodeDeps)];
