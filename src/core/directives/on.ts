@@ -4,7 +4,7 @@ import { getCustomProp, setCustomProp } from '../utils/customProp';
 
 export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const options: Record<string, boolean> = {};
-  const globalScopeEventProps = ['away', 'global'];
+  const globalScopeEventProps = ['outside', 'global'];
 
   if (getCustomProp(el, '__l_on_registered')) return;
 
@@ -16,12 +16,12 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
     // Parse event modifiers based on directive prop
     if (eventProp === 'prevent') $event.preventDefault();
     if (eventProp === 'stop') $event.stopPropagation();
-    if (eventProp === 'away') {
+    if (eventProp === 'outside') {
       if (el.contains($event.target as Node)) return;
       if (el.offsetWidth < 1 && el.offsetHeight < 1) return;
     }
 
-    data.compute(state);
+    data.compute(state, $event);
   };
 
   options.once = eventProp === 'once';

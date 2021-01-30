@@ -10,15 +10,15 @@ Sometimes, all you want to do is to try and do something—No boilerplate, bundl
 
 ## Installing Lucia
 
-Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/essentials/installation/#cdn) in the head of your webpage.
+Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
 
 ```html
 <script src="https://unpkg.com/lucia"></script>
 ```
 
-It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), we recommend [specifying the exact build](https://lucia.js.org/docs/essentials/installation/#npm) if you import Lucia this way.
+It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), we recommend [specifying the exact build](https://lucia.js.org/docs/fundementals/installation/#npm) if you import Lucia this way.
 
-[**→ Learn more about installing Lucia**](https://lucia.js.org/docs/essentials/installation)
+[**→ Learn more about installing Lucia**](https://lucia.js.org/docs/fundementals/installation)
 
 ## Todo App Example
 
@@ -37,7 +37,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 </div>
 ```
 
-[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN) | [**→ View more examples**](https://lucia.js.org/docs/examples/todo)
+[**→ View the live Codepen example**](https://codepen.io/aidenybai/pen/JjRrwjN)
 
 ## Resources & Contributing Back
 

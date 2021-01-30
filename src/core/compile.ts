@@ -1,8 +1,8 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
 import { State, DirectiveKV, ASTNode } from '../models/structs';
 import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
-import compute from './utils/computeExpression';
 import { getCustomProp, setCustomProp } from './utils/customProp';
+import compute from './utils/computeExpression';
 
 export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
 

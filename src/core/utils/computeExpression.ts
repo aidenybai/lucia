@@ -33,7 +33,7 @@ export const computeExpression = (
   let formattedExpression = `with($state){${
     returnable ?? true ? `return ${expression}` : expression
   }}`;
-  return (state: UnknownKV) => {
+  return (state: UnknownKV, event?: Event) => {
     try {
       const [propKeys, propValues] = [Object.keys(state), Object.values(state)];
       const strippedExpression = expression.replace(/(\[\d+\])|(\$state\.)|(\(\))|;*/gim, '');
@@ -48,7 +48,12 @@ export const computeExpression = (
           document.dispatchEvent(event);
         };
 
-        return new Function('$state', '$el', '$emit', formattedExpression)(state, el, emit);
+        return new Function('$state', '$el', '$emit', '$event', formattedExpression)(
+          state,
+          el,
+          emit,
+          event
+        );
       }
     } catch (err) {
       console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
