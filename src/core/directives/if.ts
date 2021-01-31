@@ -1,7 +1,7 @@
 import { DirectiveProps } from '../../models/structs';
 
 import compile from '../../core/compile';
-import patch from '../../core/patch';
+import render from '../../core/render';
 import { directives } from '../../core/directive';
 
 import { getCustomProp, setCustomProp } from '../utils/customProp';
@@ -34,6 +34,6 @@ export const ifDirective = ({ el, data, state, node }: DirectiveProps) => {
     nextEl.removeAttribute('l-if');
 
     const ast = compile(nextEl, state);
-    patch(ast, directives, state, Object.keys(state));
+    render(ast, directives, state, Object.keys(state));
   }
 };

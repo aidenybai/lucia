@@ -2,14 +2,14 @@
 import { DIRECTIVE_PREFIX } from './models/generics';
 import component from './component';
 
-import patch from './core/patch';
+import render from './core/render';
 import compile from './core/compile';
 import reactive from './core/reactive';
 import { directives } from './core/directive';
 
 import { getCustomProp } from './core/utils/customProp';
 
-export { component, compile, patch, reactive, directives };
+export { component, compile, render, reactive, directives };
 
 export const luciaLoadEvent = new CustomEvent('lucia:load');
 

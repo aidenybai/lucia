@@ -1,7 +1,7 @@
 import { DirectiveProps } from '../../models/structs';
 
 import compile from '../../core/compile';
-import patch from '../../core/patch';
+import render from '../../core/render';
 import { directives } from '../../core/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
@@ -52,5 +52,5 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
 
   setCustomProp(el, '__l', true);
   const ast = compile(el, state);
-  patch(ast, directives, state, data.deps);
+  render(ast, directives, state, data.deps);
 };

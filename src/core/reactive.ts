@@ -30,7 +30,7 @@ export const reactive = (state: State, callback: Function): RevocableProxy => {
       // Do not allow function mutation
       if (typeof state[key] === 'function') return false;
 
-      // Currently double patches - bad perf
+      // Currently double renderes - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
       let props = [];
 

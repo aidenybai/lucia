@@ -3,7 +3,7 @@ import { Directives, ASTNode } from '../models/structs';
 
 import { renderDirective } from './directive';
 
-const patch = (
+const render = (
   ast: ASTNode[],
   directives: Directives,
   state: UnknownKV = {},
@@ -44,4 +44,4 @@ const patch = (
   }
 };
 
-export default patch;
+export default render;

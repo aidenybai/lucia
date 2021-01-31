@@ -3,7 +3,7 @@ import { Directives, State, ASTNode } from './models/structs';
 import { directives } from './core/directive';
 import compile from './core/compile';
 import reactive from './core/reactive';
-import patch from './core/patch';
+import render from './core/render';
 
 import { setCustomProp } from './core/utils/customProp';
 
@@ -38,7 +38,7 @@ export class Component {
   }
 
   public render(props: string[] = Object.keys(this.state)) {
-    patch(this.ast!, directives, this.state, props);
+    render(this.ast!, directives, this.state, props);
   }
 }
 

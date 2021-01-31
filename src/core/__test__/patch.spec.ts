@@ -1,8 +1,8 @@
 import compile from '../compile';
-import patch from '../patch';
+import render from '../render';
 
-describe('.patch', () => {
-  it('should patch a directive', () => {
+describe('.render', () => {
+  it('should render a directive', () => {
     const el = document.createElement('div');
     const child1 = document.createElement('div');
     const child2 = document.createElement('div');
@@ -22,8 +22,8 @@ describe('.patch', () => {
     const ast = compile(el, state);
     const originalASTLength = ast.length;
 
-    patch(ast, { CUSTOM: callback }, state, Object.keys(state));
-    patch(ast, { CUSTOM: callback }, state, Object.keys(state));
+    render(ast, { CUSTOM: callback }, state, Object.keys(state));
+    render(ast, { CUSTOM: callback }, state, Object.keys(state));
 
     expect(callback).toBeCalledTimes(5);
     expect(originalASTLength - ast.length).toEqual(1);
