@@ -35,7 +35,9 @@ The Lucia' core is designed to accomplish a balance between being **fast and com
 
 ## Overview
 
-![Flowchart Overview](https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/flowchart.svg)
+<p align="center"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/flowchart.svg" alt="Diagram of build pipeline" width="752"></p>
+
+Lucia's Core is composed of two phases: compilation and runtime.
 
 ### Compiler
 
