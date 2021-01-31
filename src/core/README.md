@@ -35,7 +35,7 @@ The Lucia' core is designed to accomplish a balance between being **fast and com
 
 ## Overview
 
-![Flowchart Overview](https://chart.googleapis.com/chart?cht=gv:circo&chl=digraph{DOM->Compiler->Observer->Renderer->Directive->Observer})
+![Flowchart Overview](https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/flowchart.svg)
 
 ### Compiler
 
