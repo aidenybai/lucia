@@ -8,7 +8,7 @@ yarn-error.log
 test*.html
 coverage
 
-# Build Configs
+# Build Config
 tsconfig.json
 rollup.config.js
 rollup-dev.config.js
@@ -23,13 +23,12 @@ src/
 .prettierrc
 .prettierignore
 
-# Misc
-.github/
-docs/
+# Editor Config
 .vscode/
 .idea/
-benchmarks/
 settings.json
-CNAME
 .DS_Store
-test/
+
+# Misc
+.github/
+scratch.md

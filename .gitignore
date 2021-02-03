@@ -4,16 +4,18 @@ package-lock.json
 yarn.lock
 yarn-error.log
 
-# Testing
+# Tests
 test*.html
 coverage
 
 # Build source
 dist/
-docs/
 
-# Misc
+# Editor Config
 .vscode/
 .idea/
 settings.json
 .DS_Store
+
+# Misc
+scratch.md
