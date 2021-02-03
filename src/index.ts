@@ -11,25 +11,24 @@ import { getCustomProp } from './core/utils/customProp';
 
 export { component, compile, render, reactive, directives };
 
-export const luciaLoadEvent = new CustomEvent('lucia:load');
-
 export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
-  const elements = [...element.querySelectorAll(`[${stateDirective}]`)];
 
-  elements
-    .filter((el) => getCustomProp(el as HTMLElement, '__l') === undefined) // Filter out uninit scopes only
-    .map((el) => {
-      const expression = el.getAttribute(stateDirective);
+  const elements = element.querySelectorAll(`[${stateDirective}]`);
+  // Filter out uninit scopes only
+  const uninitializedComponents = [...elements].filter(
+    (el) => getCustomProp(el as HTMLElement, '__l') === undefined
+  );
 
-      try {
-        // Parse state from state expression
-        const state = new Function(`return ${expression || {}}`);
-        component(state()).mount(el as HTMLElement);
-      } catch (err) {
-        console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
-      }
-    });
+  for (const el of uninitializedComponents) {
+    const expression = el.getAttribute(stateDirective);
 
-  document.dispatchEvent(luciaLoadEvent);
+    try {
+      // Parse state from state expression
+      const state = new Function(`return ${expression || {}}`);
+      component(state()).mount(el as HTMLElement);
+    } catch (err) {
+      console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
+    }
+  }
 };

@@ -107,6 +107,7 @@ export const extractNodeChildrenAsCollection = (
           collection.push(childNode as HTMLElement);
         } else {
           // Push all children into array (recursive flattening)
+          if ((childNode as HTMLElement).hasAttribute(`${DIRECTIVE_PREFIX}state`)) continue;
           collection.push(
             ...extractNodeChildrenAsCollection(childNode as HTMLElement, isListGroup)
           );
