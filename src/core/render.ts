@@ -10,6 +10,7 @@ const render = (
   changedProps: string[] = []
 ): void => {
   const staticNodeCleanupQueue: number[] = [];
+  const legalDirectiveNames = Object.keys(directives);
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
@@ -22,7 +23,8 @@ const render = (
     if (!nodeHasDep && !isStatic) continue;
 
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
-      // Iterate through affected  and check if directive value has prop
+      if (!legalDirectiveNames.includes(directiveName)) continue;
+      // Iterate through affected and check if directive value has prop
       const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
 
       // If affected, then push to render queue
