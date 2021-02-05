@@ -2,7 +2,7 @@ import { component, Component } from '../component';
 import reactive from '../core/reactive';
 import { directives } from '../core/directive';
 
-describe('.App', () => {
+describe('.component', () => {
   it('should create and mount app properly', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
