@@ -70,9 +70,6 @@
   "jest": {
     "transform": {
       ".(ts)": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "src/**/{!(index|browser|structs|collectAndInitDirectives|reactive),}.ts"
-    ]
+    }
   }
 }
