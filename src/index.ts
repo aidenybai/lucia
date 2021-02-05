@@ -6,10 +6,10 @@ import render from './core/render';
 import compile from './core/compile';
 import reactive from './core/reactive';
 import { directives } from './core/directive';
-
 import { getCustomProp } from './core/utils/customProp';
+import computeExpression from './core/utils/computeExpression';
 
-export { component, compile, render, reactive, directives };
+export { component, compile, render, reactive, directives, computeExpression };
 
 export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
@@ -27,7 +27,7 @@ export const init = (element: HTMLElement | Document = document): void => {
 
     try {
       // Parse state from state expression
-      const state = new Function(`return ${stateExpression || {}}`);
+      const state = new Function(`return ${stateExpression || '{}'}`);
       const init = initExpression ? new Function(`return ${initExpression}`) : undefined;
       component(state()).mount(el as HTMLElement);
       if (init) init();
