@@ -58,6 +58,22 @@ describe('.compile', () => {
     );
   });
 
+  it('should handle inline and ignore nested components', () => {
+    const el1 = document.createElement('div');
+    const el2 = document.createElement('div');
+    const state = { foo: 'bar' };
+
+    el1.setAttribute('l-state', JSON.stringify(state));
+    el1.setAttribute('l-text', 'foo');
+    el2.setAttribute('l-state', '{}');
+    el1.appendChild(el2);
+
+    setTimeout(() => {
+      expect(compile(el1)).toEqual([createASTNode(el1, state)]);
+      expect(compile(el2)).toEqual([createASTNode(el2, {})]);
+    }, 0);
+  });
+
   it('should detect list render scope', () => {
     const el1 = document.createElement('div');
     const el2 = document.createElement('div');

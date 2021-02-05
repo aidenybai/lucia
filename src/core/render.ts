@@ -23,7 +23,9 @@ const render = (
     if (!nodeHasDep && !isStatic) continue;
 
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
-      if (!legalDirectiveNames.includes(directiveName)) continue;
+      const rawDirectiveName = directiveName.split(':')[0];
+      // Validate if it is a legal directive
+      if (!legalDirectiveNames.includes(rawDirectiveName.toUpperCase())) continue;
       // Iterate through affected and check if directive value has prop
       const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
 

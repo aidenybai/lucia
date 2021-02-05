@@ -21,8 +21,8 @@ describe('.directive', () => {
   it('should render directive', () => {
     const el = document.createElement('div');
     const callback = jest.fn();
-    const fakeDirectives = {
-      FAKE: callback,
+    const customDirectives = {
+      CALLBACK: callback,
     };
     const data = {
       compute: () => {},
@@ -31,12 +31,12 @@ describe('.directive', () => {
     };
     const props = {
       el,
-      name: 'fake',
+      name: 'callback',
       state: {},
       data,
     };
 
-    renderDirective(props, fakeDirectives);
+    renderDirective(props, customDirectives);
 
     expect(callback).toBeCalled();
   });
