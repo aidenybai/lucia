@@ -61,7 +61,7 @@ interface ASTNode {
 }
 ```
 
-The `directives` property is used to data that includes reusuable functions of the directives on the specific element. We will talk more about this later. The `deps` property contains an array of dependency keys of all the directives of the element. The `el` property contains the element for the renderer to use. The `type` property can only be `0 (STATIC)` or `1 (DYNAMIC)`. This is important as the renderer garbage collects static nodes, which do not contain any dependencies.
+The `directives` property is used to data that includes reusuable functions of the directives on the specific element. We will talk more about this later. The `deps` property contains an array of dependency keys of all the directives of the element. The `el` property contains the element for the renderer to use. The `type` property can only be `0 (STATIC)`, `1 (DYNAMIC_ACCESSOR)`, or `2 (DYNAMIC_MUTATOR)`. This is important as the renderer garbage collects static nodes, which do not contain any dependencies.
 
 **Directives and DirectiveData**
 
@@ -87,7 +87,7 @@ The renderer's purpose is to change the DOM based on the state. It does this by 
 
 **Garbage Collection**
 
-There are two types of ASTNodes as designated by the compiler: `0 (STATIC)` and `1 (DYNAMIC)`. Static ASTNodes refer to ASTNodes with directives, but no dependencies. Since directives are immutable, these nodes only need to be rendered once. After they are rendered, they are pushed to a queue. After all affected ASTNodes are rendered, they are deleted from the AST. This means that unnecessary iteration is removed, boosting performance.
+There are two types of ASTNodes as designated by the compiler: `0 (STATIC)`, `1 (DYNAMIC_ACCESSOR)`, and `1 (DYNAMIC_MUTATOR)`. Static ASTNodes refer to ASTNodes with directives, but no dependencies. Since directives are immutable, these nodes only need to be rendered once. After they are rendered, they are pushed to a queue. After all affected ASTNodes are rendered, they are deleted from the AST. This means that unnecessary iteration is removed, boosting performance. Dynamic mutator nodes are always hoisted over dynamic accessor nodes, as render calls happen only when state props are changed.
 
 **Expression Computation and Interpretation**
 

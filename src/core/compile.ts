@@ -16,7 +16,7 @@ export const isUnderListRenderScope = (el: HTMLElement): boolean => {
 };
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
-  const [directives, deps] = collectAndInitDirectives(el, state);
+  const [directives, deps, IS_DYNAMIC_MUTATOR] = collectAndInitDirectives(el, state);
 
   // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
@@ -25,7 +25,7 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
   const hasDepInDirectives = Object.values(directives).some(({ value }) =>
     Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
   );
-  const type = hasDepInDirectives ? 1 : 0;
+  const type = IS_DYNAMIC_MUTATOR ? 2 : hasDepInDirectives ? 1 : 0;
 
   if (!hasDirectives) return null;
 
@@ -35,9 +35,10 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
 export const collectAndInitDirectives = (
   el: HTMLElement,
   state: State = {}
-): [DirectiveKV, string[]] => {
+): [DirectiveKV, string[], boolean] => {
   const directives: DirectiveKV = {};
   const nodeDeps = [];
+  let IS_DYNAMIC_MUTATOR = false;
 
   for (const { name, value } of el.attributes) {
     if (name === `${DIRECTIVE_PREFIX}state`) continue;
@@ -77,13 +78,15 @@ export const collectAndInitDirectives = (
     };
 
     // Handle normal and shorthand directives
-    if (name.startsWith(DIRECTIVE_PREFIX)) {
-      directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
-    } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
-      directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = directiveData;
-    }
+    const directiveName = name.startsWith(DIRECTIVE_PREFIX)
+      ? name.slice(DIRECTIVE_PREFIX.length)
+      : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
+
+    directives[directiveName] = directiveData;
+
+    if (/on|model/gim.test(directiveName)) IS_DYNAMIC_MUTATOR = true;
   }
-  return [directives, removeDupesFromArray(nodeDeps)];
+  return [directives, removeDupesFromArray(nodeDeps), IS_DYNAMIC_MUTATOR];
 };
 
 export const extractNodeChildrenAsCollection = (
@@ -136,7 +139,8 @@ export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
     }
   }
 
-  return ast;
+  // Hoist mutators
+  return ast.sort((firstNode: ASTNode, secondNode: ASTNode) => secondNode.type - firstNode.type);
 };
 
 export default compile;
