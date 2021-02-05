@@ -46,18 +46,6 @@ describe('.browser', () => {
     setTimeout(() => validateComponentFunctionality, 0);
   });
 
-  it('should initialize for turbolinks:load and turbo:load events', () => {
-    reset();
-    const turbolinksLoad = new CustomEvent('turbolinks:load');
-    document.dispatchEvent(turbolinksLoad);
-    setTimeout(() => validateComponentFunctionality, 0);
-
-    reset();
-    const turboDriveLoad = new CustomEvent('turbo:load');
-    document.dispatchEvent(turboDriveLoad);
-    setTimeout(() => validateComponentFunctionality, 0);
-  });
-
   it('should intercept `start()`', () => {
     const customLoad = new CustomEvent('customLoad');
 
