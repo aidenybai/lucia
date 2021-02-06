@@ -2,7 +2,7 @@ import { htmlDirective } from '../html';
 import compute from '../../utils/computeExpression';
 
 describe('.htmlDirective', () => {
-  it('should set the html', () => {
+  it('should interpolate state into interHTML', () => {
     const el = document.createElement('div');
     const expression = 'foo';
     const state = { foo: 'bar' };
@@ -17,7 +17,7 @@ describe('.htmlDirective', () => {
 
   it('should set the html to the value', () => {
     const el = document.createElement('div');
-    const expression = `foo`;
+    const expression = '<p>foo</p>';
     const state = {};
     htmlDirective({
       el,
@@ -25,32 +25,19 @@ describe('.htmlDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    expect(el.innerHTML).toEqual('foo');
+    expect(el.innerHTML).toEqual('<p>foo</p>');
   });
 
-  it('should create a nested component scope', () => {
+  it('should allow usage of directives and components', () => {
     const el = document.createElement('div');
     const expression = `foo`;
-    const state = { foo: '<p l-text="foo"></p>' };
+    const state = { foo: '<p l-text="bar"></p>' };
     htmlDirective({
       el,
       name: 'l-html',
       data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
-    expect(el.innerHTML).toEqual('<p l-text="foo">&lt;p l-text="foo"&gt;&lt;/p&gt;</p>');
-  });
-
-  it('should allow creation of directives and components', () => {
-    const el = document.createElement('div');
-    const expression = `foo`;
-    const state = { foo: '<p l-text="foo"></p>' };
-    htmlDirective({
-      el,
-      name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
-      state,
-    });
-    expect(el.innerHTML).toEqual('<p l-text="foo">&lt;p l-text="foo"&gt;&lt;/p&gt;</p>');
+    expect(el.innerHTML).toEqual('<p l-text="bar">bar</p>');
   });
 });

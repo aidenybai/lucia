@@ -11,6 +11,7 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const [directiveAndEventName, prop] = name.split('.');
   const eventName = directiveAndEventName.split(':')[1];
   const eventProp = prop || null;
+  const target = globalScopeEventProps.includes(String(eventProp)) ? document : el;
 
   const handler = ($event: Event) => {
     // Parse event modifiers based on directive prop
@@ -27,11 +28,7 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   options.once = eventProp === 'once';
   options.passive = eventProp === 'passive';
 
-  (globalScopeEventProps.includes(String(eventProp)) ? document : el).addEventListener(
-    eventName,
-    handler,
-    options
-  );
+  target.addEventListener(eventName, handler, options);
 
-  setCustomProp(el, '__l_on_registered', true);
+  setCustomProp(target as HTMLElement, '__l_on_registered', true);
 };

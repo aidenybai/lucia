@@ -28,4 +28,4 @@ const browser = (format, folder = '') => ({
   ],
 });
 
-export default [browser('esnext')];
+export default [browser('es2018')];

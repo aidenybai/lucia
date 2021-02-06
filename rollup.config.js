@@ -85,8 +85,8 @@ const index = (format, folder = '') => ({
 });
 
 export default [
-  browser('esnext'),
-  index('esnext'),
+  browser('es2018'),
+  index('es2018'),
   browser('es5', '/legacy'),
   index('es5', '/legacy'),
 ];

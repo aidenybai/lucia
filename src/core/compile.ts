@@ -77,12 +77,13 @@ export const collectAndInitDirectives = (
     };
 
     // Handle normal and shorthand directives
-    if (name.startsWith(DIRECTIVE_PREFIX)) {
-      directives[name.slice(DIRECTIVE_PREFIX.length)] = directiveData;
-    } else if (Object.keys(DIRECTIVE_SHORTHANDS).includes(name[0])) {
-      directives[`${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`] = directiveData;
-    }
+    const directiveName = name.startsWith(DIRECTIVE_PREFIX)
+      ? name.slice(DIRECTIVE_PREFIX.length)
+      : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
+
+    directives[directiveName] = directiveData;
   }
+
   return [directives, removeDupesFromArray(nodeDeps)];
 };
 
@@ -122,7 +123,7 @@ export const extractNodeChildrenAsCollection = (
 };
 
 export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
-  if (!el) throw new Error('Please provide a Element');
+  if (!el) throw new Error('Please provide a HTMLElement');
 
   const ast: ASTNode[] = [];
   const isListGroup = getCustomProp(el, '__l') !== undefined && isListRenderScope(el);

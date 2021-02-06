@@ -2,22 +2,23 @@ import { textDirective } from '../text';
 import compute from '../../utils/computeExpression';
 
 describe('.textDirective', () => {
-  it('should set the text content', () => {
+  it('should interpolate state into textContent', () => {
     const el = document.createElement('div');
-    const expression = `'$' + money`;
-    const state = { money: 0 };
+    const expression = 'foo';
+    const state = { foo: 'bar' };
+
     textDirective({
       el,
       name: `l-text`,
-      data: { value: expression, compute: compute(expression, el), deps: [] },
+      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
-    expect(el.textContent).toEqual('$0');
+    expect(el.textContent).toEqual('bar');
   });
 
-  it('should set the text content to the value', () => {
+  it(`should attempt to coerce to string if prop doesn't exist`, () => {
     const el = document.createElement('div');
-    const expression = `'count'`;
+    const expression = `foo`;
     const state = {};
     textDirective({
       el,
@@ -25,6 +26,6 @@ describe('.textDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    expect(el.textContent).toEqual('count');
+    expect(el.textContent).toEqual('foo');
   });
 });

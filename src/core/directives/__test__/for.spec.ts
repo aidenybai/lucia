@@ -1,13 +1,15 @@
 import { forDirective } from '../for';
 import compute from '../../utils/computeExpression';
+import { setCustomProp } from '../../utils/customProp';
 
 describe('.forDirective', () => {
   it('should join the state array into HTML', () => {
     const el = document.createElement('ul');
     const expression = `bar in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    // @ts-ignore
-    el.__l_for_template = '<li l-text="this.bar"></li>';
+
+    setCustomProp(el, '__l_for_template', '<li l-text="this.bar"></li>');
+
     el.innerHTML = '<li l-text="this.bar"></li>';
     forDirective({
       el,
@@ -24,8 +26,9 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `bar, i in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    // @ts-ignore
-    el.__l_for_template = '<li l-text="this.bar + this.i"></li>';
+
+    setCustomProp(el, '__l_for_template', '<li l-text="this.bar + this.i"></li>');
+
     el.innerHTML = '<li l-text="this.bar + this.i"></li>';
     forDirective({
       el,
@@ -42,8 +45,9 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    // @ts-ignore
-    el.__l_for_template = '<li></li>';
+
+    setCustomProp(el, '__l_for_template', '<li></li>');
+
     forDirective({
       el,
       name: 'l-for',
@@ -57,10 +61,10 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    // @ts-ignore
-    el.__l_for_template = '<li></li>';
-    // @ts-ignore
-    el.__l_for_state = ['bar', 'bar'];
+
+    setCustomProp(el, '__l_for_template', '<li></li>');
+    setCustomProp(el, '__l_for_state', ['bar', 'bar']);
+
     el.innerHTML = '<li></li><li></li>';
     forDirective({
       el,
@@ -75,10 +79,10 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    // @ts-ignore
-    el.__l_for_template = '<li></li>';
-    // @ts-ignore
-    el.__l_for_state = ['bar', 'bar', 'bar', 'bar'];
+
+    setCustomProp(el, '__l_for_template', '<li></li>');
+    setCustomProp(el, '__l_for_state', ['bar', 'bar', 'bar', 'bar']);
+
     el.innerHTML = '<li></li><li></li><li></li><li></li>';
     forDirective({
       el,
