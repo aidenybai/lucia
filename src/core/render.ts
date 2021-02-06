@@ -15,6 +15,7 @@ const render = (
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
     const isStatic = node.type === 0;
+
     // Queue static nodes into garbage collection
     if (isStatic) staticNodeCleanupQueue.push(i);
 
@@ -28,9 +29,10 @@ const render = (
       if (!legalDirectiveNames.includes(rawDirectiveName.toUpperCase())) continue;
       // Iterate through affected and check if directive value has prop
       const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
+      const isStaticDirective = Object.keys(directiveData.deps).length === 0;
 
       // If affected, then push to render queue
-      if (directiveHasDep || isStatic) {
+      if (directiveHasDep || isStatic || isStaticDirective) {
         const directiveProps = {
           el: node.el,
           name: directiveName,
@@ -39,6 +41,8 @@ const render = (
           state,
         };
         renderDirective(directiveProps, directives);
+
+        if (isStaticDirective) delete node.directives[directiveName];
       }
     }
   }
