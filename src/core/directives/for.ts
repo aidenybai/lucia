@@ -53,4 +53,6 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
   setCustomProp(el, '__l', true);
   const ast = compile(el, state);
   render(ast, directives, state, data.deps);
+
+  console.log(ast, data.deps);
 };
