@@ -2,14 +2,15 @@ import { fireEvent } from '@testing-library/dom';
 
 import { onDirective } from '../on';
 import compute from '../../utils/computeExpression';
+import { getCustomProp } from '../../utils/customProp';
 
 describe('.onDirective', () => {
-  it('should attach onclick', () => {
+  it('should attach click event listener', () => {
     const el = document.createElement('button');
-    const mockCb = jest.fn();
-    const expression = 'mockCb()';
+    const callback = jest.fn();
+    const expression = 'callback()';
     const state = {
-      mockCb,
+      callback,
     };
     onDirective({
       el,
@@ -17,9 +18,47 @@ describe('.onDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    // @ts-ignore
-    expect(typeof el.__l_on_registered).toEqual('boolean');
+
     fireEvent.click(el);
-    expect(mockCb).toBeCalled();
+    expect(typeof getCustomProp(el, '__l_on_registered')).toEqual('boolean');
+    expect(callback).toBeCalledTimes(1);
+
+    onDirective({
+      el,
+      name: 'l-on:click',
+      data: { value: expression, compute: compute(expression, el), deps: [] },
+      state,
+    });
+
+    expect(callback).toBeCalledTimes(1);
+  });
+
+  it('should work with global event listener', () => {
+    document.body.innerHTML = '';
+
+    const event = new CustomEvent('customEvent');
+
+    const el = document.createElement('button');
+    const callback = jest.fn();
+    const expression = 'callback()';
+    const state = {
+      callback,
+    };
+    document.body.appendChild(el);
+
+    onDirective({
+      el,
+      name: 'l-on:customEvent.global',
+      data: { value: expression, compute: compute(expression, el), deps: [] },
+      state,
+    });
+
+    el.dispatchEvent(event);
+    // @ts-ignore
+    expect(typeof document.__l_on_registered).toEqual('boolean');
+    expect(callback).toBeCalledTimes(0);
+
+    document.dispatchEvent(event);
+    expect(callback).toBeCalledTimes(1);
   });
 });

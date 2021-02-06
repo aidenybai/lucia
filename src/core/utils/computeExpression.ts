@@ -43,9 +43,9 @@ export const computeExpression = (
       if (positionInState !== -1) {
         return interpretProps(expression, propValues, positionInState);
       } else {
-        const emit = (name: string, options?: CustomEventInit) => {
+        const emit = (name: string, options?: CustomEventInit, dispatchGlobal: boolean = true) => {
           const event = new CustomEvent(name, options);
-          document.dispatchEvent(event);
+          (dispatchGlobal ? document : el || document).dispatchEvent(event);
         };
 
         return new Function('$state', '$el', '$emit', '$event', formattedExpression)(

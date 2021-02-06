@@ -29,7 +29,5 @@ export interface ASTNode {
 
 export enum ASTNodeType {
   STATIC = 0,
-  // Dynamic
-  DYNAMIC_ACCESSOR = 1,
-  DYNAMIC_MUTATOR = 2
+  DYNAMIC = 1,
 }

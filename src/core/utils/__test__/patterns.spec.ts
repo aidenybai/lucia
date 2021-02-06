@@ -34,5 +34,5 @@ describe('.patterns', () => {
 
   it('should capture array index', () => {
     expect('array[0]'.match(arrayIndexCaptureRE())).toEqual(['[0]']);
-  })
+  });
 });

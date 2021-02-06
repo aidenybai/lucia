@@ -16,7 +16,7 @@ export const isUnderListRenderScope = (el: HTMLElement): boolean => {
 };
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
-  const [directives, deps, IS_DYNAMIC_MUTATOR] = collectAndInitDirectives(el, state);
+  const [directives, deps] = collectAndInitDirectives(el, state);
 
   // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
@@ -25,7 +25,7 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
   const hasDepInDirectives = Object.values(directives).some(({ value }) =>
     Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
   );
-  const type = IS_DYNAMIC_MUTATOR ? 2 : hasDepInDirectives ? 1 : 0;
+  const type = hasDepInDirectives ? 1 : 0;
 
   if (!hasDirectives) return null;
 
@@ -35,10 +35,9 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
 export const collectAndInitDirectives = (
   el: HTMLElement,
   state: State = {}
-): [DirectiveKV, string[], boolean] => {
+): [DirectiveKV, string[]] => {
   const directives: DirectiveKV = {};
   const nodeDeps = [];
-  let IS_DYNAMIC_MUTATOR = false;
 
   for (const { name, value } of el.attributes) {
     if (name === `${DIRECTIVE_PREFIX}state`) continue;
@@ -83,10 +82,9 @@ export const collectAndInitDirectives = (
       : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
 
     directives[directiveName] = directiveData;
-
-    if (/on|model/gim.test(directiveName)) IS_DYNAMIC_MUTATOR = true;
   }
-  return [directives, removeDupesFromArray(nodeDeps), IS_DYNAMIC_MUTATOR];
+
+  return [directives, removeDupesFromArray(nodeDeps)];
 };
 
 export const extractNodeChildrenAsCollection = (
@@ -125,7 +123,7 @@ export const extractNodeChildrenAsCollection = (
 };
 
 export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
-  if (!el) throw new Error('Please provide a Element');
+  if (!el) throw new Error('Please provide a HTMLElement');
 
   const ast: ASTNode[] = [];
   const isListGroup = getCustomProp(el, '__l') !== undefined && isListRenderScope(el);
@@ -139,8 +137,7 @@ export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
     }
   }
 
-  // Hoist mutators
-  return ast.sort((firstNode: ASTNode, secondNode: ASTNode) => secondNode.type - firstNode.type);
+  return ast;
 };
 
 export default compile;

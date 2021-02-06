@@ -1,5 +1,7 @@
-import _browser from '../browser';
+import browser from '../browser';
 import { getCustomProp } from '../core/utils/customProp';
+
+const { start } = browser;
 
 // Reset to clean, uninitialized template
 const reset = () => {
@@ -34,29 +36,22 @@ describe('.browser', () => {
     });
   });
 
-  it('should initialize for turbolinks:load and turbo:load events', () => {
+  it('should initialize for turbolinks:load and turbo:load events', (done) => {
     reset();
+    start();
     const turbolinksLoad = new CustomEvent('turbolinks:load');
     document.dispatchEvent(turbolinksLoad);
-    setTimeout(() => validateComponentFunctionality, 0);
-
+    setTimeout(() => {
+      validateComponentFunctionality();
+    }, 0);
     reset();
+    start();
+
     const turboDriveLoad = new CustomEvent('turbo:load');
     document.dispatchEvent(turboDriveLoad);
-    setTimeout(() => validateComponentFunctionality, 0);
-  });
-
-  it('should intercept `start()`', () => {
-    const customLoad = new CustomEvent('customLoad');
-
-    // @ts-ignore
-    window.__l = (start: Function) => {
-      document.addEventListener('customLoad', () => {
-        start();
-      });
-    };
-    validateComponentFunctionality(true);
-    document.dispatchEvent(customLoad);
-    setTimeout(() => validateComponentFunctionality, 0);
+    setTimeout(() => {
+      validateComponentFunctionality();
+      done();
+    }, 0);
   });
 });
