@@ -28,6 +28,8 @@ describe('.compute', () => {
   it('should emit and access an event', () => {
     const el = document.createElement('div');
 
-    expect(computeExpression(`$emit('customEvent', $el); return $event`, el, false)({}, 'foo')).toEqual('foo');
+    expect(
+      computeExpression(`$emit('customEvent', $el); return $event`, el, false)({}, 'foo')
+    ).toEqual('foo');
   });
 });

@@ -73,7 +73,9 @@ describe('.compile', () => {
         JSON.stringify([createASTNode(el1, state)])
       );
       const referenceEl2ASTNode = createASTNode(el2, {});
-      expect(JSON.stringify(compile(el2, {}))).toEqual(JSON.stringify(referenceEl2ASTNode ? [referenceEl2ASTNode] : []));
+      expect(JSON.stringify(compile(el2, {}))).toEqual(
+        JSON.stringify(referenceEl2ASTNode ? [referenceEl2ASTNode] : [])
+      );
       done();
     }, 0);
   });
@@ -117,29 +119,15 @@ describe('.compile', () => {
     layer1El.appendChild(forLoopEl);
 
     setTimeout(() => {
-      // const normalCollection = extractNodeChildrenAsCollection(layer1El);
+      const normalCollection = extractNodeChildrenAsCollection(layer1El);
       const compiledNormalCollection = compile(layer1El, {});
       const listCollection = extractNodeChildrenAsCollection(forLoopEl, false);
-      // const listCollectionAsListGroup = extractNodeChildrenAsCollection(forLoopEl, true);
+      const listCollectionAsListGroup = extractNodeChildrenAsCollection(forLoopEl, true);
 
       expect(compiledNormalCollection.length).toEqual(1);
       expect(listCollection).toEqual([]);
-      // expect(listCollectionAsListGroup).toEqual([
-      //   forLoopEl,
-      //   forLoopChild1,
-      //   forLoopChild2,
-      //   forLoopChild3,
-      // ]);
-      // expect(normalCollection).toEqual([
-      //   layer1El,
-      //   layer2El,
-      //   layer3El,
-      //   layer4El,
-      //   forLoopEl,
-      //   forLoopChild1,
-      //   forLoopChild2,
-      //   forLoopChild3,
-      // ]);
+      expect(listCollectionAsListGroup).toEqual([forLoopChild1, forLoopChild2, forLoopChild3]);
+      expect(normalCollection).toEqual([layer1El, layer2El, layer3El, layer4El, forLoopEl]);
       done();
     }, 0);
   });
