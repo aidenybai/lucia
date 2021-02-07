@@ -7,10 +7,17 @@ import { directives } from '../../core/directive';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 import { getCustomProp, setCustomProp } from '../utils/customProp';
 
-export const forDirective = ({ el, data, state }: DirectiveProps) => {
+export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
+
+export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
+  const marker = getCustomProp(el, '__l');
+
+  setCustomProp(el, '__l', true);
+
   const [expression, target] = data.value.split(/in +/g);
   const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
   const currArray = state[target] as unknown[];
+  const ast = compile(el, state);
 
   let template = getCustomProp(el, '__l_for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
@@ -50,9 +57,18 @@ export const forDirective = ({ el, data, state }: DirectiveProps) => {
     }
   }
 
-  setCustomProp(el, '__l', true);
-  const ast = compile(el, state);
-  render(ast, directives, state, data.deps);
+  if (!marker) {
+    const deps = [];
 
-  console.log(ast, data.deps);
+    for (const childNode of ast) {
+      deps.push(...childNode.deps);
+    }
+
+    const cleanedDeps = removeDupesFromArray([...data.deps, ...deps]);
+
+    node!.deps = cleanedDeps;
+    node!.directives.for.deps = cleanedDeps;
+  }
+
+  render(marker ? ast : compile(el, state), directives, state, node!.deps);
 };

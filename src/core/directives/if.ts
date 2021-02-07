@@ -1,3 +1,4 @@
+import { DIRECTIVE_PREFIX } from '../../models/generics';
 import { DirectiveProps } from '../../models/structs';
 
 import compile from '../../core/compile';
@@ -15,12 +16,14 @@ export const ifDirective = ({ el, data, state, node }: DirectiveProps) => {
 
     setCustomProp(template, '__l_if_template', true);
     template.content.appendChild(el.cloneNode(true));
+    template.setAttribute(`${DIRECTIVE_PREFIX}if`, data.value);
+
     el.replaceWith(template);
 
     node.el = template;
   }
 
-  const hasInserted = getCustomProp(node.el, '__l_if_has_inserted');
+  const hasInserted = getCustomProp(node.el, '__l_has_inserted');
 
   if (!hydratedConditional && hasInserted) {
     node.el.nextElementSibling?.remove();
@@ -31,9 +34,11 @@ export const ifDirective = ({ el, data, state, node }: DirectiveProps) => {
     setCustomProp(node.el, '__l_has_inserted', true);
 
     const nextEl = node.el.nextElementSibling as HTMLElement;
-    nextEl.removeAttribute('l-if');
+
+    nextEl.removeAttribute(`${DIRECTIVE_PREFIX}if`);
 
     const ast = compile(nextEl, state);
-    render(ast, directives, state, Object.keys(state));
+
+    render(ast, directives, state, data.deps);
   }
 };

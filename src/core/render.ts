@@ -24,11 +24,12 @@ const render = (
     if (!nodeHasDep && !isStatic) continue;
 
     for (const [directiveName, directiveData] of Object.entries(node.directives)) {
-      const rawDirectiveName = directiveName.split(':')[0];
+      const rawDirectiveName = directiveName.split(/:|\./)[0];
       // Validate if it is a legal directive
       if (!legalDirectiveNames.includes(rawDirectiveName.toUpperCase())) continue;
       // Iterate through affected and check if directive value has prop
       const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
+
       const isStaticDirective = Object.keys(directiveData.deps).length === 0;
 
       // If affected, then push to render queue

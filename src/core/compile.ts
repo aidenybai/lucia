@@ -81,13 +81,13 @@ export const collectAndInitDirectives = (
       ? name.slice(DIRECTIVE_PREFIX.length)
       : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
 
-    directives[directiveName] = directiveData;
+    if (!directiveName.startsWith('undefined')) directives[directiveName] = directiveData;
   }
 
   return [directives, removeDupesFromArray(nodeDeps)];
 };
 
-export const extractNodeChildrenAsCollection = (
+export const flattenNodeChildren = (
   rootNode: HTMLElement,
   isListGroup: boolean = false
 ): HTMLElement[] => {
@@ -111,9 +111,7 @@ export const extractNodeChildrenAsCollection = (
           // Skip over nested components (independent compile request)
           if ((childNode as HTMLElement).hasAttribute(`${DIRECTIVE_PREFIX}state`)) continue;
           // Push all children into array (recursive flattening)
-          collection.push(
-            ...extractNodeChildrenAsCollection(childNode as HTMLElement, isListGroup)
-          );
+          collection.push(...flattenNodeChildren(childNode as HTMLElement, isListGroup));
         }
       }
     }
@@ -127,7 +125,7 @@ export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
 
   const ast: ASTNode[] = [];
   const isListGroup = getCustomProp(el, '__l') !== undefined && isListRenderScope(el);
-  const nodes: HTMLElement[] = extractNodeChildrenAsCollection(el, isListGroup);
+  const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup);
 
   for (const node of nodes) {
     if (hasDirectiveRE().test(node.outerHTML)) {

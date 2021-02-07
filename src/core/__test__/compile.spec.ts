@@ -3,7 +3,7 @@ import {
   createASTNode,
   isListRenderScope,
   isUnderListRenderScope,
-  extractNodeChildrenAsCollection,
+  flattenNodeChildren,
 } from '../compile';
 import compute from '../../core/utils/computeExpression';
 
@@ -119,10 +119,10 @@ describe('.compile', () => {
     layer1El.appendChild(forLoopEl);
 
     setTimeout(() => {
-      const normalCollection = extractNodeChildrenAsCollection(layer1El);
+      const normalCollection = flattenNodeChildren(layer1El);
       const compiledNormalCollection = compile(layer1El, {});
-      const listCollection = extractNodeChildrenAsCollection(forLoopEl, false);
-      const listCollectionAsListGroup = extractNodeChildrenAsCollection(forLoopEl, true);
+      const listCollection = flattenNodeChildren(forLoopEl, false);
+      const listCollectionAsListGroup = flattenNodeChildren(forLoopEl, true);
 
       expect(compiledNormalCollection.length).toEqual(1);
       expect(listCollection).toEqual([]);

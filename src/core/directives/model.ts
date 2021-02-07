@@ -41,7 +41,7 @@ export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: Di
   }
 
   if (!getCustomProp(el, '__l_model_registered')) {
-    const [, prop] = name.split('.');
+    const prop = name.split('.')[1];
     const callback = () => inputCallback(el, hydratedValue, data, state);
 
     el.addEventListener(prop === 'debounce' ? 'change' : 'input', callback);
