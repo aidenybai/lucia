@@ -40,7 +40,13 @@ export const collectAndInitDirectives = (
   const nodeDeps = [];
 
   for (const { name, value } of el.attributes) {
-    if (name === `${DIRECTIVE_PREFIX}state`) continue;
+    const isStateDirective = name === `${DIRECTIVE_PREFIX}state`;
+    const hasDirectivePrefix = name.startsWith(DIRECTIVE_PREFIX);
+    const hasDirectiveShorthandPrefix = Object.keys(DIRECTIVE_SHORTHANDS).some((shorthand) =>
+      name.startsWith(shorthand)
+    );
+
+    if (isStateDirective || !(hasDirectivePrefix || hasDirectiveShorthandPrefix)) continue;
 
     const depsInFunctions: string[] = [];
     const propsInState: string[] = Object.keys(state);
@@ -77,11 +83,11 @@ export const collectAndInitDirectives = (
     };
 
     // Handle normal and shorthand directives
-    const directiveName = name.startsWith(DIRECTIVE_PREFIX)
+    const directiveName = hasDirectivePrefix
       ? name.slice(DIRECTIVE_PREFIX.length)
       : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
 
-    if (!directiveName.startsWith('undefined')) directives[directiveName] = directiveData;
+    directives[directiveName] = directiveData;
   }
 
   return [directives, removeDupesFromArray(nodeDeps)];
