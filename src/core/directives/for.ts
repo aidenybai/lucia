@@ -66,6 +66,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
     const cleanedDeps = removeDupesFromArray([...data.deps, ...deps]);
 
+    // Update deps for directive
     node!.deps = cleanedDeps;
     node!.directives.for.deps = cleanedDeps;
   }

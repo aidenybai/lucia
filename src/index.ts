@@ -21,18 +21,17 @@ export const init = (element: HTMLElement | Document = document): void => {
     (el) => getCustomProp(el as HTMLElement, '__l') === undefined
   );
 
-  for (const el of uninitializedComponents) {
+  for (let el of uninitializedComponents) {
     const stateExpression = el.getAttribute(stateDirective);
     const initExpression = el.getAttribute(initDirective);
 
-    try {
-      // Parse state from state expression
-      const state = new Function(`return ${stateExpression || '{}'}`);
-      const init = initExpression ? new Function(`return ${initExpression}`) : undefined;
-      component(state()).mount(el as HTMLElement);
-      if (init) init();
-    } catch (err) {
-      console.warn(`Lucia Error: "${err}"\n\nExpression: "${stateExpression}"\nElement:`, el);
-    }
+    // Parse state from state expression
+    const state = computeExpression(`${stateExpression || '{}'}`, el as HTMLElement, true)({});
+    component(state).mount(el as HTMLElement);
+
+    const init = initExpression
+      ? computeExpression(`${initExpression}`, el as HTMLElement, true)
+      : undefined;
+    if (init) init(state);
   }
 };
