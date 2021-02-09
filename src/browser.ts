@@ -30,7 +30,4 @@ if (window.__l) {
   start();
 }
 
-export default {
-  start,
-  ...Lucia,
-};
+export default Lucia;
