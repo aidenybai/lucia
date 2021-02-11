@@ -13,6 +13,15 @@ describe('.compile', () => {
     expect(() => compile()).toThrowError(new Error('Please provide a HTMLElement'));
   });
 
+  it('should not return anything', () => {
+    const rootEl = document.createElement('div');
+
+    const state = { foo: 'bar' };
+    const ast = compile(rootEl, state, true);
+
+    expect(ast).toEqual([]);
+  });
+
   it('should compile an AST tree', () => {
     const rootEl = document.createElement('div');
     const el1 = document.createElement('div');

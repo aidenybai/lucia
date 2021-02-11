@@ -1,6 +1,6 @@
 import removeDupesFromArray from '../removeDupesFromArray';
 
-describe('.customProp', () => {
+describe('.removeDupesFromArray', () => {
   it('should remove duplicates from array', () => {
     const array = ['foo', 'foo', 'bar', 'bar', 'baz', 'baz'];
     expect(removeDupesFromArray(array)).toEqual(['foo', 'bar', 'baz']);

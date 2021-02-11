@@ -6,11 +6,19 @@ describe('.htmlDirective', () => {
     const el = document.createElement('div');
     const expression = 'foo';
     const state = { foo: 'bar' };
+    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const node = {
+      el,
+      directives: { html: data },
+      deps: [],
+      type: 1,
+    };
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
+      data,
       state,
+      node
     });
     expect(el.innerHTML).toEqual('bar');
   });
@@ -19,11 +27,19 @@ describe('.htmlDirective', () => {
     const el = document.createElement('div');
     const expression = '<p>foo</p>';
     const state = {};
+    const data = { value: expression, compute: compute(expression, el), deps: [] };
+    const node = {
+      el,
+      directives: { html: data },
+      deps: [],
+      type: 1,
+    };
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), deps: [] },
+      data,
       state,
+      node,
     });
     expect(el.innerHTML).toEqual('<p>foo</p>');
   });
@@ -32,11 +48,19 @@ describe('.htmlDirective', () => {
     const el = document.createElement('div');
     const expression = `foo`;
     const state = { foo: '<p l-text="bar"></p>' };
+    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const node = {
+      el,
+      directives: { html: data },
+      deps: [],
+      type: 1,
+    };
     htmlDirective({
       el,
       name: 'l-html',
-      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
+      data,
       state,
+      node
     });
     expect(el.innerHTML).toEqual('<p l-text="bar">bar</p>');
   });

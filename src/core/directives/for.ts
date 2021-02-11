@@ -6,7 +6,7 @@ import { directives } from '../../core/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 import { getCustomProp, setCustomProp } from '../utils/customProp';
-import removeDupesFromArray from '../utils/removeDupesFromArray';
+import adjustDeps from '../utils/adjustDeps';
 
 export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;
@@ -57,19 +57,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
     }
   }
 
-  if (!marker) {
-    const deps = [];
-
-    for (const childNode of ast) {
-      deps.push(...childNode.deps);
-    }
-
-    const cleanedDeps = removeDupesFromArray([...data.deps, ...deps]);
-
-    // Update deps for directive
-    node.deps = cleanedDeps;
-    node.directives.for.deps = cleanedDeps;
-  }
+  if (!marker) adjustDeps(ast, data.deps, node, 'for');
 
   render(marker ? ast : compile(el, state), directives, state, node.deps);
 };
