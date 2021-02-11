@@ -94,7 +94,8 @@ export const collectAndInitDirectives = (
 
 export const flattenNodeChildren = (
   rootNode: HTMLElement,
-  isListGroup: boolean = false
+  isListGroup: boolean = false,
+  ignoreRootNode: boolean = false
 ): HTMLElement[] => {
   const collection: HTMLElement[] = [];
   const isList = isListRenderScope(rootNode);
@@ -103,7 +104,7 @@ export const flattenNodeChildren = (
   // Return nothing if it isn't list compilation and is a list or under a list
   if (!isListGroup && (isList || isUnderList)) return collection;
   // Add root node to return array if it isn't a list or under a list
-  if (!isListGroup || !isList) collection.push(rootNode);
+  if (!ignoreRootNode && (!isListGroup || !isList)) collection.push(rootNode);
 
   // Is not a list or under a list, but pass if is a list group
   if (isListGroup || (!isList && !isUnderList)) {
@@ -125,12 +126,16 @@ export const flattenNodeChildren = (
   return collection;
 };
 
-export const compile = (el: HTMLElement, state: State = {}): ASTNode[] => {
+export const compile = (
+  el: HTMLElement,
+  state: State = {},
+  ignoreRootNode: boolean = false
+): ASTNode[] => {
   if (!el) throw new Error('Please provide a HTMLElement');
 
   const ast: ASTNode[] = [];
   const isListGroup = getCustomProp(el, '__l') !== undefined && isListRenderScope(el);
-  const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup);
+  const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
 
   for (const node of nodes) {
     if (hasDirectiveRE().test(node.outerHTML)) {
