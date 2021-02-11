@@ -10,6 +10,7 @@ import { getCustomProp, setCustomProp } from '../utils/customProp';
 export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
 
 export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
+  node = node!;
   const marker = getCustomProp(el, '__l');
 
   setCustomProp(el, '__l', true);
@@ -67,9 +68,9 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
     const cleanedDeps = removeDupesFromArray([...data.deps, ...deps]);
 
     // Update deps for directive
-    node!.deps = cleanedDeps;
-    node!.directives.for.deps = cleanedDeps;
+    node.deps = cleanedDeps;
+    node.directives.for.deps = cleanedDeps;
   }
 
-  render(marker ? ast : compile(el, state), directives, state, node!.deps);
+  render(marker ? ast : compile(el, state), directives, state, node.deps);
 };
