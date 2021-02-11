@@ -14,9 +14,9 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   setCustomProp(el, '__l', true);
 
-  const [expression, target] = data.value.split(/in +/g);
-  const [item, index] = expression.replace(parenthesisWrapReplaceRE(), '').split(',');
-  const currArray = state[target] as unknown[];
+  const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
+  const [item, index] = expression.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
+  const currArray = state[target.trim()] as unknown[];
   const ast = compile(el, state);
 
   let template = getCustomProp(el, '__l_for_template');
