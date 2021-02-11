@@ -6,8 +6,7 @@ import render from '../../core/render';
 import { directives } from '../../core/directive';
 
 import { getCustomProp, setCustomProp } from '../utils/customProp';
-
-export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
+import removeDupesFromArray from '../utils/removeDupesFromArray';
 
 export const ifDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;

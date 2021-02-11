@@ -2,9 +2,8 @@ import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
 import { State, DirectiveKV, ASTNode } from '../models/structs';
 import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
 import { getCustomProp, setCustomProp } from './utils/customProp';
+import removeDupesFromArray from './utils/removeDupesFromArray';
 import compute from './utils/computeExpression';
-
-export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
 
 export const isListRenderScope = (el: HTMLElement): boolean => {
   return el.hasAttribute(`${DIRECTIVE_PREFIX}for`);

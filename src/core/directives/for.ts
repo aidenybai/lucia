@@ -6,8 +6,7 @@ import { directives } from '../../core/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 import { getCustomProp, setCustomProp } from '../utils/customProp';
-
-export const removeDupesFromArray = (array: any[]): any[] => [...new Set(array)];
+import removeDupesFromArray from '../utils/removeDupesFromArray';
 
 export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;
