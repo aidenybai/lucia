@@ -53,7 +53,7 @@ describe('.forDirective', () => {
 
   it('should string together __l_for_template if item and index are not present', () => {
     const el = document.createElement('p');
-    const expression = `in foo`;
+    const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
@@ -72,14 +72,14 @@ describe('.forDirective', () => {
 
   it('should handle basic addition', () => {
     const el = document.createElement('p');
-    const expression = `in foo`;
-    const state = { foo: ['bar', 'bar', 'bar'] };
+    const expression = `_ in foo`;
+    const state = { foo: ['bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
     setCustomProp(el, '__l_for_template', '<li></li>');
     setCustomProp(el, '__l_for_state', ['bar', 'bar']);
 
-    el.innerHTML = '<li></li><li></li>';
+    el.innerHTML = '<li></li>';
     forDirective({
       el,
       name: 'l-for',
@@ -88,17 +88,17 @@ describe('.forDirective', () => {
       // @ts-ignore
       node: { el, directives: { for: data } },
     });
-    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
+    expect(el.innerHTML).toEqual('<li></li><li></li>');
   });
 
   it('should handle basic deletion', () => {
     const el = document.createElement('p');
-    const expression = `in foo`;
+    const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
     setCustomProp(el, '__l_for_template', '<li></li>');
-    setCustomProp(el, '__l_for_state', ['bar', 'bar', 'bar', 'bar']);
+    setCustomProp(el, '__l_for_state', ['bar', 'bar', 'bar']);
 
     el.innerHTML = '<li></li><li></li><li></li><li></li>';
     forDirective({

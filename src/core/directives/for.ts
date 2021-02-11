@@ -15,16 +15,16 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   setCustomProp(el, '__l', true);
 
   const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
-  const [item, index] = expression.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
-  const currArray = state[target.trim()] as unknown[];
+  const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
+  const currArray = state[target?.trim()] as unknown[];
   const ast = compile(el, state);
 
   let template = getCustomProp(el, '__l_for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
-  const arrayDiff = currArray.length - el.children.length;
+  const arrayDiff = currArray?.length - el.children.length;
 
-  if (currArray.length === 0) el.innerHTML = '';
+  if (currArray?.length === 0) el.innerHTML = '';
   else if (arrayDiff !== 0) {
     for (let i = Math.abs(arrayDiff); i > 0; i--) {
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
