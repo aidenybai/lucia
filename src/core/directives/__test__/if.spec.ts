@@ -7,16 +7,17 @@ describe('.ifDirective', () => {
     const el = document.createElement('div');
     const expression = 'visible';
     const state = { visible: false };
+    const data = { value: expression, compute: compute(expression, el), deps: [] };
     const node = {
       el,
-      directives: {},
+      directives: { if: data },
       deps: [],
       type: 1,
     };
     ifDirective({
       el,
       name: 'l-if',
-      data: { value: expression, compute: compute(expression, el), deps: [] },
+      data,
       state,
       node,
     });
@@ -31,18 +32,19 @@ describe('.ifDirective', () => {
     const el = document.createElement('div');
     const expression = 'visible';
     const state = { visible: true };
+    const data = { value: expression, compute: compute(expression, el), deps: [] };
     root.appendChild(el);
 
     const node = {
       el,
-      directives: {},
+      directives: { if: data },
       deps: [],
       type: 1,
     };
     ifDirective({
       el,
       name: 'l-if',
-      data: { value: expression, compute: compute(expression, el), deps: [] },
+      data,
       state,
       node,
     });
@@ -57,18 +59,19 @@ describe('.ifDirective', () => {
     const el = document.createElement('div');
     const expression = 'visible';
     const state = { visible: true };
+    const data = { value: expression, compute: compute(expression, el), deps: [] };
     root.appendChild(el);
 
     const node = {
       el,
-      directives: {},
+      directives: { if: data },
       deps: [],
       type: 1,
     };
     ifDirective({
       el,
       name: 'l-if',
-      data: { value: expression, compute: compute(expression, el), deps: [] },
+      data,
       state,
       node,
     });
