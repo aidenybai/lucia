@@ -18,7 +18,7 @@ describe('.htmlDirective', () => {
       name: 'l-html',
       data,
       state,
-      node
+      node,
     });
     expect(el.innerHTML).toEqual('bar');
   });
@@ -60,7 +60,7 @@ describe('.htmlDirective', () => {
       name: 'l-html',
       data,
       state,
-      node
+      node,
     });
     expect(el.innerHTML).toEqual('<p l-text="bar">bar</p>');
   });
