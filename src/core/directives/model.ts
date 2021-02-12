@@ -8,6 +8,10 @@ export const inputCallback = (
   data: DirectiveData,
   state: State
 ) => {
+  if (el.type === 'checkbox') {
+    el.value = String(el.checked);
+  }
+
   const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value as any);
   const isBoolean =
     typeof hydratedValue === 'boolean' && (el.value === 'true' || el.value === 'false');
@@ -36,8 +40,9 @@ export const inputCallback = (
 export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
   const hydratedValue = state[data.value];
-  if (el.value !== String(hydratedValue)) {
-    el.value = String(hydratedValue);
+  const accessor = el.type === 'checkbox' ? 'checked' : 'value';
+  if (el[accessor] !== String(hydratedValue)) {
+    el[accessor] = hydratedValue as never;
   }
 
   if (!getCustomProp(el, '__l_model_registered')) {
