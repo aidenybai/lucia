@@ -29,12 +29,14 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
     for (let i = Math.abs(arrayDiff); i > 0; i--) {
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
       else {
+        console.log(el);
         // Handle table cases
         const tag = template.startsWith('<th')
           ? 'thead'
           : template.startsWith('<td') || template.startsWith('<tr')
           ? 'tbody'
           : 'div';
+
         const temp = document.createElement(tag);
         let content = template;
 
@@ -52,6 +54,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
         }
 
         temp.innerHTML = content;
+
         el.appendChild(temp.firstElementChild!);
       }
     }
@@ -59,5 +62,5 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   if (!marker) adjustDeps(ast, data.deps, node, 'for');
 
-  render(marker ? ast : compile(el, state), directives, state, node.deps);
+  render(compile(el, state), directives, state, node.deps);
 };

@@ -138,6 +138,9 @@ export const compile = (
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
 
   for (const node of nodes) {
+    if (node.hasAttribute(`${DIRECTIVE_PREFIX}mask`)) {
+      node.removeAttribute(`${DIRECTIVE_PREFIX}mask`);
+    }
     if (hasDirectiveRE().test(node.outerHTML)) {
       // Creates AST Node from real DOM nodes
       const newASTNode = createASTNode(node, state);

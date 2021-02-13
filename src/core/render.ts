@@ -1,4 +1,4 @@
-import { UnknownKV } from '../models/generics';
+import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
 import { Directives, ASTNode } from '../models/structs';
 
 import { renderDirective } from './directive';
@@ -9,15 +9,14 @@ const render = (
   state: UnknownKV = {},
   changedProps: string[] = []
 ): void => {
-  const staticNodeCleanupQueue: number[] = [];
   const legalDirectiveNames = Object.keys(directives);
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
-    const isStatic = node.type === 0;
+    if (node.type === -1) continue;
 
-    // Queue static nodes into garbage collection
-    if (isStatic) staticNodeCleanupQueue.push(i);
+    const isStatic = node.type === 0;
+    if (isStatic) node.type = -1;
 
     const nodeHasDep = changedProps.some((prop) => node.deps.includes(prop));
 
@@ -30,6 +29,7 @@ const render = (
       // Iterate through affected and check if directive value has prop
       const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
 
+      const isMaskDirective = directiveName === `${DIRECTIVE_PREFIX}mask`;
       const isStaticDirective = Object.keys(directiveData.deps).length === 0;
 
       // If affected, then push to render queue
@@ -43,13 +43,14 @@ const render = (
         };
         renderDirective(directiveProps, directives);
 
-        if (isStaticDirective) delete node.directives[directiveName];
+        if (isStaticDirective || isMaskDirective) {
+          delete node.directives[directiveName];
+          if (isMaskDirective) {
+            node.el.removeAttribute(`${DIRECTIVE_PREFIX}mask`);
+          }
+        }
       }
     }
-  }
-
-  for (const i of staticNodeCleanupQueue) {
-    ast.splice(i, 1);
   }
 };
 

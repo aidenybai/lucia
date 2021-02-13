@@ -15,9 +15,9 @@ export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const initDirective = `${DIRECTIVE_PREFIX}init`;
 
-  const elements = element.querySelectorAll(`[${stateDirective}]`);
+  const componentElements = element.querySelectorAll(`[${stateDirective}]`);
   // Filter out uninit scopes only
-  const uninitializedComponents = [...elements].filter(
+  const uninitializedComponents = [...componentElements].filter(
     (el) => getCustomProp(el as HTMLElement, '__l') === undefined
   );
 

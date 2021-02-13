@@ -1,18 +1,10 @@
-import { computeExpression, interpretProps } from '../computeExpression';
+import { computeExpression } from '../computeExpression';
 
 describe('.compute', () => {
   it('should use key-based retrieval during computation', () => {
     const el = document.createElement('div');
-    const callback = jest.fn();
 
     expect(computeExpression('count', el)({ count: 0 })).toEqual(0);
-    expect(computeExpression('count[0]', el)({ count: [0] })).toEqual(0);
-    computeExpression('foo()', el)({ foo: callback });
-    expect(callback).toBeCalledTimes(1);
-
-    expect(interpretProps('count', [0], 0)).toEqual(0);
-    expect(interpretProps('count[0]', [[0]], 0)).toEqual(0);
-    expect(interpretProps('count()', [() => 0], 0)).toEqual(0);
   });
 
   it('should compute correctly', () => {
