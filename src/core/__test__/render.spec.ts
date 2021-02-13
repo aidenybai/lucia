@@ -20,12 +20,10 @@ describe('.render', () => {
 
     const callback = jest.fn();
     const ast = compile(el, state);
-    const originalASTLength = ast.length;
 
     render(ast, { CUSTOM: callback }, state, Object.keys(state));
     render(ast, { CUSTOM: callback }, state, Object.keys(state));
 
     expect(callback).toBeCalledTimes(5);
-    expect(originalASTLength - ast.length).toEqual(1);
   });
 });

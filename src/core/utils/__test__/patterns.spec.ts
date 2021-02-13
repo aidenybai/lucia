@@ -1,6 +1,5 @@
 import {
   expressionPropRE,
-  arrayIndexCaptureRE,
   rawDirectiveSplitRE,
   hasDirectiveRE,
   eventDirectivePrefixRE,
@@ -30,9 +29,5 @@ describe('.patterns', () => {
 
   it('should replace parenthesis', () => {
     expect('(test)'.replace(parenthesisWrapReplaceRE(), '')).toEqual('test');
-  });
-
-  it('should capture array index', () => {
-    expect('array[0]'.match(arrayIndexCaptureRE())).toEqual(['[0]']);
   });
 });

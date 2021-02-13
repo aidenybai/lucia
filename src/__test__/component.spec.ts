@@ -10,7 +10,6 @@ describe('.component', () => {
     const app = component(state);
     app.mount(el);
 
-    expect(app.state).toEqual(state);
     expect(typeof app.directives).toEqual('object');
     expect(Array.isArray(app.ast)).toEqual(true);
   });
@@ -27,15 +26,6 @@ describe('.component', () => {
 
     expect(app1).toEqual(app2);
     expect(app1.state).toEqual(app2.state);
-  });
-
-  it('should return component state on mount', () => {
-    const el = document.createElement('div');
-    const state = { foo: 'bar' };
-    const app = component(state);
-    const appState = app.mount(el);
-
-    expect(appState).toEqual(state);
   });
 
   it('should have __l property on mount', () => {
@@ -55,7 +45,9 @@ describe('.component', () => {
     app.directive('custom', custom);
     app.mount(el);
 
-    expect(app.state).toStrictEqual(reactive(state, custom).proxy);
+    expect(JSON.stringify({ ...app.state, $render: custom.bind(Object.keys(state)) })).toEqual(
+      JSON.stringify(reactive(state, custom).proxy)
+    );
     expect({ ...app.directives }).toEqual({ ...directives, CUSTOM: custom });
   });
 

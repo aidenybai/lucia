@@ -29,7 +29,6 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
     for (let i = Math.abs(arrayDiff); i > 0; i--) {
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
       else {
-        console.log(el);
         // Handle table cases
         const tag = template.startsWith('<th')
           ? 'thead'

@@ -28,7 +28,13 @@ describe('.index', () => {
 
     init(root);
 
-    expect(getCustomProp(el, '__l').state).toEqual({});
+    const $render = () => {};
+
+    expect(JSON.stringify(getCustomProp(el, '__l').state)).toEqual(
+      JSON.stringify({
+        $render: $render.bind([]),
+      })
+    );
   });
 
   it('should throw error on init', () => {

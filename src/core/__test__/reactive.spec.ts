@@ -30,7 +30,7 @@ describe('.reactive', () => {
   });
 
   it('should seal object', () => {
-    const state = { foo: null };
+    const state = { foo: 'baz' };
     const callback = jest.fn();
     const revocableProxy = reactive(state, callback);
 
@@ -38,13 +38,13 @@ describe('.reactive', () => {
       revocableProxy.proxy.bar = 'baz';
     }).toThrowError();
 
-    expect(Object.keys(revocableProxy.proxy).length).toEqual(1);
+    expect(Object.keys(revocableProxy.proxy).length).toEqual(2);
 
     expect(() => {
       delete revocableProxy.proxy.foo;
     }).toThrowError();
 
-    expect(Object.keys(revocableProxy.proxy).length).toEqual(1);
+    expect(Object.keys(revocableProxy.proxy).length).toEqual(2);
   });
 
   it('should not allow function mutation', () => {
