@@ -1,6 +1,6 @@
 import { ifDirective } from '../if';
 import compute from '../../utils/computeExpression';
-import { getCustomProp } from '../../utils/customProp';
+import { getElementCustomProp } from '../../utils/elementCustomProp';
 
 describe('.ifDirective', () => {
   it('should conditionally remove element', () => {
@@ -22,7 +22,7 @@ describe('.ifDirective', () => {
       node,
     });
 
-    expect(getCustomProp(node.el, '__l_if_template')).toEqual(true);
+    expect(getElementCustomProp(node.el, '__l_if_template')).toEqual(true);
     expect(node.el.tagName).toEqual('TEMPLATE');
     expect(node.el.nextElementSibling).toBeFalsy();
   });
@@ -49,7 +49,7 @@ describe('.ifDirective', () => {
       node,
     });
 
-    expect(getCustomProp(node.el, '__l_if_template')).toEqual(true);
+    expect(getElementCustomProp(node.el, '__l_if_template')).toEqual(true);
     expect(node.el.tagName).toEqual('TEMPLATE');
     expect(node.el.nextElementSibling).toBeDefined();
   });
@@ -76,7 +76,7 @@ describe('.ifDirective', () => {
       node,
     });
 
-    expect(getCustomProp(node.el, '__l_if_template')).toEqual(true);
+    expect(getElementCustomProp(node.el, '__l_if_template')).toEqual(true);
     expect(node.el.tagName).toEqual('TEMPLATE');
     expect(node.el.nextElementSibling).toBeDefined();
   });

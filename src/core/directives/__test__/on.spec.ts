@@ -2,7 +2,7 @@ import { fireEvent } from '@testing-library/dom';
 
 import { onDirective } from '../on';
 import compute from '../../utils/computeExpression';
-import { getCustomProp } from '../../utils/customProp';
+import { getElementCustomProp } from '../../utils/elementCustomProp';
 
 describe('.onDirective', () => {
   it('should attach click event listener', () => {
@@ -20,7 +20,7 @@ describe('.onDirective', () => {
     });
 
     fireEvent.click(el);
-    expect(typeof getCustomProp(el, '__l_on_registered')).toEqual('boolean');
+    expect(typeof getElementCustomProp(el, '__l_on_registered')).toEqual('boolean');
     expect(callback).toBeCalledTimes(1);
 
     onDirective({

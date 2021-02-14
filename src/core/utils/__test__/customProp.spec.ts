@@ -1,4 +1,4 @@
-import { getCustomProp, setCustomProp } from '../customProp';
+import { getElementCustomProp, setElementCustomProp } from '../elementCustomProp';
 
 describe('.customProp', () => {
   it('should correctly access custom prop', () => {
@@ -7,15 +7,15 @@ describe('.customProp', () => {
     // @ts-ignore
     el.__l = 'foo';
 
-    expect(getCustomProp(el, 'innerHTML')).toEqual('');
-    expect(getCustomProp(el, '__l')).toEqual('foo');
+    expect(getElementCustomProp(el, 'innerHTML')).toEqual('');
+    expect(getElementCustomProp(el, '__l')).toEqual('foo');
   });
 
   it('should correctly mutate custom prop', () => {
     const el = document.createElement('div');
 
-    setCustomProp(el, '__l', 'foo');
+    setElementCustomProp(el, '__l', 'foo');
 
-    expect(getCustomProp(el, '__l')).toEqual('foo');
+    expect(getElementCustomProp(el, '__l')).toEqual('foo');
   });
 });

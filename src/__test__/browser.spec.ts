@@ -1,5 +1,5 @@
 import _browser from '../browser';
-import { getCustomProp } from '../core/utils/customProp';
+import { getElementCustomProp } from '../core/utils/elementCustomProp';
 
 // Reset to clean, uninitialized template
 const reset = () => {
@@ -14,7 +14,7 @@ const reset = () => {
 const validateComponentFunctionality = (error = false) => {
   const componentElement = document.querySelector('body > div') as HTMLElement;
   const componentText = componentElement.querySelector('p') as HTMLElement;
-  const component = getCustomProp(componentElement, '__l');
+  const component = getElementCustomProp(componentElement, '__l');
 
   if (error) {
     expect(component).toBeUndefined();

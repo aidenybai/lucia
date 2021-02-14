@@ -4,4 +4,5 @@
 export const getElementCustomProp = (el: HTMLElement, prop: string) => el[prop];
 
 // @ts-ignore
-export const setElementCustomProp = (el: HTMLElement, prop: string, value: any) => (el[prop] = value);
+export const setElementCustomProp = (el: HTMLElement, prop: string, value: any) =>
+  (el[prop] = value);

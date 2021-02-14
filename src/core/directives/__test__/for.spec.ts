@@ -1,6 +1,6 @@
 import { forDirective } from '../for';
 import compute from '../../utils/computeExpression';
-import { setCustomProp } from '../../utils/customProp';
+import { setElementCustomProp } from '../../utils/elementCustomProp';
 
 describe('.forDirective', () => {
   it('should join the state array into HTML', (done) => {
@@ -9,7 +9,7 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setCustomProp(el, '__l_for_template', '<li l-text="this.bar"></li>');
+    setElementCustomProp(el, '__l_for_template', '<li l-text="this.bar"></li>');
     el.innerHTML = '<li l-text="this.bar"></li>';
 
     forDirective({
@@ -35,7 +35,7 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setCustomProp(el, '__l_for_template', '<li l-text="this.bar + this.i"></li>');
+    setElementCustomProp(el, '__l_for_template', '<li l-text="this.bar + this.i"></li>');
 
     el.innerHTML = '<li l-text="this.bar + this.i"></li>';
     forDirective({
@@ -57,7 +57,7 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setCustomProp(el, '__l_for_template', '<li></li>');
+    setElementCustomProp(el, '__l_for_template', '<li></li>');
 
     forDirective({
       el,
@@ -76,8 +76,8 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setCustomProp(el, '__l_for_template', '<li></li>');
-    setCustomProp(el, '__l_for_state', ['bar', 'bar']);
+    setElementCustomProp(el, '__l_for_template', '<li></li>');
+    setElementCustomProp(el, '__l_for_state', ['bar', 'bar']);
 
     el.innerHTML = '<li></li>';
     forDirective({
@@ -97,8 +97,8 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setCustomProp(el, '__l_for_template', '<li></li>');
-    setCustomProp(el, '__l_for_state', ['bar', 'bar', 'bar']);
+    setElementCustomProp(el, '__l_for_template', '<li></li>');
+    setElementCustomProp(el, '__l_for_state', ['bar', 'bar', 'bar']);
 
     el.innerHTML = '<li></li><li></li><li></li><li></li>';
     forDirective({
