@@ -6,7 +6,7 @@ import render from './core/render';
 import compile from './core/compile';
 import reactive from './core/reactive';
 import { directives } from './core/directive';
-import { getCustomProp } from './core/utils/customProp';
+import { getElementCustomProp } from './core/utils/elementCustomProp';
 import computeExpression from './core/utils/computeExpression';
 
 export { component, compile, render, reactive, directives, computeExpression };
@@ -18,7 +18,7 @@ export const init = (element: HTMLElement | Document = document): void => {
   const componentElements = element.querySelectorAll(`[${stateDirective}]`);
   // Filter out uninit scopes only
   const uninitializedComponents = [...componentElements].filter(
-    (el) => getCustomProp(el as HTMLElement, '__l') === undefined
+    (el) => getElementCustomProp(el as HTMLElement, '__l') === undefined
   );
 
   for (let el of uninitializedComponents) {

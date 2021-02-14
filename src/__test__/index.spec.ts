@@ -1,5 +1,5 @@
 import { init } from '../index';
-import { getCustomProp } from '../core/utils/customProp';
+import { getElementCustomProp } from '../core/utils/elementCustomProp';
 
 // @ts-ignore
 window.callback = jest.fn();
@@ -12,11 +12,11 @@ describe('.index', () => {
     el.setAttribute('l-state', `{ foo: 'bar' }`);
     root.appendChild(el);
 
-    expect(getCustomProp(el, '__l')).toBeUndefined();
+    expect(getElementCustomProp(el, '__l')).toBeUndefined();
 
     init(root);
 
-    expect(getCustomProp(el, '__l')).toBeDefined();
+    expect(getElementCustomProp(el, '__l')).toBeDefined();
   });
 
   it('should create component with empty state', async () => {
@@ -30,7 +30,7 @@ describe('.index', () => {
 
     const $render = () => {};
 
-    expect(JSON.stringify(getCustomProp(el, '__l').state)).toEqual(
+    expect(JSON.stringify(getElementCustomProp(el, '__l').state)).toEqual(
       JSON.stringify({
         $render: $render.bind([]),
       })

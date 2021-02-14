@@ -1,7 +1,7 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
 import { State, DirectiveKV, ASTNode } from '../models/structs';
 import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
-import { getCustomProp, setCustomProp } from './utils/customProp';
+import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
 import removeDupesFromArray from './utils/removeDupesFromArray';
 import compute from './utils/computeExpression';
 
@@ -67,8 +67,8 @@ export const collectAndInitDirectives = (
     });
 
     if (eventDirectivePrefixRE().test(name)) returnable = false;
-    if (name.includes('for') && getCustomProp(el, '__l_for_template') === undefined) {
-      setCustomProp(el, '__l_for_template', String(el.innerHTML).trim());
+    if (name.includes('for') && getElementCustomProp(el, '__l_for_template') === undefined) {
+      setElementCustomProp(el, '__l_for_template', String(el.innerHTML).trim());
       returnable = false;
     }
 
@@ -134,7 +134,7 @@ export const compile = (
   if (!el) throw new Error('Please provide a HTMLElement');
 
   const ast: ASTNode[] = [];
-  const isListGroup = getCustomProp(el, '__l') !== undefined && isListRenderScope(el);
+  const isListGroup = getElementCustomProp(el, '__l') !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
 
   for (const node of nodes) {

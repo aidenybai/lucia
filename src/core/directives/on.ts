@@ -1,12 +1,12 @@
 import { DirectiveProps } from '../../models/structs';
 
-import { getCustomProp, setCustomProp } from '../utils/customProp';
+import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
 export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const options: Record<string, boolean> = {};
   const globalScopeEventProps = ['outside', 'global'];
 
-  if (getCustomProp(el, '__l_on_registered')) return;
+  if (getElementCustomProp(el, '__l_on_registered')) return;
 
   const [directiveAndEventName, prop] = name.split('.');
   const eventName = directiveAndEventName.split(':')[1];
@@ -30,5 +30,5 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
 
   target.addEventListener(eventName, handler, options);
 
-  setCustomProp(target as HTMLElement, '__l_on_registered', true);
+  setElementCustomProp(target as HTMLElement, '__l_on_registered', true);
 };

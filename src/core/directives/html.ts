@@ -4,12 +4,12 @@ import compile from '../../core/compile';
 import render from '../../core/render';
 import { directives } from '../../core/directive';
 
-import { getCustomProp, setCustomProp } from '../utils/customProp';
+import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 import adjustDeps from '../utils/adjustDeps';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;
-  const marker = getCustomProp(el, '__l');
+  const marker = getElementCustomProp(el, '__l');
 
   // Handle naked prop in expression case
   el.innerHTML = data.compute(state) ?? data.value;
@@ -20,5 +20,5 @@ export const htmlDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   render(ast, directives, state, data.deps);
 
-  setCustomProp(el, '__l', true);
+  setElementCustomProp(el, '__l', true);
 };

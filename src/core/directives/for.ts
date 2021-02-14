@@ -5,21 +5,21 @@ import render from '../../core/render';
 import { directives } from '../../core/directive';
 
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
-import { getCustomProp, setCustomProp } from '../utils/customProp';
+import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 import adjustDeps from '../utils/adjustDeps';
 
 export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;
-  const marker = getCustomProp(el, '__l');
+  const marker = getElementCustomProp(el, '__l');
 
-  setCustomProp(el, '__l', true);
+  setElementCustomProp(el, '__l', true);
 
   const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
   const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
   const currArray = state[target?.trim()] as unknown[];
   const ast = compile(el, state);
 
-  let template = getCustomProp(el, '__l_for_template');
+  let template = getElementCustomProp(el, '__l_for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
   const arrayDiff = currArray?.length - el.children.length;

@@ -5,7 +5,7 @@ import compile from './core/compile';
 import reactive from './core/reactive';
 import render from './core/render';
 
-import { setCustomProp } from './core/utils/customProp';
+import { setElementCustomProp } from './core/utils/elementCustomProp';
 
 export class Component {
   public state: State;
@@ -27,7 +27,7 @@ export class Component {
 
     this.render();
 
-    setCustomProp(rootEl as HTMLElement, '__l', this);
+    setElementCustomProp(rootEl as HTMLElement, '__l', this);
 
     return this.state;
   }
