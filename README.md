@@ -57,6 +57,8 @@ Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://
 
 Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Sidewind](https://github.com/survivejs/sidewind), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in a production-ready library to use.
 
+[![HN Post](https://hackerbadge.now.sh/api?id=24887968&type=light)](https://news.ycombinator.com/item?id=24887968)
+
 ---
 
 © 2020 The Lucia Authors.
