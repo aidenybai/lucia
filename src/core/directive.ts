@@ -4,7 +4,6 @@ import { rawDirectiveSplitRE } from './utils/patterns';
 
 import { bindDirective } from './directives/bind';
 import { htmlDirective } from './directives/html';
-import { ifDirective } from './directives/if';
 import { modelDirective } from './directives/model';
 import { onDirective } from './directives/on';
 import { textDirective } from './directives/text';
@@ -13,7 +12,6 @@ import { forDirective } from './directives/for';
 export const directives: Directives = {
   BIND: bindDirective,
   HTML: htmlDirective,
-  IF: ifDirective,
   MODEL: modelDirective,
   ON: onDirective,
   TEXT: textDirective,
