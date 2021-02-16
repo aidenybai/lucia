@@ -38,13 +38,13 @@ describe('.reactive', () => {
       revocableProxy.proxy.bar = 'baz';
     }).toThrowError();
 
-    expect(Object.keys(revocableProxy.proxy).length).toEqual(2);
+    expect(Object.keys(revocableProxy.proxy).length).toEqual(1);
 
     expect(() => {
       delete revocableProxy.proxy.foo;
     }).toThrowError();
 
-    expect(Object.keys(revocableProxy.proxy).length).toEqual(2);
+    expect(Object.keys(revocableProxy.proxy).length).toEqual(1);
   });
 
   it('should not allow function mutation', () => {

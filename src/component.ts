@@ -20,8 +20,12 @@ export class Component {
   public mount(el: HTMLElement | string, proxify: boolean = true): State {
     // Accepts both selector and element reference
     const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
+    const $render = (deps: string[] = Object.keys(this.state)) => this.render(deps);
+
     // AST generation
     this.ast = compile(rootEl as HTMLElement, this.state);
+    this.state = { ...this.state, $render };
+
     this.state = proxify ? reactive(this.state, this.render.bind(this)).proxy : this.state;
     this.directives = { ...this.directives, ...directives };
 
