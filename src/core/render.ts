@@ -7,8 +7,9 @@ const render = (
   ast: ASTNode[],
   directives: Directives,
   state: UnknownKV = {},
-  changedProps: string[] = []
+  changedProps: string | string[] = []
 ): void => {
+  if (typeof changedProps === 'string') changedProps = [changedProps];
   const legalDirectiveNames = Object.keys(directives);
 
   for (let i = 0; i < ast.length; i++) {

@@ -54,11 +54,10 @@ export const reactive = (state: State, callback: Function): RevocableProxy => {
     },
   };
 
+  const $render = (deps: string[] = Object.keys(state)) => callback(deps);
+
   // State is sealed, meaning values are mutable, but size is immutable
-  return Proxy.revocable(
-    Object.seal({ ...state, $render: callback.bind(null, Object.keys(state)) }),
-    handler
-  );
+  return Proxy.revocable(Object.seal({ ...state, $render }), handler);
 };
 
 export default reactive;
