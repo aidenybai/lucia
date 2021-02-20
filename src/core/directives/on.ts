@@ -1,4 +1,5 @@
 import { DirectiveProps } from '../../models/structs';
+import { rawDirectiveSplitRE } from '../utils/patterns';
 
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
@@ -8,16 +9,16 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
 
   if (getElementCustomProp(el, '__l_on_registered')) return;
 
-  const [directiveAndEventName, prop] = name.split('.');
-  const eventName = directiveAndEventName.split(':')[1];
-  const eventProp = prop || null;
-  const target = globalScopeEventProps.includes(String(eventProp)) ? document : el;
+  const [, eventName, ...eventProps] = name.split(rawDirectiveSplitRE());
+  const target = globalScopeEventProps.filter((prop) => String(eventProps).includes(prop))
+    ? window
+    : el;
 
   const handler = ($event: Event) => {
     // Parse event modifiers based on directive prop
-    if (eventProp === 'prevent') $event.preventDefault();
-    if (eventProp === 'stop') $event.stopPropagation();
-    if (eventProp === 'outside') {
+    if (eventProps.includes('prevent')) $event.preventDefault();
+    if (eventProps.includes('stop')) $event.stopPropagation();
+    if (eventProps.includes('outside')) {
       if (el.contains($event.target as Node)) return;
       if (el.offsetWidth < 1 && el.offsetHeight < 1) return;
     }
@@ -25,10 +26,10 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
     data.compute(state, $event);
   };
 
-  options.once = eventProp === 'once';
-  options.passive = eventProp === 'passive';
+  options.once = eventProps.includes('once');
+  options.passive = eventProps.includes('passive');
 
   target.addEventListener(eventName, handler, options);
 
-  setElementCustomProp(target as HTMLElement, '__l_on_registered', true);
+  setElementCustomProp(el, '__l_on_registered', true);
 };
