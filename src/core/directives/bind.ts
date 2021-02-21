@@ -29,7 +29,7 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
         }
 
         const removeDynamicClassesRE = new RegExp(
-          `\\b${Object.keys(hydratedClasses).join('|')}\\b`,
+          `\\s*${Object.keys(hydratedClasses).join('|')}\\s*`,
           'gim'
         );
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
@@ -39,12 +39,13 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
             'class',
             formatAcceptableWhitespace(`${rawClasses} ${classes.join(' ')}`)
           );
-        } else if (formatAcceptableWhitespace(el.className).length > 0) {
+        } else if (formatAcceptableWhitespace(rawClasses).length > 0) {
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
-        } else {
+        } else if (el.hasAttribute('class')) {
           return el.removeAttribute('class');
         }
       }
+
     case 'style':
       // Accept object and set properties based on boolean state value
       const hydratedStyles = data.compute(state);
