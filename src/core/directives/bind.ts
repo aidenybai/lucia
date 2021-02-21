@@ -29,7 +29,7 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
         }
 
         const removeDynamicClassesRE = new RegExp(
-          `\\s*${Object.keys(hydratedClasses).join('|')}\\s*`,
+          `\\b${Object.keys(hydratedClasses).join('|')}\\b`,
           'gim'
         );
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
@@ -45,7 +45,7 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
           return el.removeAttribute('class');
         }
       }
-
+      break;
     case 'style':
       // Accept object and set properties based on boolean state value
       const hydratedStyles = data.compute(state);
