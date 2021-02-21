@@ -32,7 +32,7 @@ export const reactive = (state: State, callback: Function): RevocableProxy => {
 
       // Currently double renderes - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
-      let props = [];
+      let props = [key];
 
       if (target instanceof Array && hasArrayMutationKey) {
         props = Object.keys(state).filter((prop) =>
@@ -42,8 +42,6 @@ export const reactive = (state: State, callback: Function): RevocableProxy => {
         // Bad perf way of handling nested objects
         if (Object.keys(state).some((prop) => target[prop] === undefined)) {
           props = Object.keys(state).filter((prop) => typeof state[prop] === 'object');
-        } else {
-          props = [key];
         }
       }
 

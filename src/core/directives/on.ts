@@ -10,7 +10,7 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   if (getElementCustomProp(el, '__l_on_registered')) return;
 
   const [, eventName, ...eventProps] = name.split(rawDirectiveSplitRE());
-  const target = globalScopeEventProps.filter((prop) => String(eventProps).includes(prop))
+  const target = globalScopeEventProps.some((prop) => String(eventProps).includes(prop))
     ? window
     : el;
 

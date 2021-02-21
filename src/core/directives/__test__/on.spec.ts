@@ -55,10 +55,10 @@ describe('.onDirective', () => {
 
     el.dispatchEvent(event);
     // @ts-ignore
-    expect(typeof document.__l_on_registered).toEqual('boolean');
+    expect(typeof el.__l_on_registered).toEqual('boolean');
     expect(callback).toBeCalledTimes(0);
 
-    document.dispatchEvent(event);
+    window.dispatchEvent(event);
     expect(callback).toBeCalledTimes(1);
   });
 });
