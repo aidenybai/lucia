@@ -11,7 +11,8 @@ export const computeExpression = (
     try {
       const value = state[expression];
       if (value) {
-        return typeof value === 'function' ? value() : value;
+        // @ts-expect-error
+        typeof value === 'function' ? state[expression]() : value;
       } else {
         const emit = (name: string, options?: CustomEventInit, dispatchGlobal: boolean = true) => {
           const event = new CustomEvent(name, options);
