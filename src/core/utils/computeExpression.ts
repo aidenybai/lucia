@@ -12,7 +12,7 @@ export const computeExpression = (
       const value = state[expression];
       if (value) {
         // @ts-expect-error
-        typeof value === 'function' ? state[expression]() : value;
+        return typeof value === 'function' ? state[expression]() : value;
       } else {
         const emit = (name: string, options?: CustomEventInit, dispatchGlobal: boolean = true) => {
           const event = new CustomEvent(name, options);

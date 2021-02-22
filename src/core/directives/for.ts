@@ -61,8 +61,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   if (!marker) {
     adjustDeps(ast, data.deps, node, 'for');
-    setElementCustomProp(el, '__l_for_ast', compile(el, state));
   }
 
-  render(getElementCustomProp(el, '__l_for_ast'), directives, state, node.deps);
+  render(compile(el, state), directives, state, node.deps);
 };

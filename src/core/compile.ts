@@ -17,10 +17,7 @@ export const isUnderListRenderScope = (el: HTMLElement): boolean => {
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
   const [directives, deps] = collectAndInitDirectives(el, state);
 
-  // Check if there are directives
   const hasDirectives = Object.keys(directives).length > 0;
-
-  // Check if there are affected props in state
   const hasDepInDirectives = Object.values(directives).some(({ value }) =>
     Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
   );
@@ -55,7 +52,7 @@ export const collectAndInitDirectives = (
     const deps: string[] = propsInState.filter((prop) => {
       const hasDep = expressionPropRE(prop).test(String(value));
 
-      // Compare toString value of function
+      // Check for dependencies inside functions
       if (typeof state[prop] === 'function' && hasDep) {
         const depsInFunction = propsInState.filter((p) =>
           expressionPropRE(p).test(String(state[prop]))
