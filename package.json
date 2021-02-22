@@ -1,6 +1,6 @@
 {
   "name": "lucia",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "3kb library for tiny web apps",
   "main": "dist/lucia.cjs.js",
   "module": "dist/lucia.esm.js",
