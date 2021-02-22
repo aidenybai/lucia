@@ -11,7 +11,7 @@ export const computeExpression = (
     try {
       const value = state[expression];
       if (value) {
-        return value;
+        return typeof value === 'function' ? value() : value;
       } else {
         const emit = (name: string, options?: CustomEventInit, dispatchGlobal: boolean = true) => {
           const event = new CustomEvent(name, options);
