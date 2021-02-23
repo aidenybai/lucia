@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Counter Example</title>
+	<script src="https://unpkg.com/lucia"></script>
+</head>
+<body>
+	<div class="App" l-state="{ counter: 1 }" align="center">
+		<h1>Lucia Counter Example</h1>
+		<div l-text="counter"></div>
+		<br/>
+		<button @click="counter++">Increase Counter</button>
+		<button @click="counter--">Decrease Counter</button>
+	</div>
+</body>
+</html>
