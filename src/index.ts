@@ -1,5 +1,6 @@
 // Exports wrapped in Lucia namespace
 import { DIRECTIVE_PREFIX } from './models/generics';
+import { Directives } from './models/structs';
 import component from './component';
 
 import render from './core/render';
@@ -11,7 +12,10 @@ import computeExpression from './core/utils/computeExpression';
 
 export { component, compile, render, reactive, directives, computeExpression };
 
-export const init = (element: HTMLElement | Document = document): void => {
+export const init = (
+  element: HTMLElement | Document = document,
+  directives: Directives = {}
+): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const initDirective = `${DIRECTIVE_PREFIX}init`;
 
@@ -27,7 +31,11 @@ export const init = (element: HTMLElement | Document = document): void => {
 
     // Parse state from state expression
     const state = computeExpression(`${stateExpression || '{}'}`, el as HTMLElement, true)({});
-    component(state).mount(el as HTMLElement);
+    const currentComponent = component(state);
+    for (const [directiveName, directiveCallback] of Object.entries(directives)) {
+      currentComponent.directive(directiveName, directiveCallback);
+    }
+    currentComponent.mount(el as HTMLElement);
 
     const init = initExpression
       ? computeExpression(`${initExpression}`, el as HTMLElement, true)

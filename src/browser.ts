@@ -1,33 +1,29 @@
 import * as Lucia from './index';
+import { Directives } from './models/structs';
 
 const DOMReady = () => {
   return new Promise((resolve) => {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', resolve);
     } else {
-      // @ts-ignore
+      // @ts-expect-error
       resolve();
     }
   });
 };
 
-const init = () => Lucia.init();
+const init = (directives?: Directives) => Lucia.init(document, directives);
 
-const start = async () => {
+const start = async (directives?: Directives) => {
   await DOMReady();
-  init();
+  init(directives);
 
   // Turbolinks/Turbo Drive support by default
-  document.addEventListener('turbolinks:load', init);
-  document.addEventListener('turbo:load', init);
+  document.addEventListener('turbolinks:load', () => init(directives));
+  document.addEventListener('turbo:load', () => init(directives));
 };
 
-// @ts-ignore
-if (window.__l) {
-  // @ts-ignore
-  window.__l(() => start());
-} else {
-  start();
-}
+// @ts-expect-error
+start(window.__l);
 
 export default Lucia;
