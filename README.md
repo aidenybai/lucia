@@ -53,7 +53,7 @@ We expect all Lucia contributors to abide by the terms of our [Code of Conduct](
 
 ## Acknowledgments
 
-Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai) [and contributors](https://github.com/aidenybai/lucia/graphs/contributors).
+Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai), [et al](https://github.com/aidenybai/lucia/graphs/contributors).
 
 Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Sidewind](https://github.com/survivejs/sidewind), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in a production-ready library to use.
 

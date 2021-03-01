@@ -7,6 +7,7 @@ import { directives } from '../../core/directive';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 import adjustDeps from '../utils/adjustDeps';
+import computeExpression from '../utils/computeExpression';
 
 export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;
@@ -16,7 +17,8 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
   const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
-  const currArray = state[target?.trim()] as unknown[];
+  const currArray =
+    (state[target?.trim()] as unknown[]) ?? computeExpression(target?.trim(), el, true)(state);
   const ast = compile(el, state);
 
   let template = getElementCustomProp(el, '__l_for_template');
