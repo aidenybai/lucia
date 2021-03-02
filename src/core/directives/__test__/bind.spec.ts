@@ -8,7 +8,7 @@ describe('.bindDirective', () => {
     const state = { test: true };
     bindDirective({
       el,
-      parts: ['bind:class'],
+      parts: ['bind', 'class'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -22,7 +22,7 @@ describe('.bindDirective', () => {
     el.className = 'test2';
     bindDirective({
       el,
-      parts: ['bind:class'],
+      parts: ['bind', 'class'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -35,7 +35,7 @@ describe('.bindDirective', () => {
     const state = { test: false };
     bindDirective({
       el,
-      parts: ['bind:class'],
+      parts: ['bind', 'class'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -48,7 +48,7 @@ describe('.bindDirective', () => {
     const state = { test: 'foo' };
     bindDirective({
       el,
-      parts: ['bind:class'],
+      parts: ['bind', 'class'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -61,7 +61,7 @@ describe('.bindDirective', () => {
     const state = { test: ['foo', 'bar', 'baz'] };
     bindDirective({
       el,
-      parts: ['bind:class'],
+      parts: ['bind', 'class'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -74,7 +74,7 @@ describe('.bindDirective', () => {
     const state = { test: 'bold' };
     bindDirective({
       el,
-      parts: ['bind:style'],
+      parts: ['bind', 'style'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -87,7 +87,7 @@ describe('.bindDirective', () => {
     const state = { url: 'https://example.com/' };
     bindDirective({
       el,
-      parts: ['bind:href'],
+      parts: ['bind', 'href'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -100,7 +100,7 @@ describe('.bindDirective', () => {
     let state = { hideme: true };
     bindDirective({
       el,
-      parts: ['bind:hidden'],
+      parts: ['bind', 'hidden'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -108,7 +108,7 @@ describe('.bindDirective', () => {
     state = { hideme: false };
     bindDirective({
       el,
-      parts: ['bind:hidden'],
+      parts: ['bind', 'hidden'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });

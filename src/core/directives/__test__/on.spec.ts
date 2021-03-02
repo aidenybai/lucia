@@ -14,7 +14,7 @@ describe('.onDirective', () => {
     };
     onDirective({
       el,
-      parts: ['on:click'],
+      parts: ['on', 'click'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -25,7 +25,7 @@ describe('.onDirective', () => {
 
     onDirective({
       el,
-      parts: ['on:click'],
+      parts: ['on', 'click'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
@@ -48,7 +48,7 @@ describe('.onDirective', () => {
 
     onDirective({
       el,
-      parts: ['on:customEvent.global'],
+      parts: ['on', 'customEvent', 'global'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });

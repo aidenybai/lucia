@@ -31,7 +31,7 @@ describe('.directive', () => {
     };
     const props = {
       el,
-      name: 'callback',
+      parts: ['callback'],
       state: {},
       data,
     };
