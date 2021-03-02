@@ -37,7 +37,7 @@ export const inputCallback = (
   return payload;
 };
 
-export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: DirectiveProps) => {
+export const modelDirective = ({ el: awaitingTypecastEl, parts, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
   const hydratedValue = state[data.value];
   const accessor = el.type === 'checkbox' ? 'checked' : 'value';
@@ -46,10 +46,9 @@ export const modelDirective = ({ el: awaitingTypecastEl, name, data, state }: Di
   }
 
   if (!getElementCustomProp(el, '__model_registered')) {
-    const prop = name.split('.')[1];
     const callback = () => inputCallback(el, hydratedValue, data, state);
 
-    el.addEventListener(prop === 'debounce' ? 'change' : 'input', callback);
+    el.addEventListener(parts[1] === 'debounce' ? 'change' : 'input', callback);
 
     setElementCustomProp(el, '__model_registered', true);
   }

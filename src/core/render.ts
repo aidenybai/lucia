@@ -1,5 +1,6 @@
 import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
 import { Directives, ASTNode, ASTNodeType } from '../models/structs';
+import { rawDirectiveSplitRE } from './utils/patterns';
 
 import { renderDirective } from './directive';
 
@@ -37,7 +38,7 @@ const render = (
       if (directiveHasDep || isStatic || isStaticDirective) {
         const directiveProps = {
           el: node.el,
-          name: directiveName,
+          parts: directiveName.split(rawDirectiveSplitRE()),
           data: directiveData,
           node,
           state,

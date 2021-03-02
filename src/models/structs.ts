@@ -14,7 +14,7 @@ export interface DirectiveData {
 
 export interface DirectiveProps {
   el: HTMLElement;
-  name: string;
+  parts: string[];
   data: DirectiveData;
   state: State;
   node?: ASTNode;

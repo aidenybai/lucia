@@ -1,14 +1,13 @@
 import { DirectiveProps } from '../../models/structs';
-import { rawDirectiveSplitRE } from '../utils/patterns';
 
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
-export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
+export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
   const options: Record<string, boolean> = {};
   const globalScopeEventProps = ['outside', 'global'];
+  const eventProps = parts.slice(2);
 
-  const [, eventName, ...eventProps] = name.split(rawDirectiveSplitRE());
-  if (getElementCustomProp(el, `__on_${eventName}_registered`)) return;
+  if (getElementCustomProp(el, `__on_${parts[1]}_registered`)) return;
 
   const target = globalScopeEventProps.some((prop) => String(eventProps).includes(prop))
     ? window
@@ -32,7 +31,7 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   options.once = eventProps.includes('once');
   options.passive = eventProps.includes('passive');
 
-  target.addEventListener(eventName, handler, options);
+  target.addEventListener(parts[1], handler, options);
 
-  setElementCustomProp(el, `__on_${eventName}_registered`, true);
+  setElementCustomProp(el, `__on_${parts[1]}_registered`, true);
 };

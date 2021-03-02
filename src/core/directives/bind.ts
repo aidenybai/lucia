@@ -4,8 +4,8 @@ export const formatAcceptableWhitespace = (expression: string) => {
   return expression.replace(/\s+/gim, ' ').trim();
 };
 
-export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
-  switch (name.split(':')[1]) {
+export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
+  switch (parts[1]) {
     case 'class':
       const hydratedClasses = data.compute(state);
       // Accept just providing classes regularly
@@ -70,9 +70,9 @@ export const bindDirective = ({ el, name, data, state }: DirectiveProps) => {
         }
         // Only set attr if not falsy
       } else if (hydratedAttributes) {
-        el.setAttribute(name.split(':')[1], hydratedAttributes);
+        el.setAttribute(parts[1], hydratedAttributes);
       } else {
-        el.removeAttribute(name.split(':')[1]);
+        el.removeAttribute(parts[1]);
       }
       break;
   }

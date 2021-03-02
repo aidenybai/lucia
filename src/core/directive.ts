@@ -1,7 +1,5 @@
 import { Directives, DirectiveProps } from '../models/structs';
 
-import { rawDirectiveSplitRE } from './utils/patterns';
-
 import { bindDirective } from './directives/bind';
 import { htmlDirective } from './directives/html';
 import { modelDirective } from './directives/model';
@@ -19,8 +17,7 @@ export const directives: Directives = {
 };
 
 export const renderDirective = (props: DirectiveProps, directives: Directives): void => {
-  const name = props.name.split(rawDirectiveSplitRE())[0];
-  directives[name.toUpperCase()](props);
+  directives[props.parts[0].toUpperCase()](props);
 };
 
 export default renderDirective;
