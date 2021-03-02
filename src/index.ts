@@ -18,6 +18,7 @@ export const init = (
 ): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const initDirective = `${DIRECTIVE_PREFIX}init`;
+  const watchDirective = `${DIRECTIVE_PREFIX}watch`;
 
   const componentElements = element.querySelectorAll(`[${stateDirective}]`);
   // Filter out uninit scopes only
@@ -25,15 +26,20 @@ export const init = (
     (el) => getElementCustomProp(el as HTMLElement, '__l') === undefined
   );
 
-  for (let el of uninitializedComponents) {
+  for (const el of uninitializedComponents) {
     const stateExpression = el.getAttribute(stateDirective);
     const initExpression = el.getAttribute(initDirective);
+    const watchExpression = el.getAttribute(watchDirective);
 
     // Parse state from state expression
     const state = computeExpression(`${stateExpression || '{}'}`, el as HTMLElement, true)({});
+    const watchers = computeExpression(`${watchExpression || '{}'}`, el as HTMLElement, true)({});
     const currentComponent = component(state);
     for (const [directiveName, directiveCallback] of Object.entries(directives)) {
       currentComponent.directive(directiveName, directiveCallback);
+    }
+    for (const [property, watcher] of Object.entries(watchers)) {
+      currentComponent.watch(property, watcher as Function);
     }
     currentComponent.mount(el as HTMLElement);
 

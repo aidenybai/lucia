@@ -1,4 +1,4 @@
-import { Directives, State, ASTNode } from './models/structs';
+import { Directives, Watchers, State, ASTNode } from './models/structs';
 
 import { directives } from './core/directive';
 import compile from './core/compile';
@@ -10,11 +10,13 @@ import { setElementCustomProp } from './core/utils/elementCustomProp';
 export class Component {
   public state: State;
   public directives: Directives;
+  public watchers: Watchers;
   public ast?: ASTNode[];
 
   constructor(state: State = {}) {
     this.state = state;
     this.directives = {};
+    this.watchers = {};
   }
 
   public mount(el: HTMLElement | string, proxify: boolean = true): State {
@@ -26,7 +28,9 @@ export class Component {
     this.ast = compile(rootEl as HTMLElement, this.state);
     this.state = { ...this.state, $render };
 
-    this.state = proxify ? reactive(this.state, this.render.bind(this)).proxy : this.state;
+    this.state = proxify
+      ? reactive(this.state, this.render.bind(this), this.watchers).proxy
+      : this.state;
     this.directives = { ...this.directives, ...directives };
 
     this.render();
@@ -36,9 +40,12 @@ export class Component {
     return this.state;
   }
 
-  // Custom directive registration
   public directive(name: string, callback: Function) {
     this.directives[name.toUpperCase()] = callback;
+  }
+
+  public watch(name: string, callback: Function) {
+    this.watchers[name] = callback;
   }
 
   public render(props: string[] = Object.keys(this.state)) {

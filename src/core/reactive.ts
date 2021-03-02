@@ -16,7 +16,11 @@ export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
   );
 };
 
-export const reactive = (state: State, callback: Function): RevocableProxy => {
+export const reactive = (
+  state: State,
+  callback: Function,
+  watchers: Record<string, Function> = {}
+): RevocableProxy => {
   const handler = {
     get(target: UnknownKV, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
@@ -47,6 +51,9 @@ export const reactive = (state: State, callback: Function): RevocableProxy => {
 
       target[key] = value;
       callback(props);
+      for (const [prop, watcher] of Object.entries(watchers)) {
+        if (props.includes(prop)) watcher();
+      }
 
       return true;
     },

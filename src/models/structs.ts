@@ -1,6 +1,7 @@
 import { UnknownKV } from './generics';
 
 export type Directives = Record<string, Function>;
+export type Watchers = Record<string, Function>;
 export type Components = Record<string, Function>;
 export type State = UnknownKV;
 
