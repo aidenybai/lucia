@@ -12,7 +12,7 @@ describe('.modelDirective', () => {
     };
     modelDirective({
       el,
-      name: 'l-model',
+      parts: ['model'],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });

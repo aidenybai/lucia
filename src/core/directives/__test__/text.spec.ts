@@ -9,7 +9,7 @@ describe('.textDirective', () => {
 
     textDirective({
       el,
-      name: `l-text`,
+      parts: [`text`],
       data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
       state,
     });
@@ -22,7 +22,7 @@ describe('.textDirective', () => {
     const state = {};
     textDirective({
       el,
-      name: `l-text`,
+      parts: [`text`],
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
