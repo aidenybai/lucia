@@ -1,5 +1,5 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
-import { State, DirectiveKV, ASTNode } from '../models/structs';
+import { State, DirectiveKV, ASTNode, ASTNodeType } from '../models/structs';
 import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
 import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
 import removeDupesFromArray from './utils/removeDupesFromArray';
@@ -21,7 +21,7 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
   const hasDepInDirectives = Object.values(directives).some(({ value }) =>
     Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
   );
-  const type = hasDepInDirectives ? 1 : 0;
+  const type = hasDepInDirectives ? ASTNodeType.DYNAMIC : ASTNodeType.STATIC;
 
   if (!hasDirectives) return null;
 

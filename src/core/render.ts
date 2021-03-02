@@ -1,5 +1,5 @@
 import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
-import { Directives, ASTNode } from '../models/structs';
+import { Directives, ASTNode, ASTNodeType } from '../models/structs';
 
 import { renderDirective } from './directive';
 
@@ -14,10 +14,10 @@ const render = (
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
-    if (node.type === -1) continue;
+    if (node.type === ASTNodeType.NULL) continue;
 
-    const isStatic = node.type === 0;
-    if (isStatic) node.type = -1;
+    const isStatic = node.type === ASTNodeType.STATIC;
+    if (isStatic) node.type = ASTNodeType.NULL;
 
     const nodeHasDep = changedProps.some((prop) => node.deps.includes(prop));
 
