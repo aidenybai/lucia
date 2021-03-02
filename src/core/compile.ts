@@ -64,8 +64,8 @@ export const collectAndInitDirectives = (
     });
 
     if (eventDirectivePrefixRE().test(name)) returnable = false;
-    if (name.includes('for') && getElementCustomProp(el, '__l_for_template') === undefined) {
-      setElementCustomProp(el, '__l_for_template', String(el.innerHTML).trim());
+    if (name.includes('for') && getElementCustomProp(el, '__for_template') === undefined) {
+      setElementCustomProp(el, '__for_template', String(el.innerHTML).trim());
       returnable = false;
     }
 
@@ -131,7 +131,7 @@ export const compile = (
   if (!el) throw new Error('Please provide a HTMLElement');
 
   const ast: ASTNode[] = [];
-  const isListGroup = getElementCustomProp(el, '__l') !== undefined && isListRenderScope(el);
+  const isListGroup = getElementCustomProp(el, 'component') !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
 
   for (const node of nodes) {

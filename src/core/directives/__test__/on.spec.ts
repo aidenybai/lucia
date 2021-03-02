@@ -20,7 +20,7 @@ describe('.onDirective', () => {
     });
 
     fireEvent.click(el);
-    expect(typeof getElementCustomProp(el, '__l_on_click_registered')).toEqual('boolean');
+    expect(typeof getElementCustomProp(el, '__on_click_registered')).toEqual('boolean');
     expect(callback).toBeCalledTimes(1);
 
     onDirective({
@@ -55,7 +55,7 @@ describe('.onDirective', () => {
 
     el.dispatchEvent(event);
     // @ts-expect-error
-    expect(typeof el.__l_on_customEvent_registered).toEqual('boolean');
+    expect(typeof el.__on_customEvent_registered).toEqual('boolean');
     expect(callback).toBeCalledTimes(0);
 
     window.dispatchEvent(event);

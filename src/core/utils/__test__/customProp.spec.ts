@@ -5,17 +5,17 @@ describe('.customProp', () => {
     const el = document.createElement('div');
 
     // @ts-expect-error
-    el.__l = 'foo';
+    el.component = 'foo';
 
     expect(getElementCustomProp(el, 'innerHTML')).toEqual('');
-    expect(getElementCustomProp(el, '__l')).toEqual('foo');
+    expect(getElementCustomProp(el, 'component')).toEqual('foo');
   });
 
   it('should correctly mutate custom prop', () => {
     const el = document.createElement('div');
 
-    setElementCustomProp(el, '__l', 'foo');
+    setElementCustomProp(el, 'component', 'foo');
 
-    expect(getElementCustomProp(el, '__l')).toEqual('foo');
+    expect(getElementCustomProp(el, 'component')).toEqual('foo');
   });
 });

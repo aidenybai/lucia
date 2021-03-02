@@ -28,13 +28,13 @@ describe('.component', () => {
     expect(app1.state).toEqual(app2.state);
   });
 
-  it('should have __l property on mount', () => {
+  it('should have component property on mount', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
     const app = component(state);
     app.mount(el);
 
-    expect(getElementCustomProp(el, '__l')).toEqual(app);
+    expect(getElementCustomProp(el, 'component')).toEqual(app);
   });
 
   it('should register custom directive', () => {

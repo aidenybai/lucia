@@ -5,5 +5,5 @@ export const getElementCustomProp = (el: HTMLElement, prop: string) => {
 };
 
 export const setElementCustomProp = (el: HTMLElement, prop: string, value: any) => {
-  return (el[prop] = value);
+  el[prop] = value;
 };

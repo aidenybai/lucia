@@ -9,7 +9,7 @@ import adjustDeps from '../utils/adjustDeps';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps) => {
   node = node!;
-  const marker = getElementCustomProp(el, '__l');
+  const marker = getElementCustomProp(el, 'component');
 
   // Handle naked prop in expression case
   el.innerHTML = data.compute(state) ?? data.value;
@@ -20,5 +20,5 @@ export const htmlDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   render(ast, directives, state, data.deps);
 
-  setElementCustomProp(el, '__l', true);
+  setElementCustomProp(el, 'component', true);
 };

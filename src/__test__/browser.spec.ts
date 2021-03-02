@@ -14,7 +14,7 @@ const reset = () => {
 const validateComponentFunctionality = (error = false) => {
   const componentElement = document.querySelector('body > div') as HTMLElement;
   const componentText = componentElement.querySelector('p') as HTMLElement;
-  const component = getElementCustomProp(componentElement, '__l');
+  const component = getElementCustomProp(componentElement, 'component');
 
   if (error) {
     expect(component).toBeUndefined();

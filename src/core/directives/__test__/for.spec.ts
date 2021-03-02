@@ -9,7 +9,7 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setElementCustomProp(el, '__l_for_template', '<li l-text="this.bar"></li>');
+    setElementCustomProp(el, '__for_template', '<li l-text="this.bar"></li>');
     el.innerHTML = '<li l-text="this.bar"></li>';
 
     forDirective({
@@ -35,7 +35,7 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setElementCustomProp(el, '__l_for_template', '<li l-text="this.bar + this.i"></li>');
+    setElementCustomProp(el, '__for_template', '<li l-text="this.bar + this.i"></li>');
 
     el.innerHTML = '<li l-text="this.bar + this.i"></li>';
     forDirective({
@@ -51,13 +51,13 @@ describe('.forDirective', () => {
     );
   });
 
-  it('should string together __l_for_template if item and index are not present', () => {
+  it('should string together __for_template if item and index are not present', () => {
     const el = document.createElement('p');
     const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setElementCustomProp(el, '__l_for_template', '<li></li>');
+    setElementCustomProp(el, '__for_template', '<li></li>');
 
     forDirective({
       el,
@@ -76,8 +76,8 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setElementCustomProp(el, '__l_for_template', '<li></li>');
-    setElementCustomProp(el, '__l_for_state', ['bar', 'bar']);
+    setElementCustomProp(el, '__for_template', '<li></li>');
+    setElementCustomProp(el, '__for_state', ['bar', 'bar']);
 
     el.innerHTML = '<li></li>';
     forDirective({
@@ -97,8 +97,8 @@ describe('.forDirective', () => {
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setElementCustomProp(el, '__l_for_template', '<li></li>');
-    setElementCustomProp(el, '__l_for_state', ['bar', 'bar', 'bar']);
+    setElementCustomProp(el, '__for_template', '<li></li>');
+    setElementCustomProp(el, '__for_state', ['bar', 'bar', 'bar']);
 
     el.innerHTML = '<li></li><li></li><li></li><li></li>';
     forDirective({

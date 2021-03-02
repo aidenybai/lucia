@@ -21,6 +21,7 @@ describe('.compute', () => {
     const el = document.createElement('div');
 
     expect(
+      // @ts-expect-error
       computeExpression(`$emit('customEvent', $el); return $event`, el, false)({}, 'foo')
     ).toEqual('foo');
   });

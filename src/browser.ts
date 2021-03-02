@@ -1,5 +1,4 @@
 import * as Lucia from './index';
-import { Directives } from './models/structs';
 
 const DOMReady = () => {
   return new Promise((resolve) => {
@@ -12,18 +11,17 @@ const DOMReady = () => {
   });
 };
 
-const init = (directives?: Directives) => Lucia.init(document, directives);
+const init = () => Lucia.init(document);
 
-const start = async (directives?: Directives) => {
+const start = async () => {
   await DOMReady();
-  init(directives);
+  init();
 
   // Turbolinks/Turbo Drive support by default
-  document.addEventListener('turbolinks:load', () => init(directives));
-  document.addEventListener('turbo:load', () => init(directives));
+  document.addEventListener('turbolinks:load', () => init());
+  document.addEventListener('turbo:load', () => init());
 };
 
-// @ts-expect-error
-start(window.__l);
+start();
 
 export default Lucia;

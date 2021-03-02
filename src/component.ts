@@ -19,7 +19,7 @@ export class Component {
     this.watchers = {};
   }
 
-  public mount(el: HTMLElement | string, proxify: boolean = true): State {
+  public mount(el: HTMLElement | string): State {
     // Accepts both selector and element reference
     const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
     const $render = (deps: string[] = Object.keys(this.state)) => this.render(deps);
@@ -27,14 +27,11 @@ export class Component {
     // AST generation
     this.ast = compile(rootEl as HTMLElement, this.state);
     this.directives = { ...this.directives, ...directives };
-    this.state = { ...this.state, $render };
-    this.state = proxify
-      ? reactive(this.state, this.render.bind(this), this.watchers).proxy
-      : this.state;
+    this.state = reactive({ ...this.state, $render }, this.render.bind(this), this.watchers).proxy;
 
     this.render();
 
-    setElementCustomProp(rootEl as HTMLElement, '__l', this);
+    setElementCustomProp(rootEl as HTMLElement, 'component', this);
 
     return this.state;
   }

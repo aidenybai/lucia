@@ -5,18 +5,18 @@ import { getElementCustomProp } from '../core/utils/elementCustomProp';
 window.callback = jest.fn();
 
 describe('.index', () => {
-  it('should create component scope and attach __l prop', async () => {
+  it('should create component scope and attach component prop', async () => {
     const root = document.createElement('div');
     const el = document.createElement('div');
 
     el.setAttribute('l-state', `{ foo: 'bar' }`);
     root.appendChild(el);
 
-    expect(getElementCustomProp(el, '__l')).toBeUndefined();
+    expect(getElementCustomProp(el, 'component')).toBeUndefined();
 
     init(root);
 
-    expect(getElementCustomProp(el, '__l')).toBeDefined();
+    expect(getElementCustomProp(el, 'component')).toBeDefined();
   });
 
   it('should create component with empty state', async () => {
@@ -30,7 +30,7 @@ describe('.index', () => {
 
     const $render = () => {};
 
-    expect(JSON.stringify(getElementCustomProp(el, '__l').state)).toEqual(
+    expect(JSON.stringify(getElementCustomProp(el, 'component').state)).toEqual(
       JSON.stringify({
         $render: $render.bind([]),
       })

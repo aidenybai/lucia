@@ -8,7 +8,7 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
   const globalScopeEventProps = ['outside', 'global'];
 
   const [, eventName, ...eventProps] = name.split(rawDirectiveSplitRE());
-  if (getElementCustomProp(el, `__l_on_${eventName}_registered`)) return;
+  if (getElementCustomProp(el, `__on_${eventName}_registered`)) return;
 
   const target = globalScopeEventProps.some((prop) => String(eventProps).includes(prop))
     ? window
@@ -34,5 +34,5 @@ export const onDirective = ({ el, name, data, state }: DirectiveProps) => {
 
   target.addEventListener(eventName, handler, options);
 
-  setElementCustomProp(el, `__l_on_${eventName}_registered`, true);
+  setElementCustomProp(el, `__on_${eventName}_registered`, true);
 };
