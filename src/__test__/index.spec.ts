@@ -54,17 +54,4 @@ describe('.index', () => {
     // @ts-ignore
     window.console = window.originalConsole;
   });
-
-  it('should run l-init directive when component is mounted', () => {
-    const root = document.createElement('div');
-    const el = document.createElement('div');
-
-    el.setAttribute('l-state', `{ foo: 'bar' }`);
-    el.setAttribute('l-init', 'window.callback()');
-    root.appendChild(el);
-    init(root);
-
-    // @ts-ignore
-    expect(callback).toBeCalled();
-  });
 });
