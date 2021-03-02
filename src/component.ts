@@ -26,12 +26,11 @@ export class Component {
 
     // AST generation
     this.ast = compile(rootEl as HTMLElement, this.state);
+    this.directives = { ...this.directives, ...directives };
     this.state = { ...this.state, $render };
-
     this.state = proxify
       ? reactive(this.state, this.render.bind(this), this.watchers).proxy
       : this.state;
-    this.directives = { ...this.directives, ...directives };
 
     this.render();
 
