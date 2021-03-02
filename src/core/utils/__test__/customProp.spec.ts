@@ -4,7 +4,7 @@ describe('.customProp', () => {
   it('should correctly access custom prop', () => {
     const el = document.createElement('div');
 
-    // @ts-ignore
+    // @ts-expect-error
     el.__l = 'foo';
 
     expect(getElementCustomProp(el, 'innerHTML')).toEqual('');

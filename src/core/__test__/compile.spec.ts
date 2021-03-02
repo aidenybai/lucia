@@ -9,7 +9,7 @@ import compute from '../../core/utils/computeExpression';
 
 describe('.compile', () => {
   it('should throw an error', () => {
-    // @ts-ignore
+    // @ts-expect-error
     expect(() => compile()).toThrowError(new Error('Please provide a HTMLElement'));
   });
 

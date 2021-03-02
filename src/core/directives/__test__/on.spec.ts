@@ -54,7 +54,7 @@ describe('.onDirective', () => {
     });
 
     el.dispatchEvent(event);
-    // @ts-ignore
+    // @ts-expect-error
     expect(typeof el.__l_on_customEvent_registered).toEqual('boolean');
     expect(callback).toBeCalledTimes(0);
 

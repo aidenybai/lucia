@@ -1,14 +1,13 @@
 import { UnknownKV } from './generics';
 
-export type Directives = Record<string, Function>;
-export type Watchers = Record<string, Function>;
-export type Components = Record<string, Function>;
+export type Directives = Record<string, (props: DirectiveProps) => void>;
+export type Watchers = Record<string, () => void>;
 export type State = UnknownKV;
 
 export type DirectiveKV = Record<string, DirectiveData>;
 
 export interface DirectiveData {
-  compute: Function;
+  compute: (state: UnknownKV, event?: Event) => any;
   value: string;
   deps: string[];
 }

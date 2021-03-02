@@ -1,4 +1,4 @@
-import { Directives, Watchers, State, ASTNode } from './models/structs';
+import { Directives, DirectiveProps, Watchers, State, ASTNode } from './models/structs';
 
 import { directives } from './core/directive';
 import compile from './core/compile';
@@ -39,11 +39,11 @@ export class Component {
     return this.state;
   }
 
-  public directive(name: string, callback: Function) {
+  public directive(name: string, callback: (props: DirectiveProps) => void) {
     this.directives[name.toUpperCase()] = callback;
   }
 
-  public watch(name: string, callback: Function) {
+  public watch(name: string, callback: () => void) {
     this.watchers[name] = callback;
   }
 

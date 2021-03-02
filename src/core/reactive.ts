@@ -1,9 +1,9 @@
 import { UnknownKV } from '../models/generics';
-import { State } from '../models/structs';
+import { State, Watchers } from '../models/structs';
 
 export interface RevocableProxy {
   proxy: UnknownKV;
-  revoke: Function;
+  revoke: () => void;
 }
 
 export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
@@ -18,8 +18,8 @@ export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
 
 export const reactive = (
   state: State,
-  callback: Function,
-  watchers: Record<string, Function> = {}
+  callback: (props: string[]) => void,
+  watchers: Watchers = {}
 ): RevocableProxy => {
   const handler = {
     get(target: UnknownKV, key: string): unknown {

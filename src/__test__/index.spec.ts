@@ -1,7 +1,7 @@
 import { init } from '../index';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
 
-// @ts-ignore
+// @ts-expect-error
 window.callback = jest.fn();
 
 describe('.index', () => {
@@ -38,7 +38,7 @@ describe('.index', () => {
   });
 
   it('should throw error on init', () => {
-    // @ts-ignore
+    // @ts-expect-error
     window.originalConsole = console;
     window.console = { warn: jest.fn() } as any;
 
@@ -51,7 +51,7 @@ describe('.index', () => {
 
     expect(console.warn).toBeCalled();
 
-    // @ts-ignore
+    // @ts-expect-error
     window.console = window.originalConsole;
   });
 });

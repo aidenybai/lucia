@@ -3,7 +3,7 @@ export const computeExpression = (
   expression: string,
   el?: HTMLElement,
   returnable?: boolean
-): Function => {
+): ((state: UnknownKV, event?: Event) => any) => {
   let formattedExpression = `with($state){${
     returnable ?? true ? `return ${expression}` : expression
   }}`;
