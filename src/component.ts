@@ -49,6 +49,6 @@ export class Component {
   }
 }
 
-export const component = (state: State | undefined) => new Component(state);
+export const component = (state?: State) => new Component(state);
 
 export default component;

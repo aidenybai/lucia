@@ -8,11 +8,6 @@ import {
 import compute from '../../core/utils/computeExpression';
 
 describe('.compile', () => {
-  it('should throw an error', () => {
-    // @ts-expect-error
-    expect(() => compile()).toThrowError(new Error('Please provide a HTMLElement'));
-  });
-
   it('should not return anything', () => {
     const rootEl = document.createElement('div');
 

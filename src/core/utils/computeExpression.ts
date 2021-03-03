@@ -1,12 +1,11 @@
 import { UnknownKV } from '../../models/generics';
+
 export const computeExpression = (
   expression: string,
   el?: HTMLElement,
-  returnable?: boolean
+  returnable: boolean = true
 ): ((state: UnknownKV, event?: Event) => any) => {
-  let formattedExpression = `with($state){${
-    returnable ?? true ? `return ${expression}` : expression
-  }}`;
+  const formattedExpression = `with($state){${returnable ? `return ${expression}` : expression}}`;
   return (state: UnknownKV, event?: Event) => {
     try {
       const value = state[expression];
@@ -16,14 +15,19 @@ export const computeExpression = (
       } else {
         const emit = (name: string, options?: CustomEventInit, dispatchGlobal: boolean = true) => {
           const event = new CustomEvent(name, options);
-          (dispatchGlobal ? document : el || document).dispatchEvent(event);
+          const target = dispatchGlobal ? window : el || window;
+          target.dispatchEvent(event);
         };
 
-        return new Function('$state', '$el', '$emit', '$event', formattedExpression)(
-          state,
-          el,
-          emit,
-          event
+        const specialProperties = {
+          $state: state,
+          $el: el,
+          $emit: emit,
+          $event: event,
+        };
+
+        return new Function(...Object.keys(specialProperties), formattedExpression)(
+          ...Object.values(specialProperties)
         );
       }
     } catch (err) {

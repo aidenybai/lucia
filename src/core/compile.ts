@@ -14,7 +14,7 @@ export const isUnderListRenderScope = (el: HTMLElement): boolean => {
   return el.parentElement.hasAttribute(`${DIRECTIVE_PREFIX}for`);
 };
 
-export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => {
+export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefined => {
   const [directives, deps] = collectAndInitDirectives(el, state);
 
   const hasDirectives = Object.keys(directives).length > 0;
@@ -22,10 +22,9 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | null => 
     Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
   );
   const type = hasDepInDirectives ? ASTNodeType.DYNAMIC : ASTNodeType.STATIC;
+  const node = { el, deps, directives, type };
 
-  if (!hasDirectives) return null;
-
-  return { el, deps, directives, type };
+  return hasDirectives ? node : undefined;
 };
 
 export const collectAndInitDirectives = (
@@ -53,10 +52,10 @@ export const collectAndInitDirectives = (
       const hasDep = expressionPropRE(prop).test(String(value));
 
       // Check for dependencies inside functions
-      if (typeof state[prop] === 'function' && hasDep) {
-        const depsInFunction = propsInState.filter((p) =>
-          expressionPropRE(p).test(String(state[prop]))
-        );
+      if (hasDep && typeof state[prop] === 'function') {
+        const depsInFunction = propsInState.filter((p) => {
+          return expressionPropRE(p).test(String(state[prop]));
+        });
         depsInFunctions.push(...depsInFunction);
       }
 
@@ -64,6 +63,8 @@ export const collectAndInitDirectives = (
     });
 
     if (eventDirectivePrefixRE().test(name)) returnable = false;
+
+    // for directive requires template
     if (name.includes('for') && getElementCustomProp(el, '__for_template') === undefined) {
       setElementCustomProp(el, '__for_template', String(el.innerHTML).trim());
       returnable = false;
@@ -128,15 +129,14 @@ export const compile = (
   state: State = {},
   ignoreRootNode: boolean = false
 ): ASTNode[] => {
-  if (!el) throw new Error('Please provide a HTMLElement');
-
   const ast: ASTNode[] = [];
   const isListGroup = getElementCustomProp(el, 'component') !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
+  const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 
   for (const node of nodes) {
-    if (node.hasAttribute(`${DIRECTIVE_PREFIX}mask`)) {
-      node.removeAttribute(`${DIRECTIVE_PREFIX}mask`);
+    if (node.hasAttribute(maskDirective)) {
+      node.removeAttribute(maskDirective);
     }
     if (hasDirectiveRE().test(node.outerHTML)) {
       // Creates AST Node from real DOM nodes

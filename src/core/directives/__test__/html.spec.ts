@@ -15,7 +15,7 @@ describe('.htmlDirective', () => {
     };
     htmlDirective({
       el,
-      name: 'l-html',
+      parts: ['html'],
       data,
       state,
       node,
@@ -36,7 +36,7 @@ describe('.htmlDirective', () => {
     };
     htmlDirective({
       el,
-      name: 'l-html',
+      parts: ['html'],
       data,
       state,
       node,
@@ -57,7 +57,7 @@ describe('.htmlDirective', () => {
     };
     htmlDirective({
       el,
-      name: 'l-html',
+      parts: ['l-html'],
       data,
       state,
       node,
