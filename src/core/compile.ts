@@ -1,5 +1,5 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
-import { State, DirectiveKV, ASTNode, ASTNodeType } from '../models/structs';
+import { State, DirectiveKV, Refs, ASTNode, ASTNodeType } from '../models/structs';
 import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
 import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
 import removeDupesFromArray from './utils/removeDupesFromArray';
@@ -27,11 +27,22 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
   return hasDirectives ? node : undefined;
 };
 
+export const collectRefs = (): Refs => {
+  const refs = document.querySelectorAll(`[${DIRECTIVE_PREFIX}ref]`);
+  const refObject = {};
+  for (const ref of refs) {
+    const name = ref.getAttribute(`${DIRECTIVE_PREFIX}ref`);
+    if (name) refObject[name] = ref;
+  }
+  return refObject;
+};
+
 export const collectAndInitDirectives = (
   el: HTMLElement,
   state: State = {}
 ): [DirectiveKV, string[]] => {
   const directives: DirectiveKV = {};
+  const refs: Refs = collectRefs();
   const nodeDeps = [];
 
   for (const { name, value } of el.attributes) {
@@ -74,7 +85,7 @@ export const collectAndInitDirectives = (
     nodeDeps.push(...uniqueCompiledDeps);
 
     const directiveData = {
-      compute: compute(value, el, returnable),
+      compute: compute(value, el, returnable, refs),
       deps: uniqueCompiledDeps,
       value,
     };

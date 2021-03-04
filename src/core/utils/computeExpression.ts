@@ -1,9 +1,11 @@
 import { UnknownKV } from '../../models/generics';
+import { Refs } from '../../models/structs';
 
 export const computeExpression = (
   expression: string,
   el?: HTMLElement,
-  returnable: boolean = true
+  returnable: boolean = true,
+  refs: Refs = {}
 ): ((state: UnknownKV, event?: Event) => any) => {
   const formattedExpression = `with($state){${returnable ? `return ${expression}` : expression}}`;
   return (state: UnknownKV, event?: Event) => {
@@ -24,6 +26,7 @@ export const computeExpression = (
           $el: el,
           $emit: emit,
           $event: event,
+          $refs: refs,
         };
 
         return new Function(...Object.keys(specialProperties), formattedExpression)(
