@@ -46,7 +46,7 @@ describe('.component', () => {
     app.mount(el);
 
     expect(JSON.stringify({ ...app.state, $render: custom.bind(Object.keys(state)) })).toEqual(
-      JSON.stringify(reactive(state, custom).proxy)
+      JSON.stringify(reactive(state, custom))
     );
     expect({ ...app.directives }).toEqual({ ...directives, CUSTOM: custom });
   });

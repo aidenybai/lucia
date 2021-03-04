@@ -1,11 +1,6 @@
 import { UnknownKV } from '../models/generics';
 import { State, Watchers } from '../models/structs';
 
-export interface RevocableProxy {
-  proxy: UnknownKV;
-  revoke: () => void;
-}
-
 export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]) => {
   // Deep Array equality check
   return (
@@ -20,7 +15,7 @@ export const reactive = (
   state: State,
   callback: (props: string[]) => void,
   watchers: Watchers = {}
-): RevocableProxy => {
+): State => {
   const handler = {
     get(target: UnknownKV, key: string): unknown {
       if (typeof target[key] === 'object' && target[key] !== null) {
@@ -60,7 +55,7 @@ export const reactive = (
   };
 
   // State is sealed, meaning values are mutable, but size is immutable
-  return Proxy.revocable(Object.seal(state), handler);
+  return new Proxy(Object.seal(state), handler);
 };
 
 export default reactive;

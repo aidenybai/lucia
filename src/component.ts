@@ -27,7 +27,7 @@ export class Component {
     // AST generation
     this.ast = compile(rootEl as HTMLElement, this.state);
     this.directives = { ...this.directives, ...directives };
-    this.state = reactive({ ...this.state, $render }, this.render.bind(this), this.watchers).proxy;
+    this.state = reactive({ ...this.state, $render }, this.render.bind(this), this.watchers);
 
     this.render();
 
