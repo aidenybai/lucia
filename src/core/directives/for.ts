@@ -1,3 +1,4 @@
+import { DIRECTIVE_PREFIX } from '../../models/generics';
 import { DirectiveProps } from '../../models/structs';
 
 import compile from '../../core/compile';
@@ -63,6 +64,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   if (!marker) {
     adjustDeps(ast, data.deps, node, 'for');
+    el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 
   render(compile(el, state), directives, state, node.deps);
