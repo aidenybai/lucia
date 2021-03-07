@@ -13,10 +13,10 @@ export class Component {
   public watchers: Watchers;
   public ast?: ASTNode[];
 
-  constructor(state: State = {}) {
+  constructor(state: State = {}, directives: Directives = {}, watchers: Watchers = {}) {
     this.state = state;
-    this.directives = {};
-    this.watchers = {};
+    this.directives = directives;
+    this.watchers = watchers;
   }
 
   public mount(el: HTMLElement | string): State {
