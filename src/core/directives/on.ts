@@ -14,6 +14,17 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
     : el;
 
   const handler = (event: Event) => {
+    if (event instanceof KeyboardEvent && /\d/gim.test(String(eventProps))) {
+      const whitelistedKeycodes = [];
+      for (const eventProp of eventProps) {
+        // @ts-expect-error
+        if (!isNaN(eventProp)) {
+          whitelistedKeycodes.push(Number(eventProp));
+        }
+      }
+      if (!whitelistedKeycodes.includes(event.keyCode)) return;
+    }
+
     // Parse event modifiers based on directive prop
     if (eventProps.includes('prevent')) event.preventDefault();
     if (eventProps.includes('stop')) event.stopPropagation();

@@ -95,7 +95,7 @@ export const collectAndInitDirectives = (
       ? name.slice(DIRECTIVE_PREFIX.length)
       : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
 
-    directives[directiveName] = directiveData;
+    directives[directiveName.toLowerCase()] = directiveData;
   }
 
   return [directives, removeDupesFromArray(nodeDeps)];
