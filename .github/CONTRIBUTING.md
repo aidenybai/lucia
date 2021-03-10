@@ -19,6 +19,15 @@ To get ready to work on the codebase, please do the following:
 3. Code your heart out!
 4. [Submit a pull request](https://github.com/aidenybai/lucia/compare) (Make sure you follow the [conventional commit format](https://github.com/aidenybai/lucia/blob/master/.github/COMMIT_CONVENTION.md))
 
+## Tips
+
+- Common Scripts
+  - **Build for development:** `npm run dev`
+  - **Build for production:** `npm run build`
+  - **Run all tests:** `npm run test`
+  - **Prettier codebase:** `npm run cleanup`
+- You can make `test*.html` (wildcard is anything) at root for ad-hoc testing.
+
 ## Lucia Core
 
 Before contributing to Lucia's core, be sure to read this [markdown document](https://github.com/aidenybai/lucia/tree/master/src/core#readme).
