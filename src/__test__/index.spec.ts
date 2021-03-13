@@ -8,14 +8,17 @@ describe('.index', () => {
   it('should create component scope and attach component prop', async () => {
     const root = document.createElement('div');
     const el = document.createElement('div');
+    const fakeEl = document.createElement('div');
 
     el.setAttribute('l-state', `{ foo: 'bar' }`);
     root.appendChild(el);
 
     expect(getElementCustomProp(el, 'component')).toBeUndefined();
 
-    init(root);
+    init(fakeEl);
+    expect(getElementCustomProp(el, 'component')).toBeUndefined();
 
+    init(root);
     expect(getElementCustomProp(el, 'component')).toBeDefined();
   });
 

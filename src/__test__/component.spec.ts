@@ -51,6 +51,20 @@ describe('.component', () => {
     expect({ ...app.directives }).toEqual({ ...directives, CUSTOM: custom });
   });
 
+  it('should register a watcher', () => {
+    const el = document.createElement('div');
+    const state = { foo: 'bar' };
+    const app = component(state);
+    function custom() {}
+    app.watch('custom', custom);
+    app.mount(el);
+
+    expect(JSON.stringify({ ...app.state, $render: custom.bind(Object.keys(state)) })).toEqual(
+      JSON.stringify(reactive(state, custom))
+    );
+    expect({ ...app.watchers }).toEqual({ custom });
+  });
+
   it('should render if render() is manually called', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
