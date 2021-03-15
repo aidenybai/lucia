@@ -150,7 +150,6 @@ export const compile = (
       node.removeAttribute(maskDirective);
     }
     if (hasDirectiveRE().test(node.outerHTML)) {
-      // Creates AST Node from real DOM nodes
       const newASTNode = createASTNode(node, state);
       if (newASTNode) ast.push(newASTNode);
     }
