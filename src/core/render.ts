@@ -1,7 +1,7 @@
 import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
 import { Directives, ASTNode, ASTNodeType } from '../models/structs';
 import { rawDirectiveSplitRE } from './utils/patterns';
-import timeSlice from './utils/timeSlice';
+import concurrent from './utils/concurrent';
 
 import { renderDirective } from './directive';
 
@@ -14,10 +14,9 @@ const render = (
   if (typeof changedProps === 'string') changedProps = [changedProps];
   const legalDirectiveNames = Object.keys(directives);
 
-  timeSlice(function* () {
-    for (let i = 0; i < ast.length; i++) {
+  function* traverse() {
+    for (const node of ast) {
       yield;
-      const node = ast[i];
       if (node.type === ASTNodeType.NULL) continue;
 
       const isStatic = node.type === ASTNodeType.STATIC;
@@ -47,6 +46,7 @@ const render = (
             node,
             state,
           };
+          yield;
           renderDirective(directiveProps, directives);
 
           if (isStaticDirective || isMaskDirective) {
@@ -58,7 +58,9 @@ const render = (
         }
       }
     }
-  })();
+  }
+
+  concurrent(traverse)();
 };
 
 export default render;
