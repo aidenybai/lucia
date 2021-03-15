@@ -5,7 +5,7 @@ export const concurrent = (generatorFunction: () => Generator<undefined, void, u
     let task = null;
     do {
       task = generator.next();
-    } while (performance.now() - start < 20 && !task.done);
+    } while (performance.now() - start < 50 && !task.done);
 
     if (task.done) return;
     setTimeout(next);
