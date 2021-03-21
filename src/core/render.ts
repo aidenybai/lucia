@@ -11,14 +11,10 @@ const render = (
   state: UnknownKV = {},
   changedProps: string[] = []
 ): void => {
-  if (typeof changedProps === 'string') changedProps = [changedProps];
   const legalDirectiveNames = Object.keys(directives);
 
-  function* traverse() {
+  concurrent(function* () {
     for (const node of ast) {
-      yield;
-      if (node.type === ASTNodeType.NULL) continue;
-
       const isStatic = node.type === ASTNodeType.STATIC;
       if (isStatic) node.type = ASTNodeType.NULL;
 
@@ -46,7 +42,6 @@ const render = (
             node,
             state,
           };
-          yield;
           renderDirective(directiveProps, directives);
 
           if (isStaticDirective || isMaskDirective) {
@@ -58,9 +53,7 @@ const render = (
         }
       }
     }
-  }
-
-  concurrent(traverse)();
+  })();
 };
 
 export default render;

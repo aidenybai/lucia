@@ -27,20 +27,22 @@ export const reactive = (
     },
     set(target: UnknownKV, key: string, value: unknown): boolean {
       // Do not allow function mutation
-      if (typeof state[key] === 'function') return false;
+      if (typeof state[key] === 'function' || key.startsWith('$')) return false;
 
       // Currently double renderes - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
-      let props = [key];
+      const props = [key];
 
       if (target instanceof Array && hasArrayMutationKey) {
-        props = Object.keys(state).filter((prop) =>
-          arrayEquals(state[prop] as unknown[], target as unknown[])
+        props.push(
+          ...Object.keys(state).filter((prop) =>
+            arrayEquals(state[prop] as unknown[], target as unknown[])
+          )
         );
       } else {
         // Bad perf way of handling nested objects
         if (Object.keys(state).some((prop) => target[prop] === undefined)) {
-          props = Object.keys(state).filter((prop) => typeof state[prop] === 'object');
+          props.push(...Object.keys(state).filter((prop) => typeof state[prop] === 'object'));
         }
       }
 
