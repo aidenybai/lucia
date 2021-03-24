@@ -6,6 +6,7 @@ import reactive from './core/reactive';
 import render from './core/render';
 
 import { setElementCustomProp } from './core/utils/elementCustomProp';
+import { DIRECTIVE_PREFIX } from './models/generics';
 
 export class Component {
   public state: State;
@@ -21,17 +22,18 @@ export class Component {
 
   public mount(el: HTMLElement | string): State {
     // Accepts both selector and element reference
-    const rootEl = typeof el === 'string' ? document.querySelector(el) : el;
+    const rootEl =
+      typeof el === 'string' ? document.querySelector<HTMLElement>(el)! : (el as HTMLElement);
     const $render = (deps: string[] = Object.keys(this.state)) => this.render(deps);
 
-    // AST generation
-    this.ast = compile(rootEl as HTMLElement, this.state);
+    this.ast = compile(rootEl, this.state);
     this.directives = { ...this.directives, ...directives };
     this.state = reactive({ ...this.state, $render }, this.render.bind(this), this.watchers);
 
     this.render();
 
-    setElementCustomProp(rootEl as HTMLElement, 'component', this);
+    setElementCustomProp(rootEl, 'component', this);
+    this.handleMutations(rootEl);
 
     return this.state;
   }
@@ -46,6 +48,25 @@ export class Component {
 
   public render(props: string[] = Object.keys(this.state)) {
     render(this.ast!, directives, this.state, props);
+  }
+
+  public handleMutations(el: HTMLElement) {
+    const mutationObserver = new MutationObserver((mutationsList) => {
+      for (const mutation of mutationsList) {
+        const attrName = String(mutation.attributeName);
+        if (
+          mutation.type === 'attributes' &&
+          attrName.startsWith(DIRECTIVE_PREFIX) &&
+          attrName !== `${DIRECTIVE_PREFIX}for`
+        ) {
+          this.ast = compile(el, this.state);
+          this.render();
+          console.log('render');
+        }
+      }
+    });
+
+    mutationObserver.observe(el, { attributes: true, subtree: true });
   }
 }
 

@@ -18,6 +18,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
   const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
+
   const currArray =
     (state[target?.trim()] as unknown[]) ?? computeExpression(target?.trim(), el, true)(state);
   const ast = compile(el, state);
@@ -67,5 +68,5 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
     el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 
-  render(compile(el, state), directives, state, node.deps);
+  render(compile(el, state, true), directives, state, node.deps);
 };
