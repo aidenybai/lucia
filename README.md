@@ -41,7 +41,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 ## Sponsors
 
-<a href="https://anomaly-science.com/" target="_blank"><img width="33%" src="https://raw.githubusercontent.com/Anomaly-Science/assets/main/SVG/Anomaly%20Science%20Logo%20Full%20Light%20Mode.svg" alt="Anomaly Science"></a>
+<a href="https://anomaly-science.com/" target="_blank"><img width="20%" src="https://raw.githubusercontent.com/Anomaly-Science/assets/main/SVG/Anomaly%20Science%20Logo%20Full%20Light%20Mode.svg" alt="Anomaly Science"></a>
 
 **Want your logo here? [→ Sponsor Lucia](https://github.com/sponsors/aidenybai)**
 

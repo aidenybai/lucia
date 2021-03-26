@@ -57,7 +57,13 @@ export const buildAll = (input, config) => {
   });
 };
 
-export default [
+const development = buildAll('./src/browser.ts', {
+  output: ['dist/lucia.js', 'dist/lucia.min.js'],
+  format: 'iife',
+  target: 'es2018',
+});
+
+const production = [
   buildAll('./src/browser.ts', {
     output: ['dist/lucia.js', 'dist/lucia.min.js'],
     format: 'iife',
@@ -92,3 +98,5 @@ export default [
     legacy: true,
   }),
 ];
+
+export default process.env.BUILD === 'development' ? development : production;

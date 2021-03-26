@@ -7,8 +7,8 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "npx rollup -c rollup-dev.config.js -w",
-    "build": "npx del-cli dist/ && npx rollup -c",
+    "dev": "npx rollup -c -w --environment BUILD:development",
+    "build": "npx del-cli dist/ && npx rollup -c --environment BUILD:production",
     "test": "npx jest --coverage --silent",
     "cleanup": "npx prettier -w src",
     "coverage": "cat ./coverage/lcov.info | coveralls"
