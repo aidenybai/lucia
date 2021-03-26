@@ -4,12 +4,6 @@ import typescript from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import babel from '@rollup/plugin-babel';
 
-const config = {
-  name: 'Lucia',
-  globals: {},
-  strict: true,
-};
-
 const legacy = () => {
   return babel({
     extensions: ['.ts'],
@@ -18,75 +12,83 @@ const legacy = () => {
   });
 };
 
-const browser = (format, folder = '') => ({
-  input: './src/browser.ts',
+const build = (input, config) => ({
+  input,
   external: [],
   plugins: [
     resolve({ extensions: ['.ts'] }),
     commonjs(),
     typescript({
       useTsconfigDeclarationDir: true,
-      tsconfigOverride: { compilerOptions: { target: format } },
+      tsconfigOverride: { compilerOptions: { target: config.target } },
     }),
-    folder === '/legacy' ? legacy() : undefined,
+    config.legacy ? legacy() : undefined,
   ],
-  output: [
-    {
-      file: `dist${folder}/lucia.js`,
-      format: 'iife',
-      ...config,
-    },
-    {
-      file: `dist${folder}/lucia.min.js`,
-      plugins: [terser({ format: { comments: false } })],
-      format: 'iife',
-      ...config,
-    },
-  ],
+  output: config.output,
+  onwarn: () => {},
 });
 
-const index = (format, folder = '') => ({
-  input: './src/index.ts',
-  external: [],
-  plugins: [
-    resolve({ extensions: ['.ts'] }),
-    commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: { compilerOptions: { target: format } },
-    }),
-    folder === '/legacy' ? legacy() : undefined,
-  ],
+export const buildAll = (input, config) => {
+  const buildOutput = [];
 
-  output: [
-    {
-      file: `dist${folder}/lucia.esm.js`,
-      format: 'esm',
-      ...config,
-    },
-    {
-      file: `dist${folder}/lucia.esm.min.js`,
-      plugins: terser({ format: { comments: false } }),
-      format: 'esm',
-      ...config,
-    },
-    {
-      file: `dist${folder}/lucia.cjs.js`,
-      format: 'cjs',
-      ...config,
-    },
-    {
-      file: `dist${folder}/lucia.cjs.min.js`,
-      plugins: terser({ format: { comments: false } }),
-      format: 'cjs',
-      ...config,
-    },
-  ],
-});
+  // Development build
+  buildOutput.push({
+    file: config.output[0],
+    format: config.format,
+    name: 'Lucia',
+    globals: {},
+    strict: true,
+  });
+
+  // Production build
+  buildOutput.push({
+    file: config.output[1],
+    format: config.format,
+    plugins: [terser({ format: { comments: false } })],
+    name: 'Lucia',
+    globals: {},
+    strict: true,
+  });
+
+  return build(input, {
+    output: buildOutput,
+    legacy: config.legacy,
+    target: config.target,
+  });
+};
 
 export default [
-  browser('es2018'),
-  index('es2018'),
-  browser('es5', '/legacy'),
-  index('es5', '/legacy'),
+  buildAll('./src/browser.ts', {
+    output: ['dist/lucia.js', 'dist/lucia.min.js'],
+    format: 'iife',
+    target: 'es2018',
+  }),
+  buildAll('./src/browser.ts', {
+    output: ['dist/legacy/lucia.js', 'dist/legacy/lucia.min.js'],
+    format: 'iife',
+    target: 'es5',
+    legacy: true,
+  }),
+  buildAll('./src/index.ts', {
+    output: ['dist/lucia.esm.js', 'dist/lucia.esm.min.js'],
+    format: 'esm',
+    target: 'es2018',
+  }),
+  buildAll('./src/index.ts', {
+    output: ['dist/legacy/lucia.esm.js', 'dist/legacy/lucia.esm.min.js'],
+    format: 'esm',
+    target: 'es5',
+    legacy: true,
+  }),
+  buildAll('./src/index.ts', {
+    output: ['dist/lucia.cjs.js', 'dist/lucia.cjs.min.js'],
+    format: 'cjs',
+    target: 'es2018',
+  }),
+  buildAll('./src/index.ts', {
+    output: ['dist/legacy/lucia.cjs.js', 'dist/legacy/lucia.cjs.min.js'],
+    format: 'cjs',
+    target: 'es5',
+    legacy: true,
+  }),
 ];

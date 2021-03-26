@@ -1,31 +1,7 @@
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
-import typescript from 'rollup-plugin-typescript2';
+import { buildAll } from './rollup.config.js';
 
-const config = {
-  name: 'Lucia',
-  globals: {},
-  strict: true,
-};
-
-const browser = (format, folder = '') => ({
-  input: './src/browser.ts',
-  external: [],
-  plugins: [
-    resolve({ extensions: ['.ts'] }),
-    commonjs(),
-    typescript({
-      useTsconfigDeclarationDir: true,
-      tsconfigOverride: { compilerOptions: { target: format } },
-    }),
-  ],
-  output: [
-    {
-      file: `dist${folder}/lucia.js`,
-      format: 'iife',
-      ...config,
-    },
-  ],
+export default buildAll('./src/browser.ts', {
+  output: ['dist/lucia.js', 'dist/lucia.min.js'],
+  format: 'iife',
+  target: 'es2018',
 });
-
-export default [browser('es2018')];
