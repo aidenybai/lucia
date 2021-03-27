@@ -3,7 +3,7 @@ import * as Lucia from './index';
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     // @ts-expect-error
-    const customLuciaInit = window.customLuciaInit;
+    const customLuciaInit = window.LuciaInit;
 
     if (customLuciaInit) {
       customLuciaInit(Lucia.init);
