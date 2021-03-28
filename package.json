@@ -7,11 +7,12 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "npx rollup -c -w --environment BUILD:development",
-    "build": "npx del-cli dist/ && npx rollup -c --environment BUILD:production",
+    "dev": "npx esbuild src/browser.ts --bundle --watch --sourcemap --outfile=dist/lucia.js",
+    "build": "npx del-cli dist/ && npx rollup -c",
     "test": "npx jest --coverage --silent",
     "cleanup": "npx prettier -w src",
-    "coverage": "cat ./coverage/lcov.info | coveralls"
+    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -53,6 +54,7 @@
     "@testing-library/dom": "^7.28.1",
     "coveralls": "^3.1.0",
     "del-cli": "^3.0.1",
+    "esbuild": "^0.10.2",
     "jest": "^26.6.1",
     "prettier": "^2.1.2",
     "rollup": "2.42.4",
