@@ -26,7 +26,7 @@ export const reactive = (
       }
     },
     set(target: UnknownKV, key: string, value: unknown): boolean {
-      // Do not allow function mutation
+      // Do not allow function or special property mutation
       if (typeof state[key] === 'function' || key.startsWith('$')) return false;
 
       // Currently double renderes - bad perf

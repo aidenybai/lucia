@@ -1,6 +1,6 @@
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import babel from '@rollup/plugin-babel';
 
@@ -12,7 +12,7 @@ const legacy = () => {
   });
 };
 
-const build = (input, config) => ({
+const generateConfig = (input, config) => ({
   input,
   external: [],
   plugins: [
@@ -28,7 +28,7 @@ const build = (input, config) => ({
   onwarn: () => {},
 });
 
-export const buildAll = (input, config) => {
+export const build = (input, config) => {
   const buildOutput = [];
 
   // Development build
@@ -50,53 +50,45 @@ export const buildAll = (input, config) => {
     strict: true,
   });
 
-  return build(input, {
+  return generateConfig(input, {
     output: buildOutput,
     legacy: config.legacy,
     target: config.target,
   });
 };
 
-const development = buildAll('./src/browser.ts', {
-  output: ['dist/lucia.js', 'dist/lucia.min.js'],
-  format: 'iife',
-  target: 'es2018',
-});
-
-const production = [
-  buildAll('./src/browser.ts', {
+export default [
+  build('./src/browser.ts', {
     output: ['dist/lucia.js', 'dist/lucia.min.js'],
     format: 'iife',
     target: 'es2018',
   }),
-  buildAll('./src/browser.ts', {
+  build('./src/browser.ts', {
     output: ['dist/legacy/lucia.js', 'dist/legacy/lucia.min.js'],
     format: 'iife',
     target: 'es5',
     legacy: true,
   }),
-  buildAll('./src/index.ts', {
+  build('./src/index.ts', {
     output: ['dist/lucia.esm.js', 'dist/lucia.esm.min.js'],
     format: 'esm',
     target: 'es2018',
   }),
-  buildAll('./src/index.ts', {
+  build('./src/index.ts', {
     output: ['dist/legacy/lucia.esm.js', 'dist/legacy/lucia.esm.min.js'],
     format: 'esm',
     target: 'es5',
     legacy: true,
   }),
-  buildAll('./src/index.ts', {
+  build('./src/index.ts', {
     output: ['dist/lucia.cjs.js', 'dist/lucia.cjs.min.js'],
     format: 'cjs',
     target: 'es2018',
   }),
-  buildAll('./src/index.ts', {
+  build('./src/index.ts', {
     output: ['dist/legacy/lucia.cjs.js', 'dist/legacy/lucia.cjs.min.js'],
     format: 'cjs',
     target: 'es5',
     legacy: true,
   }),
 ];
-
-export default process.env.BUILD === 'development' ? development : production;
