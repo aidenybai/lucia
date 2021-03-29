@@ -2,6 +2,7 @@ import typescript from 'rollup-plugin-typescript2';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
+import filesize from 'rollup-plugin-filesize';
 import babel from '@rollup/plugin-babel';
 
 const legacy = () => {
@@ -16,8 +17,13 @@ const generateConfig = (input, config) => ({
   input,
   external: [],
   plugins: [
-    resolve({ extensions: ['.ts'] }),
     commonjs(),
+    resolve({ extensions: ['.ts'] }),
+    filesize({
+      showBrotliSize: true,
+      showMinifiedSize: false,
+      showGzippedSize: false
+    }),
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: config.target } },
