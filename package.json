@@ -55,7 +55,7 @@
     "@types/jest": "^26.0.22",
     "coveralls": "^3.1.0",
     "del-cli": "^3.0.1",
-    "esbuild": "^0.10.2",
+    "esbuild": "^0.11.1",
     "jest": "^26.6.1",
     "prettier": "^2.1.2",
     "rollup": "2.42.4",
