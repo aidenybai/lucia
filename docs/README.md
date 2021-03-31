@@ -1,12 +1,3 @@
-### Table of Contents
-
-- [Core Documentation](#core-documentation)
-  - [Design principles](#design-principles)
-  - [Overview](#overview)
-    - [Compiler](#compiler)
-    - [Renderer](#renderer)
-    - [Observer](#observer)
-
 # Core Documentation
 
 This document covers how Lucia's core works. It's intended to aid in understanding the code, and helping contributors work with it.
