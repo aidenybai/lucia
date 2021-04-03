@@ -20,7 +20,7 @@ describe('.reactive', () => {
     expect(callback).toBeCalledTimes(1);
     expect(proxy.foo).toEqual('baz');
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; ++i) {
       proxy.foo = i;
     }
 

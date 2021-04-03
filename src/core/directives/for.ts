@@ -30,7 +30,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
 
   if (currArray?.length === 0) el.innerHTML = '';
   else if (arrayDiff !== 0) {
-    for (let i = Math.abs(arrayDiff); i > 0; i--) {
+    for (let i = Math.abs(arrayDiff); i > 0; --i) {
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
       else {
         // Handle table cases
