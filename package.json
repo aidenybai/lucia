@@ -11,7 +11,6 @@
     "build": "npx del-cli dist/ && npx rollup -c",
     "test": "jest --coverage --silent",
     "cleanup": "prettier --write src --parser typescript",
-    "coverage": "cat ./coverage/lcov.info | coveralls",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -54,7 +53,6 @@
     "@rollup/plugin-strip": "^2.0.0",
     "@testing-library/dom": "^7.28.1",
     "@types/jest": "^26.0.22",
-    "coveralls": "^3.1.0",
     "del-cli": "^3.0.1",
     "esbuild": "^0.11.1",
     "jest": "^26.6.1",
