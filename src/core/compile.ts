@@ -27,6 +27,7 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
   return hasDirectives ? node : undefined;
 };
 
+/* istanbul ignore next */
 export const collectRefs = (): Refs => {
   const refs = document.querySelectorAll(`[${DIRECTIVE_PREFIX}ref]`);
   const refObject = {};
@@ -63,6 +64,7 @@ export const collectAndInitDirectives = (
       const hasDep = expressionPropRE(prop).test(String(value));
 
       // Check for dependencies inside functions
+      /* istanbul ignore next */
       if (hasDep && typeof state[prop] === 'function') {
         const depsInFunction = propsInState.filter((p) => {
           return expressionPropRE(p).test(String(state[prop]));
@@ -145,6 +147,7 @@ export const compile = (
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
   const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 
+  /* istanbul ignore next */
   for (const node of nodes) {
     if (node.hasAttribute(maskDirective)) {
       node.removeAttribute(maskDirective);

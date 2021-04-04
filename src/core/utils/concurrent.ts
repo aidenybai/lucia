@@ -8,6 +8,7 @@ export const concurrent = (generatorFunction: () => Generator<undefined, void, u
     } while (performance.now() - start < 25 && !task.done);
 
     if (task.done) return;
+    /* istanbul ignore next */
     setTimeout(next);
   };
 };

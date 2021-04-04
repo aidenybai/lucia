@@ -47,6 +47,7 @@ const render = (
           if (isStaticDirective || isMaskDirective) {
             delete node.directives[directiveName];
             if (isMaskDirective) {
+              /* istanbul ignore next */
               node.el.removeAttribute(`${DIRECTIVE_PREFIX}mask`);
             }
           }

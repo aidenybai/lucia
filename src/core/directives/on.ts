@@ -13,6 +13,7 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
     ? window
     : el;
 
+  /* istanbul ignore next */
   const handler = (event: Event) => {
     if (event instanceof KeyboardEvent && /\d/gim.test(String(eventProps))) {
       const whitelistedKeycodes = [];
@@ -31,6 +32,7 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
     if (eventProps.includes('self')) {
       if (event.target !== el) return;
     }
+    /* istanbul ignore next */
     if (eventProps.includes('outside')) {
       if (el.contains(event.target as Node)) return;
       if (el.offsetWidth < 1 && el.offsetHeight < 1) return;

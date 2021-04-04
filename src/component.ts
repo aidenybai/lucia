@@ -50,6 +50,7 @@ export class Component {
     render(this.ast!, directives, this.state, props);
   }
 
+  /* istanbul ignore next */
   public handleMutations(el: HTMLElement) {
     const mutationObserver = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
@@ -61,7 +62,6 @@ export class Component {
         ) {
           this.ast = compile(el, this.state);
           this.render();
-          console.log('render');
         }
       }
     });

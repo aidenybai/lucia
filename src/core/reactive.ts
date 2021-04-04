@@ -61,6 +61,7 @@ export const reactive = (
       target[key] = value;
       callback(props);
       for (const [prop, watcher] of Object.entries(watchers)) {
+        /* istanbul ignore next */
         if (props.includes(prop)) watcher();
       }
 
