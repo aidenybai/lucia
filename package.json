@@ -51,6 +51,7 @@
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-commonjs": "18.0.0",
     "@rollup/plugin-node-resolve": "11.2.0",
+    "@rollup/plugin-strip": "^2.0.0",
     "@testing-library/dom": "^7.28.1",
     "@types/jest": "^26.0.22",
     "coveralls": "^3.1.0",

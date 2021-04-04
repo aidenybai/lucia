@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import babel from '@rollup/plugin-babel';
+import strip from '@rollup/plugin-strip';
 
 const legacy = () => {
   return babel({
@@ -22,11 +23,15 @@ const generateConfig = (input, config) => ({
     filesize({
       showBrotliSize: true,
       showMinifiedSize: false,
-      showGzippedSize: false
+      showGzippedSize: false,
     }),
     typescript({
       useTsconfigDeclarationDir: true,
       tsconfigOverride: { compilerOptions: { target: config.target } },
+    }),
+    strip({
+      functions: ['console.log'],
+      include: '**/*.(ts)',
     }),
     config.legacy ? legacy() : undefined,
   ],
