@@ -1,12 +1,3 @@
-### Table of Contents
-
-- [Core Documentation](#core-documentation)
-  - [Design principles](#design-principles)
-  - [Overview](#overview)
-    - [Compiler](#compiler)
-    - [Renderer](#renderer)
-    - [Observer](#observer)
-
 # Core Documentation
 
 This document covers how Lucia's core works. It's intended to aid in understanding the code, and helping contributors work with it.
@@ -45,6 +36,7 @@ The compiler's purpose is to generate an AST for the renderer to reference. It f
 
 1. Has directives `(STATIC)`
 2. Has dependencies in directives `(DYNAMIC)`
+3. Static node `(NULL)`
 
 Passing these two conditions will result in the creation of the AST.
 
@@ -57,7 +49,7 @@ interface ASTNode {
   directives: {...};
   deps: string[];
   el: HTMLElement;
-  type: 0 | 1;
+  type: -1 | 0 | 1;
 }
 ```
 
@@ -91,7 +83,7 @@ There are two types of ASTNodes as designated by the compiler: `0 (STATIC)` and 
 
 **Expression Computation and Interpretation**
 
-Since directives are special attributes, the value of directives are strings. Lucia first attempts to determine the exact dependency, so it can just access by state property. It currently supports direct key (`prop`), function calling (`prop()`), and access by index (`prop[i]`). If it is not able to interpret the properties from the directive value, it will use the [`new Function()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) syntax to execute.
+Since directives are special attributes, the value of directives are strings. Lucia first attempts to determine the exact dependency, so it can just access by state property. It currently supports direct key (`prop`), bypassing the need to evalute the expression. If it is not able to interpret the properties from the directive value, it will use the [`new Function()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function) syntax to execute.
 
 ### Observer
 

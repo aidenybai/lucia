@@ -35,14 +35,26 @@ export const reactive = (
 
       if (target instanceof Array && hasArrayMutationKey) {
         props.push(
-          ...Object.keys(state).filter((prop) =>
-            arrayEquals(state[prop] as unknown[], target as unknown[])
-          )
+          ...Object.keys(state).filter((prop) => {
+            return (
+              // Find the array that equals the target
+              state[prop] instanceof Array &&
+              arrayEquals(state[prop] as unknown[], target as unknown[])
+            );
+          })
         );
       } else {
-        // Bad perf way of handling nested objects
-        if (Object.keys(state).some((prop) => target[prop] === undefined)) {
-          props.push(...Object.keys(state).filter((prop) => typeof state[prop] === 'object'));
+        // For this case, we don't know if the key is on the global state,
+        // So we need to check if it is a nested object:
+        if (!Object.is(target, state)) {
+          props.push(
+            ...Object.keys(state).filter((prop) => {
+              return (
+                // Lazy way of checking if key exists under one layer down nested objects
+                typeof state[prop] === 'object' && JSON.stringify(state[prop]).indexOf(key) > -1
+              );
+            })
+          );
         }
       }
 

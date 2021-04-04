@@ -65,4 +65,4 @@ Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue),
 
 ---
 
-© 2020 The Lucia Authors.
+© 2020-present The Lucia Authors.

@@ -20,7 +20,7 @@ describe('.reactive', () => {
     expect(callback).toBeCalledTimes(1);
     expect(proxy.foo).toEqual('baz');
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; ++i) {
       proxy.foo = i;
     }
 
@@ -68,7 +68,7 @@ describe('.reactive', () => {
 
     (proxy.foo as string[]).push('baz');
 
-    expect(result).toEqual('foo');
+    expect(result).toEqual('length');
   });
 
   it('should handle nested proxies', () => {
@@ -79,6 +79,6 @@ describe('.reactive', () => {
 
     (proxy.foo as StringKV).bar = '1';
 
-    expect(result).toEqual('foo');
+    expect(result).toEqual('bar');
   });
 });
