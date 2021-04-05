@@ -1,3 +1,5 @@
+/* istanbul ignore next */
+
 import { Directives, DirectiveProps, Watchers, State, ASTNode } from './models/structs';
 
 import { directives } from './core/directive';

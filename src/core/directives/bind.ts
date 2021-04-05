@@ -42,6 +42,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
         } else if (formatAcceptableWhitespace(rawClasses).length > 0) {
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
         } else if (el.hasAttribute('class')) {
+          /* istanbul ignore next */
           return el.removeAttribute('class');
         }
       }

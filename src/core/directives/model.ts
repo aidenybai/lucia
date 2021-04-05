@@ -9,6 +9,7 @@ export const inputCallback = (
   state: State
 ) => {
   if (el.type === 'checkbox') {
+    /* istanbul ignore next */
     el.value = String(el.checked);
   }
 
