@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { DIRECTIVE_PREFIX } from '../../models/generics';
 import { DirectiveProps } from '../../models/structs';
 
