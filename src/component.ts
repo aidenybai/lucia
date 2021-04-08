@@ -1,5 +1,4 @@
 /* istanbul ignore next */
-
 import { Directives, DirectiveProps, Watchers, State, ASTNode } from './models/structs';
 
 import { directives } from './core/directive';
@@ -8,7 +7,6 @@ import reactive from './core/reactive';
 import render from './core/render';
 
 import { setElementCustomProp } from './core/utils/elementCustomProp';
-import { DIRECTIVE_PREFIX } from './models/generics';
 
 export class Component {
   public state: State;
@@ -35,7 +33,6 @@ export class Component {
     this.render();
 
     setElementCustomProp(rootEl, 'component', this);
-    this.handleMutations(rootEl);
 
     return this.state;
   }
@@ -50,25 +47,6 @@ export class Component {
 
   public render(props: string[] = Object.keys(this.state)) {
     render(this.ast!, directives, this.state, props);
-  }
-
-  /* istanbul ignore next */
-  public handleMutations(el: HTMLElement) {
-    const mutationObserver = new MutationObserver((mutationsList) => {
-      for (const mutation of mutationsList) {
-        const attrName = String(mutation.attributeName);
-        if (
-          mutation.type === 'attributes' &&
-          attrName.startsWith(DIRECTIVE_PREFIX) &&
-          attrName !== `${DIRECTIVE_PREFIX}for`
-        ) {
-          this.ast = compile(el, this.state);
-          this.render();
-        }
-      }
-    });
-
-    mutationObserver.observe(el, { attributes: true, subtree: true });
   }
 }
 

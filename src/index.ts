@@ -11,10 +11,10 @@ import computeExpression from './core/utils/computeExpression';
 
 export { component, compile, render, reactive, directives, computeExpression };
 
+// This is generally used for browser builds only, but it can be accessed in bundling environments
 export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll(`[${stateDirective}]`);
-  // Filter out uninit scopes only
   const uninitializedComponents = [...componentElements].filter(
     (el) => getElementCustomProp(el as HTMLElement, 'component') === undefined
   );

@@ -77,7 +77,7 @@ export const collectAndInitDirectives = (
 
     if (eventDirectivePrefixRE().test(name)) returnable = false;
 
-    // for directive requires template
+    // for directive requires a template
     if (name.includes('for') && getElementCustomProp(el, '__for_template') === undefined) {
       setElementCustomProp(el, '__for_template', String(el.innerHTML).trim());
       returnable = false;
