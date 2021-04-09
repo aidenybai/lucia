@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "npx esbuild src/browser.ts --bundle --watch --sourcemap --outfile=dist/lucia.js",
     "build": "npx del-cli dist/ && npx rollup -c",
-    "test": "jest --coverage --silent",
+    "test": "jest --silent --runInBand",
     "cleanup": "prettier --write src --parser typescript",
     "prepublishOnly": "npm run build"
   },
@@ -63,10 +63,5 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^26.4.2",
     "typescript": "^4.1.2"
-  },
-  "jest": {
-    "transform": {
-      ".(ts)": "ts-jest"
-    }
   }
 }

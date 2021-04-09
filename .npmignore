@@ -11,6 +11,7 @@ coverage
 # Build Config
 tsconfig.json
 rollup.config.js
+jest.config.js
 .gitignore
 .babelrc
 .travis.yml
