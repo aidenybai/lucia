@@ -7,37 +7,31 @@ export const formatAcceptableWhitespace = (expression: string) => {
 export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
   switch (parts[1]) {
     case 'class':
-      const hydratedClasses = data.compute(state);
+      const classes = data.compute(state);
       // Accept just providing classes regularly
-      if (typeof hydratedClasses === 'string') {
-        return el.setAttribute(
-          'class',
-          formatAcceptableWhitespace(`${el.className} ${hydratedClasses}`)
-        );
+      if (typeof classes === 'string') {
+        return el.setAttribute('class', formatAcceptableWhitespace(`${el.className} ${classes}`));
         // Accept providing an array of classes and appending them
-      } else if (hydratedClasses instanceof Array) {
+      } else if (classes instanceof Array) {
         return el.setAttribute(
           'class',
-          formatAcceptableWhitespace(`${el.className} ${hydratedClasses.join(' ')}`)
+          formatAcceptableWhitespace(`${el.className} ${classes.join(' ')}`)
         );
       } else {
         // Accept binding classes on/off based off of boolean state value
-        const classes = [];
+        const activeClasses = [];
 
-        for (const prop in hydratedClasses) {
-          if (hydratedClasses[prop]) classes.push(prop);
+        for (const prop in classes) {
+          if (classes[prop]) activeClasses.push(prop);
         }
 
-        const removeDynamicClassesRE = new RegExp(
-          `\\b${Object.keys(hydratedClasses).join('|')}\\b`,
-          'gim'
-        );
+        const removeDynamicClassesRE = new RegExp(`\\b${Object.keys(classes).join('|')}\\b`, 'gim');
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
 
-        if (classes.length > 0) {
+        if (activeClasses.length > 0) {
           return el.setAttribute(
             'class',
-            formatAcceptableWhitespace(`${rawClasses} ${classes.join(' ')}`)
+            formatAcceptableWhitespace(`${rawClasses} ${activeClasses.join(' ')}`)
           );
         } else if (formatAcceptableWhitespace(rawClasses).length > 0) {
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
@@ -49,29 +43,29 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
       break;
     case 'style':
       // Accept object and set properties based on boolean state value
-      const hydratedStyles = data.compute(state);
+      const styles = data.compute(state);
       el.removeAttribute('style');
-      for (const prop in hydratedStyles) {
-        el.style[prop] = hydratedStyles[prop];
+      for (const prop in styles) {
+        el.style[prop] = styles[prop];
       }
       break;
     default:
       // Bind arbitrary attributes based on boolean state value
-      const hydratedAttributes = data.compute(state);
+      const attributes = data.compute(state);
 
       // Allow object syntax in binding without modifier
-      if (typeof hydratedAttributes === 'object' && hydratedAttributes !== null) {
-        for (const prop in hydratedAttributes) {
+      if (typeof attributes === 'object' && attributes !== null) {
+        for (const prop in attributes) {
           // Only set attr if not falsy
-          if (hydratedAttributes[prop]) {
-            el.setAttribute(prop, hydratedAttributes[prop]);
+          if (attributes[prop]) {
+            el.setAttribute(prop, attributes[prop]);
           } else {
             el.removeAttribute(prop);
           }
         }
         // Only set attr if not falsy
-      } else if (hydratedAttributes) {
-        el.setAttribute(parts[1], hydratedAttributes);
+      } else if (attributes) {
+        el.setAttribute(parts[1], attributes);
       } else {
         el.removeAttribute(parts[1]);
       }

@@ -12,6 +12,8 @@ import { getElementCustomProp, setElementCustomProp } from '../utils/elementCust
 import adjustDeps from '../utils/adjustDeps';
 import computeExpression from '../utils/computeExpression';
 
+// This directive is size-based, not content-based, since everything is compiled and rerendered
+
 export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   const marker = getElementCustomProp(el, 'component');
 
@@ -20,6 +22,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
   const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
 
+  // Try to grab by property, else compute it if it's a custom array
   const currArray =
     (state[target?.trim()] as unknown[]) ?? computeExpression(target?.trim(), el, true)(state);
   const ast = compile(el, state);
@@ -27,7 +30,6 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
   const template = getElementCustomProp(el, '__for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
-  // for directive is size-based, not content-based, since everything is compiled and rerendered
   const arrayDiff = currArray?.length - el.children.length;
 
   if (currArray?.length === 0) el.innerHTML = '';
@@ -54,13 +56,12 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
         // Needing to wrap table elements, else they disappear
         if (isTable) content = `<table>${content}</table>`;
 
-        const fragment = document.createRange().createContextualFragment(content)
-          .firstElementChild!;
+        const fragment = document.createRange().createContextualFragment(content);
 
         // fragment and fragment.firstElementChild return the same result
         // so we have to do it two times for the table, since we need
         // to unwrap the temporary wrap
-        el.appendChild(isTable ? fragment.firstElementChild! : fragment);
+        el.appendChild(isTable ? fragment.firstElementChild!.firstElementChild! : fragment);
       }
     }
   }

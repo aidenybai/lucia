@@ -30,14 +30,14 @@ describe('.forDirective', () => {
   });
 
   it('should provide both item and index upon request', () => {
-    const el = document.createElement('p');
-    const expression = `bar, i in foo`;
+    const el = document.createElement('table');
+    const expression = `(bar, i) in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
     const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
 
-    setElementCustomProp(el, '__for_template', '<li l-text="this.bar + this.i"></li>');
+    setElementCustomProp(el, '__for_template', '<tbody l-text="this.bar + this.i"></tbody>');
 
-    el.innerHTML = '<li l-text="this.bar + this.i"></li>';
+    el.innerHTML = '<tbody l-text="this.bar + this.i"></tbody>';
     forDirective({
       el,
       name: 'l-for',
@@ -47,7 +47,7 @@ describe('.forDirective', () => {
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual(
-      '<li l-text="foo[0] + 0">bar0</li><li l-text="foo[1] + 1">bar1</li><li l-text="foo[2] + 2">bar2</li>'
+      '<tbody l-text="foo[0] + 0">bar0</tbody><tbody l-text="foo[1] + 1">bar1</tbody><tbody l-text="foo[2] + 2">bar2</tbody>'
     );
   });
 
