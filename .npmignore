@@ -20,6 +20,8 @@ jest.config.js
 src/
 
 # Linting
+.eslintrc
+.eslintignore
 .prettierrc
 .prettierignore
 
