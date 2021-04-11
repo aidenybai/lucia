@@ -1,6 +1,7 @@
 import { DirectiveProps, DirectiveData, State } from '../../models/structs';
 
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
+import computeExpression from '../utils/computeExpression';
 
 export const inputCallback = (
   el: HTMLInputElement,
@@ -23,7 +24,7 @@ export const inputCallback = (
   // Perform type coercion
   let payload;
   if (isNumber) {
-    payload = parseFloat(el.value);
+    payload = Number(el.value);
   } else if (isBoolean) {
     payload = el.value === 'true';
   } else if (isNullish) {
@@ -33,14 +34,19 @@ export const inputCallback = (
     payload = String(el.value);
   }
 
-  state[data.value] = payload;
+  if (state[data.value]) {
+    state[data.value] = payload;
+  } else {
+    payload = typeof payload === 'string' ? `'${payload}'` : payload;
+    computeExpression(`${data.value} = ${payload}`, el, true)(state);
+  }
 
   return payload;
 };
 
 export const modelDirective = ({ el: awaitingTypecastEl, parts, data, state }: DirectiveProps) => {
   const el = awaitingTypecastEl as HTMLInputElement;
-  const hydratedValue = state[data.value];
+  const hydratedValue = state[data.value] ?? computeExpression(data.value, el, true)(state);
   const accessor = el.type === 'checkbox' ? 'checked' : 'value';
   if (el[accessor] !== String(hydratedValue)) {
     el[accessor] = hydratedValue as never;
