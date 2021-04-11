@@ -14,7 +14,7 @@ import computeExpression from '../utils/computeExpression';
 
 // This directive is size-based, not content-based, since everything is compiled and rerendered
 
-export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
+export const forDirective = ({ el, data, state, node }: DirectiveProps): void => {
   const marker = getElementCustomProp(el, 'component');
 
   setElementCustomProp(el, 'component', true);
@@ -61,7 +61,8 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
         // fragment and fragment.firstElementChild return the same result
         // so we have to do it two times for the table, since we need
         // to unwrap the temporary wrap
-        el.appendChild(isTable ? fragment.firstElementChild!.firstElementChild! : fragment);
+        // @ts-expect-error: firstElementChild will exist since <table> exists
+        el.appendChild(isTable ? fragment.firstElementChild.firstElementChild : fragment);
       }
     }
   }

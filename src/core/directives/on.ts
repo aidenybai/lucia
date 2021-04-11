@@ -2,7 +2,7 @@ import { DirectiveProps } from '../../models/structs';
 
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
-export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
+export const onDirective = ({ el, parts, data, state }: DirectiveProps): void => {
   const options: Record<string, boolean> = {};
   const globalScopeEventProps = ['outside', 'global'];
   const eventProps = parts.slice(2);
@@ -18,7 +18,7 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
     if (event instanceof KeyboardEvent && /\d/gim.test(String(eventProps))) {
       const whitelistedKeycodes: number[] = [];
       eventProps.forEach((eventProp) => {
-        // @ts-expect-error
+        // @ts-expect-error: eventProp can be a string, but isNaN only accepts number
         if (!isNaN(eventProp)) {
           whitelistedKeycodes.push(Number(eventProp));
         }

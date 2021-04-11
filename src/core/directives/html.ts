@@ -7,7 +7,7 @@ import { directives } from '../../core/directive';
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 import adjustDeps from '../utils/adjustDeps';
 
-export const htmlDirective = ({ el, data, state, node }: DirectiveProps) => {
+export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
   node = node!;
   const marker = getElementCustomProp(el, 'component');
 

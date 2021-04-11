@@ -105,8 +105,8 @@ export const collectAndInitDirectives = (
 
 export const flattenNodeChildren = (
   rootNode: HTMLElement,
-  isListGroup: boolean = false,
-  ignoreRootNode: boolean = false
+  isListGroup = false,
+  ignoreRootNode = false
 ): HTMLElement[] => {
   const collection: HTMLElement[] = [];
   const isList = isListRenderScope(rootNode);
@@ -137,11 +137,7 @@ export const flattenNodeChildren = (
   return collection;
 };
 
-export const compile = (
-  el: HTMLElement,
-  state: State = {},
-  ignoreRootNode: boolean = false
-): ASTNode[] => {
+export const compile = (el: HTMLElement, state: State = {}, ignoreRootNode = false): ASTNode[] => {
   const ast: ASTNode[] = [];
   const isListGroup = getElementCustomProp(el, 'component') !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);

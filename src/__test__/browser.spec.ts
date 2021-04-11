@@ -1,7 +1,7 @@
-import _browser from '../browser';
+import { Component } from '../component';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
 
-// Reset to clean, uninitialized template
+// Reset to clean, uninitialized template~
 const reset = () => {
   document.body.innerHTML = `
     <div l-state="{ foo: 'bar' }">
@@ -20,7 +20,7 @@ const validateComponentFunctionality = (error = false) => {
     expect(component).toBeUndefined();
   } else {
     expect(component).toBeDefined();
-    expect(component.state).toEqual({ foo: 'bar' });
+    expect((component as Component).state).toEqual({ foo: 'bar' });
     expect(componentText.innerHTML).toEqual('bar');
   }
 };

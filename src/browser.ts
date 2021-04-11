@@ -9,7 +9,7 @@ if (document.readyState === 'loading') {
     // Lucia allows for a custom initialization function
     // This is to support for delayed init, like for Turbo Drive
 
-    // @ts-expect-error
+    // @ts-expect-error: LuciaInit doesn't exist on window, but we create it.
     const init = window.LuciaInit;
 
     if (init) {

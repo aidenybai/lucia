@@ -1,12 +1,12 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const formatAcceptableWhitespace = (expression: string) => {
+export const formatAcceptableWhitespace = (expression: string): string => {
   return expression.replace(/\s+/gim, ' ').trim();
 };
 
-export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
+export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void => {
   switch (parts[1]) {
-    case 'class':
+    case 'class': {
       const classes = data.compute(state);
       // Accept just providing classes regularly
       if (typeof classes === 'string') {
@@ -41,7 +41,9 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
         }
       }
       break;
-    case 'style':
+    }
+
+    case 'style': {
       // Accept object and set properties based on boolean state value
       const styles = data.compute(state);
       el.removeAttribute('style');
@@ -49,7 +51,8 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
         el.style[styleName] = styleValue;
       });
       break;
-    default:
+    }
+    default: {
       // Bind arbitrary attributes based on boolean state value
       const attributes = data.compute(state);
 
@@ -69,5 +72,6 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
         el.removeAttribute(parts[1]);
       }
       break;
+    }
   }
 };

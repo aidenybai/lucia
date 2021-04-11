@@ -6,7 +6,7 @@ export const adjustDeps = (
   currentDeps: string[],
   node: ASTNode,
   directiveName: string
-) => {
+): void => {
   const deps: string[] = [];
 
   ast.forEach((node) => {

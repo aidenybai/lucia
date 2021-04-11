@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   collectCoverage: true,
   maxWorkers: '50%',
   transform: {

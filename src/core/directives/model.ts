@@ -8,13 +8,14 @@ export const inputCallback = (
   hydratedValue: unknown,
   data: DirectiveData,
   state: State
-) => {
+): number | string | undefined | null | boolean => {
   if (el.type === 'checkbox') {
     /* istanbul ignore next */
     el.value = String(el.checked);
   }
 
-  const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value as any);
+  // @ts-expect-error: el.value can be any type, but isNaN only accepts number
+  const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value);
   const isBoolean =
     typeof hydratedValue === 'boolean' && (el.value === 'true' || el.value === 'false');
   const isNullish =
@@ -44,7 +45,12 @@ export const inputCallback = (
   return payload;
 };
 
-export const modelDirective = ({ el: awaitingTypecastEl, parts, data, state }: DirectiveProps) => {
+export const modelDirective = ({
+  el: awaitingTypecastEl,
+  parts,
+  data,
+  state,
+}: DirectiveProps): void => {
   const el = awaitingTypecastEl as HTMLInputElement;
   const hydratedValue = state[data.value] ?? computeExpression(data.value, el, true)(state);
   const accessor = el.type === 'checkbox' ? 'checked' : 'value';

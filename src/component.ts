@@ -12,9 +12,10 @@ export class Component {
   public state: State;
   public directives: Directives;
   public watchers: Watchers;
-  public ast?: ASTNode[];
+  public ast: ASTNode[];
 
   constructor(state: State = {}, directives: Directives = {}, watchers: Watchers = {}) {
+    this.ast = [];
     this.state = state;
     this.directives = directives;
     this.watchers = watchers;
@@ -23,7 +24,9 @@ export class Component {
   public mount(el: HTMLElement | string): State {
     // Accepts both selector and element reference
     const rootEl =
-      typeof el === 'string' ? document.querySelector<HTMLElement>(el)! : (el as HTMLElement);
+      typeof el === 'string'
+        ? document.querySelector<HTMLElement>(el) || document.body
+        : (el as HTMLElement);
     const $render = (deps: string[] = Object.keys(this.state)) => this.render(deps);
 
     this.ast = compile(rootEl, this.state);
@@ -37,19 +40,19 @@ export class Component {
     return this.state;
   }
 
-  public directive(name: string, callback: (props: DirectiveProps) => void) {
+  public directive(name: string, callback: (props: DirectiveProps) => void): void {
     this.directives[name.toUpperCase()] = callback;
   }
 
-  public watch(name: string, callback: () => void) {
+  public watch(name: string, callback: () => void): void {
     this.watchers[name] = callback;
   }
 
-  public render(props: string[] = Object.keys(this.state)) {
-    render(this.ast!, directives, this.state, props);
+  public render(props: string[] = Object.keys(this.state)): void {
+    render(this.ast, directives, this.state, props);
   }
 }
 
-export const component = (state?: State) => new Component(state);
+export const component = (state?: State): Component => new Component(state);
 
 export default component;

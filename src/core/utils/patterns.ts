@@ -2,11 +2,11 @@ import { DIRECTIVE_PREFIX } from '../../models/generics';
 import { DIRECTIVE_SHORTHANDS } from '../../models/generics';
 
 // Split directive:modifier.property
-export const rawDirectiveSplitRE = () => /:|\./gim;
-export const eventDirectivePrefixRE = () => /on|@/gim;
-export const parenthesisWrapReplaceRE = () => /\(|\)/gim;
-export const curlyTemplateRE = () => /{{\s*(\w+)\s*}}/gim;
-export const hasDirectiveRE = () => {
+export const rawDirectiveSplitRE = (): RegExp => /:|\./gim;
+export const eventDirectivePrefixRE = (): RegExp => /on|@/gim;
+export const parenthesisWrapReplaceRE = (): RegExp => /\(|\)/gim;
+export const curlyTemplateRE = (): RegExp => /{{\s*(\w+)\s*}}/gim;
+export const hasDirectiveRE = (): RegExp => {
   return new RegExp(
     `(${DIRECTIVE_PREFIX}|${Object.keys(DIRECTIVE_SHORTHANDS).join('|')})\\w+`,
     'gim'

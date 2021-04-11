@@ -4,18 +4,19 @@ import { Refs } from '../../models/structs';
 export const computeExpression = (
   expression: string,
   el?: HTMLElement,
-  returnable: boolean = true,
+  returnable = true,
   refs: Refs = {}
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ((state: UnknownKV, event?: Event) => any) => {
   const formattedExpression = `with($state){${returnable ? `return ${expression}` : expression}}`;
   return (state: UnknownKV, event?: Event) => {
     try {
       const value = state[expression];
       if (value) {
-        // @ts-expect-error
+        // @ts-expect-error: state[expression] is a function
         return typeof value === 'function' ? state[expression]() : value;
       } else {
-        const emit = (name: string, options?: CustomEventInit, dispatchGlobal: boolean = true) => {
+        const emit = (name: string, options?: CustomEventInit, dispatchGlobal = true) => {
           const event = new CustomEvent(name, options);
           const target = dispatchGlobal ? window : el || window;
           target.dispatchEvent(event);

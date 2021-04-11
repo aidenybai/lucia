@@ -17,7 +17,7 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error
+      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
 
@@ -43,7 +43,7 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error
+      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual(
@@ -64,7 +64,7 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error
+      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
@@ -85,7 +85,7 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error
+      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li>');
@@ -106,7 +106,7 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error
+      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
