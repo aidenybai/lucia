@@ -19,10 +19,14 @@ export const init = (element: HTMLElement | Document = document): void => {
     (el) => getElementCustomProp(el as HTMLElement, 'component') === undefined
   );
 
-  for (const el of uninitializedComponents) {
-    const stateExpression = el.getAttribute(stateDirective);
-    const state = computeExpression(`${stateExpression || '{}'}`, el as HTMLElement, true)({});
+  uninitializedComponents.forEach((uninitializedComponent) => {
+    const stateExpression = uninitializedComponent.getAttribute(stateDirective);
+    const state = computeExpression(
+      `${stateExpression || '{}'}`,
+      uninitializedComponent as HTMLElement,
+      true
+    )({});
     const currentComponent = component(state);
-    currentComponent.mount(el as HTMLElement);
-  }
+    currentComponent.mount(uninitializedComponent as HTMLElement);
+  });
 };

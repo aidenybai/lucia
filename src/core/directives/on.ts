@@ -16,13 +16,13 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps) => {
   /* istanbul ignore next */
   const handler = (event: Event) => {
     if (event instanceof KeyboardEvent && /\d/gim.test(String(eventProps))) {
-      const whitelistedKeycodes = [];
-      for (const eventProp of eventProps) {
+      const whitelistedKeycodes: number[] = [];
+      eventProps.forEach((eventProp) => {
         // @ts-expect-error
         if (!isNaN(eventProp)) {
           whitelistedKeycodes.push(Number(eventProp));
         }
-      }
+      });
       if (!whitelistedKeycodes.includes(event.keyCode)) return;
     }
 

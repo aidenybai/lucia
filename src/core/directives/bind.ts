@@ -19,11 +19,11 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
         );
       } else {
         // Accept binding classes on/off based off of boolean state value
-        const activeClasses = [];
+        const activeClasses: string[] = [];
 
-        for (const prop in classes) {
-          if (classes[prop]) activeClasses.push(prop);
-        }
+        Object.entries(classes).forEach(([className, classValue]) => {
+          if (classValue) activeClasses.push(className);
+        });
 
         const removeDynamicClassesRE = new RegExp(`\\b${Object.keys(classes).join('|')}\\b`, 'gim');
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
@@ -45,9 +45,9 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
       // Accept object and set properties based on boolean state value
       const styles = data.compute(state);
       el.removeAttribute('style');
-      for (const prop in styles) {
-        el.style[prop] = styles[prop];
-      }
+      Object.entries(styles).forEach(([styleName, styleValue]) => {
+        el.style[styleName] = styleValue;
+      })
       break;
     default:
       // Bind arbitrary attributes based on boolean state value
@@ -55,15 +55,14 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
 
       // Allow object syntax in binding without modifier
       if (typeof attributes === 'object' && attributes !== null) {
-        for (const prop in attributes) {
+        Object.entries(attributes).forEach(([name, value]) => {
           // Only set attr if not falsy
-          if (attributes[prop]) {
-            el.setAttribute(prop, attributes[prop]);
+          if (value) {
+            el.setAttribute(name, value as string);
           } else {
-            el.removeAttribute(prop);
+            el.removeAttribute(name);
           }
-        }
-        // Only set attr if not falsy
+        });
       } else if (attributes) {
         el.setAttribute(parts[1], attributes);
       } else {

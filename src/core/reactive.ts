@@ -18,17 +18,16 @@ export const reactive = (
 ): State => {
   const handler = {
     get(target: UnknownKV, key: string): unknown {
-      if (typeof target[key] === 'object' && target[key] !== null) {
+      const ret = target[key];
+
+      if (typeof ret === 'object' && ret !== null) {
         // Deep proxy - if there is an object in an object, need to proxify that.
-        return new Proxy(target[key] as UnknownKV, handler);
+        return new Proxy(ret, handler);
       } else {
-        return target[key];
+        return ret;
       }
     },
     set(target: UnknownKV, key: string, value: unknown): boolean {
-      // Do not allow function or special property mutation
-      if (typeof state[key] === 'function' || key.startsWith('$')) return false;
-
       // Currently double renderes - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
       const props = [key];
@@ -51,7 +50,8 @@ export const reactive = (
             ...Object.keys(state).filter((prop) => {
               return (
                 // Lazy way of checking if key exists under one layer down nested objects
-                typeof state[prop] === 'object' && JSON.stringify(state[prop]).indexOf(key) > -1
+                Object.prototype.toString.call(state[prop]) === '[object Object]' &&
+                JSON.stringify(state[prop]).indexOf(key) > -1
               );
             })
           );
@@ -60,10 +60,10 @@ export const reactive = (
 
       target[key] = value;
       callback(props);
-      for (const [prop, watcher] of Object.entries(watchers)) {
+      Object.entries(watchers).forEach(([prop, watcher]) => {
         /* istanbul ignore next */
         if (props.includes(prop)) watcher();
-      }
+      });
 
       return true;
     },
