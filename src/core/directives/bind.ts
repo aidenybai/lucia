@@ -47,7 +47,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
       el.removeAttribute('style');
       Object.entries(styles).forEach(([styleName, styleValue]) => {
         el.style[styleName] = styleValue;
-      })
+      });
       break;
     default:
       // Bind arbitrary attributes based on boolean state value

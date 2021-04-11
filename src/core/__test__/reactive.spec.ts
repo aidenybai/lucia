@@ -46,20 +46,6 @@ describe('.reactive', () => {
     expect(Object.keys(proxy).length).toEqual(1);
   });
 
-  it('should not allow function mutation', () => {
-    const state = {
-      foo: () => 0,
-    };
-    const callback = jest.fn();
-    const proxy = reactive(state, callback);
-
-    expect(() => {
-      (proxy.foo as Function) = () => 1;
-    }).toThrowError();
-
-    expect((proxy.foo as Function)()).toEqual(0);
-  });
-
   it('should find and pass array key', () => {
     const state = { foo: [] };
     let result = null;
