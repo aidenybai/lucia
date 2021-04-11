@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
+      - run: yarn lint
       - run: yarn test
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@master
