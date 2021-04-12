@@ -1,12 +1,16 @@
-import { htmlDirective } from '../html';
 import compute from '../../utils/computeExpression';
+import { htmlDirective } from '../html';
 
 describe('.htmlDirective', () => {
   it('should interpolate state into interHTML', () => {
     const el = document.createElement('div');
     const expression = 'foo';
     const state = { foo: 'bar' };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
     const node = {
       el,
       directives: { html: data },
@@ -27,7 +31,11 @@ describe('.htmlDirective', () => {
     const el = document.createElement('div');
     const expression = '<p>foo</p>';
     const state = {};
-    const data = { value: expression, compute: compute(expression, el), deps: [] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: [],
+    };
     const node = {
       el,
       directives: { html: data },
@@ -48,7 +56,11 @@ describe('.htmlDirective', () => {
     const el = document.createElement('div');
     const expression = `foo`;
     const state = { foo: '<p l-text="bar"></p>' };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
     const node = {
       el,
       directives: { html: data },

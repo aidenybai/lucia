@@ -1,5 +1,4 @@
 import { DirectiveProps } from '../../models/structs';
-
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
 export const onDirective = ({ el, parts, data, state }: DirectiveProps): void => {

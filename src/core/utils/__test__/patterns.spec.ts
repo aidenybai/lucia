@@ -1,9 +1,9 @@
 import {
-  expressionPropRE,
-  rawDirectiveSplitRE,
-  hasDirectiveRE,
   eventDirectivePrefixRE,
+  expressionPropRE,
+  hasDirectiveRE,
   parenthesisWrapReplaceRE,
+  rawDirectiveSplitRE,
 } from '../patterns';
 
 describe('.patterns', () => {

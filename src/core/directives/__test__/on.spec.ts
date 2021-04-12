@@ -1,8 +1,7 @@
 import { fireEvent } from '@testing-library/dom';
-
-import { onDirective } from '../on';
 import compute from '../../utils/computeExpression';
 import { getElementCustomProp } from '../../utils/elementCustomProp';
+import { onDirective } from '../on';
 
 describe('.onDirective', () => {
   it('should attach click event listener', () => {

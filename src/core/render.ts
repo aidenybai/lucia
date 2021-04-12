@@ -1,9 +1,8 @@
 import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
-import { Directives, ASTNode, ASTNodeType } from '../models/structs';
-import { rawDirectiveSplitRE } from './utils/patterns';
-import concurrent from './utils/concurrent';
-
+import { ASTNode, ASTNodeType, Directives } from '../models/structs';
 import { renderDirective } from './directive';
+import concurrent from './utils/concurrent';
+import { rawDirectiveSplitRE } from './utils/patterns';
 
 const render = (
   ast: ASTNode[],
@@ -13,7 +12,7 @@ const render = (
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
 
-  concurrent(true, function* () {
+  concurrent(25, function* () {
     for (const node of ast) {
       yield;
       const isStatic = node.type === ASTNodeType.STATIC;
@@ -55,7 +54,7 @@ const render = (
         }
       }
     }
-  })();
+  });
 };
 
 export default render;

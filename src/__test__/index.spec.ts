@@ -1,6 +1,6 @@
-import { init } from '../index';
 import { Component } from '../component';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
+import { init } from '../index';
 
 // @ts-expect-error: callback doesn't exist on window, but good enough for test
 window.callback = jest.fn();

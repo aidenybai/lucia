@@ -1,6 +1,6 @@
 import { component, Component } from '../component';
-import reactive from '../core/reactive';
 import { directives } from '../core/directive';
+import reactive from '../core/reactive';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
 
 describe('.component', () => {

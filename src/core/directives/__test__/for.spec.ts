@@ -7,7 +7,11 @@ describe('.forDirective', () => {
     const el = document.createElement('ul');
     const expression = `bar in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
 
     setElementCustomProp(el, '__for_template', '<li l-text="this.bar"></li>');
     el.innerHTML = '<li l-text="this.bar"></li>';
@@ -33,7 +37,11 @@ describe('.forDirective', () => {
     const el = document.createElement('table');
     const expression = `(bar, i) in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
 
     setElementCustomProp(el, '__for_template', '<tbody l-text="this.bar + this.i"></tbody>');
 
@@ -55,7 +63,11 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
 
     setElementCustomProp(el, '__for_template', '<li></li>');
 
@@ -74,7 +86,11 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar'] };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
 
     setElementCustomProp(el, '__for_template', '<li></li>');
     setElementCustomProp(el, '__for_state', ['bar', 'bar']);
@@ -95,7 +111,11 @@ describe('.forDirective', () => {
     const el = document.createElement('p');
     const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
-    const data = { value: expression, compute: compute(expression, el), deps: ['foo'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
 
     setElementCustomProp(el, '__for_template', '<li></li>');
     setElementCustomProp(el, '__for_state', ['bar', 'bar', 'bar']);

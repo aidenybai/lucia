@@ -1,5 +1,5 @@
-import { showDirective } from '../show';
 import compute from '../../utils/computeExpression';
+import { showDirective } from '../show';
 
 describe('.showDirective', () => {
   it('should interpolate state into textContent', () => {
@@ -10,7 +10,11 @@ describe('.showDirective', () => {
     showDirective({
       el,
       parts: [`show`],
-      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: ['foo'],
+      },
       state,
     });
     expect(el.style.display).toEqual('');
@@ -20,7 +24,11 @@ describe('.showDirective', () => {
     showDirective({
       el,
       parts: [`show`],
-      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: ['foo'],
+      },
       state,
     });
     expect(el.style.display).toEqual('none');

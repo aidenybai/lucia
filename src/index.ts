@@ -1,13 +1,12 @@
 // Exports wrapped in Lucia namespace
-import { DIRECTIVE_PREFIX } from './models/generics';
 import component from './component';
-
-import render from './core/render';
 import compile from './core/compile';
-import reactive from './core/reactive';
 import { directives } from './core/directive';
-import { getElementCustomProp } from './core/utils/elementCustomProp';
+import reactive from './core/reactive';
+import render from './core/render';
 import computeExpression from './core/utils/computeExpression';
+import { getElementCustomProp } from './core/utils/elementCustomProp';
+import { DIRECTIVE_PREFIX } from './models/generics';
 
 export { component, compile, render, reactive, directives, computeExpression };
 

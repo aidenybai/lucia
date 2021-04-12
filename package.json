@@ -56,6 +56,7 @@
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
+    "babel-plugin-loop-optimizer": "^1.4.1",
     "del-cli": "^3.0.1",
     "esbuild": "^0.11.1",
     "eslint": "^7.24.0",

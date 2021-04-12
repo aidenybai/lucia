@@ -1,5 +1,5 @@
-import { textDirective } from '../text';
 import compute from '../../utils/computeExpression';
+import { textDirective } from '../text';
 
 describe('.textDirective', () => {
   it('should interpolate state into textContent', () => {
@@ -10,7 +10,11 @@ describe('.textDirective', () => {
     textDirective({
       el,
       parts: [`text`],
-      data: { value: expression, compute: compute(expression, el), deps: ['foo'] },
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: ['foo'],
+      },
       state,
     });
     expect(el.textContent).toEqual('bar');

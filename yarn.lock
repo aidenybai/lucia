@@ -1781,6 +1781,11 @@ babel-plugin-jest-hoist@^26.6.2:
     "@types/babel__core" "^7.0.0"
     "@types/babel__traverse" "^7.0.6"
 
+babel-plugin-loop-optimizer@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-loop-optimizer/-/babel-plugin-loop-optimizer-1.4.1.tgz#61b2e029a5c2157f575c7d3ae99acc63ae2b53d9"
+  integrity sha512-oI0NNU0MpzyRSluA7MCQ3nAj9gga8NIotQAPOt1P92mYnIRkkfczXGrolKaW6TDw0l0Glu9JF+AYlnTdLzTo2A==
+
 babel-plugin-polyfill-corejs2@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.2.0.tgz#686775bf9a5aa757e10520903675e3889caeedc4"
