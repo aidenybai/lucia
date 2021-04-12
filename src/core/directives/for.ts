@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { DIRECTIVE_PREFIX } from '../../models/generics';
-import { DirectiveProps } from '../../models/structs';
+import { ASTNode, DirectiveProps } from '../../models/structs';
 
 import compile from '../../core/compile';
 import render from '../../core/render';
@@ -16,8 +16,7 @@ import computeExpression from '../utils/computeExpression';
 
 export const forDirective = ({ el, data, state, node }: DirectiveProps): void => {
   const marker = getElementCustomProp(el, 'component');
-
-  setElementCustomProp(el, 'component', true);
+  if (!marker) setElementCustomProp(el, 'component', compile(el, state));
 
   const forLoopRE = /\s+(?:in|of)\s+/gim;
   const [expression, target] = data.value.split(forLoopRE);
@@ -26,7 +25,6 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
   // Try to grab by property, else compute it if it's a custom array
   const currArray =
     (state[target?.trim()] as unknown[]) ?? computeExpression(target?.trim(), el, true)(state);
-  const ast = compile(el, state);
 
   const template = getElementCustomProp(el, '__for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
@@ -66,13 +64,16 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
         el.appendChild(isTable ? fragment.firstElementChild.firstElementChild : fragment);
       }
     }
+    setElementCustomProp(el, 'component', compile(el, state));
   }
 
   if (!marker) {
     // Deps recompiled because child nodes may have additional deps
-    adjustDeps(ast, data.deps, node!, 'for');
+    adjustDeps(getElementCustomProp(el, 'component') as ASTNode[], data.deps, node!, 'for');
     el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 
-  render(compile(el, state, true), directives, state, node!.deps);
+  // Only recompile if there is no increase/decrease, else use the original AST
+  const ast = arrayDiff === 0 ? getElementCustomProp(el, 'component') : compile(el, state, true);
+  render(ast as ASTNode[], directives, state, node!.deps);
 };

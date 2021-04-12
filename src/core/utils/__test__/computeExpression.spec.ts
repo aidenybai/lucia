@@ -14,7 +14,9 @@ describe('.compute', () => {
 
   it('should not return the value', () => {
     const el = document.createElement('div');
-    expect(computeExpression('count + 1', el, false, {}, ['count'])({ count: 0 })).toEqual(undefined);
+    expect(computeExpression('count + 1', el, false, {}, ['count'])({ count: 0 })).toEqual(
+      undefined
+    );
   });
 
   it('should emit and access an event', () => {
