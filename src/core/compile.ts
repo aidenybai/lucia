@@ -87,7 +87,7 @@ export const collectAndInitDirectives = (
     nodeDeps.push(...uniqueCompiledDeps);
 
     const directiveData = {
-      compute: compute(value, el, returnable, refs),
+      compute: compute(value, el, returnable, refs, uniqueCompiledDeps),
       deps: uniqueCompiledDeps,
       value,
     };

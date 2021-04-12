@@ -1,14 +1,21 @@
 import { UnknownKV } from '../../models/generics';
 import { Refs } from '../../models/structs';
+import { expressionPropRE } from './patterns';
 
 export const computeExpression = (
   expression: string,
   el?: HTMLElement,
   returnable = true,
-  refs: Refs = {}
+  refs: Refs = {},
+  deps: string[] = []
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ((state: UnknownKV, event?: Event) => any) => {
-  const formattedExpression = `with($state){${returnable ? `return ${expression}` : expression}}`;
+  // This dynamically appends `$state.` to the front of standalone props, allowing the
+  // user to write less and us to compile and run faster without with() {}
+  let formattedExpression = `${returnable ? `return ${expression}` : expression}`;
+  deps.forEach((dep) => {
+    formattedExpression = formattedExpression.replace(expressionPropRE(dep), `$state.${dep}`);
+  });
   return (state: UnknownKV, event?: Event) => {
     try {
       const value = state[expression];

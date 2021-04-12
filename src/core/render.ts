@@ -24,7 +24,7 @@ const render = (
 
       for (const [directiveName, directiveData] of Object.entries(node.directives)) {
         yield;
-        const rawDirectiveName = directiveName.split(/:|\./)[0];
+        const rawDirectiveName = directiveName.split(rawDirectiveSplitRE())[0];
         // Validate if it is a legal directive
         if (!legalDirectiveNames.includes(rawDirectiveName.toUpperCase())) continue;
         // Iterate through affected and check if directive value has prop

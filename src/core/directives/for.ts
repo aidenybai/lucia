@@ -19,7 +19,8 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
 
   setElementCustomProp(el, 'component', true);
 
-  const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
+  const forLoopRE = /\s+(?:in|of)\s+/gim;
+  const [expression, target] = data.value.split(forLoopRE);
   const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
 
   // Try to grab by property, else compute it if it's a custom array

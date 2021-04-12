@@ -39,7 +39,7 @@ export const inputCallback = (
     state[data.value] = payload;
   } else {
     payload = typeof payload === 'string' ? `'${payload}'` : payload;
-    computeExpression(`${data.value} = ${payload}`, el, true)(state);
+    computeExpression(`$state.${data.value} = ${payload}`, el, true)(state);
   }
 
   return payload;

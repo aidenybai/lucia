@@ -1,7 +1,8 @@
 import { DirectiveProps } from '../../models/structs';
 
 export const formatAcceptableWhitespace = (expression: string): string => {
-  return expression.replace(/\s+/gim, ' ').trim();
+  const whitespaceRE = /\s+/gim;
+  return expression.replace(whitespaceRE, ' ').trim();
 };
 
 export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void => {
