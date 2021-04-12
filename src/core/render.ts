@@ -13,7 +13,7 @@ const render = (
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
 
-  concurrent(function* () {
+  concurrent(true, function* () {
     for (const node of ast) {
       yield;
       const isStatic = node.type === ASTNodeType.STATIC;

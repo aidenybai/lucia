@@ -2,16 +2,18 @@
 // This is kind of like time slicing in React but less advanced
 
 export const concurrent = (
+  limit = true,
   generatorFunction: () => Generator<undefined, void, unknown>
   // eslint-disable-next-line @typescript-eslint/ban-types
 ): Function => {
   const generator = generatorFunction();
+  const ms = limit ? 25 : 1000;
   return function next() {
     const start = performance.now();
     let task = null;
     do {
       task = generator.next();
-    } while (performance.now() - start < 25 && !task.done);
+    } while (performance.now() - start < ms && !task.done);
 
     if (task.done) return;
     /* istanbul ignore next */
