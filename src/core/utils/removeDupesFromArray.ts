@@ -1,4 +1,4 @@
-export const removeDupesFromArray = (array: any[]): any[] => {
+export const removeDupesFromArray = (array: string[]): string[] => {
   return [...new Set(array)];
 };
 

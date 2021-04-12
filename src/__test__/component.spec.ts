@@ -41,7 +41,9 @@ describe('.component', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
     const app = component(state);
-    function custom() {}
+    function custom() {
+      return true;
+    }
     app.directive('custom', custom);
     app.mount(el);
 
@@ -55,7 +57,9 @@ describe('.component', () => {
     const el = document.createElement('div');
     const state = { foo: 'bar' };
     const app = component(state);
-    function custom() {}
+    function custom() {
+      return true;
+    }
     app.watch('custom', custom);
     app.mount(el);
 

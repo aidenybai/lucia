@@ -29,13 +29,13 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
 
 /* istanbul ignore next */
 export const collectRefs = (): Refs => {
-  const refs = document.querySelectorAll(`[${DIRECTIVE_PREFIX}ref]`);
-  const refObject = {};
-  for (const ref of refs) {
-    const name = ref.getAttribute(`${DIRECTIVE_PREFIX}ref`);
-    if (name) refObject[name] = ref;
-  }
-  return refObject;
+  const refElements = document.querySelectorAll(`[${DIRECTIVE_PREFIX}ref]`);
+  const refs = {};
+  refElements.forEach((refElement) => {
+    const name = refElement.getAttribute(`${DIRECTIVE_PREFIX}ref`);
+    if (name) refs[name] = refElement;
+  });
+  return refs;
 };
 
 export const collectAndInitDirectives = (
@@ -77,7 +77,7 @@ export const collectAndInitDirectives = (
 
     if (eventDirectivePrefixRE().test(name)) returnable = false;
 
-    // for directive requires template
+    // for directive requires a template
     if (name.includes('for') && getElementCustomProp(el, '__for_template') === undefined) {
       setElementCustomProp(el, '__for_template', String(el.innerHTML).trim());
       returnable = false;
@@ -87,7 +87,7 @@ export const collectAndInitDirectives = (
     nodeDeps.push(...uniqueCompiledDeps);
 
     const directiveData = {
-      compute: compute(value, el, returnable, refs),
+      compute: compute(value, el, returnable, refs, uniqueCompiledDeps),
       deps: uniqueCompiledDeps,
       value,
     };
@@ -105,8 +105,8 @@ export const collectAndInitDirectives = (
 
 export const flattenNodeChildren = (
   rootNode: HTMLElement,
-  isListGroup: boolean = false,
-  ignoreRootNode: boolean = false
+  isListGroup = false,
+  ignoreRootNode = false
 ): HTMLElement[] => {
   const collection: HTMLElement[] = [];
   const isList = isListRenderScope(rootNode);
@@ -137,18 +137,14 @@ export const flattenNodeChildren = (
   return collection;
 };
 
-export const compile = (
-  el: HTMLElement,
-  state: State = {},
-  ignoreRootNode: boolean = false
-): ASTNode[] => {
+export const compile = (el: HTMLElement, state: State = {}, ignoreRootNode = false): ASTNode[] => {
   const ast: ASTNode[] = [];
   const isListGroup = getElementCustomProp(el, 'component') !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
   const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 
   /* istanbul ignore next */
-  for (const node of nodes) {
+  nodes.forEach((node) => {
     if (node.hasAttribute(maskDirective)) {
       node.removeAttribute(maskDirective);
     }
@@ -156,7 +152,7 @@ export const compile = (
       const newASTNode = createASTNode(node, state);
       if (newASTNode) ast.push(newASTNode);
     }
-  }
+  });
 
   return ast;
 };

@@ -118,7 +118,7 @@ describe('.bindDirective', () => {
   it('should accept object format for attributes', () => {
     const el = document.createElement('a');
     const expression = `{ id: 'test', class: 'test', title: 'test', translate: null }`;
-    let state = {};
+    const state = {};
     bindDirective({
       el,
       parts: ['bind'],

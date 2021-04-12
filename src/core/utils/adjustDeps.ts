@@ -6,12 +6,12 @@ export const adjustDeps = (
   currentDeps: string[],
   node: ASTNode,
   directiveName: string
-) => {
-  const deps = [];
+): void => {
+  const deps: string[] = [];
 
-  for (const childNode of ast) {
-    deps.push(...childNode.deps);
-  }
+  ast.forEach((node) => {
+    deps.push(...node.deps);
+  });
 
   const cleanedDeps = removeDupesFromArray([...currentDeps, ...deps]);
 

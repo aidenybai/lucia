@@ -1,43 +1,38 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const formatAcceptableWhitespace = (expression: string) => {
-  return expression.replace(/\s+/gim, ' ').trim();
+export const formatAcceptableWhitespace = (expression: string): string => {
+  const whitespaceRE = /\s+/gim;
+  return expression.replace(whitespaceRE, ' ').trim();
 };
 
-export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
+export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void => {
   switch (parts[1]) {
-    case 'class':
-      const hydratedClasses = data.compute(state);
+    case 'class': {
+      const classes = data.compute(state);
       // Accept just providing classes regularly
-      if (typeof hydratedClasses === 'string') {
-        return el.setAttribute(
-          'class',
-          formatAcceptableWhitespace(`${el.className} ${hydratedClasses}`)
-        );
+      if (typeof classes === 'string') {
+        return el.setAttribute('class', formatAcceptableWhitespace(`${el.className} ${classes}`));
         // Accept providing an array of classes and appending them
-      } else if (hydratedClasses instanceof Array) {
+      } else if (classes instanceof Array) {
         return el.setAttribute(
           'class',
-          formatAcceptableWhitespace(`${el.className} ${hydratedClasses.join(' ')}`)
+          formatAcceptableWhitespace(`${el.className} ${classes.join(' ')}`)
         );
       } else {
         // Accept binding classes on/off based off of boolean state value
-        const classes = [];
+        const activeClasses: string[] = [];
 
-        for (const prop in hydratedClasses) {
-          if (hydratedClasses[prop]) classes.push(prop);
-        }
+        Object.entries(classes).forEach(([className, classValue]) => {
+          if (classValue) activeClasses.push(className);
+        });
 
-        const removeDynamicClassesRE = new RegExp(
-          `\\b${Object.keys(hydratedClasses).join('|')}\\b`,
-          'gim'
-        );
+        const removeDynamicClassesRE = new RegExp(`\\b${Object.keys(classes).join('|')}\\b`, 'gim');
         const rawClasses = el.className.replace(removeDynamicClassesRE, '');
 
-        if (classes.length > 0) {
+        if (activeClasses.length > 0) {
           return el.setAttribute(
             'class',
-            formatAcceptableWhitespace(`${rawClasses} ${classes.join(' ')}`)
+            formatAcceptableWhitespace(`${rawClasses} ${activeClasses.join(' ')}`)
           );
         } else if (formatAcceptableWhitespace(rawClasses).length > 0) {
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
@@ -47,34 +42,37 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps) => {
         }
       }
       break;
-    case 'style':
+    }
+
+    case 'style': {
       // Accept object and set properties based on boolean state value
-      const hydratedStyles = data.compute(state);
+      const styles = data.compute(state);
       el.removeAttribute('style');
-      for (const prop in hydratedStyles) {
-        el.style[prop] = hydratedStyles[prop];
-      }
+      Object.entries(styles).forEach(([styleName, styleValue]) => {
+        el.style[styleName] = styleValue;
+      });
       break;
-    default:
+    }
+    default: {
       // Bind arbitrary attributes based on boolean state value
-      const hydratedAttributes = data.compute(state);
+      const attributes = data.compute(state);
 
       // Allow object syntax in binding without modifier
-      if (typeof hydratedAttributes === 'object' && hydratedAttributes !== null) {
-        for (const prop in hydratedAttributes) {
+      if (typeof attributes === 'object' && attributes !== null) {
+        Object.entries(attributes).forEach(([name, value]) => {
           // Only set attr if not falsy
-          if (hydratedAttributes[prop]) {
-            el.setAttribute(prop, hydratedAttributes[prop]);
+          if (value) {
+            el.setAttribute(name, value as string);
           } else {
-            el.removeAttribute(prop);
+            el.removeAttribute(name);
           }
-        }
-        // Only set attr if not falsy
-      } else if (hydratedAttributes) {
-        el.setAttribute(parts[1], hydratedAttributes);
+        });
+      } else if (attributes) {
+        el.setAttribute(parts[1], attributes);
       } else {
         el.removeAttribute(parts[1]);
       }
       break;
+    }
   }
 };

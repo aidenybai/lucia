@@ -12,20 +12,23 @@ import { getElementCustomProp, setElementCustomProp } from '../utils/elementCust
 import adjustDeps from '../utils/adjustDeps';
 import computeExpression from '../utils/computeExpression';
 
-export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
-  node = node!;
+// This directive is size-based, not content-based, since everything is compiled and rerendered
+
+export const forDirective = ({ el, data, state, node }: DirectiveProps): void => {
   const marker = getElementCustomProp(el, 'component');
 
   setElementCustomProp(el, 'component', true);
 
-  const [expression, target] = data.value.split(/\s+(?:in|of)\s+/gim);
+  const forLoopRE = /\s+(?:in|of)\s+/gim;
+  const [expression, target] = data.value.split(forLoopRE);
   const [item, index] = expression?.trim().replace(parenthesisWrapReplaceRE(), '').split(',');
 
+  // Try to grab by property, else compute it if it's a custom array
   const currArray =
     (state[target?.trim()] as unknown[]) ?? computeExpression(target?.trim(), el, true)(state);
   const ast = compile(el, state);
 
-  let template = getElementCustomProp(el, '__for_template');
+  const template = getElementCustomProp(el, '__for_template');
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
   const arrayDiff = currArray?.length - el.children.length;
@@ -35,15 +38,8 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
     for (let i = Math.abs(arrayDiff); i > 0; --i) {
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
       else {
-        // Handle table cases
-        const tag = template.startsWith('<th')
-          ? 'thead'
-          : template.startsWith('<td') || template.startsWith('<tr')
-          ? 'tbody'
-          : 'div';
-
-        const temp = document.createElement(tag);
-        let content = template;
+        let content = String(template);
+        const isTable = /^[^\S]*?<(t(?:head|body|foot|r|d|h))/i.test(content);
 
         if (item) {
           content = content.replace(
@@ -58,17 +54,25 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps) => {
           );
         }
 
-        temp.innerHTML = content;
+        // Needing to wrap table elements, else they disappear
+        if (isTable) content = `<table>${content}</table>`;
 
-        el.appendChild(temp.firstElementChild!);
+        const fragment = document.createRange().createContextualFragment(content);
+
+        // fragment and fragment.firstElementChild return the same result
+        // so we have to do it two times for the table, since we need
+        // to unwrap the temporary wrap
+        // @ts-expect-error: firstElementChild will exist since <table> exists
+        el.appendChild(isTable ? fragment.firstElementChild.firstElementChild : fragment);
       }
     }
   }
 
   if (!marker) {
-    adjustDeps(ast, data.deps, node, 'for');
+    // Deps recompiled because child nodes may have additional deps
+    adjustDeps(ast, data.deps, node!, 'for');
     el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 
-  render(compile(el, state, true), directives, state, node.deps);
+  render(compile(el, state, true), directives, state, node!.deps);
 };

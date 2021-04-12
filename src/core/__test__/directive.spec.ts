@@ -25,7 +25,9 @@ describe('.directive', () => {
       CALLBACK: callback,
     };
     const data = {
-      compute: () => {},
+      compute: () => {
+        return true;
+      },
       value: '',
       deps: [],
     };

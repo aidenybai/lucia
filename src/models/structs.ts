@@ -8,6 +8,7 @@ export type State = UnknownKV;
 export type DirectiveKV = Record<string, DirectiveData>;
 
 export interface DirectiveData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   compute: (state: UnknownKV, event?: Event) => any;
   value: string;
   deps: string[];

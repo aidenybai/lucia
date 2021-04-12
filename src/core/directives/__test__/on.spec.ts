@@ -54,7 +54,7 @@ describe('.onDirective', () => {
     });
 
     el.dispatchEvent(event);
-    // @ts-expect-error
+    // @ts-expect-error: __on_customEvent_registered is missing props but good enough for test
     expect(typeof el.__on_customEvent_registered).toEqual('boolean');
     expect(callback).toBeCalledTimes(0);
 

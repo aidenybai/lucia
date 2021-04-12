@@ -4,7 +4,7 @@ describe('.customProp', () => {
   it('should correctly access custom prop', () => {
     const el = document.createElement('div');
 
-    // @ts-expect-error
+    // @ts-expect-error: .component doesn't exist on HTMLElement
     el.component = 'foo';
 
     expect(getElementCustomProp(el, 'innerHTML')).toEqual('');
