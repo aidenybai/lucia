@@ -1,4 +1,5 @@
-/* istanbul ignore next */
+/* istanbul ignore file */
+
 import { Directives, DirectiveProps, Watchers, State, ASTNode } from './models/structs';
 
 import { directives } from './core/directive';

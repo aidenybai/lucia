@@ -15,6 +15,7 @@ const render = (
 
   concurrent(function* () {
     for (const node of ast) {
+      yield;
       const isStatic = node.type === ASTNodeType.STATIC;
       if (isStatic) node.type = ASTNodeType.NULL;
 
