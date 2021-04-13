@@ -74,5 +74,5 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
 
   // Only recompile if there is no increase/decrease in array size, else use the original AST
   const ast = arrayDiff === 0 ? (originalAST as ASTNode[]) : compile(el, state, true);
-  render(ast, directives, state, node!.deps);
+  render(ast || [], directives, state, node!.deps);
 };

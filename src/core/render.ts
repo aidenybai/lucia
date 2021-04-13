@@ -11,8 +11,9 @@ const render = (
   changedProps: string[] = []
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
+  const CONCURRENT_MODE_THRESHOLD = 25;
 
-  concurrent(25, function* () {
+  concurrent(CONCURRENT_MODE_THRESHOLD, function* () {
     for (const node of ast) {
       yield;
       const isStatic = node.type === ASTNodeType.STATIC;
@@ -42,6 +43,7 @@ const render = (
             node,
             state,
           };
+
           renderDirective(directiveProps, directives);
 
           if (isStaticDirective || isMaskDirective) {

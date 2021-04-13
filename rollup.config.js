@@ -5,6 +5,7 @@ import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import babel from '@rollup/plugin-babel';
 import strip from '@rollup/plugin-strip';
+import beep from  '@rollup/plugin-beep';
 
 const legacy = () => {
   return babel({
@@ -33,6 +34,7 @@ const generateConfig = (input, config) => ({
       functions: ['console.log'],
       include: '**/*.(ts)',
     }),
+    beep(),
     config.legacy ? legacy() : undefined,
   ],
   output: config.output,
