@@ -1,16 +1,14 @@
 /* istanbul ignore file */
 
+import compile from '../../core/compile';
+import { directives } from '../../core/directive';
+import render from '../../core/render';
 import { DIRECTIVE_PREFIX } from '../../models/generics';
 import { ASTNode, DirectiveProps } from '../../models/structs';
-
-import compile from '../../core/compile';
-import render from '../../core/render';
-import { directives } from '../../core/directive';
-
-import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
-import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 import adjustDeps from '../utils/adjustDeps';
 import computeExpression from '../utils/computeExpression';
+import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
+import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
 // This directive is size-based, not content-based, since everything is compiled and rerendered
 
@@ -76,5 +74,5 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
 
   // Only recompile if there is no increase/decrease in array size, else use the original AST
   const ast = arrayDiff === 0 ? (originalAST as ASTNode[]) : compile(el, state, true);
-  render(ast, directives, state, node!.deps);
+  render(ast || [], directives, state, node!.deps);
 };

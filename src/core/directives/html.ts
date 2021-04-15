@@ -1,11 +1,9 @@
-import { DirectiveProps } from '../../models/structs';
-
 import compile from '../../core/compile';
-import render from '../../core/render';
 import { directives } from '../../core/directive';
-
-import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
+import render from '../../core/render';
+import { DirectiveProps } from '../../models/structs';
 import adjustDeps from '../utils/adjustDeps';
+import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
   node = node!;

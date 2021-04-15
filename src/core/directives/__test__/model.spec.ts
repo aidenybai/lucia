@@ -1,7 +1,6 @@
 import { fireEvent } from '@testing-library/dom';
-
-import { modelDirective, inputCallback } from '../model';
 import compute from '../../utils/computeExpression';
+import { inputCallback, modelDirective } from '../model';
 
 describe('.modelDirective', () => {
   it('should attach and model input', () => {

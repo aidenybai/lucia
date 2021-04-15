@@ -4,7 +4,8 @@
 
 Sometimes, all you want to do is to try and do something—No boilerplate, bundlers, or complex build processes. Lucia aims to do this, providing an augmentation layer for your logic, allowing you to build just what you need with minimal effort and time.
 
-![TravisCI Build](https://badgen.net/travis/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=build) ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=size) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![Code Coverage](https://img.shields.io/coveralls/github/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)
+[![CI](https://img.shields.io/github/workflow/status/aidenybai/lucia/test-runner?color=7460E1&labelColor=1D1E32&style=flat-square&label=build)](https://img.shields.io/github/workflow/status/aidenybai/lucia)
+![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=size) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![Code Coverage](https://img.shields.io/coveralls/github/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)
 
 [**→ Check out the Lucia Website**](https://lucia.js.org)
 
@@ -41,7 +42,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 ## Sponsors
 
-<a href="https://anomaly-science.com/" target="_blank"><img width="20%" src="https://raw.githubusercontent.com/Anomaly-Science/assets/main/SVG/Anomaly%20Science%20Logo%20Full%20Light%20Mode.svg" alt="Anomaly Science"></a>
+<a href="https://hackclub.com/bank" target="_blank"><img width="30%" src="https://cdn.glitch.com/747f5921-6fdc-45db-8eaa-ac12523e0e6c%2Fhackclub-bank.svg?v=1566159701206" alt="Hack Club Bank"></a>
 
 **Want your logo here? [→ Sponsor Lucia](https://github.com/sponsors/aidenybai)**
 
@@ -65,4 +66,4 @@ Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue),
 
 ---
 
-© 2020-present The Lucia Authors.
+© 2020-present The Hack Foundation.

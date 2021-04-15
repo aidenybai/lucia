@@ -1,9 +1,9 @@
 import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../models/generics';
-import { State, DirectiveKV, Refs, ASTNode, ASTNodeType } from '../models/structs';
-import { expressionPropRE, hasDirectiveRE, eventDirectivePrefixRE } from './utils/patterns';
-import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
-import removeDupesFromArray from './utils/removeDupesFromArray';
+import { ASTNode, ASTNodeType, DirectiveKV, Refs, State } from '../models/structs';
 import compute from './utils/computeExpression';
+import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
+import { eventDirectivePrefixRE, expressionPropRE, hasDirectiveRE } from './utils/patterns';
+import removeDupesFromArray from './utils/removeDupesFromArray';
 
 export const isListRenderScope = (el: HTMLElement): boolean => {
   return el.hasAttribute(`${DIRECTIVE_PREFIX}for`);

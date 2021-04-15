@@ -1,7 +1,6 @@
-import { DirectiveProps, DirectiveData, State } from '../../models/structs';
-
-import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
+import { DirectiveData, DirectiveProps, State } from '../../models/structs';
 import computeExpression from '../utils/computeExpression';
+import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
 export const inputCallback = (
   el: HTMLInputElement,

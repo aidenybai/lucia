@@ -1,11 +1,11 @@
+import compute from '../../core/utils/computeExpression';
 import {
   compile,
   createASTNode,
+  flattenNodeChildren,
   isListRenderScope,
   isUnderListRenderScope,
-  flattenNodeChildren,
 } from '../compile';
-import compute from '../../core/utils/computeExpression';
 
 describe('.compile', () => {
   it('should not return anything', () => {

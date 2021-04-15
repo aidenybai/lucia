@@ -1,5 +1,5 @@
-import { bindDirective } from '../bind';
 import compute from '../../utils/computeExpression';
+import { bindDirective } from '../bind';
 
 describe('.bindDirective', () => {
   it('should bind class based on state boolean value', () => {
