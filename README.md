@@ -42,7 +42,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 ## Sponsors
 
-<a href="https://anomaly-science.com/" target="_blank"><img width="20%" src="https://raw.githubusercontent.com/Anomaly-Science/assets/main/SVG/Anomaly%20Science%20Logo%20Full%20Light%20Mode.svg" alt="Anomaly Science"></a>
+<a href="https://hackclub.com/bank" target="_blank"><img width="30%" src="https://cdn.glitch.com/747f5921-6fdc-45db-8eaa-ac12523e0e6c%2Fhackclub-bank.svg?v=1566159701206" alt="Hack Club Bank"></a>
 
 **Want your logo here? [→ Sponsor Lucia](https://github.com/sponsors/aidenybai)**
 
@@ -66,4 +66,4 @@ Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue),
 
 ---
 
-© 2020-present The Lucia Authors.
+© 2020-present The Hack Foundation.
