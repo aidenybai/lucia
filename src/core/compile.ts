@@ -10,7 +10,7 @@ export const isListRenderScope = (el: HTMLElement): boolean => {
 };
 
 export const isUnderListRenderScope = (el: HTMLElement): boolean => {
-  return el.parentElement && el.parentElement.hasAttribute(`${DIRECTIVE_PREFIX}for`);
+  return !!el.parentElement && el.parentElement.hasAttribute(`${DIRECTIVE_PREFIX}for`);
 };
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefined => {
