@@ -26,11 +26,11 @@ export class Component {
       typeof el === 'string'
         ? document.querySelector<HTMLElement>(el) || document.body
         : (el as HTMLElement);
-    const newState = { ...this.state, $render: this.render.bind(this) };
+    const $render = (deps: string[] = Object.keys(this.state)) => this.render(deps);
 
     this.ast = compile(rootEl, this.state);
     this.directives = { ...this.directives, ...directives };
-    this.state = reactive(newState, this.render.bind(this), this.watchers);
+    this.state = reactive({ ...this.state, $render }, this.render.bind(this), this.watchers);
 
     this.render();
 
