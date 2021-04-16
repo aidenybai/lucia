@@ -30,7 +30,7 @@ export const reactive = (
     set(target: UnknownKV, key: string, value: unknown): boolean {
       // Currently double renderes - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
-      const props = [key];
+      const props = hasArrayMutationKey ? [] : [key];
 
       if (target instanceof Array && hasArrayMutationKey) {
         const keys = Object.keys(state).filter((prop) => {
