@@ -4,8 +4,8 @@ import { State, Watchers } from '../models/structs';
 export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]): boolean => {
   // Deep Array equality check
   return (
-    firstArray instanceof Array &&
-    secondArray instanceof Array &&
+    Array.isArray(firstArray) &&
+    Array.isArray(secondArray) &&
     firstArray.length === secondArray.length &&
     firstArray.every((value: unknown, i: number) => value === secondArray[i])
   );
@@ -32,12 +32,11 @@ export const reactive = (
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
       const props = hasArrayMutationKey ? [] : [key];
 
-      if (target instanceof Array && hasArrayMutationKey) {
+      if (Array.isArray(target) && hasArrayMutationKey) {
         const keys = Object.keys(state).filter((prop) => {
           return (
             // Find the array that equals the target
-            state[prop] instanceof Array &&
-            arrayEquals(state[prop] as unknown[], target as unknown[])
+            Array.isArray(state[prop]) && arrayEquals(state[prop] as unknown[], target as unknown[])
           );
         });
         props.push(...keys);
