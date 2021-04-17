@@ -10,7 +10,7 @@ export const isListRenderScope = (el: HTMLElement): boolean => {
 };
 
 export const isUnderListRenderScope = (el: HTMLElement): boolean => {
-  return el.parentElement && el.parentElement.hasAttribute(`${DIRECTIVE_PREFIX}for`);
+  return !!el.parentElement && el.parentElement.hasAttribute(`${DIRECTIVE_PREFIX}for`);
 };
 
 export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefined => {
@@ -28,10 +28,11 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
 
 /* istanbul ignore next */
 export const collectRefs = (): Refs => {
-  const refElements = document.querySelectorAll(`[${DIRECTIVE_PREFIX}ref]`);
+  const refDirective = `${DIRECTIVE_PREFIX}ref`;
+  const refElements = document.querySelectorAll(`[${refDirective}]`);
   const refs = {};
   refElements.forEach((refElement) => {
-    const name = refElement.getAttribute(`${DIRECTIVE_PREFIX}ref`);
+    const name = refElement.getAttribute(refDirective);
     if (name) refs[name] = refElement;
   });
   return refs;

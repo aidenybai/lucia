@@ -13,7 +13,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
       if (typeof classes === 'string') {
         return el.setAttribute('class', formatAcceptableWhitespace(`${el.className} ${classes}`));
         // Accept providing an array of classes and appending them
-      } else if (classes instanceof Array) {
+      } else if (Array.isArray(classes)) {
         return el.setAttribute(
           'class',
           formatAcceptableWhitespace(`${el.className} ${classes.join(' ')}`)
