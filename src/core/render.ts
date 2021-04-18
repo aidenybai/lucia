@@ -1,4 +1,4 @@
-import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
+import { CONCURRENT_MODE_THRESHOLD, DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
 import { ASTNode, ASTNodeType, Directives } from '../models/structs';
 import { renderDirective } from './directive';
 import concurrent from './utils/concurrent';
@@ -11,10 +11,10 @@ const render = (
   changedProps: string[] = []
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
-  const CONCURRENT_MODE_THRESHOLD = 25;
 
   concurrent(CONCURRENT_MODE_THRESHOLD, function* () {
     for (const node of ast) {
+      if (node.type === ASTNodeType.NULL) continue;
       yield;
       const isStatic = node.type === ASTNodeType.STATIC;
       if (isStatic) node.type = ASTNodeType.NULL;

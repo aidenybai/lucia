@@ -4,7 +4,7 @@ package-lock.json
 yarn-error.log
 
 # Tests
-test*.html
+*.html
 coverage
 
 # Build source

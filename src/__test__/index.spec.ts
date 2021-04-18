@@ -1,3 +1,4 @@
+import { COMPONENT_FLAG } from '../models/generics'
 import { Component } from '../component';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
 import { init } from '../index';
@@ -14,13 +15,13 @@ describe('.index', () => {
     el.setAttribute('l-state', `{ foo: 'bar' }`);
     root.appendChild(el);
 
-    expect(getElementCustomProp(el, 'component')).toBeUndefined();
+    expect(getElementCustomProp(el, COMPONENT_FLAG)).toBeUndefined();
 
     init(fakeEl);
-    expect(getElementCustomProp(el, 'component')).toBeUndefined();
+    expect(getElementCustomProp(el, COMPONENT_FLAG)).toBeUndefined();
 
     init(root);
-    expect(getElementCustomProp(el, 'component')).toBeDefined();
+    expect(getElementCustomProp(el, COMPONENT_FLAG)).toBeDefined();
   });
 
   it('should create component with empty state', async () => {
@@ -36,7 +37,7 @@ describe('.index', () => {
       return true;
     };
 
-    expect(JSON.stringify((getElementCustomProp(el, 'component') as Component).state)).toEqual(
+    expect(JSON.stringify((getElementCustomProp(el, COMPONENT_FLAG) as Component).state)).toEqual(
       JSON.stringify({
         $render: $render.bind([]),
       })

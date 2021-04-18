@@ -1,3 +1,4 @@
+import { COMPONENT_FLAG } from '../../../models/generics';
 import { getElementCustomProp, setElementCustomProp } from '../elementCustomProp';
 
 describe('.customProp', () => {
@@ -8,14 +9,14 @@ describe('.customProp', () => {
     el.component = 'foo';
 
     expect(getElementCustomProp(el, 'innerHTML')).toEqual('');
-    expect(getElementCustomProp(el, 'component')).toEqual('foo');
+    expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual('foo');
   });
 
   it('should correctly mutate custom prop', () => {
     const el = document.createElement('div');
 
-    setElementCustomProp(el, 'component', 'foo');
+    setElementCustomProp(el, COMPONENT_FLAG, 'foo');
 
-    expect(getElementCustomProp(el, 'component')).toEqual('foo');
+    expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual('foo');
   });
 });

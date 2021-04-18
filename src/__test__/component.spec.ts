@@ -2,6 +2,7 @@ import { component, Component } from '../component';
 import { directives } from '../core/directive';
 import reactive from '../core/reactive';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
+import { COMPONENT_FLAG } from '../models/generics';
 
 describe('.component', () => {
   it('should create and mount component properly', () => {
@@ -34,7 +35,7 @@ describe('.component', () => {
     const app = component(state);
     app.mount(el);
 
-    expect(getElementCustomProp(el, 'component')).toEqual(app);
+    expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual(app);
   });
 
   it('should register custom directive', () => {

@@ -5,8 +5,12 @@ yarn.lock
 yarn-error.log
 
 # Testing
-test*.html
+*.html
 coverage
+
+# Development Distributions
+*.map
+*.dev.*
 
 # Build Config
 tsconfig.json

@@ -7,7 +7,7 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "esbuild src/browser.ts --bundle --watch --sourcemap --outfile=dist/lucia.js",
+    "dev": "esbuild src/browser.ts --bundle --watch --sourcemap --outfile=dist/lucia.dev.js",
     "build": "del-cli dist/ && rollup -c",
     "test": "jest --silent --runInBand",
     "lint": "eslint --fix src/**",
