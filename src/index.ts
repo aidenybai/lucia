@@ -20,11 +20,7 @@ export const init = (element: HTMLElement | Document = document): void => {
 
   uninitializedComponents.forEach((uninitializedComponent) => {
     const stateExpression = uninitializedComponent.getAttribute(stateDirective);
-    const state = computeExpression(
-      `${stateExpression || '{}'}`,
-      uninitializedComponent as HTMLElement,
-      true
-    )({});
+    const state = new Function(`return ${stateExpression}`)() || {};
     const currentComponent = component(state);
     currentComponent.mount(uninitializedComponent as HTMLElement);
   });
