@@ -1,4 +1,9 @@
-import { COMPONENT_FLAG, DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS, FOR_TEMPLATE_FLAG } from '../models/generics';
+import {
+  COMPONENT_FLAG,
+  DIRECTIVE_PREFIX,
+  DIRECTIVE_SHORTHANDS,
+  FOR_TEMPLATE_FLAG,
+} from '../models/generics';
 import { ASTNode, ASTNodeType, DirectiveKV, Refs, State } from '../models/structs';
 import compute from './utils/computeExpression';
 import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
@@ -139,7 +144,8 @@ export const flattenNodeChildren = (
 
 export const compile = (el: HTMLElement, state: State = {}, ignoreRootNode = false): ASTNode[] => {
   const ast: ASTNode[] = [];
-  const isListGroup = getElementCustomProp(el, COMPONENT_FLAG) !== undefined && isListRenderScope(el);
+  const isListGroup =
+    getElementCustomProp(el, COMPONENT_FLAG) !== undefined && isListRenderScope(el);
   const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
   const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 

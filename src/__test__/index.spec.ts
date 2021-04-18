@@ -1,4 +1,4 @@
-import { COMPONENT_FLAG } from '../models/generics'
+import { COMPONENT_FLAG } from '../models/generics';
 import { Component } from '../component';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
 import { init } from '../index';
