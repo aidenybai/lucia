@@ -11,9 +11,7 @@ coverage
 dist/
 
 # Editor Config
-.vscode/
 .idea/
-settings.json
 .DS_Store
 
 # Misc
