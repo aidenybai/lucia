@@ -5,7 +5,7 @@ import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
 import babel from '@rollup/plugin-babel';
 import strip from '@rollup/plugin-strip';
-import beep from  '@rollup/plugin-beep';
+import beep from '@rollup/plugin-beep';
 
 const legacy = () => {
   return babel({
@@ -76,22 +76,10 @@ export default [
     format: 'iife',
     target: 'es2018',
   }),
-  build('./src/browser.ts', {
-    output: ['dist/legacy/lucia.js', 'dist/legacy/lucia.min.js'],
-    format: 'iife',
-    target: 'es5',
-    legacy: true,
-  }),
   build('./src/index.ts', {
     output: ['dist/lucia.esm.js', 'dist/lucia.esm.min.js'],
     format: 'esm',
     target: 'es2018',
-  }),
-  build('./src/index.ts', {
-    output: ['dist/legacy/lucia.esm.js', 'dist/legacy/lucia.esm.min.js'],
-    format: 'esm',
-    target: 'es5',
-    legacy: true,
   }),
   build('./src/index.ts', {
     output: ['dist/lucia.cjs.js', 'dist/lucia.cjs.min.js'],
