@@ -7,12 +7,13 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "esbuild src/browser.ts --bundle --watch --sourcemap --outfile=dist/lucia.js",
-    "build": "del-cli dist/ && rollup -c",
-    "test": "jest --silent --runInBand",
-    "lint": "eslint --fix src/**",
+    "dev": "sh scripts/dev.sh",
+    "build": "sh scripts/build.sh",
+    "lint": "eslint src/**",
+    "lint:fix": "eslint src/** --fix",
     "cleanup": "prettier --write src --parser typescript",
-    "prepublishOnly": "npm run build"
+    "test": "jest --silent --runInBand",
+    "release": "sh scripts/release.sh"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,7 @@
     "ui",
     "browser"
   ],
-  "author": "Aiden Bai <aiden.bai05@gmail.com>",
+  "author": "Aiden Bai <hello@aidenybai.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aidenybai/lucia/issues"

@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 
+import { COMPONENT_FLAG } from './models/generics';
 import compile from './core/compile';
 import { directives } from './core/directive';
 import reactive from './core/reactive';
@@ -34,7 +35,7 @@ export class Component {
 
     this.render();
 
-    setElementCustomProp(rootEl, 'component', this);
+    setElementCustomProp(rootEl, COMPONENT_FLAG, this);
 
     return this.state;
   }

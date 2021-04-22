@@ -54,7 +54,7 @@ describe('.reactive', () => {
 
     (proxy.foo as string[]).push('baz');
 
-    expect(result).toEqual('length');
+    expect(result).toEqual('foo');
   });
 
   it('should handle nested proxies', () => {

@@ -1,13 +1,14 @@
 import compile from '../../core/compile';
 import { directives } from '../../core/directive';
 import render from '../../core/render';
+import { COMPONENT_FLAG } from '../../models/generics';
 import { DirectiveProps } from '../../models/structs';
 import adjustDeps from '../utils/adjustDeps';
 import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
   node = node!;
-  const marker = getElementCustomProp(el, 'component');
+  const marker = getElementCustomProp(el, COMPONENT_FLAG);
 
   // Handle naked prop in expression case
   el.innerHTML = data.compute(state) ?? data.value;
@@ -18,5 +19,5 @@ export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void =
 
   render(ast, directives, state, data.deps);
 
-  setElementCustomProp(el, 'component', true);
+  setElementCustomProp(el, COMPONENT_FLAG, true);
 };

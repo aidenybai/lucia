@@ -1,6 +1,9 @@
-import { forDirective } from '../for';
+import { FOR_TEMPLATE_FLAG } from '../../../models/generics';
 import compute from '../../utils/computeExpression';
 import { setElementCustomProp } from '../../utils/elementCustomProp';
+import { forDirective } from '../for';
+
+const FOR_STATE_FLAG = '__for_state';
 
 describe('.forDirective', () => {
   it('should join the state array into HTML', (done) => {
@@ -13,7 +16,7 @@ describe('.forDirective', () => {
       deps: ['foo'],
     };
 
-    setElementCustomProp(el, '__for_template', '<li l-text="this.bar"></li>');
+    setElementCustomProp(el, FOR_TEMPLATE_FLAG, '<li l-text="this.bar"></li>');
     el.innerHTML = '<li l-text="this.bar"></li>';
 
     forDirective({
@@ -43,7 +46,7 @@ describe('.forDirective', () => {
       deps: ['foo'],
     };
 
-    setElementCustomProp(el, '__for_template', '<tbody l-text="this.bar + this.i"></tbody>');
+    setElementCustomProp(el, FOR_TEMPLATE_FLAG, '<tbody l-text="this.bar + this.i"></tbody>');
 
     el.innerHTML = '<tbody l-text="this.bar + this.i"></tbody>';
     forDirective({
@@ -59,7 +62,7 @@ describe('.forDirective', () => {
     );
   });
 
-  it('should string together __for_template if item and index are not present', () => {
+  it('should string together FOR_TEMPLATE_FLAG if item and index are not present', () => {
     const el = document.createElement('p');
     const expression = `_ in foo`;
     const state = { foo: ['bar', 'bar', 'bar'] };
@@ -69,7 +72,7 @@ describe('.forDirective', () => {
       deps: ['foo'],
     };
 
-    setElementCustomProp(el, '__for_template', '<li></li>');
+    setElementCustomProp(el, FOR_TEMPLATE_FLAG, '<li></li>');
 
     forDirective({
       el,
@@ -92,8 +95,8 @@ describe('.forDirective', () => {
       deps: ['foo'],
     };
 
-    setElementCustomProp(el, '__for_template', '<li></li>');
-    setElementCustomProp(el, '__for_state', ['bar', 'bar']);
+    setElementCustomProp(el, FOR_TEMPLATE_FLAG, '<li></li>');
+    setElementCustomProp(el, FOR_STATE_FLAG, ['bar', 'bar']);
 
     el.innerHTML = '<li></li>';
     forDirective({
@@ -117,8 +120,8 @@ describe('.forDirective', () => {
       deps: ['foo'],
     };
 
-    setElementCustomProp(el, '__for_template', '<li></li>');
-    setElementCustomProp(el, '__for_state', ['bar', 'bar', 'bar']);
+    setElementCustomProp(el, FOR_TEMPLATE_FLAG, '<li></li>');
+    setElementCustomProp(el, FOR_STATE_FLAG, ['bar', 'bar', 'bar']);
 
     el.innerHTML = '<li></li><li></li><li></li><li></li>';
     forDirective({

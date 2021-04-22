@@ -3,7 +3,7 @@
 import compile from '../../core/compile';
 import { directives } from '../../core/directive';
 import render from '../../core/render';
-import { DIRECTIVE_PREFIX } from '../../models/generics';
+import { COMPONENT_FLAG, DIRECTIVE_PREFIX, FOR_TEMPLATE_FLAG } from '../../models/generics';
 import { ASTNode, DirectiveProps } from '../../models/structs';
 import adjustDeps from '../utils/adjustDeps';
 import computeExpression from '../utils/computeExpression';
@@ -11,11 +11,10 @@ import { getElementCustomProp, setElementCustomProp } from '../utils/elementCust
 import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
 
 // This directive is size-based, not content-based, since everything is compiled and rerendered
-
 export const forDirective = ({ el, data, state, node }: DirectiveProps): void => {
-  const originalAST = getElementCustomProp(el, 'component');
+  const originalAST = getElementCustomProp(el, COMPONENT_FLAG);
   // Initial compilation
-  if (!originalAST) setElementCustomProp(el, 'component', compile(el, state));
+  if (!originalAST) setElementCustomProp(el, COMPONENT_FLAG, compile(el, state));
 
   const forLoopRE = /\s+(?:in|of)\s+/gim;
   const [expression, target] = data.value.split(forLoopRE);
@@ -25,7 +24,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
   const currArray =
     (state[target?.trim()] as unknown[]) ?? computeExpression(target?.trim(), el, true)(state);
 
-  const template = getElementCustomProp(el, '__for_template');
+  const template = getElementCustomProp(el, FOR_TEMPLATE_FLAG);
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
   const arrayDiff = currArray?.length - el.children.length;
@@ -63,12 +62,12 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
         el.appendChild(isTable ? fragment.firstElementChild.firstElementChild : fragment);
       }
     }
-    setElementCustomProp(el, 'component', compile(el, state));
+    setElementCustomProp(el, COMPONENT_FLAG, compile(el, state));
   }
 
   if (!originalAST) {
     // Deps recompiled because child nodes may have additional deps
-    adjustDeps(getElementCustomProp(el, 'component') as ASTNode[], data.deps, node!, 'for');
+    adjustDeps(getElementCustomProp(el, COMPONENT_FLAG) as ASTNode[], data.deps, node!, 'for');
     el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 

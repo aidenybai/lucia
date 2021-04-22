@@ -6,7 +6,7 @@ import reactive from './core/reactive';
 import render from './core/render';
 import computeExpression from './core/utils/computeExpression';
 import { getElementCustomProp } from './core/utils/elementCustomProp';
-import { DIRECTIVE_PREFIX } from './models/generics';
+import { COMPONENT_FLAG, DIRECTIVE_PREFIX } from './models/generics';
 
 export { component, compile, render, reactive, directives, computeExpression };
 
@@ -15,16 +15,12 @@ export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll(`[${stateDirective}]`);
   const uninitializedComponents = [...componentElements].filter(
-    (el) => getElementCustomProp(el as HTMLElement, 'component') === undefined
+    (el) => getElementCustomProp(el as HTMLElement, COMPONENT_FLAG) === undefined
   );
 
   uninitializedComponents.forEach((uninitializedComponent) => {
     const stateExpression = uninitializedComponent.getAttribute(stateDirective);
-    const state = computeExpression(
-      `${stateExpression || '{}'}`,
-      uninitializedComponent as HTMLElement,
-      true
-    )({});
+    const state = new Function(`return ${stateExpression}`)() || {};
     const currentComponent = component(state);
     currentComponent.mount(uninitializedComponent as HTMLElement);
   });
