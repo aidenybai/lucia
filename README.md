@@ -56,7 +56,7 @@ Find a bug? Head over to our [issue tracker](https://github.com/aidenybai/lucia/
 
 We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/docs/guidelines/CODE_OF_CONDUCT.md).
 
-[**→ Start contributing on GitHub**](https://github.com/aidenybai/lucia/blob/master/docs/guidelines/CONTRIBUTING.md)
+[**→ Start contributing on GitHub**](https://aidenybai.github.io/lucia/)
 
 ## Acknowledgments
 
