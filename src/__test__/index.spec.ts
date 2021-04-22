@@ -43,23 +43,4 @@ describe('.index', () => {
       })
     );
   });
-
-  it('should throw error on init', () => {
-    // @ts-expect-error: originalConsole doesn't exist on window, but good enough for test
-    window.originalConsole = console;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    window.console = { warn: jest.fn() } as any;
-
-    const root = document.createElement('div');
-    const el = document.createElement('div');
-
-    el.setAttribute('l-state', '{ shouldThrowAnError }');
-    root.appendChild(el);
-    init(root);
-
-    expect(console.warn).toBeCalled();
-
-    // @ts-expect-error: cannot override console on window, but good enough for test
-    window.console = window.originalConsole;
-  });
 });

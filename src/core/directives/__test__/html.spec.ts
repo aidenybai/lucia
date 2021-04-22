@@ -29,8 +29,8 @@ describe('.htmlDirective', () => {
 
   it('should set the html to the value', () => {
     const el = document.createElement('div');
-    const expression = '<p>foo</p>';
-    const state = {};
+    const expression = 'foo';
+    const state = { foo: '<p>foo</p>' };
     const data = {
       value: expression,
       compute: compute(expression, el),

@@ -1,4 +1,4 @@
-# <a href="http://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="http://lucia.js.org" /></a>
+# <a href="https://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="https://lucia.js.org" /></a>
 
 ### 3kb library for tiny web apps.
 
@@ -50,19 +50,19 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 Looking for the docs? Check the [Lucia website](https://lucia.js.org) out.
 
-Have a question about Lucia? Join the [Lucia Discord server](https://discord.gg/q2pSU39) and ask the community for help.
+Have a question about Lucia? Post it on the [GitHub Discussions](https://github.com/aidenybai/lucia/discussions) and ask the community for help.
 
 Find a bug? Head over to our [issue tracker](https://github.com/aidenybai/lucia/issues) and we'll do our best to help. We love pull requests, too!
 
-We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/.github/CODE_OF_CONDUCT.md).
+We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/docs/guidelines/CODE_OF_CONDUCT.md).
 
-[**→ Start contributing on Github**](https://github.com/aidenybai/lucia/blob/master/.github/CONTRIBUTING.md)
+[**→ Start contributing on GitHub**](https://github.com/aidenybai/lucia/blob/master/docs/guidelines/CONTRIBUTING.md)
 
 ## Acknowledgments
 
 Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai) [et al.](https://github.com/aidenybai/lucia/graphs/contributors)
 
-Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Sidewind](https://github.com/survivejs/sidewind), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in a production-ready library to use.
+Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Dababy](https://github.com/aidenybai/dababy), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in an alternative library to use.
 
 ---
 
