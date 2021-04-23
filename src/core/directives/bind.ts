@@ -38,7 +38,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
         } else if (el.hasAttribute('class')) {
           /* istanbul ignore next */
-          return el.removeAttribute('class');
+          if (el.hasAttribute('class')) return el.removeAttribute('class');
         }
       }
       break;
@@ -47,7 +47,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
     case 'style': {
       // Accept object and set properties based on boolean state value
       const styles = data.compute(state);
-      el.removeAttribute('style');
+      if (el.hasAttribute('style')) el.removeAttribute('style');
       Object.entries(styles).forEach(([styleName, styleValue]) => {
         el.style[styleName] = styleValue;
       });
@@ -70,7 +70,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
       } else if (attributes) {
         el.setAttribute(parts[1], attributes);
       } else {
-        el.removeAttribute(parts[1]);
+        if (el.hasAttribute(parts[1])) el.removeAttribute(parts[1]);
       }
       break;
     }
