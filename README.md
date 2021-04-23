@@ -1,4 +1,4 @@
-# <a href="https://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="https://lucia.js.org" /></a>
+# <a href="https://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="Lucia Logo" /></a>
 
 ### 3kb library for tiny web apps.
 
@@ -60,9 +60,11 @@ We expect all Lucia contributors to abide by the terms of our [Code of Conduct](
 
 ## Acknowledgments
 
-Lucia is [MIT-licensed](LICENSE.md) open-source software by [Aiden Bai](https://github.com/aidenybai) [et al.](https://github.com/aidenybai/lucia/graphs/contributors)
+Lucia is [MIT-licensed](LICENSE) open-source software by [Aiden Bai](https://github.com/aidenybai) [et al.](https://github.com/aidenybai/lucia/graphs/contributors)
 
-Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine](https://github.com/alpinejs/alpine), [Dababy](https://github.com/aidenybai/dababy), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in an alternative library to use.
+Lucia takes heavy inspiration from [Vue's syntax](https://github.com/vuejs/vue), and believes in the core philosophies and values behind [Alpine.js](https://github.com/alpinejs/alpine), [Dababy](https://github.com/aidenybai/dababy), and [Remake](https://github.com/remake/remake-cli). Feel free to check them out if you interested in an alternative library to use.
+
+_Lucia originates from the Latin word "lux", meaning "light, illuminance"_
 
 ---
 
