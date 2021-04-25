@@ -55,6 +55,12 @@ const render = (
           }
         }
       }
+
+      // Effect is like a watcher but detects changes to an el
+      if (node.directives['on:effect']) {
+        const effectEvent = new CustomEvent('effect');
+        node.el.dispatchEvent(effectEvent);
+      }
     }
   })();
 };

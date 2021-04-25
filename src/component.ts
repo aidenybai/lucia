@@ -37,6 +37,9 @@ export class Component {
 
     setElementCustomProp(rootEl, COMPONENT_FLAG, this);
 
+    const mountedEvent = new CustomEvent('mount');
+    rootEl.dispatchEvent(mountedEvent);
+
     return this.state;
   }
 
