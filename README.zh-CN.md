@@ -2,11 +2,13 @@
 
 ### 用于小型Web应用程序的3kb库。
 
-有时，您要做的就是尝试做某事-没有样板，捆绑程序或复杂的构建过程。 Lucia的目标是为逻辑提供一个扩展层，使您可以将属性绑定到HTML以增加交互性，而无需编写任何其他JavaScript。
+有时，您要做的只是尝试做某事-没有样板，捆绑程序或复杂的构建过程。 Lucia的目标是为逻辑提供增强层，使您可以将属性绑定到HTML以增加交互性，而无需编写任何其他JavaScript。
 
 [![CI](https://img.shields.io/github/workflow/status/aidenybai/lucia/test-runner?color=7460E1&labelColor=1D1E32&style=flat-square&label=build)](https://img.shields.io/github/workflow/status/aidenybai/lucia)![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia?color=7460E1&labelColor=1D1E32&style=flat-square&label=size)![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)![Code Coverage](https://img.shields.io/coveralls/github/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)
 
 [**→请访问Lucia网站**](https://lucia.js.org)
+
+[英语](README.md)\|[中文](README.zh-CN.md)
 
 ## 安装Lucia
 
@@ -43,7 +45,7 @@ Lucia默认不需要构建工具，请放下一个[脚本标签](https://lucia.j
 
 <a href="https://hackclub.com/bank" target="_blank"><img height="60" src="https://cdn.glitch.com/747f5921-6fdc-45db-8eaa-ac12523e0e6c%2Fhackclub-bank.svg?v=1566159701206" alt="Hack Club Bank"></a>
 
-**在这里想要您的徽标？[→赞助卢西亚](https://bank.hackclub.com/donations/start/lucia)**
+**在这里想要您的徽标？[→赞助商卢西亚](https://bank.hackclub.com/donations/start/lucia)**
 
 ## 资源与贡献
 
@@ -59,9 +61,9 @@ Lucia默认不需要构建工具，请放下一个[脚本标签](https://lucia.j
 
 ## 致谢
 
-露西娅是[麻省理工学院许可](LICENSE)开源软件[AI的NB埃](https://github.com/aidenybai)[等。](https://github.com/aidenybai/lucia/graphs/contributors)
+露西娅是[麻省理工学院许可](LICENSE) open-source software by [AI的NB埃](https://github.com/aidenybai)[等。](https://github.com/aidenybai/lucia/graphs/contributors)
 
-露西亚（Lucia）的灵感来自[Vue's syntax](https://github.com/vuejs/vue)，并坚信背后的核心哲学和价值观[Alpine.js](https://github.com/alpinejs/alpine),[达巴比](https://github.com/aidenybai/dababy)， 和[重制](https://github.com/remake/remake-cli)。如果您对使用其他库感兴趣，请随时检查。
+露西亚（Lucia）的灵感来自[Vue的语法](https://github.com/vuejs/vue)，并坚信背后的核心理念和价值观[Alpine.js](https://github.com/alpinejs/alpine),[达巴比](https://github.com/aidenybai/dababy)， 和[重制](https://github.com/remake/remake-cli)。如果您对使用其他库感兴趣，请随时检查。
 
 _Lucia源自拉丁文“ lux”，意思是“光，照度”_
 
