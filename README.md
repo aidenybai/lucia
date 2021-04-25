@@ -9,6 +9,8 @@ Sometimes, all you want to do is to try and do something—No boilerplate, bundl
 
 [**→ Check out the Lucia Website**](https://lucia.js.org)
 
+[English](README.md) | [中文](README.zh-CN.md)
+
 ## Installing Lucia
 
 Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
