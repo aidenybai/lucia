@@ -1,3 +1,9 @@
+name: readme
+
+on:
+  push:
+    branches:
+      - staging
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,11 +22,3 @@ jobs:
         uses: dephraiim/translate-readme@main
         with:
           LANG: zh-TW
-      - name: Adding README - Hindi
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: hi
-      - name: Adding README - German
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: de
