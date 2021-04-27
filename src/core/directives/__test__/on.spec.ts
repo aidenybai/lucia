@@ -7,7 +7,7 @@ describe('.onDirective', () => {
   it('should attach click event listener', () => {
     const el = document.createElement('button');
     const callback = jest.fn();
-    const expression = 'callback()';
+    const expression = 'callback';
     const state = {
       callback,
     };
@@ -39,7 +39,7 @@ describe('.onDirective', () => {
 
     const el = document.createElement('button');
     const callback = jest.fn();
-    const expression = 'callback()';
+    const expression = 'callback';
     const state = {
       callback,
     };

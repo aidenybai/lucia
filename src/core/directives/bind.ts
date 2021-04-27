@@ -9,6 +9,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
   switch (parts[1]) {
     case 'class': {
       const classes = data.compute(state);
+      console.log(classes);
       // Accept just providing classes regularly
       if (typeof classes === 'string') {
         return el.setAttribute('class', formatAcceptableWhitespace(`${el.className} ${classes}`));
@@ -38,7 +39,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
         } else if (el.hasAttribute('class')) {
           /* istanbul ignore next */
-          if (el.hasAttribute('class')) return el.removeAttribute('class');
+          return el.removeAttribute('class');
         }
       }
       break;
