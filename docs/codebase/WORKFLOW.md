@@ -14,13 +14,13 @@ Lucia is written in [TypeScript](https://www.typescriptlang.org) and should be r
 
 ### Iterating
 
-You can create a `*.html` (e.g. `test.html`) file at root to test changes in realtime. We recommend using `live-server` to hot-reload the webpage on change, and edit as necessary.
+You can create a `*.html` (e.g. `test.html`) file at root to test changes in realtime. We recommend using [`live-server`](https://www.npmjs.com/package/live-server) to hot-reload the webpage on change, and edit as necessary.
 
 Below is a sample for a Lucia starter:
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <script src="./dist/lucia.dev.js"></script>
   </head>

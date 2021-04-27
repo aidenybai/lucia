@@ -9,15 +9,17 @@ import { getElementCustomProp, setElementCustomProp } from '../utils/elementCust
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
   node = node!;
   const marker = getElementCustomProp(el, COMPONENT_FLAG);
+  const ret = data.compute(state) ?? data.value;
 
-  // Handle naked prop in expression case
-  el.innerHTML = data.compute(state) ?? data.value;
+  if (ret !== el.innerHTML) {
+    el.innerHTML = ret;
 
-  const ast = compile(el, state, true);
+    const ast = compile(el, state, true);
 
-  if (!marker) adjustDeps(ast, data.deps, node, 'html');
+    if (!marker) adjustDeps(ast, data.deps, node, 'html');
 
-  render(ast, directives, state, data.deps);
+    render(ast, directives, state, data.deps);
 
-  setElementCustomProp(el, COMPONENT_FLAG, true);
+    setElementCustomProp(el, COMPONENT_FLAG, true);
+  }
 };

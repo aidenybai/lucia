@@ -1,6 +1,7 @@
 import { DirectiveProps } from '../../models/structs';
 
 export const showDirective = ({ el, data, state }: DirectiveProps): void => {
-  el.style.display = data.compute(state) ? '' : 'none';
+  const ret = data.compute(state);
+  if (ret !== el.style.display) el.style.display = ret ? '' : 'none';
   if (el.style.length === 0) el.removeAttribute('style');
 };

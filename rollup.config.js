@@ -7,6 +7,7 @@ import babel from '@rollup/plugin-babel';
 import strip from '@rollup/plugin-strip';
 import beep from '@rollup/plugin-beep';
 
+const name = 'Lucia';
 const legacy = () => {
   return babel({
     extensions: ['.ts'],
@@ -48,7 +49,7 @@ export const build = (input, config) => {
   buildOutput.push({
     file: config.output[0],
     format: config.format,
-    name: 'Lucia',
+    name,
     globals: {},
     strict: true,
   });
@@ -58,7 +59,7 @@ export const build = (input, config) => {
     file: config.output[1],
     format: config.format,
     plugins: [terser({ format: { comments: false } })],
-    name: 'Lucia',
+    name,
     globals: {},
     strict: true,
   });

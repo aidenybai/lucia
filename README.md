@@ -23,15 +23,15 @@ It also integrates well with module bundlers like [Webpack](https://webpack.js.o
 
 ## Todo App Example
 
-Below is an extremely simple implementation of a todo app using Lucia, utilizing zero JavaScript. Tasks can be added by submitting the form with the input. No, your eyes aren't fooling you - it's really that simple.
+Below is an extremely simple implementation of a todo app using Lucia, utilizing zero JavaScript. Tasks can be added by submitting the form with the input. No, your eyes aren't fooling you—it's really that simple.
 
 ```html
 <div l-state="{ value: '', todo: [] }">
-  <!-- two-way-binds `value` prop to value -->
+  <!-- oninput: set `value` to input.value -->
   <input l-model="value" />
-  <!-- captures click event, pushing current `value` to `todo` -->
+  <!-- onclick: add the current `value` to the `todo` array -->
   <button @click="todo.push(value)">Create</button>
-  <!-- joins array together -->
+  <!-- joins `todo` array together -->
   <ul l-for="task in todo">
     <li l-text="this.task"></li>
   </ul>
@@ -42,7 +42,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 ## Sponsors
 
-<a href="https://hackclub.com/bank" target="_blank"><img width="30%" src="https://cdn.glitch.com/747f5921-6fdc-45db-8eaa-ac12523e0e6c%2Fhackclub-bank.svg?v=1566159701206" alt="Hack Club Bank"></a>
+<a href="https://hackclub.com/bank" target="_blank"><img height="60" src="https://cdn.glitch.com/747f5921-6fdc-45db-8eaa-ac12523e0e6c%2Fhackclub-bank.svg?v=1566159701206" alt="Hack Club Bank"></a>
 
 **Want your logo here? [→ Sponsor Lucia](https://bank.hackclub.com/donations/start/lucia)**
 
@@ -68,4 +68,4 @@ _Lucia originates from the Latin word "lux", meaning "light, illuminance"_
 
 ---
 
-© 2020-present The Hack Foundation.
+© 2020-2021 Aiden Bai.
