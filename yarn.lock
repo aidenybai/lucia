@@ -2514,9 +2514,9 @@ error-ex@^1.3.1:
     is-arrayish "^0.2.1"
 
 esbuild@^0.11.1:
-  version "0.11.8"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.8.tgz#dcab565c3a61f2395aba37a78e93d5ab882bd865"
-  integrity sha512-dUZj5etA0e+SChqRMswgUj8TAj5ay7z06/BD32t0pRWgMDh8S/NTW7e7O1jLVIDeAECsRXkIzG2o+jpBwchq7w==
+  version "0.11.15"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.15.tgz#d92250e1755294f84bc7a83ed191e60baadf7b6a"
+  integrity sha512-Hh40byWZZgYbiLhcoOWiOUIy8yUYQeCEA4F9feWytToD2jGfJ1X4VPf5dsqj6vRL29H3YmFqZsxIJa5q0ifB3g==
 
 escalade@^3.1.1:
   version "3.1.1"
