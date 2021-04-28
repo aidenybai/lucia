@@ -1,7 +1,7 @@
-import { CONCURRENT_MODE_THRESHOLD, DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
+import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
 import { ASTNode, ASTNodeType, Directives } from '../models/structs';
 import { renderDirective } from './directive';
-import concurrent from './utils/concurrent';
+import fiber from './utils/fiber';
 import { rawDirectiveSplitRE } from './utils/patterns';
 
 const render = (
@@ -12,7 +12,7 @@ const render = (
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
 
-  concurrent(CONCURRENT_MODE_THRESHOLD, function* () {
+  const renderFiber = fiber(function* () {
     for (const node of ast) {
       if (node.type === ASTNodeType.NULL) continue;
       yield;
@@ -62,7 +62,9 @@ const render = (
         node.el.dispatchEvent(effectEvent);
       }
     }
-  })();
+  });
+
+  window.requestIdleCallback(renderFiber);
 };
 
 export default render;
