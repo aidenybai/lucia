@@ -38,7 +38,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
           return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
         } else if (el.hasAttribute('class')) {
           /* istanbul ignore next */
-          if (el.hasAttribute('class')) return el.removeAttribute('class');
+          return el.removeAttribute('class');
         }
       }
       break;

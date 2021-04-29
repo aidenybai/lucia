@@ -108,32 +108,39 @@ export const collectAndInitDirectives = (
   return [directives, removeDupesFromArray(nodeDeps)];
 };
 
-export const flattenNodeChildren = (
-  rootNode: HTMLElement,
+export const flattenElementChildren = (
+  rootElement: HTMLElement,
   isListGroup = false,
-  ignoreRootNode = false
+  ignoreRootElement = false
 ): HTMLElement[] => {
   const collection: HTMLElement[] = [];
-  const isList = isListRenderScope(rootNode);
-  const isUnderList = isUnderListRenderScope(rootNode);
+  const isList = isListRenderScope(rootElement);
+  const isUnderList = isUnderListRenderScope(rootElement);
 
   // Return nothing if it isn't list compilation and is a list or under a list
   if (!isListGroup && (isList || isUnderList)) return collection;
-  // Add root node to return array if it isn't a list or under a list
-  if (!ignoreRootNode && (!isListGroup || !isList)) collection.push(rootNode);
+  // Add root elem to return array if it isn't a list or under a list
+  if (!ignoreRootElement && (!isListGroup || !isList)) collection.push(rootElement);
 
   // Is not a list or under a list, but pass if is a list group
   if (isListGroup || (!isList && !isUnderList)) {
-    for (const childNode of rootNode.childNodes) {
-      if (childNode.nodeType === Node.ELEMENT_NODE) {
-        if (!isListGroup && isListRenderScope(childNode as HTMLElement)) {
+    for (const childElement of rootElement.children) {
+      // Check if childElement has attributes
+      if (childElement instanceof HTMLElement) {
+        if (!isListGroup && isListRenderScope(childElement)) {
           // Push root if it is a list render (don't want to push unrendered template)
-          collection.push(childNode as HTMLElement);
+          collection.push(childElement);
         } else {
           // Skip over nested components (independent compile request)
-          if ((childNode as HTMLElement).hasAttribute(`${DIRECTIVE_PREFIX}state`)) continue;
+          if (childElement.hasAttribute(`${DIRECTIVE_PREFIX}state`)) continue;
           // Push all children into array (recursive flattening)
-          collection.push(...flattenNodeChildren(childNode as HTMLElement, isListGroup));
+          collection.push(
+            ...flattenElementChildren(
+              childElement,
+              isListGroup,
+              childElement.attributes.length === 0
+            )
+          );
         }
       }
     }
@@ -142,20 +149,26 @@ export const flattenNodeChildren = (
   return collection;
 };
 
-export const compile = (el: HTMLElement, state: State = {}, ignoreRootNode = false): ASTNode[] => {
+export const compile = (
+  el: HTMLElement,
+  state: State = {},
+  ignoreRootElement = false
+): ASTNode[] => {
   const ast: ASTNode[] = [];
   const isListGroup =
     getElementCustomProp(el, COMPONENT_FLAG) !== undefined && isListRenderScope(el);
-  const nodes: HTMLElement[] = flattenNodeChildren(el, isListGroup, ignoreRootNode);
+  const elements: HTMLElement[] = flattenElementChildren(el, isListGroup, ignoreRootElement);
   const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 
+  console.log(elements);
+
   /* istanbul ignore next */
-  nodes.forEach((node) => {
-    if (node.hasAttribute(maskDirective)) {
-      node.removeAttribute(maskDirective);
+  elements.forEach((element) => {
+    if (element.hasAttribute(maskDirective)) {
+      element.removeAttribute(maskDirective);
     }
-    if (hasDirectiveRE().test(node.outerHTML)) {
-      const newASTNode = createASTNode(node, state);
+    if (hasDirectiveRE().test(element.outerHTML)) {
+      const newASTNode = createASTNode(element, state);
       if (newASTNode) ast.push(newASTNode);
     }
   });
