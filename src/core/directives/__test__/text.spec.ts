@@ -17,7 +17,7 @@ describe('.textDirective', () => {
       },
       state,
     });
-    expect(el.innerText).toEqual('bar');
+    expect(el.textContent).toEqual('bar');
   });
 
   it(`should attempt to coerce to string if prop doesn't exist`, () => {
@@ -30,6 +30,6 @@ describe('.textDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    expect(el.innerText).toEqual('foo');
+    expect(el.textContent).toEqual('foo');
   });
 });
