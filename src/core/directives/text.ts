@@ -1,9 +1,8 @@
 import { DirectiveProps } from '../../models/structs';
 
-export const textDirective = ({ el, parts, data, state }: DirectiveProps): void => {
+export const textDirective = ({ el, data, state }: DirectiveProps): void => {
   const ret = data.compute(state) ?? data.value;
-  const prop = parts[1] === 'perf' ? 'textContent' : 'innerText';
-  if (ret !== el[prop]) {
-    el[prop] = ret;
+  if (ret !== el.textContent) {
+    el.textContent = ret;
   }
 };
