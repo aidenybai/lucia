@@ -43,7 +43,6 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps): void =>
   options.once = eventProps.includes('once');
   options.passive = eventProps.includes('passive');
 
-
   target.addEventListener(parts[1], handler, options);
 
   setElementCustomProp(el, `__on_${parts[1]}_registered`, true);

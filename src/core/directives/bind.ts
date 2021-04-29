@@ -9,7 +9,6 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
   switch (parts[1]) {
     case 'class': {
       const classes = data.compute(state);
-      console.log(classes);
       // Accept just providing classes regularly
       if (typeof classes === 'string') {
         return el.setAttribute('class', formatAcceptableWhitespace(`${el.className} ${classes}`));
