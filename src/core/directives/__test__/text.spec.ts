@@ -2,7 +2,7 @@ import compute from '../../utils/computeExpression';
 import { textDirective } from '../text';
 
 describe('.textDirective', () => {
-  it('should interpolate state into textContent', () => {
+  it('should interpolate state into innerText', () => {
     const el = document.createElement('div');
     const expression = 'foo';
     const state = { foo: 'bar' };
@@ -17,7 +17,7 @@ describe('.textDirective', () => {
       },
       state,
     });
-    expect(el.textContent).toEqual('bar');
+    expect(el.innerText).toEqual('bar');
   });
 
   it(`should attempt to coerce to string if prop doesn't exist`, () => {
@@ -30,6 +30,6 @@ describe('.textDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    expect(el.textContent).toEqual('foo');
+    expect(el.innerText).toEqual('foo');
   });
 });

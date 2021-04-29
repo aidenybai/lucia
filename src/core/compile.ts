@@ -160,8 +160,6 @@ export const compile = (
   const elements: HTMLElement[] = flattenElementChildren(el, isListGroup, ignoreRootElement);
   const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 
-  console.log(elements);
-
   /* istanbul ignore next */
   elements.forEach((element) => {
     if (element.hasAttribute(maskDirective)) {

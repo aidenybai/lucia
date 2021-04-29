@@ -2,7 +2,7 @@ import compute from '../../utils/computeExpression';
 import { showDirective } from '../show';
 
 describe('.showDirective', () => {
-  it('should interpolate state into textContent', () => {
+  it('should interpolate state into innerText', () => {
     const el = document.createElement('div');
     const expression = 'foo';
     const state = { foo: true };

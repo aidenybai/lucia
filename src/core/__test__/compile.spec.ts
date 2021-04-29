@@ -2,7 +2,7 @@ import compute from '../../core/utils/computeExpression';
 import {
   compile,
   createASTNode,
-  flattenNodeChildren,
+  flattenElementChildren,
   isListRenderScope,
   isUnderListRenderScope,
 } from '../compile';
@@ -123,15 +123,15 @@ describe('.compile', () => {
     layer1El.appendChild(forLoopEl);
 
     setTimeout(() => {
-      const normalCollection = flattenNodeChildren(layer1El);
+      const normalCollection = flattenElementChildren(layer1El);
       const compiledNormalCollection = compile(layer1El, {});
-      const listCollection = flattenNodeChildren(forLoopEl, false);
-      const listCollectionAsListGroup = flattenNodeChildren(forLoopEl, true);
+      const listCollection = flattenElementChildren(forLoopEl, false);
+      const listCollectionAsListGroup = flattenElementChildren(forLoopEl, true);
 
       expect(compiledNormalCollection.length).toEqual(1);
       expect(listCollection).toEqual([]);
-      expect(listCollectionAsListGroup).toEqual([forLoopChild1, forLoopChild2, forLoopChild3]);
-      expect(normalCollection).toEqual([layer1El, layer2El, layer3El, layer4El, forLoopEl]);
+      expect(listCollectionAsListGroup).toEqual([]);
+      expect(normalCollection).toEqual([layer1El, forLoopEl]);
       done();
     }, 0);
   });
