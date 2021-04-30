@@ -51,29 +51,4 @@ describe('.htmlDirective', () => {
     });
     expect(el.innerHTML).toEqual('<p>foo</p>');
   });
-
-  it('should allow usage of directives and components', () => {
-    const el = document.createElement('div');
-    const expression = `foo`;
-    const state = { foo: '<p l-text="bar"></p>' };
-    const data = {
-      value: expression,
-      compute: compute(expression, el),
-      deps: ['foo'],
-    };
-    const node = {
-      el,
-      directives: { html: data },
-      deps: [],
-      type: 1,
-    };
-    htmlDirective({
-      el,
-      parts: ['l-html'],
-      data,
-      state,
-      node,
-    });
-    expect(el.innerHTML).toEqual('<p l-text="bar">bar</p>');
-  });
 });

@@ -1,7 +1,7 @@
 import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
 import { ASTNode, ASTNodeType, Directives } from '../models/structs';
 import { renderDirective } from './directive';
-import fiber from './utils/fiber';
+import lazy from './utils/lazy';
 import { rawDirectiveSplitRE } from './utils/patterns';
 
 const render = (
@@ -11,23 +11,24 @@ const render = (
   changedProps: string[] = []
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
+  const LAZY_MODE_TIMEOUT = 25;
 
-  const renderFiber = fiber(function* () {
+  lazy(LAZY_MODE_TIMEOUT, function* () {
     for (const node of ast) {
       if (node.type === ASTNodeType.NULL) continue;
-      yield;
       const isStatic = node.type === ASTNodeType.STATIC;
       if (isStatic) node.type = ASTNodeType.NULL;
+      yield;
 
       const nodeHasDep = changedProps.some((prop) => node.deps.includes(prop));
 
       if (!nodeHasDep && !isStatic) continue;
 
       for (const [directiveName, directiveData] of Object.entries(node.directives)) {
-        yield;
         const rawDirectiveName = directiveName.split(rawDirectiveSplitRE())[0];
         // Validate if it is a legal directive
         if (!legalDirectiveNames.includes(rawDirectiveName.toUpperCase())) continue;
+        yield;
         // Iterate through affected and check if directive value has prop
         const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
 
@@ -62,9 +63,7 @@ const render = (
         node.el.dispatchEvent(effectEvent);
       }
     }
-  });
-
-  window.requestIdleCallback(renderFiber);
+  })();
 };
 
 export default render;
