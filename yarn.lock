@@ -1195,10 +1195,10 @@
   resolved "https://registry.yarnpkg.com/@rollup/plugin-beep/-/plugin-beep-0.2.0.tgz#5c210555cd4acb22549bfc29bc3ea3e07182d846"
   integrity sha512-EBKLjnWJlKwfzUuyLXhycxHQfc9t7TdDkszLHr6Ve8qzC9R186KQlQu6aSDKGo16VYj3+3xe/6s0ngck6+GOrw==
 
-"@rollup/plugin-commonjs@18.0.0":
-  version "18.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-18.0.0.tgz#50dc7518b5aa9e66a270e529ea85115d269825c4"
-  integrity sha512-fj92shhg8luw7XbA0HowAqz90oo7qtLGwqTKbyZ8pmOyH8ui5e+u0wPEgeHLH3djcVma6gUCUrjY6w5R2o1u6g==
+"@rollup/plugin-commonjs@18.1.0":
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-18.1.0.tgz#5a760d757af168a50727c0ae080251fbfcc5eb02"
+  integrity sha512-h3e6T9rUxVMAQswpDIobfUHn/doMzM9sgkMrsMWCFLmB84PSoC8mV8tOloAJjSRwdqhXBqstlX2BwBpHJvbhxg==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     commondir "^1.0.1"
