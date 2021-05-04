@@ -1,5 +1,5 @@
-import { UnknownKV } from '../models/generics';
-import { State, Watchers } from '../models/structs';
+import { KV } from '@models/generics';
+import { State, Watchers } from '@models/structs';
 
 export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]): boolean => {
   // Deep Array equality check
@@ -17,7 +17,7 @@ export const reactive = (
   watchers: Watchers = {}
 ): State => {
   const handler = {
-    get(target: UnknownKV, key: string): unknown {
+    get(target: KV<unknown>, key: string): unknown {
       const ret = target[key];
 
       if (typeof ret === 'object' && ret !== null) {
@@ -27,7 +27,7 @@ export const reactive = (
         return ret;
       }
     },
-    set(target: UnknownKV, key: string, value: unknown): boolean {
+    set(target: KV<unknown>, key: string, value: unknown): boolean {
       // Currently double renderes - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
       const props = hasArrayMutationKey ? [] : [key];

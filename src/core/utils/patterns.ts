@@ -1,4 +1,4 @@
-import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '../../models/generics';
+import { DIRECTIVE_PREFIX, DIRECTIVE_SHORTHANDS } from '@models/generics';
 
 // Split directive:modifier.property
 export const rawDirectiveSplitRE = (): RegExp => /:|\./gim;

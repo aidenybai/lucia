@@ -1,15 +1,15 @@
-import { UnknownKV } from './generics';
+import { KV } from './generics';
 
-export type Directives = Record<string, (props: DirectiveProps) => void>;
-export type Watchers = Record<string, () => void>;
-export type Refs = Record<string, HTMLElement>;
-export type State = UnknownKV;
+export type Directives = KV<(props: DirectiveProps) => void>;
+export type Watchers = KV<() => void>;
+export type Refs = KV<HTMLElement>;
+export type State = KV<unknown>;
 
-export type DirectiveKV = Record<string, DirectiveData>;
+export type DirectiveKV = KV<DirectiveData>;
 
 export interface DirectiveData {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  compute: (state: UnknownKV, event?: Event) => any;
+  compute: (state: KV<unknown>, event?: Event) => any;
   value: string;
   deps: string[];
 }

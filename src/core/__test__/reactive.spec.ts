@@ -1,4 +1,4 @@
-import { StringKV } from '../../models/generics';
+import { KV } from '../../models/generics';
 import { reactive } from '../reactive';
 
 describe('.reactive', () => {
@@ -63,7 +63,7 @@ describe('.reactive', () => {
     const callback = (deps: string[]) => (result = deps[0]);
     const proxy = reactive(state, callback);
 
-    (proxy.foo as StringKV).bar = '1';
+    (proxy.foo as KV<string>).bar = '1';
 
     expect(result).toEqual('bar');
   });

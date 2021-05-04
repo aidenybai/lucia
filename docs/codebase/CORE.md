@@ -61,7 +61,7 @@ The values of the `directives` object are `DirectiveData`, which contain propert
 
 ```ts
 interface DirectiveData {
-  compute: (state: UnknownKV, event?: Event) => any;
+  compute: (state: KV<unknown>, event?: Event) => any;
   value: string;
   deps: string[];
 }

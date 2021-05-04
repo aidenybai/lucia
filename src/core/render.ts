@@ -1,13 +1,13 @@
-import { DIRECTIVE_PREFIX, UnknownKV } from '../models/generics';
-import { ASTNode, ASTNodeType, Directives } from '../models/structs';
+import { DIRECTIVE_PREFIX, KV } from '@models/generics';
+import { ASTNode, ASTNodeType, Directives } from '@models/structs';
 import { renderDirective } from './directive';
-import lazy from './utils/lazy';
-import { rawDirectiveSplitRE } from './utils/patterns';
+import lazy from '@utils/lazy';
+import { rawDirectiveSplitRE } from '@utils/patterns';
 
 const render = (
   ast: ASTNode[],
   directives: Directives,
-  state: UnknownKV = {},
+  state: KV<unknown> = {},
   changedProps: string[] = []
 ): void => {
   const legalDirectiveNames = Object.keys(directives);

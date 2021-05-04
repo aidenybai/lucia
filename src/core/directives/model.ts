@@ -1,7 +1,7 @@
-import { MODEL_REGISTERED_FLAG } from '../../models/generics';
-import { DirectiveData, DirectiveProps, State } from '../../models/structs';
-import computeExpression from '../utils/computeExpression';
-import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
+import { MODEL_REGISTERED_FLAG } from '@models/generics';
+import { DirectiveData, DirectiveProps, State } from '@models/structs';
+import computeExpression from '@utils/computeExpression';
+import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
 
 export const inputCallback = (
   el: HTMLInputElement,

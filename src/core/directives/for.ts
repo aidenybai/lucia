@@ -1,14 +1,14 @@
 /* istanbul ignore file */
 
-import compile from '../../core/compile';
-import { directives } from '../../core/directive';
-import render from '../../core/render';
-import { COMPONENT_FLAG, DIRECTIVE_PREFIX, FOR_TEMPLATE_FLAG } from '../../models/generics';
-import { ASTNode, DirectiveProps } from '../../models/structs';
-import adjustDeps from '../utils/adjustDeps';
-import computeExpression from '../utils/computeExpression';
-import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
-import { expressionPropRE, parenthesisWrapReplaceRE } from '../utils/patterns';
+import compile from '@core/compile';
+import { directives } from '@core/directive';
+import render from '@core/render';
+import { COMPONENT_FLAG, DIRECTIVE_PREFIX, FOR_TEMPLATE_FLAG } from '@models/generics';
+import { ASTNode, DirectiveProps } from '@models/structs';
+import adjustDeps from '@utils/adjustDeps';
+import computeExpression from '@utils/computeExpression';
+import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
+import { expressionPropRE, parenthesisWrapReplaceRE } from '@utils/patterns';
 
 // This directive is size-based, not content-based, since everything is compiled and rerendered
 export const forDirective = ({ el, data, state, node }: DirectiveProps): void => {

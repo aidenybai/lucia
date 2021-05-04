@@ -1,4 +1,4 @@
-import { DirectiveProps } from '../../models/structs';
+import { DirectiveProps } from '@models/structs';
 
 export const formatAcceptableWhitespace = (expression: string): string => {
   const whitespaceRE = /\s+/gim;

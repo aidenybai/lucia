@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 
-import { COMPONENT_FLAG } from './models/generics';
-import compile from './core/compile';
-import { directives } from './core/directive';
-import reactive from './core/reactive';
-import render from './core/render';
-import { setElementCustomProp } from './core/utils/elementCustomProp';
-import { ASTNode, DirectiveProps, Directives, State, Watchers } from './models/structs';
+import { COMPONENT_FLAG } from '@models/generics';
+import compile from '@core/compile';
+import { directives } from '@core/directive';
+import reactive from '@core/reactive';
+import render from '@core/render';
+import { setElementCustomProp } from '@core/utils/elementCustomProp';
+import { ASTNode, DirectiveProps, Directives, State, Watchers } from '@models/structs';
 
 export class Component {
   public state: State;
