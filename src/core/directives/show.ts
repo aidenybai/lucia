@@ -1,4 +1,4 @@
-import { DirectiveProps } from '../../models/structs';
+import { DirectiveProps } from '@models/structs';
 
 export const showDirective = ({ el, data, state }: DirectiveProps): void => {
   const ret = data.compute(state);

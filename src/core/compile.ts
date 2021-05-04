@@ -3,12 +3,12 @@ import {
   DIRECTIVE_PREFIX,
   DIRECTIVE_SHORTHANDS,
   FOR_TEMPLATE_FLAG,
-} from '../models/generics';
-import { ASTNode, ASTNodeType, DirectiveKV, Refs, State } from '../models/structs';
-import compute from './utils/computeExpression';
-import { getElementCustomProp, setElementCustomProp } from './utils/elementCustomProp';
-import { eventDirectivePrefixRE, expressionPropRE, hasDirectiveRE } from './utils/patterns';
-import removeDupesFromArray from './utils/removeDupesFromArray';
+} from '@models/generics';
+import { ASTNode, ASTNodeType, DirectiveKV, Refs, State } from '@models/structs';
+import compute from '@utils/computeExpression';
+import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
+import { eventDirectivePrefixRE, expressionPropRE, hasDirectiveRE } from '@utils/patterns';
+import removeDupesFromArray from '@utils/removeDupesFromArray';
 
 export const isListRenderScope = (el: HTMLElement): boolean => {
   return el.hasAttribute(`${DIRECTIVE_PREFIX}for`);
