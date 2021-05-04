@@ -1,4 +1,4 @@
-import { ASTNode } from '../../models/structs';
+import { ASTNode } from '@models/structs';
 import removeDupesFromArray from './removeDupesFromArray';
 
 export const adjustDeps = (

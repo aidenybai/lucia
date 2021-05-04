@@ -1,5 +1,5 @@
-import { UnknownKV } from '../../models/generics';
-import { Refs } from '../../models/structs';
+import { KV } from '@models/generics';
+import { Refs } from '@models/structs';
 import { expressionPropRE } from './patterns';
 
 export const resolveStateInExpression = (
@@ -22,7 +22,7 @@ export const computeExpression = (
   refs: Refs = {},
   deps?: string[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): ((state: UnknownKV, event?: Event) => any) => {
+): ((state: KV<unknown>, event?: Event) => any) => {
   const formattedExpression = `${returnable ? `return ${expression}` : expression}`;
   const resolvedExpression = resolveStateInExpression(formattedExpression, deps);
   const specialPropertiesNames = ['$state', '$el', '$emit', '$event', '$refs'];
@@ -39,7 +39,7 @@ export const computeExpression = (
     target.dispatchEvent(event);
   };
 
-  return (state: UnknownKV, event?: Event) => {
+  return (state: KV<unknown>, event?: Event) => {
     try {
       const value = state[expression];
       if (value) {

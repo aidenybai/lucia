@@ -1,11 +1,11 @@
-import compile from '../../core/compile';
-import { directives } from '../../core/directive';
-import render from '../../core/render';
-import { COMPONENT_FLAG } from '../../models/generics';
-import { ASTNode, DirectiveProps } from '../../models/structs';
-import adjustDeps from '../utils/adjustDeps';
-import { getElementCustomProp, setElementCustomProp } from '../utils/elementCustomProp';
-import { hasDirectiveRE } from '../utils/patterns';
+import compile from '@core/compile';
+import { directives } from '@core/directive';
+import render from '@core/render';
+import { COMPONENT_FLAG } from '@models/generics';
+import { ASTNode, DirectiveProps } from '@models/structs';
+import adjustDeps from '@utils/adjustDeps';
+import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
+import { hasDirectiveRE } from '@utils/patterns';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
   node = node!;

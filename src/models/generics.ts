@@ -6,6 +6,4 @@ export enum DIRECTIVE_SHORTHANDS {
   '@' = 'on',
   ':' = 'bind',
 }
-
-export type UnknownKV = Record<string, unknown>;
-export type StringKV = Record<string, string>;
+export type KV<T> = Record<string, T>;
