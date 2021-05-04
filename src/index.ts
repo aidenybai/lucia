@@ -1,17 +1,10 @@
 // Exports wrapped in Lucia namespace
 import component from './component';
-import compile from '@core/compile';
-import { directives } from '@core/directive';
-import reactive from '@core/reactive';
-import render from '@core/render';
-import computeExpression from '@core/utils/computeExpression';
 import { getElementCustomProp } from '@core/utils/elementCustomProp';
 import { COMPONENT_FLAG, DIRECTIVE_PREFIX } from '@models/generics';
 
-export { component, compile, render, reactive, directives, computeExpression };
-
 // This is generally used for browser builds only, but it can be accessed in bundling environments
-export const init = (element: HTMLElement | Document = document): void => {
+const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll(`[${stateDirective}]`);
   const uninitializedComponents = [...componentElements].filter(
@@ -25,3 +18,5 @@ export const init = (element: HTMLElement | Document = document): void => {
     currentComponent.mount(uninitializedComponent as HTMLElement);
   });
 };
+
+export { init, component };
