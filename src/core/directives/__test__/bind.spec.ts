@@ -26,7 +26,7 @@ describe('.bindDirective', () => {
       data: { value: expression, compute: compute(expression, el), deps: [] },
       state,
     });
-    expect(el.className).toEqual('test2 test');
+    expect(el.className).toEqual('test2');
   });
 
   // it('should not have className prop', () => {
