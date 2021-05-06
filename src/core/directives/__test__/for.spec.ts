@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { FOR_TEMPLATE_FLAG } from '../../../models/generics';
 import compute from '../../utils/computeExpression';
 import { forDirective } from '../for';
@@ -23,7 +25,6 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
 
@@ -53,7 +54,6 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual(
@@ -78,7 +78,6 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
@@ -103,7 +102,6 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li>');
@@ -128,7 +126,6 @@ describe('.forDirective', () => {
       name: 'l-for',
       data,
       state,
-      // @ts-expect-error: node is missing props but good enough for test
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
