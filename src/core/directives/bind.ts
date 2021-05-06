@@ -9,15 +9,14 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
   switch (parts[1]) {
     case 'class': {
       const classes = data.compute(state);
+      const removeDynamicClassesRE = new RegExp(`\\b${Object.keys(classes).join('|')}\\b`, 'gim');
+      const rawClasses = el.className.replace(removeDynamicClassesRE, '');
       // Accept just providing classes regularly
       if (typeof classes === 'string') {
-        return el.setAttribute('class', formatAcceptableWhitespace(`${el.className} ${classes}`));
+        el.className = formatAcceptableWhitespace(`${rawClasses} ${classes}`);
         // Accept providing an array of classes and appending them
       } else if (Array.isArray(classes)) {
-        return el.setAttribute(
-          'class',
-          formatAcceptableWhitespace(`${el.className} ${classes.join(' ')}`)
-        );
+        el.className = formatAcceptableWhitespace(`${rawClasses} ${classes.join(' ')}`);
       } else {
         // Accept binding classes on/off based off of boolean state value
         const activeClasses: string[] = [];
@@ -26,19 +25,13 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
           if (classValue) activeClasses.push(className);
         });
 
-        const removeDynamicClassesRE = new RegExp(`\\b${Object.keys(classes).join('|')}\\b`, 'gim');
-        const rawClasses = el.className.replace(removeDynamicClassesRE, '');
-
         if (activeClasses.length > 0) {
-          return el.setAttribute(
-            'class',
-            formatAcceptableWhitespace(`${rawClasses} ${activeClasses.join(' ')}`)
-          );
+          el.className = formatAcceptableWhitespace(`${rawClasses} ${activeClasses.join(' ')}`);
         } else if (formatAcceptableWhitespace(rawClasses).length > 0) {
-          return el.setAttribute('class', formatAcceptableWhitespace(rawClasses));
-        } else if (el.hasAttribute('class')) {
+          el.className = formatAcceptableWhitespace(rawClasses);
+        } else {
           /* istanbul ignore next */
-          return el.removeAttribute('class');
+          el.className = '';
         }
       }
       break;

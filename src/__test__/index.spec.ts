@@ -1,6 +1,5 @@
 import { COMPONENT_FLAG } from '../models/generics';
 import { Component } from '../component';
-import { getElementCustomProp } from '../core/utils/elementCustomProp';
 import { init } from '../index';
 
 // @ts-expect-error: callback doesn't exist on window, but good enough for test
@@ -15,13 +14,13 @@ describe('.index', () => {
     el.setAttribute('l-state', `{ foo: 'bar' }`);
     root.appendChild(el);
 
-    expect(getElementCustomProp(el, COMPONENT_FLAG)).toBeUndefined();
+    expect(el[COMPONENT_FLAG]).toBeUndefined();
 
     init(fakeEl);
-    expect(getElementCustomProp(el, COMPONENT_FLAG)).toBeUndefined();
+    expect(el[COMPONENT_FLAG]).toBeUndefined();
 
     init(root);
-    expect(getElementCustomProp(el, COMPONENT_FLAG)).toBeDefined();
+    expect(el[COMPONENT_FLAG]).toBeDefined();
   });
 
   it('should create component with empty state', async () => {
@@ -37,7 +36,7 @@ describe('.index', () => {
       return true;
     };
 
-    expect(JSON.stringify((getElementCustomProp(el, COMPONENT_FLAG) as Component).state)).toEqual(
+    expect(JSON.stringify((el[COMPONENT_FLAG] as Component).state)).toEqual(
       JSON.stringify({
         $render: $render.bind([]),
       })

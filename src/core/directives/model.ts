@@ -1,7 +1,6 @@
 import { MODEL_REGISTERED_FLAG } from '@models/generics';
 import { DirectiveData, DirectiveProps, State } from '@models/structs';
 import computeExpression from '@utils/computeExpression';
-import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
 
 export const inputCallback = (
   el: HTMLInputElement,
@@ -58,11 +57,11 @@ export const modelDirective = ({
     el[accessor] = hydratedValue as never;
   }
 
-  if (!getElementCustomProp(el, MODEL_REGISTERED_FLAG)) {
+  if (!el[MODEL_REGISTERED_FLAG]) {
     const callback = () => inputCallback(el, hydratedValue, data, state);
 
     el.addEventListener(parts[1] === 'debounce' ? 'change' : 'input', callback);
 
-    setElementCustomProp(el, MODEL_REGISTERED_FLAG, true);
+    el[MODEL_REGISTERED_FLAG] = true;
   }
 };

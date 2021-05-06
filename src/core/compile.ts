@@ -6,7 +6,6 @@ import {
 } from '@models/generics';
 import { ASTNode, ASTNodeType, DirectiveKV, Refs, State } from '@models/structs';
 import compute from '@utils/computeExpression';
-import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
 import { eventDirectivePrefixRE, expressionPropRE, hasDirectiveRE } from '@utils/patterns';
 import removeDupesFromArray from '@utils/removeDupesFromArray';
 
@@ -83,8 +82,8 @@ export const collectAndInitDirectives = (
     if (eventDirectivePrefixRE().test(name)) returnable = false;
 
     // for directive requires a template
-    if (name.includes('for') && getElementCustomProp(el, FOR_TEMPLATE_FLAG) === undefined) {
-      setElementCustomProp(el, FOR_TEMPLATE_FLAG, String(el.innerHTML).trim());
+    if (name.includes('for') && el[FOR_TEMPLATE_FLAG] === undefined) {
+      el[FOR_TEMPLATE_FLAG] = String(el.innerHTML).trim();
       returnable = false;
     }
 
@@ -155,8 +154,7 @@ export const compile = (
   ignoreRootElement = false
 ): ASTNode[] => {
   const ast: ASTNode[] = [];
-  const isListGroup =
-    getElementCustomProp(el, COMPONENT_FLAG) !== undefined && isListRenderScope(el);
+  const isListGroup = el[COMPONENT_FLAG] !== undefined && isListRenderScope(el);
   const elements: HTMLElement[] = flattenElementChildren(el, isListGroup, ignoreRootElement);
   const maskDirective = `${DIRECTIVE_PREFIX}mask`;
 

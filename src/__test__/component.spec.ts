@@ -1,6 +1,5 @@
 import { component, Component } from '../component';
 import reactive from '../core/reactive';
-import { getElementCustomProp } from '../core/utils/elementCustomProp';
 import { COMPONENT_FLAG } from '../models/generics';
 
 describe('.component', () => {
@@ -34,7 +33,7 @@ describe('.component', () => {
     const app = component(state);
     app.mount(el);
 
-    expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual(app);
+    expect(el[COMPONENT_FLAG]).toEqual(app);
   });
 
   it('should register a watcher', () => {

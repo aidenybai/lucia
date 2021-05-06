@@ -1,5 +1,4 @@
 import { COMPONENT_FLAG } from '../../../models/generics';
-import { getElementCustomProp, setElementCustomProp } from '../elementCustomProp';
 
 describe('.customProp', () => {
   it('should correctly access custom prop', () => {
@@ -8,15 +7,15 @@ describe('.customProp', () => {
     // @ts-expect-error: .component doesn't exist on HTMLElement
     el.component = 'foo';
 
-    expect(getElementCustomProp(el, 'innerHTML')).toEqual('');
-    expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual('foo');
+    expect(el.innerHTML).toEqual('');
+    expect(el[COMPONENT_FLAG]).toEqual('foo');
   });
 
   it('should correctly mutate custom prop', () => {
     const el = document.createElement('div');
 
-    setElementCustomProp(el, COMPONENT_FLAG, 'foo');
+    el[COMPONENT_FLAG] = 'foo';
 
-    expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual('foo');
+    expect(el[COMPONENT_FLAG]).toEqual('foo');
   });
 });

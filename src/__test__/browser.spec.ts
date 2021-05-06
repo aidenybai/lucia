@@ -1,5 +1,4 @@
 import { Component } from '../component';
-import { getElementCustomProp } from '../core/utils/elementCustomProp';
 import { COMPONENT_FLAG } from '../models/generics';
 
 // Reset to clean, uninitialized template~
@@ -15,7 +14,7 @@ const reset = () => {
 const validateComponentFunctionality = (error = false) => {
   const componentElement = document.querySelector('body > div') as HTMLElement;
   const componentText = componentElement.querySelector('p') as HTMLElement;
-  const component = getElementCustomProp(componentElement, COMPONENT_FLAG);
+  const component = componentElement[COMPONENT_FLAG];
 
   if (error) {
     expect(component).toBeUndefined();

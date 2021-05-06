@@ -5,7 +5,6 @@ import compile from '@core/compile';
 import { directives } from '@core/directive';
 import reactive from '@core/reactive';
 import render from '@core/render';
-import { setElementCustomProp } from '@core/utils/elementCustomProp';
 import { ASTNode, Directives, State, Watchers } from '@models/structs';
 
 export class Component {
@@ -35,7 +34,7 @@ export class Component {
 
     this.render();
 
-    setElementCustomProp(rootEl, COMPONENT_FLAG, this);
+    rootEl[COMPONENT_FLAG] = this;
 
     const mountedEvent = new CustomEvent('mounted');
     rootEl.dispatchEvent(mountedEvent);

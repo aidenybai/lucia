@@ -1,6 +1,5 @@
 import { fireEvent } from '@testing-library/dom';
 import compute from '../../utils/computeExpression';
-import { getElementCustomProp } from '../../utils/elementCustomProp';
 import { onDirective } from '../on';
 
 describe('.onDirective', () => {
@@ -19,7 +18,8 @@ describe('.onDirective', () => {
     });
 
     fireEvent.click(el);
-    expect(typeof getElementCustomProp(el, '__on_click_registered')).toEqual('boolean');
+    const CLICK_REGISTERED_FLAG = '__on_click_registered';
+    expect(typeof el[CLICK_REGISTERED_FLAG]).toEqual('boolean');
     expect(callback).toBeCalledTimes(1);
 
     onDirective({

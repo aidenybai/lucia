@@ -1,12 +1,12 @@
 import { DirectiveProps } from '@models/structs';
-import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
 
 export const onDirective = ({ el, parts, data, state }: DirectiveProps): void => {
   const options: Record<string, boolean> = {};
   const globalScopeEventProps = ['outside', 'global'];
   const eventProps = parts.slice(2);
+  const EVENT_REGISTERED_FLAG = `__on_${parts[1]}_registered`;
 
-  if (getElementCustomProp(el, `__on_${parts[1]}_registered`)) return;
+  if (el[EVENT_REGISTERED_FLAG]) return;
 
   const target = globalScopeEventProps.some((prop) => String(eventProps).includes(prop))
     ? window
@@ -45,5 +45,5 @@ export const onDirective = ({ el, parts, data, state }: DirectiveProps): void =>
 
   target.addEventListener(parts[1], handler, options);
 
-  setElementCustomProp(el, `__on_${parts[1]}_registered`, true);
+  el[EVENT_REGISTERED_FLAG] = true;
 };

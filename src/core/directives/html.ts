@@ -4,12 +4,11 @@ import render from '@core/render';
 import { COMPONENT_FLAG } from '@models/generics';
 import { ASTNode, DirectiveProps } from '@models/structs';
 import adjustDeps from '@utils/adjustDeps';
-import { getElementCustomProp, setElementCustomProp } from '@utils/elementCustomProp';
 import { hasDirectiveRE } from '@utils/patterns';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
   node = node!;
-  const marker = getElementCustomProp(el, COMPONENT_FLAG) as ASTNode[];
+  const marker = el[COMPONENT_FLAG] as ASTNode[];
   const ret = data.compute(state) ?? data.value;
 
   if (ret !== el.innerHTML) {
@@ -22,7 +21,7 @@ export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void =
 
       render(ast, directives, state, data.deps);
 
-      setElementCustomProp(el, COMPONENT_FLAG, ast);
+      el[COMPONENT_FLAG] = ast;
     }
   }
 };
