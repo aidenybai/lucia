@@ -13,7 +13,8 @@
     "lint:fix": "eslint src/** --fix",
     "cleanup": "prettier --write src --parser typescript",
     "test": "jest --silent --runInBand",
-    "release": "sh scripts/release.sh"
+    "release": "sh scripts/release.sh",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
