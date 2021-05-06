@@ -9,8 +9,8 @@ export const computeExpression = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ((state: KV<unknown>, event?: Event) => any) => {
   const formattedExpression = `${returnable ? `return ${expression}` : expression}`;
-  // @ts-expect-error: LuciaDirectives doesn't exist on window, but we create it.
-  const customGlobalSpecialProperties = window.Lucia?.specialProperties || {};
+  // @ts-expect-error: LuciaSpecialProperties doesn't exist on window, but we create it.
+  const customGlobalSpecialProperties = window.LuciaSpecialProperties || {};
   const specialPropertiesNames = [
     '$state',
     '$el',
