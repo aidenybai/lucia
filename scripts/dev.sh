@@ -1,1 +1,1 @@
-esbuild src/browser.ts --bundle --watch --sourcemap --outfile=dist/lucia.dev.js
+esbuild src/browser.ts --bundle --watch --sourcemap --global-name=Lucia --outfile=dist/lucia.dev.js

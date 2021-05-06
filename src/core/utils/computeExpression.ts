@@ -10,7 +10,7 @@ export const computeExpression = (
 ): ((state: KV<unknown>, event?: Event) => any) => {
   const formattedExpression = `${returnable ? `return ${expression}` : expression}`;
   // @ts-expect-error: LuciaDirectives doesn't exist on window, but we create it.
-  const customGlobalSpecialProperties = window.LuciaSpecialProperties || {};
+  const customGlobalSpecialProperties = window.Lucia?.specialProperties || {};
   const specialPropertiesNames = [
     '$state',
     '$el',
