@@ -38,6 +38,7 @@ settings.json
 
 # Misc
 .github/
+.husky/
 scripts/
 docs/
 scratch.md
