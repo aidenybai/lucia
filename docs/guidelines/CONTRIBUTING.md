@@ -1,8 +1,8 @@
 # Contributing to Lucia
 
 ### Initial Steps:
-`
-1. Fork this repository and clone it to your local machine`
+
+1. Fork this repository and clone it to your local machine
 2. Make sure you have `yarn` installed. If you don't, run `npm install -g yarn`
 3. Install all packages with the `yarn` command in the project root.
 3. Prepare git hooks by running the `yarn prepare` command in the project root.
