@@ -1,5 +1,4 @@
 import { component, Component } from '../component';
-import { directives } from '../core/directive';
 import reactive from '../core/reactive';
 import { getElementCustomProp } from '../core/utils/elementCustomProp';
 import { COMPONENT_FLAG } from '../models/generics';
@@ -36,22 +35,6 @@ describe('.component', () => {
     app.mount(el);
 
     expect(getElementCustomProp(el, COMPONENT_FLAG)).toEqual(app);
-  });
-
-  it('should register custom directive', () => {
-    const el = document.createElement('div');
-    const state = { foo: 'bar' };
-    const app = component(state);
-    function custom() {
-      return true;
-    }
-    app.directive('custom', custom);
-    app.mount(el);
-
-    expect(JSON.stringify({ ...app.state, $render: custom.bind(Object.keys(state)) })).toEqual(
-      JSON.stringify(reactive(state, custom))
-    );
-    expect({ ...app.directives }).toEqual({ ...directives, CUSTOM: custom });
   });
 
   it('should register a watcher', () => {
