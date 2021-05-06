@@ -39,6 +39,7 @@ settings.json
 # Misc
 .github/
 .husky/
+commitlint.config.js
 scripts/
 docs/
 scratch.md

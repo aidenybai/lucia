@@ -44,12 +44,14 @@
   },
   "homepage": "https://lucia.js.org",
   "engines": {
-    "node": ">=6.4.0"
+    "node": ">=14.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-typescript": "^7.12.7",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-beep": "^0.2.0",
     "@rollup/plugin-commonjs": "18.0.0",
