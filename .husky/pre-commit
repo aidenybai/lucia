@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-printf "Making sure your changes are okay, hold tight!"
+printf "Double checking your commit, hold tight!\n"
 npx --no-install lint-staged --quiet
