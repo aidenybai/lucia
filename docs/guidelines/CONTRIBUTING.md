@@ -13,5 +13,5 @@ Once you are setup, you check out the codebase documentation to learn more!
 ## Next Steps + Useful Info:
 
 - We are using Yarn as our package manager, please do not commit your `package-lock.json` files from NPM
-- Make sure you are upto date by doing `git pull` here and there.
+- Make sure you are up to date by doing `git pull` here and there.
 - Submit a <a href="https://github.com/aidenybai/lucia/pulls">pull request</a>!
