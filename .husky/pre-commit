@@ -1,5 +1,11 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-printf "Double checking your commit, hold tight!\n"
-npx --no-install lint-staged --quiet
+YELLOW_COLOR="\u001b[33m"
+GREEN_COLOR="\033[0;32m"
+RESET_COLOR="\u001b[39m"
+SPACER="                   "
+
+printf "${YELLOW_COLOR}Checking for errors...${RESET_COLOR}"
+npx --no-install lint-staged --quiet || exit 1
+printf "\r${GREEN_COLOR}No errors found. Commiting your changes!${RESET_COLOR}${SPACER}\n"
