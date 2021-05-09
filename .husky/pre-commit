@@ -6,6 +6,6 @@ GREEN_COLOR="\033[0;32m"
 RESET_COLOR="\u001b[39m"
 SPACER="                   "
 
-printf "${YELLOW_COLOR}Checking for errors...${RESET_COLOR}"
+printf "${YELLOW_COLOR}⚠ Checking for errors...${RESET_COLOR}"
 npx --no-install lint-staged --quiet || exit 1
-printf "\r${GREEN_COLOR}No errors found. Commiting your changes!${RESET_COLOR}${SPACER}\n"
+printf "\r${GREEN_COLOR}✓ No errors found. Committing your changes!${RESET_COLOR}${SPACER}\n"
