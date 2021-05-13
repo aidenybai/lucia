@@ -1,63 +1,54 @@
-import { component, Component } from '../component';
+import { component } from '../component';
 import reactive from '../core/reactive';
 import { COMPONENT_FLAG } from '../models/generics';
 
 describe('.component', () => {
   it('should create and mount component properly', () => {
     const el = document.createElement('div');
-    const state = { foo: 'bar' };
+    const state = () => ({ foo: 'bar' });
     const app = component(state);
-    app.mount(el);
+    app.init(el);
 
-    expect(typeof app.directives).toEqual('object');
-    expect(Array.isArray(app.ast)).toEqual(true);
+    expect(app).toBeDefined();
   });
 
   it('should have an empty object as the default state', () => {
-    const app = component({});
+    const app = component(() => ({}));
 
-    expect(app.state).toEqual({});
-  });
-
-  it('should have component() return value equal to new Component instance', () => {
-    const app1 = new Component({});
-    const app2 = component({});
-
-    expect(app1).toEqual(app2);
-    expect(app1.state).toEqual(app2.state);
+    expect(app.state()).toEqual({});
   });
 
   it('should have component property on mount', () => {
     const el = document.createElement('div');
-    const state = { foo: 'bar' };
+    const state = () => ({ foo: 'bar' });
     const app = component(state);
-    app.mount(el);
+    const c = app.init(el);
 
-    expect(el[COMPONENT_FLAG]).toEqual(app);
+    expect(el[COMPONENT_FLAG]).toEqual(c);
   });
 
   it('should register a watcher', () => {
     const el = document.createElement('div');
-    const state = { foo: 'bar' };
+    const state = () => ({ foo: 'bar' });
     const app = component(state);
     function custom() {
       return true;
     }
     app.watch('custom', custom);
-    app.mount(el);
+    const c = app.init(el);
 
-    expect(JSON.stringify({ ...app.state, $render: custom.bind(Object.keys(state)) })).toEqual(
-      JSON.stringify(reactive(state, custom))
+    expect(JSON.stringify({ ...c.state, $render: custom.bind(Object.keys(state())) })).toEqual(
+      JSON.stringify(reactive(state(), custom))
     );
     expect({ ...app.watchers }).toEqual({ custom });
   });
 
   it('should render if render() is manually called', () => {
     const el = document.createElement('div');
-    const state = { foo: 'bar' };
+    const state = () => ({ foo: 'bar' });
     const app = component(state);
-    app.mount(el);
+    const c = app.init(el);
 
-    expect(() => app.render()).not.toThrowError();
+    expect(() => c.render()).not.toThrowError();
   });
 });
