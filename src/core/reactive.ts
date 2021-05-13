@@ -1,5 +1,6 @@
 import { KV } from '@models/generics';
 import { State, Watchers } from '@models/structs';
+import { error } from '@utils/log';
 
 export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]): boolean => {
   // Deep Array equality check
@@ -16,13 +17,19 @@ export const reactive = (
   render: (props: string[]) => void,
   watchers: Watchers = {}
 ): State => {
+  const supportedObjectTypes = ['Object', 'Array'].map((type: string) => `[object ${type}]`);
   const handler = {
     get(target: KV<unknown>, key: string): unknown {
       const ret = target[key];
-
       if (typeof ret === 'object' && ret !== null) {
-        // Deep proxy - if there is an object in an object, need to proxify that.
-        return new Proxy(ret, handler);
+        const objectType = Object.prototype.toString.call(ret);
+        if (supportedObjectTypes.includes(objectType)) {
+          // Deep proxy - if there is an object in an object, need to proxify that.
+          return new Proxy(ret as KV<unknown>, handler);
+        } else {
+          error(`Data type ${objectType} is not supported`);
+          return ret;
+        }
       } else {
         return ret;
       }

@@ -1,5 +1,6 @@
 import { KV } from '@models/generics';
 import { Refs } from '@models/structs';
+import { error } from '@utils/log';
 
 export const computeExpression = (
   expression: string,
@@ -48,7 +49,7 @@ export const computeExpression = (
         );
       }
     } catch (err) {
-      console.warn(`Lucia Error: "${err}"\n\nExpression: "${expression}"\nElement:`, el);
+      error(err, expression, el);
     }
   };
 };
