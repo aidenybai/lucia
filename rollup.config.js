@@ -29,7 +29,16 @@ const generateConfig = (input, config) => ({
     }),
     typescript({
       useTsconfigDeclarationDir: true,
-      tsconfigOverride: { compilerOptions: { target: config.target } },
+      typescript: require('ttypescript'),
+      tsconfigOverride: {
+        compilerOptions: {
+          target: config.target,
+          plugins: [
+            { transform: 'typescript-transform-paths' },
+            { transform: 'typescript-transform-paths', afterDeclarations: true },
+          ],
+        },
+      },
     }),
     strip({
       functions: ['console.log'],
