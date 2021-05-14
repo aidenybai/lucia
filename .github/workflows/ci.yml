@@ -1,4 +1,4 @@
-name: test-runner
+name: ci
 
 on:
   push:
