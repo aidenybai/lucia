@@ -27,26 +27,6 @@ jobs:
           github-token: ${{ secrets.github_token }}
           flag-name: run-${{ matrix.test_number }}
           parallel: true
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 15
-          registry-url: https://npm.pkg.github.com/
-          scope: "@OWNER"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: yarn install --frozen-lockfile
-      - run: echo @OWNER:registry=https://npm.pkg.github.com/ >> .npmrc
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   finish:
     needs: build
@@ -55,5 +35,5 @@ jobs:
       - name: Coveralls Finished
         uses: coverallsapp/github-action@master
         with:
-          github-token: ${{ secrets.github_token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
