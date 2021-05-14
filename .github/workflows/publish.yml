@@ -7,7 +7,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-
+    strategy:
+      matrix:
+        node-version: [15.x]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -19,6 +22,9 @@ jobs:
   publish-gpr:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [15.x]
     permissions:
       contents: read
       packages: write
