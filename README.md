@@ -6,7 +6,7 @@
 
 Lucia is a tiny JavaScript library for web applications.
 
-Torvalds was here
+Torvalds was here nice to meet you
 
 - **Declarative:** Lucia makes it painless to create interactive UIs. Declarative views make your code more predictable, simpler to understand, and easier to debug.
 - **Reactive:** When a data point is changed, the loose Virtual DOM will react and will update and render the points in realtime.
