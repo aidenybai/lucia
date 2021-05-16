@@ -52,22 +52,24 @@ export const build = (input, config) => {
   });
 
   // Production build
-  buildOutput.push({
-    file: config.output[1],
-    format: config.format,
-    plugins: [
-      terser(),
-      filesize({
-        showBrotliSize: true,
-        showMinifiedSize: false,
-        showBeforeSizes: 'release',
-        showGzippedSize: false,
-      }),
-    ],
-    name,
-    globals: {},
-    strict: true,
-  });
+  if (config.output.length === 2) {
+    buildOutput.push({
+      file: config.output[1],
+      format: config.format,
+      plugins: [
+        terser(),
+        filesize({
+          showBrotliSize: true,
+          showMinifiedSize: false,
+          showBeforeSizes: 'release',
+          showGzippedSize: false,
+        }),
+      ],
+      name,
+      globals: {},
+      strict: true,
+    });
+  }
 
   return generateConfig(input, {
     output: buildOutput,
@@ -76,19 +78,19 @@ export const build = (input, config) => {
 };
 
 export default [
-  build('./src/browser.ts', {
-    output: ['dist/lucia.js', 'dist/lucia.min.js'],
-    format: 'iife',
-    target: 'es2018',
-  }),
   build('./src/index.ts', {
-    output: ['dist/lucia.esm.js', 'dist/lucia.esm.min.js'],
+    output: ['dist/lucia.esm.js'],
     format: 'esm',
     target: 'es2018',
   }),
   build('./src/index.ts', {
-    output: ['dist/lucia.cjs.js', 'dist/lucia.cjs.min.js'],
+    output: ['dist/lucia.cjs.js'],
     format: 'cjs',
     target: 'es2018',
+  }),
+  build('./src/browser.ts', {
+    output: ['dist/lucia.js', 'dist/lucia.min.js'],
+    format: 'iife',
+    target: 'es5',
   }),
 ];

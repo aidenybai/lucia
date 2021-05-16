@@ -21,10 +21,10 @@
     "url": "git+https://github.com/aidenybai/lucia.git"
   },
   "exports": {
-    "require": "./dist/lucia.cjs.min.js",
-    "import": "./dist/lucia.esm.min.js",
-    "node": "./dist/lucia.cjs.min.js",
-    "default": "./dist/lucia.cjs.min.js"
+    "require": "./dist/lucia.cjs.js",
+    "import": "./dist/lucia.esm.js",
+    "node": "./dist/lucia.cjs.js",
+    "default": "./dist/lucia.cjs.js"
   },
   "sideEffects": false,
   "keywords": [
