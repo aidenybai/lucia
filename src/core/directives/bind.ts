@@ -32,6 +32,7 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
         } else {
           /* istanbul ignore next */
           el.className = '';
+          el.removeAttribute('class');
         }
       }
       break;

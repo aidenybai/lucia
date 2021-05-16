@@ -148,6 +148,18 @@ export const flattenElementChildren = (
   return collection;
 };
 
+const isElementInViewport = (el: HTMLElement): boolean => {
+  const rect = el.getBoundingClientRect();
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+
+  // https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
+  const verticalInView = rect.top <= windowHeight && rect.top + rect.height >= 0;
+  const horizontalInView = rect.left <= windowWidth && rect.left + rect.width >= 0;
+
+  return verticalInView && horizontalInView;
+};
+
 export const compile = (
   el: HTMLElement,
   state: State = {},
@@ -165,7 +177,9 @@ export const compile = (
     }
     if (hasDirectiveRE().test(element.outerHTML)) {
       const newASTNode = createASTNode(element, state);
-      if (newASTNode) ast.push(newASTNode);
+      if (newASTNode) {
+        ast[isElementInViewport(element) ? 'unshift' : 'push'](newASTNode);
+      }
     }
   });
 
