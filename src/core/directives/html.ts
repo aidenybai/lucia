@@ -7,6 +7,7 @@ import adjustDeps from '@utils/adjustDeps';
 import { hasDirectiveRE } from '@utils/patterns';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   node = node!;
   const marker = el[COMPONENT_FLAG] as ASTNode[];
   const ret = data.compute(state) ?? data.value;

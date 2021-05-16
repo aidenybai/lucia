@@ -66,11 +66,12 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
 
   if (!originalAST) {
     // Deps recompiled because child nodes may have additional deps
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     adjustDeps(el[COMPONENT_FLAG] as ASTNode[], data.deps, node!, 'for');
     el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 
   // Only recompile if there is no increase/decrease in array size, else use the original AST
   const ast = arrayDiff === 0 ? (originalAST as ASTNode[]) : compile(el, state, true);
-  render(ast || [], directives, state, node!.deps);
+  render(ast || [], directives, state, node?.deps);
 };
