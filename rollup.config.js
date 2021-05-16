@@ -3,30 +3,19 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import filesize from 'rollup-plugin-filesize';
-import babel from '@rollup/plugin-babel';
+import eslint from '@rollup/plugin-eslint';
 import strip from '@rollup/plugin-strip';
 import beep from '@rollup/plugin-beep';
 
 const name = 'Lucia';
-const legacy = () => {
-  return babel({
-    extensions: ['.ts'],
-    babelHelpers: 'bundled',
-    include: ['src/**/*'],
-  });
-};
 
 const generateConfig = (input, config) => ({
   input,
   external: [],
   plugins: [
+    eslint(),
     commonjs(),
     resolve({ extensions: ['.ts'] }),
-    filesize({
-      showBrotliSize: true,
-      showMinifiedSize: false,
-      showGzippedSize: false,
-    }),
     typescript({
       useTsconfigDeclarationDir: true,
       typescript: require('ttypescript'),
@@ -45,7 +34,6 @@ const generateConfig = (input, config) => ({
       include: '**/*.(ts)',
     }),
     beep(),
-    config.legacy ? legacy() : undefined,
   ],
   output: config.output,
   onwarn: () => {},
@@ -67,7 +55,15 @@ export const build = (input, config) => {
   buildOutput.push({
     file: config.output[1],
     format: config.format,
-    plugins: [terser({ format: { comments: false } })],
+    plugins: [
+      terser(),
+      filesize({
+        showBrotliSize: true,
+        showMinifiedSize: false,
+        showBeforeSizes: 'release',
+        showGzippedSize: false,
+      }),
+    ],
     name,
     globals: {},
     strict: true,
@@ -75,7 +71,6 @@ export const build = (input, config) => {
 
   return generateConfig(input, {
     output: buildOutput,
-    legacy: config.legacy,
     target: config.target,
   });
 };
@@ -95,11 +90,5 @@ export default [
     output: ['dist/lucia.cjs.js', 'dist/lucia.cjs.min.js'],
     format: 'cjs',
     target: 'es2018',
-  }),
-  build('./src/index.ts', {
-    output: ['dist/legacy/lucia.cjs.js', 'dist/legacy/lucia.cjs.min.js'],
-    format: 'cjs',
-    target: 'es5',
-    legacy: true,
   }),
 ];
