@@ -27,10 +27,10 @@ export class Component {
       typeof el === 'string'
         ? document.querySelector<HTMLElement>(el) || document.body
         : (el as HTMLElement);
-    const newState = { ...this.state, $render: this.render.bind(this) };
+    const finalState = { ...this.state, $render: this.render.bind(this) };
 
     this.ast = compile(rootEl, this.state);
-    this.state = reactive(newState, this.render.bind(this), this.watchers);
+    this.state = reactive(finalState, this.render.bind(this), this.watchers);
 
     this.render();
 
