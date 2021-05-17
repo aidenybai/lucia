@@ -1,14 +1,22 @@
-name: auto-merge
+name: Auto Merge
 
 on:
-  pull_request:
+  workflow_run:
+    types:
+      - completed
+    workflows:
+      - 'CI'
 
 jobs:
-  auto-merge:
+  merge-me:
+    name: Merge me!
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - name: Merge me!
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        uses: ridedott/merge-me-action@v2
         with:
-          target: patch
-          github-token: ${{ secrets.ACTION_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRESET: DEPENDABOT_PATCH
