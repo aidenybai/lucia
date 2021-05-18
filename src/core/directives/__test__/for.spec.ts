@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { FOR_TEMPLATE_FLAG } from '../../../models/generics';
+import { COMPONENT_FLAG, FOR_TEMPLATE_FLAG } from '../../../models/generics';
 import compute from '../../utils/computeExpression';
 import { forDirective } from '../for';
 
@@ -129,5 +129,119 @@ describe('.forDirective', () => {
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
+  });
+
+  it('should use default AST if available', () => {
+    const el = document.createElement('p');
+    const expression = `_ in foo`;
+    const state = { foo: ['bar', 'bar', 'bar'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
+
+    el[FOR_TEMPLATE_FLAG] = '<li></li>';
+    el[FOR_STATE_FLAG] = ['bar', 'bar', 'bar'];
+    el[COMPONENT_FLAG] = [];
+
+    el.innerHTML = '<li></li><li></li><li></li><li></li>';
+    forDirective({
+      el,
+      name: 'l-for',
+      data,
+      state,
+      node: { el, directives: { for: data } },
+    });
+    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
+  });
+
+  it('should handle user provided array if available', () => {
+    const el = document.createElement('p');
+    const expression = `_ in ['bar', 'bar', 'bar']`;
+    const state = {};
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: [],
+    };
+
+    el[FOR_TEMPLATE_FLAG] = '<li></li>';
+    el[FOR_STATE_FLAG] = ['bar', 'bar', 'bar'];
+    el[COMPONENT_FLAG] = [];
+
+    el.innerHTML = '<li></li><li></li><li></li><li></li>';
+    forDirective({
+      el,
+      name: 'l-for',
+      data,
+      state,
+      node: { el, directives: { for: data } },
+    });
+    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
+  });
+
+  it('should rerender if arrayDiff is not 0', () => {
+    const el = document.createElement('p');
+    const expression = `_ in foo`;
+    const state = { foo: ['bar', 'bar', 'bar'] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
+
+    el[FOR_TEMPLATE_FLAG] = '<li></li>';
+    el[FOR_STATE_FLAG] = ['bar', 'bar', 'bar'];
+    el[COMPONENT_FLAG] = [];
+
+    el.innerHTML = '<li></li><li></li><li></li><li></li>';
+    forDirective({
+      el,
+      name: 'l-for',
+      data,
+      state,
+      node: { el, directives: { for: data } },
+    });
+    forDirective({
+      el,
+      name: 'l-for',
+      data,
+      state,
+      node: { el, directives: { for: data } },
+    });
+    expect(el.innerHTML).toEqual('<li></li><li></li><li></li>');
+  });
+
+  it('should clear innerHTML if currArray is 0', () => {
+    const el = document.createElement('p');
+    const expression = `_ in foo`;
+    const state = { foo: [] };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: ['foo'],
+    };
+
+    el[FOR_TEMPLATE_FLAG] = '<li></li>';
+    el[FOR_STATE_FLAG] = [];
+    el[COMPONENT_FLAG] = [];
+
+    el.innerHTML = '<li></li>';
+    forDirective({
+      el,
+      name: 'l-for',
+      data,
+      state,
+      node: { el, directives: { for: data } },
+    });
+    forDirective({
+      el,
+      name: 'l-for',
+      data,
+      state,
+      node: { el, directives: { for: data } },
+    });
+    expect(el.innerHTML).toEqual('');
   });
 });

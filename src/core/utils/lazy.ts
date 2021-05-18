@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 // Lazy allows us to delay render calls if the main thread is blocked
 // This is kind of like time slicing in React but less advanced
 

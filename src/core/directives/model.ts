@@ -34,6 +34,7 @@ export const inputCallback = (
     payload = String(el.value);
   }
 
+  /* istanbul ignore next */
   if (state[data.value]) {
     state[data.value] = payload;
   } else {
@@ -44,6 +45,7 @@ export const inputCallback = (
   return payload;
 };
 
+/* istanbul ignore next */
 export const modelDirective = ({
   el: awaitingTypecastEl,
   parts,

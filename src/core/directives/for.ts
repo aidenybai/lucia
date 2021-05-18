@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 import compile from '@core/compile';
 import { directives } from '@core/directive';
 import render from '@core/render';
@@ -36,6 +34,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
         let content = String(template);
         const isTable = /^[^\S]*?<(t(?:head|body|foot|r|d|h))/i.test(content);
 
+        /* istanbul ignore next */
         if (item) {
           content = content.replace(
             expressionPropRE(`this\\.${item.trim()}`),
@@ -73,5 +72,6 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
 
   // Only recompile if there is no increase/decrease in array size, else use the original AST
   const ast = arrayDiff === 0 ? (originalAST as ASTNode[]) : compile(el, state, true);
-  render(ast || [], directives, state, node?.deps);
+  /* istanbul ignore next */
+  render(ast || [], directives, state, node?.deps || []);
 };

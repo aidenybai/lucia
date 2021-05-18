@@ -42,6 +42,7 @@ export const collectRefs = (): Refs => {
   return refs;
 };
 
+/* istanbul ignore next */
 export const collectAndInitDirectives = (
   el: HTMLElement,
   state: State = {}
@@ -97,6 +98,7 @@ export const collectAndInitDirectives = (
     };
 
     // Handle normal and shorthand directives
+    /* istanbul ignore next */
     const directiveName = hasDirectivePrefix
       ? name.slice(DIRECTIVE_PREFIX.length)
       : `${DIRECTIVE_SHORTHANDS[name[0]]}:${name.slice(1)}`;
@@ -122,6 +124,7 @@ export const flattenElementChildren = (
   if (!ignoreRootElement && (!isListGroup || !isList)) collection.push(rootElement);
 
   // Is not a list or under a list, but pass if is a list group
+  /* istanbul ignore next */
   if (isListGroup || (!isList && !isUnderList)) {
     for (const childElement of rootElement.children) {
       // Check if childElement has attributes
@@ -148,11 +151,7 @@ export const flattenElementChildren = (
   return collection;
 };
 
-export const compile = (
-  el: HTMLElement,
-  state: State = {},
-  ignoreRootElement = false
-): ASTNode[] => {
+export const compile = (el: HTMLElement, state: State, ignoreRootElement = false): ASTNode[] => {
   const ast: ASTNode[] = [];
   const isListGroup = el[COMPONENT_FLAG] !== undefined && isListRenderScope(el);
   const elements: HTMLElement[] = flattenElementChildren(el, isListGroup, ignoreRootElement);

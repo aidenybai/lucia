@@ -20,6 +20,7 @@ export const computeExpression = (
 
   const emit = (name: string, options?: CustomEventInit, dispatchGlobal = true) => {
     const event = new CustomEvent(name, options);
+    /* istanbul ignore next */
     const target = dispatchGlobal ? window : el || window;
     target.dispatchEvent(event);
   };

@@ -67,4 +67,13 @@ describe('.reactive', () => {
 
     expect(result).toEqual('bar');
   });
+
+  it('should break on unsupported type', () => {
+    const foo = new Map();
+    const state = { foo };
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const proxy = reactive(state, () => {});
+
+    expect(proxy.foo).toEqual(foo);
+  });
 });

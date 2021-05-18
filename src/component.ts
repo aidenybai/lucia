@@ -1,21 +1,17 @@
-/* istanbul ignore file */
-
 import compile from '@core/compile';
 import { directives } from '@core/directive';
 import reactive from '@core/reactive';
 import render from '@core/render';
 import { COMPONENT_FLAG } from '@models/generics';
-import { ASTNode, Directives, State } from '@models/structs';
+import { ASTNode, State } from '@models/structs';
 
 export class Component {
   public state: State;
-  public directives: Directives;
   public ast: ASTNode[];
 
-  constructor(state: State = {}) {
+  constructor(state: State) {
     this.ast = [];
     this.state = state;
-    this.directives = directives;
   }
 
   public mount(el: HTMLElement | string): void {

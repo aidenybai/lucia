@@ -1,5 +1,6 @@
 import compute from '../../core/utils/computeExpression';
 import {
+  collectAndInitDirectives,
   compile,
   createASTNode,
   flattenElementChildren,
@@ -134,5 +135,24 @@ describe('.compile', () => {
       expect(normalCollection).toEqual([layer1El, forLoopEl]);
       done();
     }, 0);
+  });
+
+  it('should collect and init directives', () => {
+    const el = document.createElement('div');
+    el.setAttribute('l-text', 'foo');
+
+    const [directives, deps] = collectAndInitDirectives(el, { foo: 'bar' });
+
+    expect(JSON.stringify(directives)).toEqual(
+      JSON.stringify({
+        text: {
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          compute: () => {},
+          deps: ['foo'],
+          value: 'foo',
+        },
+      })
+    );
+    expect(deps).toEqual(['foo']);
   });
 });

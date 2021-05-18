@@ -7,13 +7,14 @@ import { rawDirectiveSplitRE } from '@utils/patterns';
 const render = (
   ast: ASTNode[],
   directives: Directives,
-  state: KV<unknown> = {},
-  changedProps: string[] = []
+  state: KV<unknown>,
+  changedProps: string[]
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
   const LAZY_MODE_TIMEOUT = 25;
 
   lazy(LAZY_MODE_TIMEOUT, function* () {
+    /* istanbul ignore next */
     for (const node of ast) {
       if (node.type === ASTNodeType.NULL) continue;
       const isStatic = node.type === ASTNodeType.STATIC;

@@ -51,4 +51,29 @@ describe('.htmlDirective', () => {
     });
     expect(el.innerHTML).toEqual('<p>foo</p>');
   });
+
+  it('should set the html to the value', () => {
+    const el = document.createElement('div');
+    const expression = 'foo';
+    const state = { foo: `<p l-text="bar"></p>` };
+    const data = {
+      value: expression,
+      compute: compute(expression, el),
+      deps: [],
+    };
+    const node = {
+      el,
+      directives: { html: data },
+      deps: [],
+      type: 1,
+    };
+    htmlDirective({
+      el,
+      parts: ['html'],
+      data,
+      state,
+      node,
+    });
+    expect(el.innerHTML).toEqual(`<p l-text="bar">bar</p>`);
+  });
 });

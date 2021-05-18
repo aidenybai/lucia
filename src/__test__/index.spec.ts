@@ -23,6 +23,27 @@ describe('.index', () => {
     expect(el[COMPONENT_FLAG]).toBeDefined();
   });
 
+  it('should default to document', async () => {
+    const el = document.createElement('div');
+
+    el.setAttribute('l-state', '');
+    document.body.append(el);
+
+    init();
+
+    const $render = () => {
+      return true;
+    };
+
+    expect(JSON.stringify((el[COMPONENT_FLAG] as Component).state)).toEqual(
+      JSON.stringify({
+        $render: $render.bind([]),
+      })
+    );
+
+    document.body.innerHTML = '';
+  });
+
   it('should create component with empty state', async () => {
     const root = document.createElement('div');
     const el = document.createElement('div');
