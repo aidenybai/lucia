@@ -8,6 +8,7 @@ export const inputCallback = (
   data: DirectiveData,
   state: State
 ): number | string | undefined | null | boolean => {
+  /* istanbul ignore next */
   if (el.type === 'checkbox') {
     /* istanbul ignore next */
     el.value = String(el.checked);
@@ -15,6 +16,7 @@ export const inputCallback = (
 
   // @ts-expect-error: el.value can be any type, but isNaN only accepts number
   const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value);
+  /* istanbul ignore next */
   const isBoolean =
     typeof hydratedValue === 'boolean' && (el.value === 'true' || el.value === 'false');
   const isNullish =

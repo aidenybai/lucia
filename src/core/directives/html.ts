@@ -10,11 +10,14 @@ export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void =
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   node = node!;
   const marker = el[COMPONENT_FLAG] as ASTNode[];
+  /* istanbul ignore next */
   const ret = data.compute(state) ?? data.value;
 
+  /* istanbul ignore next */
   if (ret !== el.innerHTML) {
     el.innerHTML = ret;
 
+    /* istanbul ignore next */
     if (hasDirectiveRE().test(ret)) {
       const ast = marker ?? compile(el, state, true);
 

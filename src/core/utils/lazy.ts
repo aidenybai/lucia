@@ -14,6 +14,7 @@ export const lazy = (
       task = generator.next();
     } while (performance.now() - start < threshold && !task.done);
 
+    /* istanbul ignore next */
     if (task.done) return;
     /* istanbul ignore next */
     setTimeout(next);
