@@ -4,7 +4,7 @@ content="<!DOCTYPE html>
     <meta charset=\"utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
     <script type=\"module\">
-      import { init, component } from './src/browser.ts';
+      import { init, component } from './src/index.ts';
       init();
     </script>
   </head>
