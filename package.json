@@ -7,7 +7,7 @@
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "dev": "sh scripts/dev.sh",
+    "dev": "vite",
     "build": "sh scripts/build.sh",
     "lint": "eslint src/**",
     "lint:fix": "eslint src/** --fix",
@@ -81,6 +81,7 @@
     "tslib": "^2.2.0",
     "ttypescript": "^1.5.12",
     "typescript": "^4.2.4",
-    "typescript-transform-paths": "^2.2.3"
+    "typescript-transform-paths": "^2.2.3",
+    "vite": "^2.3.3"
   }
 }
