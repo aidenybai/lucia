@@ -57,7 +57,6 @@ export class ComponentFactory {
   public init(el: HTMLElement | string): Component {
     const c = new Component(this.state(), this.watchers);
     c.mount(el);
-    console.log(c);
     return c;
   }
 
