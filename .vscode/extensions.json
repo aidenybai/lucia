@@ -4,6 +4,6 @@
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "aidenybai.lucia",
-    "ritwickdey.liveserver"
+    "antfu.vite"
   ]
 }
