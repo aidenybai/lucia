@@ -3,7 +3,6 @@
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "aidenybai.lucia",
-    "antfu.vite"
+    "aidenybai.lucia"
   ]
 }

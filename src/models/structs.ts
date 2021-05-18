@@ -1,7 +1,6 @@
 import { KV } from './generics';
 
 export type Directives = KV<(props: DirectiveProps) => void>;
-export type Watchers = KV<() => void>;
 export type Refs = KV<HTMLElement>;
 export type State = KV<unknown>;
 

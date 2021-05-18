@@ -1,5 +1,5 @@
 import { KV } from '@models/generics';
-import { State, Watchers } from '@models/structs';
+import { State } from '@models/structs';
 import { error } from '@utils/log';
 
 export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]): boolean => {
@@ -12,11 +12,7 @@ export const arrayEquals = (firstArray: unknown[], secondArray: unknown[]): bool
   );
 };
 
-export const reactive = (
-  state: State,
-  render: (props: string[]) => void,
-  watchers: Watchers = {}
-): State => {
+export const reactive = (state: State, render: (props: string[]) => void): State => {
   const supportedObjectTypes = ['Object', 'Array'].map((type: string) => `[object ${type}]`);
   const handler = {
     get(target: KV<unknown>, key: string): unknown {
@@ -64,10 +60,6 @@ export const reactive = (
 
       target[key] = value;
       render(props);
-      Object.entries(watchers).forEach(([prop, watcher]) => {
-        /* istanbul ignore next */
-        if (props.includes(prop)) watcher();
-      });
 
       return true;
     },

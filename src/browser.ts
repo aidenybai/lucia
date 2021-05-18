@@ -5,19 +5,7 @@
 import { init, component } from './index';
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    // Lucia allows for a custom initialization function
-    // This is to support for delayed init, like for Turbo Drive
-
-    // @ts-expect-error: LuciaInit doesn't exist on window, but we create it.
-    const initCallback = window.LuciaInit;
-
-    if (initCallback) {
-      init(initCallback);
-    } else {
-      init();
-    }
-  });
+  document.addEventListener('DOMContentLoaded', () => init());
 }
 
 export { init, component };

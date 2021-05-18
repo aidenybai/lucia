@@ -12,10 +12,10 @@ const init = (element: HTMLElement | Document = document): void => {
 
   uninitializedComponents.forEach((uninitializedComponent) => {
     const stateExpression = uninitializedComponent.getAttribute(stateDirective);
-    const state = () => new Function(`return ${stateExpression}`)() || {};
+    const state = new Function(`return ${stateExpression}`)() || {};
     const currentComponent = component(state);
 
-    currentComponent.init(uninitializedComponent);
+    currentComponent.mount(uninitializedComponent);
   });
 };
 

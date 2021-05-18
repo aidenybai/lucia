@@ -10,16 +10,7 @@ export const computeExpression = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ((state: KV<unknown>, event?: Event) => any) => {
   const formattedExpression = `${returnable ? `return ${expression}` : expression}`;
-  // @ts-expect-error: LuciaSpecialProperties doesn't exist on window, but we create it.
-  const customGlobalSpecialProperties = window.LuciaSpecialProperties || {};
-  const specialPropertiesNames = [
-    '$state',
-    '$el',
-    '$emit',
-    '$event',
-    '$refs',
-    ...Object.keys(customGlobalSpecialProperties),
-  ];
+  const specialPropertiesNames = ['$state', '$el', '$emit', '$event', '$refs'];
 
   // This "revives" a function from a string, only using the new Function syntax once during compilation.
   // This is because raw function is ~50,000x faster than new Function
@@ -39,14 +30,7 @@ export const computeExpression = (
       if (value) {
         return typeof value === 'function' ? value.bind(state)() : value;
       } else {
-        return computeFunction(
-          state,
-          el,
-          emit,
-          event,
-          refs,
-          ...Object.values(customGlobalSpecialProperties)
-        );
+        return computeFunction(state, el, emit, event, refs);
       }
     } catch (err) {
       error(err, expression, el);

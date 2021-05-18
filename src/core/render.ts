@@ -1,4 +1,4 @@
-import { DIRECTIVE_PREFIX, KV } from '@models/generics';
+import { KV } from '@models/generics';
 import { ASTNode, ASTNodeType, Directives } from '@models/structs';
 import { renderDirective } from './directive';
 import lazy from '@utils/lazy';
@@ -31,8 +31,6 @@ const render = (
         yield;
         // Iterate through affected and check if directive value has prop
         const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
-
-        const isMaskDirective = directiveName === `${DIRECTIVE_PREFIX}mask`;
         const isStaticDirective = Object.keys(directiveData.deps).length === 0;
 
         // If affected, then push to render queue
@@ -47,20 +45,10 @@ const render = (
 
           renderDirective(directiveProps, directives);
 
-          if (isStaticDirective || isMaskDirective) {
+          if (isStaticDirective) {
             delete node.directives[directiveName];
-            if (isMaskDirective) {
-              /* istanbul ignore next */
-              node.el.removeAttribute(`${DIRECTIVE_PREFIX}mask`);
-            }
           }
         }
-      }
-
-      // Effect is like a watcher but detects changes to an el
-      if (node.directives['on:effect']) {
-        const effectEvent = new CustomEvent('effect');
-        node.el.dispatchEvent(effectEvent);
       }
     }
   })();

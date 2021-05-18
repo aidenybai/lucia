@@ -7,9 +7,6 @@ import { onDirective } from '@directives/on';
 import { showDirective } from '@directives/show';
 import { textDirective } from '@directives/text';
 
-// @ts-expect-error: LuciaDirectives doesn't exist on window, but we create it.
-const customGlobalDirectives = window.LuciaDirectives || {};
-
 export const directives: Directives = {
   BIND: bindDirective,
   HTML: htmlDirective,
@@ -18,7 +15,6 @@ export const directives: Directives = {
   ON: onDirective,
   TEXT: textDirective,
   FOR: forDirective,
-  ...customGlobalDirectives,
 };
 
 export const renderDirective = (props: DirectiveProps, directives: Directives): void => {
