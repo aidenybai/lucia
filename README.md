@@ -54,9 +54,9 @@ Have a question about Lucia? Post it on the [GitHub Discussions](https://github.
 
 Find a bug? Head over to our [issue tracker](https://github.com/aidenybai/lucia/issues) and we'll do our best to help. We love pull requests, too!
 
-We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/docs/guidelines/CODE_OF_CONDUCT.md).
+We expect all Lucia contributors to abide by the terms of our [Code of Conduct](https://github.com/aidenybai/lucia/blob/master/.github/CODE_OF_CONDUCT.md).
 
-[**→ Start contributing on GitHub**](https://github.com/aidenybai/lucia/tree/master/docs#readme)
+[**→ Start contributing on GitHub**](https://github.com/aidenybai/lucia/wiki)
 
 ## Acknowledgments
 
