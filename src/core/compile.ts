@@ -31,9 +31,9 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
 };
 
 /* istanbul ignore next */
-export const collectRefs = (): Refs => {
+export const collectRefs = (element: HTMLElement | Document = document): Refs => {
   const refDirective = `${DIRECTIVE_PREFIX}ref`;
-  const refElements = document.querySelectorAll(`[${refDirective}]`);
+  const refElements = element.querySelectorAll(`[${refDirective}]`);
   const refs = {};
   refElements.forEach((refElement) => {
     const name = refElement.getAttribute(refDirective);

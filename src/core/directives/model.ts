@@ -16,7 +16,6 @@ export const inputCallback = (
 
   // @ts-expect-error: el.value can be any type, but isNaN only accepts number
   const isNumber = typeof hydratedValue === 'number' && !isNaN(el.value);
-  /* istanbul ignore next */
   const isBoolean =
     typeof hydratedValue === 'boolean' && (el.value === 'true' || el.value === 'false');
   const isNullish =
@@ -41,7 +40,7 @@ export const inputCallback = (
     state[data.value] = payload;
   } else {
     payload = typeof payload === 'string' ? `'${payload}'` : payload;
-    computeExpression(`$state.${data.value} = ${payload}`, el, true)(state);
+    computeExpression(`${data.value} = ${payload}`, el, true)(state);
   }
 
   return payload;

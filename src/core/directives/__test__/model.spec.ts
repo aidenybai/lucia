@@ -39,16 +39,16 @@ describe('.modelDirective', () => {
     const el = document.createElement('input');
     const expression = 'foo';
     const state = {
-      foo: 'bar',
+      foo: true,
     };
-    el.value = 'true';
+    el.value = 'false';
     const payload = inputCallback(
       el,
-      true,
+      false,
       { value: expression, compute: compute(expression, el), deps: [] },
       { state }
     );
-    expect(payload).toEqual(true);
+    expect(payload).toEqual(false);
   });
 
   it('should parse null value', () => {
