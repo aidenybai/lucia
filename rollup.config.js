@@ -1,11 +1,11 @@
-import typescript from 'rollup-plugin-typescript2';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
-import filesize from 'rollup-plugin-filesize';
-import eslint from '@rollup/plugin-eslint';
-import strip from '@rollup/plugin-strip';
 import beep from '@rollup/plugin-beep';
+import commonjs from '@rollup/plugin-commonjs';
+import eslint from '@rollup/plugin-eslint';
+import resolve from '@rollup/plugin-node-resolve';
+import strip from '@rollup/plugin-strip';
+import filesize from 'rollup-plugin-filesize';
+import { terser } from 'rollup-plugin-terser';
+import typescript from 'rollup-plugin-typescript2';
 
 const name = 'Lucia';
 
@@ -81,16 +81,16 @@ export default [
   build('./src/index.ts', {
     output: ['dist/lucia.esm.js'],
     format: 'esm',
-    target: 'es2018',
+    target: 'es2020',
   }),
   build('./src/index.ts', {
     output: ['dist/lucia.cjs.js'],
     format: 'cjs',
-    target: 'es2018',
+    target: 'es2020',
   }),
   build('./src/browser.ts', {
     output: ['dist/lucia.js', 'dist/lucia.min.js'],
     format: 'iife',
-    target: 'es5',
+    target: 'es2020',
   }),
 ];
