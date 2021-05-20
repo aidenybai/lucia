@@ -6,6 +6,7 @@ import strip from '@rollup/plugin-strip';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
+import { typescriptPaths } from 'rollup-plugin-typescript-paths';
 
 const name = 'Lucia';
 
@@ -16,18 +17,9 @@ const generateConfig = (input, config) => ({
     eslint(),
     commonjs(),
     resolve({ extensions: ['.ts'] }),
+    typescriptPaths({ preserveExtensions: true }),
     typescript({
       useTsconfigDeclarationDir: true,
-      typescript: require('ttypescript'),
-      tsconfigOverride: {
-        compilerOptions: {
-          target: config.target,
-          plugins: [
-            { transform: 'typescript-transform-paths' },
-            { transform: 'typescript-transform-paths', afterDeclarations: true },
-          ],
-        },
-      },
     }),
     strip({
       functions: ['console.log'],
@@ -73,7 +65,6 @@ export const build = (input, config) => {
 
   return generateConfig(input, {
     output: buildOutput,
-    target: config.target,
   });
 };
 
@@ -81,16 +72,13 @@ export default [
   build('./src/index.ts', {
     output: ['dist/lucia.esm.js'],
     format: 'esm',
-    target: 'es2020',
   }),
   build('./src/index.ts', {
     output: ['dist/lucia.cjs.js'],
     format: 'cjs',
-    target: 'es2020',
   }),
   build('./src/browser.ts', {
     output: ['dist/lucia.js', 'dist/lucia.min.js'],
     format: 'iife',
-    target: 'es2020',
   }),
 ];

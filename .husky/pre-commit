@@ -8,4 +8,4 @@ SPACER="                   "
 
 printf "${YELLOW_COLOR}⚠ Checking for errors...${RESET_COLOR}"
 npx --no-install lint-staged --quiet || exit 1
-printf "\r${GREEN_COLOR}✓ No errors found. Committing your changes!${RESET_COLOR}${SPACER}\n"
+printf "\r${GREEN_COLOR}✓ No errors found. Attempting to commit your changes!${RESET_COLOR}${SPACER}\n"

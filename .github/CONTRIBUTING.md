@@ -5,8 +5,10 @@
 1. Fork this repository and clone it to your local machine
 2. Make sure you have `yarn` installed. If you don't, run `npm install -g yarn`
 3. Install all packages with the `yarn` command in the project root.
+4. Ensure you are using `bash` or a POSIX-compiler shell.
 
 Once you are setup, you check out the codebase documentation to learn more!
+
 - [`WORKFLOW.md`](../codebase/WORKFLOW.md) - How to get started with iterating, building, and ad-hoc testing Lucia.
 - [`CORE.md`](../codebase/CORE.md) - Understanding the internals and how the core is structured.
 
