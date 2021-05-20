@@ -1,7 +1,7 @@
 import { ASTNode } from '@models/structs';
 import removeDupesFromArray from './removeDupesFromArray';
 
-export const adjustDeps = (
+export const rewriteWithNewDeps = (
   ast: ASTNode[],
   currentDeps: string[],
   node: ASTNode,
@@ -20,4 +20,4 @@ export const adjustDeps = (
   node.directives[directiveName].deps = cleanedDeps;
 };
 
-export default adjustDeps;
+export default rewriteWithNewDeps;

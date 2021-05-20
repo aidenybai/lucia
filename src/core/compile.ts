@@ -30,13 +30,13 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
   return hasDirectives ? node : undefined;
 };
 
-/* istanbul ignore next */
 export const collectRefs = (element: HTMLElement | Document = document): Refs => {
   const refDirective = `${DIRECTIVE_PREFIX}ref`;
   const refElements = element.querySelectorAll(`[${refDirective}]`);
   const refs = {};
   refElements.forEach((refElement) => {
     const name = refElement.getAttribute(refDirective);
+    /* istanbul ignore next */
     if (name) refs[name] = refElement;
   });
   return refs;

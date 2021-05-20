@@ -3,7 +3,7 @@ import { directives } from '@core/directive';
 import render from '@core/render';
 import { COMPONENT_FLAG, DIRECTIVE_PREFIX, FOR_TEMPLATE_FLAG } from '@models/generics';
 import { ASTNode, DirectiveProps } from '@models/structs';
-import adjustDeps from '@utils/adjustDeps';
+import rewriteWithNewDeps from '@utils/rewriteWithNewDeps';
 import computeExpression from '@utils/computeExpression';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '@utils/patterns';
 
@@ -66,7 +66,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
   if (!originalAST) {
     // Deps recompiled because child nodes may have additional deps
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    adjustDeps(el[COMPONENT_FLAG] as ASTNode[], data.deps, node!, 'for');
+    rewriteWithNewDeps(el[COMPONENT_FLAG] as ASTNode[], data.deps, node!, 'for');
     el.removeAttribute(`${DIRECTIVE_PREFIX}for`);
   }
 

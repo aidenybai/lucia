@@ -3,7 +3,7 @@ import { directives } from '@core/directive';
 import render from '@core/render';
 import { COMPONENT_FLAG } from '@models/generics';
 import { ASTNode, DirectiveProps } from '@models/structs';
-import adjustDeps from '@utils/adjustDeps';
+import rewriteWithNewDeps from '@utils/rewriteWithNewDeps';
 import { hasDirectiveRE } from '@utils/patterns';
 
 export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void => {
@@ -21,7 +21,7 @@ export const htmlDirective = ({ el, data, state, node }: DirectiveProps): void =
     if (hasDirectiveRE().test(ret)) {
       const ast = marker ?? compile(el, state, true);
 
-      if (!marker) adjustDeps(ast, data.deps, node, 'html');
+      if (!marker) rewriteWithNewDeps(ast, data.deps, node, 'html');
 
       render(ast, directives, state, data.deps);
 

@@ -1,15 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import adjustDeps from '../adjustDeps';
+import rewriteWithNewDeps from '../rewriteWithNewDeps';
 
-describe('.adjustDeps', () => {
+describe('.rewriteWithNewDeps', () => {
   it('should adjust dependencies', () => {
     const node = {
       deps: ['foo', 'bar'],
       directives: { foo: { deps: [] } },
     };
     // @ts-expect-error: node cannot be passed this way, but we are faking an AST
-    adjustDeps([node], ['baz'], node, 'foo');
+    rewriteWithNewDeps([node], ['baz'], node, 'foo');
 
     expect(node.deps).toEqual(['baz', 'foo', 'bar']);
     expect(node.directives.foo.deps).toEqual(['baz', 'foo', 'bar']);
