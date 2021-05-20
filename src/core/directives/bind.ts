@@ -30,7 +30,6 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
         } else if (formatAcceptableWhitespace(rawClasses).length > 0) {
           el.className = formatAcceptableWhitespace(rawClasses);
         } else {
-          /* istanbul ignore next */
           el.className = '';
           el.removeAttribute('class');
         }
@@ -41,7 +40,6 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
     case 'style': {
       // Accept object and set properties based on boolean state value
       const styles = data.compute(state);
-      /* istanbul ignore next */
       if (el.hasAttribute('style')) el.removeAttribute('style');
       Object.entries(styles).forEach(([styleName, styleValue]) => {
         el.style[styleName] = styleValue;
@@ -53,7 +51,6 @@ export const bindDirective = ({ el, parts, data, state }: DirectiveProps): void 
       const attributes = data.compute(state);
 
       // Allow object syntax in binding without modifier
-      /* istanbul ignore else */
       if (typeof attributes === 'object' && attributes !== null) {
         Object.entries(attributes).forEach(([name, value]) => {
           // Only set attr if not falsy

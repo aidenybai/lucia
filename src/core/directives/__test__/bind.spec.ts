@@ -134,4 +134,74 @@ describe('.bindDirective', () => {
     expect(el.title).toEqual('test');
     expect(el.translate).toEqual(null);
   });
+
+  it('should accept string format for attributes', () => {
+    const el = document.createElement('a');
+    const expression = 'foo';
+    const state = { foo: expression };
+    bindDirective({
+      el,
+      parts: ['bind', 'title'],
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: ['title'],
+      },
+      state,
+    });
+    expect(el.getAttribute('title')).toEqual('foo');
+  });
+
+  it('should remove attribute if no value apparent', () => {
+    const el = document.createElement('a');
+    const expression = '';
+    const state = {};
+    bindDirective({
+      el,
+      parts: ['bind', 'title'],
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: ['title'],
+      },
+      state,
+    });
+    expect(el.hasAttribute('title')).toEqual(false);
+  });
+
+  it('should remove class attribute if no classes apparent', () => {
+    const el = document.createElement('a');
+    const expression = `{}`;
+    const state = {};
+    bindDirective({
+      el,
+      parts: ['bind', 'class'],
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: [],
+      },
+      state,
+    });
+    expect(el.className).toEqual('');
+    expect(el.hasAttribute('class')).toEqual(false);
+  });
+
+  it('should remove style attribute if no styles apparent', () => {
+    const el = document.createElement('a');
+    el.setAttribute('style', '');
+    const expression = `{}`;
+    const state = {};
+    bindDirective({
+      el,
+      parts: ['bind', 'style'],
+      data: {
+        value: expression,
+        compute: compute(expression, el),
+        deps: [],
+      },
+      state,
+    });
+    expect(el.hasAttribute('style')).toEqual(false);
+  });
 });
