@@ -1,21 +1,14 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
-  ],
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2018
+    "ecmaVersion": 12,
+    "project": "./tsconfig.json"
   },
   "env": {
-    "browser": true,
-    "es2017": true,
-    "node": true
+    "browser": true
   }
 }
