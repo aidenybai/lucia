@@ -9,8 +9,8 @@
 
 Once you are setup, you check out the codebase documentation to learn more!
 
-- [`WORKFLOW.md`](../codebase/WORKFLOW.md) - How to get started with iterating, building, and ad-hoc testing Lucia.
-- [`CORE.md`](../codebase/CORE.md) - Understanding the internals and how the core is structured.
+- [Workflow Documentation](https://github.com/aidenybai/lucia/wiki/Workflow-Documentation) - How to get started with iterating, building, and ad-hoc testing Lucia.
+- [Core Documentation](https://github.com/aidenybai/lucia/wiki/Core-Documentation) - Understanding the internals and how the core is structured.
 
 ## Next Steps + Useful Info:
 

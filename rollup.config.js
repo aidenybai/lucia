@@ -77,6 +77,10 @@ export default [
     output: ['dist/lucia.cjs.js'],
     format: 'cjs',
   }),
+  build('./src/index.ts', {
+    output: ['dist/lucia.umd.js'],
+    format: 'umd',
+  }),
   build('./src/browser.ts', {
     output: ['dist/lucia.js', 'dist/lucia.min.js'],
     format: 'iife',

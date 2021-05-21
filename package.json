@@ -2,7 +2,7 @@
   "name": "lucia",
   "version": "0.6.1-0",
   "description": "3kb library for tiny web apps",
-  "main": "dist/lucia.cjs.js",
+  "main": "dist/lucia.umd.js",
   "module": "dist/lucia.esm.js",
   "browser": "dist/lucia.min.js",
   "types": "dist/types/index.d.ts",
@@ -10,7 +10,6 @@
     "dev": "sh scripts/dev.sh",
     "build": "rm -rf dist && rollup -c",
     "lint": "eslint src/**",
-    "lint:fix": "eslint src/** --fix",
     "cleanup": "prettier --write src --parser typescript",
     "test": "jest --silent --runInBand",
     "release": "sh scripts/release.sh",
@@ -23,8 +22,8 @@
   "exports": {
     "require": "./dist/lucia.cjs.js",
     "import": "./dist/lucia.esm.js",
-    "node": "./dist/lucia.cjs.js",
-    "default": "./dist/lucia.cjs.js"
+    "node": "./dist/lucia.umd.js",
+    "default": "./dist/lucia.umd.js"
   },
   "sideEffects": false,
   "keywords": [
