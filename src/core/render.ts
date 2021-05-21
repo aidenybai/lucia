@@ -31,8 +31,10 @@ const render = (
         if (!legalDirectiveNames.includes(rawDirectiveName.toUpperCase())) continue;
         yield;
         // Iterate through affected and check if directive value has prop
-        const directiveHasDep = changedProps.some((prop) => directiveData.deps.includes(prop));
-        const isStaticDirective = Object.keys(directiveData.deps).length === 0;
+        const directiveHasDep =
+          directiveData.deps.length === node.deps.length ||
+          changedProps.some((prop) => directiveData.deps.includes(prop));
+        const isStaticDirective = directiveData.deps.length === 0;
 
         // If affected, then push to render queue
         if (directiveHasDep || isStatic || isStaticDirective) {

@@ -15,7 +15,7 @@ export const computeExpression = (
   // This "revives" a function from a string, only using the new Function syntax once during compilation.
   // This is because raw function is ~50,000x faster than new Function
   const computeFunction = new Function(
-    `return function(${specialPropertiesNames.join(',')}){with($state){${formattedExpression}}}`
+    `return (${specialPropertiesNames.join(',')})=>{with($state){${formattedExpression}}}`
   )();
 
   const emit = (name: string, options?: CustomEventInit, dispatchGlobal = true) => {
