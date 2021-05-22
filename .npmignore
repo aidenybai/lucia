@@ -1,47 +1,5 @@
-# NPM/Yarn
-node_modules/
-package-lock.json
-yarn.lock
-yarn-error.log
-
-# Testing
-*.html
-coverage
-
-# Development Distributions
-*.map
-*.dev.*
-
-# Build Config
-tsconfig.json
-rollup.config.js
-jest.config.js
-vite.config.ts
-.gitignore
-.babelrc
-.travis.yml
-
-# Raw source
-src/
-
-# Linting
-.eslintrc
-.eslintignore
-.prettierrc
-.prettierignore
-.editorconfig
-
-# Editor Config
-.vscode/
-.idea/
-settings.json
-.DS_Store
-
-# Misc
-.github/
-.husky/
-commitlint.config.js
-.lintstagedrc
-scripts/
-docs/
-scratch.md
+*
+!dist/**/*
+!LICENSE
+!README.md
+!package.json

@@ -12,7 +12,6 @@ const name = 'Lucia';
 
 const generateConfig = (input, config) => ({
   input,
-  external: [],
   plugins: [
     eslint(),
     commonjs(),
@@ -34,34 +33,34 @@ const generateConfig = (input, config) => ({
 export const build = (input, config) => {
   const buildOutput = [];
 
-  // Development build
-  buildOutput.push({
-    file: config.output[0],
-    format: config.format,
-    name,
-    globals: {},
-    strict: true,
-  });
-
-  // Production build
-  if (config.output.length === 2) {
-    buildOutput.push({
-      file: config.output[1],
+  config.output.forEach((fileName) => {
+    const isMinifiedBuildOutput = /min/gi.test(fileName);
+    const defaultBuildOptions = {
+      file: fileName,
       format: config.format,
-      plugins: [
-        terser(),
-        filesize({
-          showBrotliSize: true,
-          showMinifiedSize: false,
-          showBeforeSizes: 'release',
-          showGzippedSize: false,
-        }),
-      ],
       name,
-      globals: {},
       strict: true,
-    });
-  }
+    };
+
+    if (isMinifiedBuildOutput) {
+      // Production build
+      buildOutput.push({
+        ...defaultBuildOptions,
+        plugins: [
+          terser(),
+          filesize({
+            showBrotliSize: true,
+            showMinifiedSize: false,
+            showBeforeSizes: 'release',
+            showGzippedSize: false,
+          }),
+        ],
+      });
+    } else {
+      // Development build
+      buildOutput.push(defaultBuildOptions);
+    }
+  });
 
   return generateConfig(input, {
     output: buildOutput,

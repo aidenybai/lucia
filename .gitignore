@@ -3,16 +3,14 @@ node_modules/
 package-lock.json
 yarn-error.log
 
-# Tests
+# Testing
 /*.html
 coverage
 
-# Build source
+# Distributions
 dist/
+*.tgz
 
 # Editor Config
 .idea/
 .DS_Store
-
-# Misc
-scratch.md

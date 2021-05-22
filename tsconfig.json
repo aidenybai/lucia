@@ -21,11 +21,9 @@
     "esModuleInterop": true,
     "noUnusedLocals": true,
     "removeComments": true,
-    "noImplicitAny": true,
     "declaration": true,
-    "allowJs": false,
     "strict": true
   },
-  "include": ["./src/**/*.ts", "src/**/*.spec.ts"],
-  "exclude": ["node_modules", "dist", "src/**/*.js"]
+  "include": ["./src/**/*.ts", "./src/**/*.spec.ts", "./vite.config.ts"],
+  "exclude": ["node_modules", "dist", "./src/**/*.js"]
 }
