@@ -38,7 +38,7 @@ describe('.index', () => {
     expect(JSON.stringify((el[COMPONENT_FLAG] as Component).state)).toEqual(
       JSON.stringify({
         $render: $render.bind([]),
-      })
+      }),
     );
 
     document.body.innerHTML = '';
@@ -60,7 +60,7 @@ describe('.index', () => {
     expect(JSON.stringify((el[COMPONENT_FLAG] as Component).state)).toEqual(
       JSON.stringify({
         $render: $render.bind([]),
-      })
+      }),
     );
   });
 });

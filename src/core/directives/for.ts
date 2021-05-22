@@ -38,13 +38,13 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
         if (item) {
           content = content.replace(
             expressionPropRE(`this\\.${item.trim()}`),
-            `${target}[${currArray.length - i}]`
+            `${target}[${currArray.length - i}]`,
           );
         }
         if (index) {
           content = content.replace(
             expressionPropRE(`this\\.${index.trim()}`),
-            String(currArray.length - i)
+            String(currArray.length - i),
           );
         }
 

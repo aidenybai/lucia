@@ -7,7 +7,7 @@ const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll<HTMLElement>(`[${stateDirective}]`);
   const uninitializedComponents = [...componentElements].filter(
-    (el) => el[COMPONENT_FLAG] === undefined
+    (el) => el[COMPONENT_FLAG] === undefined,
   );
 
   uninitializedComponents.forEach((uninitializedComponent) => {

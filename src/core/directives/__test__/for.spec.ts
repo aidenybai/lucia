@@ -30,7 +30,7 @@ describe('.forDirective', () => {
 
     setTimeout(() => {
       expect(el.innerHTML).toEqual(
-        '<li l-text="foo[0]">bar</li><li l-text="foo[1]">bar</li><li l-text="foo[2]">bar</li>'
+        '<li l-text="foo[0]">bar</li><li l-text="foo[1]">bar</li><li l-text="foo[2]">bar</li>',
       );
       done();
     }, 0);
@@ -57,7 +57,7 @@ describe('.forDirective', () => {
       node: { el, directives: { for: data } },
     });
     expect(el.innerHTML).toEqual(
-      '<tbody l-text="foo[0] + 0">bar0</tbody><tbody l-text="foo[1] + 1">bar1</tbody><tbody l-text="foo[2] + 2">bar2</tbody>'
+      '<tbody l-text="foo[0] + 0">bar0</tbody><tbody l-text="foo[1] + 1">bar1</tbody><tbody l-text="foo[2] + 2">bar2</tbody>',
     );
   });
 

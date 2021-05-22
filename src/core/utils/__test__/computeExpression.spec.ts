@@ -22,7 +22,7 @@ describe('.compute', () => {
 
     expect(
       // @ts-expect-error: 'foo' cannot be passed as an Event, but good enough for our use case
-      computeExpression(`$emit('customEvent', $el); return $event`, el, false, {}, [])({}, 'foo')
+      computeExpression(`$emit('customEvent', $el); return $event`, el, false, {}, [])({}, 'foo'),
     ).toEqual('foo');
   });
 });

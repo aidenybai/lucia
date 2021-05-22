@@ -8,7 +8,7 @@ export const curlyTemplateRE = (): RegExp => /{{\s*(\w+)\s*}}/gim;
 export const hasDirectiveRE = (): RegExp => {
   return new RegExp(
     `(${DIRECTIVE_PREFIX}|${Object.keys(DIRECTIVE_SHORTHANDS).join('|')})\\w+`,
-    'gim'
+    'gim',
   );
 };
 export const expressionPropRE = (prop: string): RegExp => {

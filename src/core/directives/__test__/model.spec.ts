@@ -30,7 +30,7 @@ describe('.modelDirective', () => {
       el,
       0,
       { value: expression, compute: compute(expression, el), deps: [] },
-      state
+      state,
     );
     expect(payload).toEqual(0);
   });
@@ -46,7 +46,7 @@ describe('.modelDirective', () => {
       el,
       false,
       { value: expression, compute: compute(expression, el), deps: [] },
-      { state }
+      { state },
     );
     expect(payload).toEqual(false);
   });
@@ -62,7 +62,7 @@ describe('.modelDirective', () => {
       el,
       null,
       { value: expression, compute: compute(expression, el), deps: [] },
-      { state }
+      { state },
     );
     expect(payload).toEqual(null);
   });
@@ -78,7 +78,7 @@ describe('.modelDirective', () => {
       el,
       undefined,
       { value: expression, compute: compute(expression, el), deps: [] },
-      { state }
+      { state },
     );
     expect(payload).toEqual(undefined);
   });

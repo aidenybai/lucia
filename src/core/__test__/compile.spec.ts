@@ -41,7 +41,7 @@ describe('.compile', () => {
         createASTNode(el1, state),
         createASTNode(el2, state),
         createASTNode(el3, state),
-      ])
+      ]),
     );
   });
 
@@ -60,7 +60,7 @@ describe('.compile', () => {
           directives: { text: data },
           type: 1,
         },
-      ])
+      ]),
     );
   });
 
@@ -76,11 +76,11 @@ describe('.compile', () => {
 
     setTimeout(() => {
       expect(JSON.stringify(compile(el1, state))).toEqual(
-        JSON.stringify([createASTNode(el1, state)])
+        JSON.stringify([createASTNode(el1, state)]),
       );
       const referenceEl2ASTNode = createASTNode(el2, {});
       expect(JSON.stringify(compile(el2, {}))).toEqual(
-        JSON.stringify(referenceEl2ASTNode ? [referenceEl2ASTNode] : [])
+        JSON.stringify(referenceEl2ASTNode ? [referenceEl2ASTNode] : []),
       );
       done();
     }, 0);
@@ -152,7 +152,7 @@ describe('.compile', () => {
           deps: ['foo'],
           value: 'foo',
         },
-      })
+      }),
     );
     expect(deps).toEqual(['foo']);
   });
@@ -170,7 +170,7 @@ describe('.compile', () => {
           deps: ['foo'],
           value: 'foo',
         },
-      })
+      }),
     );
     expect(deps).toEqual(['foo']);
   });

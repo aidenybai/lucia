@@ -6,7 +6,7 @@ export const computeExpression = (
   expression: string,
   el?: HTMLElement,
   returnable = true,
-  refs: Refs = {}
+  refs: Refs = {},
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ((state: KV<unknown>, event?: Event) => any) => {
   const formattedExpression = `${returnable ? `return ${expression}` : expression}`;
@@ -15,7 +15,7 @@ export const computeExpression = (
   // This "revives" a function from a string, only using the new Function syntax once during compilation.
   // This is because raw function is ~50,000x faster than new Function
   const computeFunction = new Function(
-    `return (${specialPropertiesNames.join(',')})=>{with($state){${formattedExpression}}}`
+    `return (${specialPropertiesNames.join(',')})=>{with($state){${formattedExpression}}}`,
   )();
 
   const emit = (name: string, options?: CustomEventInit, dispatchGlobal = true) => {

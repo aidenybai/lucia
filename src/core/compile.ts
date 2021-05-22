@@ -22,7 +22,7 @@ export const createASTNode = (el: HTMLElement, state: State): ASTNode | undefine
 
   const hasDirectives = Object.keys(directives).length > 0;
   const hasDepInDirectives = Object.values(directives).some(({ value }) =>
-    Object.keys(state).some((prop) => expressionPropRE(prop).test(value))
+    Object.keys(state).some((prop) => expressionPropRE(prop).test(value)),
   );
   const type = hasDepInDirectives ? ASTNodeType.DYNAMIC : ASTNodeType.STATIC;
   const node = { el, deps, directives, type };
@@ -45,7 +45,7 @@ export const collectRefs = (element: HTMLElement | Document = document): Refs =>
 /* istanbul ignore next */
 export const collectAndInitDirectives = (
   el: HTMLElement,
-  state: State = {}
+  state: State = {},
 ): [DirectiveKV, string[]] => {
   const directives: DirectiveKV = {};
   const refs: Refs = collectRefs();
@@ -55,7 +55,7 @@ export const collectAndInitDirectives = (
     const isStateDirective = name === `${DIRECTIVE_PREFIX}state`;
     const hasDirectivePrefix = name.startsWith(DIRECTIVE_PREFIX);
     const hasDirectiveShorthandPrefix = Object.keys(DIRECTIVE_SHORTHANDS).some((shorthand) =>
-      name.startsWith(shorthand)
+      name.startsWith(shorthand),
     );
 
     if (isStateDirective || !(hasDirectivePrefix || hasDirectiveShorthandPrefix)) continue;
@@ -112,7 +112,7 @@ export const collectAndInitDirectives = (
 export const flattenElementChildren = (
   rootElement: HTMLElement,
   isListGroup = false,
-  ignoreRootElement = false
+  ignoreRootElement = false,
 ): HTMLElement[] => {
   const collection: HTMLElement[] = [];
   const isList = isListRenderScope(rootElement);
@@ -140,8 +140,8 @@ export const flattenElementChildren = (
             ...flattenElementChildren(
               childElement,
               isListGroup,
-              childElement.attributes.length === 0
-            )
+              childElement.attributes.length === 0,
+            ),
           );
         }
       }

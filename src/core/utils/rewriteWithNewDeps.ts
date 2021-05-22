@@ -5,7 +5,7 @@ export const rewriteWithNewDeps = (
   ast: ASTNode[],
   currentDeps: string[],
   node: ASTNode,
-  directiveName: string
+  directiveName: string,
 ): void => {
   const deps: string[] = [];
 

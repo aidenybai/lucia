@@ -4,7 +4,7 @@
 
 export const lazy = (
   threshold: number,
-  generatorFunction: () => Generator<undefined, void, unknown>
+  generatorFunction: () => Generator<undefined, void, unknown>,
 ): (() => void) => {
   const generator = generatorFunction();
   return function next() {

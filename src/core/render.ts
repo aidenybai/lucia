@@ -8,7 +8,7 @@ const render = (
   ast: ASTNode[],
   directives: Directives,
   state: KV<unknown>,
-  changedProps: string[]
+  changedProps: string[],
 ): void => {
   const legalDirectiveNames = Object.keys(directives);
   const LAZY_MODE_TIMEOUT = 25;

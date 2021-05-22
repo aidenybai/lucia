@@ -6,7 +6,7 @@ export const inputCallback = (
   el: HTMLInputElement,
   hydratedValue: unknown,
   data: DirectiveData,
-  state: State
+  state: State,
 ): number | string | undefined | null | boolean => {
   /* istanbul ignore next */
   if (el.type === 'checkbox') {
