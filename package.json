@@ -5,7 +5,7 @@
   "main": "dist/lucia.umd.js",
   "module": "dist/lucia.esm.js",
   "browser": "dist/lucia.min.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/lucia.d.ts",
   "scripts": {
     "dev": "sh scripts/dev.sh",
     "build": "rm -rf dist && rollup -c",
