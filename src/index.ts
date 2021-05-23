@@ -1,8 +1,10 @@
-// Exports wrapped in Lucia namespace
 import component from './component';
 import { COMPONENT_FLAG, DIRECTIVE_PREFIX } from '@models/generics';
 
-// This is generally used for browser builds only, but it can be accessed in bundling environments
+/**
+ * Initialize components defined in HTML with `l-state`
+ * @param {HTMLElement|Document} element - Root element to find uninitialized components
+ */
 const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll<HTMLElement>(`[${stateDirective}]`);

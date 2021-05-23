@@ -5,10 +5,10 @@
   "main": "dist/lucia.umd.js",
   "module": "dist/lucia.esm.js",
   "browser": "dist/lucia.min.js",
-  "types": "dist/types/lucia.d.ts",
+  "types": "dist/lucia.d.ts",
   "scripts": {
     "dev": "sh scripts/dev.sh",
-    "build": "rm -rf dist && rollup -c",
+    "build": "sh scripts/build.sh",
     "lint": "eslint src/**",
     "cleanup": "prettier --write src --parser typescript",
     "test": "jest --silent --runInBand",

@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 YELLOW_COLOR="\u001b[33m"
 GREEN_COLOR="\033[0;32m"
 RED_COLOR='\033[0;31m'

@@ -20,7 +20,6 @@
     "noImplicitReturns": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
-    "removeComments": true,
     "declaration": true,
     "strict": true
   },

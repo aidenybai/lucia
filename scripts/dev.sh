@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+
 content="<!DOCTYPE html>
 <html lang=\"en\">
   <head>
