@@ -5,8 +5,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
-import typescript from 'rollup-plugin-typescript2';
-import { typescriptPaths } from 'rollup-plugin-typescript-paths';
+import ts from "@wessberg/rollup-plugin-ts";
 
 const name = 'Lucia';
 
@@ -16,10 +15,7 @@ const generateConfig = (input, config) => ({
     eslint(),
     commonjs(),
     resolve({ extensions: ['.ts'] }),
-    typescriptPaths({ preserveExtensions: true }),
-    typescript({
-      useTsconfigDeclarationDir: true,
-    }),
+    ts(),
     strip({
       functions: ['console.log'],
       include: '**/*.(ts)',
