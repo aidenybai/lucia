@@ -21,4 +21,8 @@ const init = (element: HTMLElement | Document = document): void => {
   });
 };
 
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => init());
+}
+
 export { init, component };

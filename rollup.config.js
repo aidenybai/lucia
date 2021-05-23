@@ -76,7 +76,7 @@ export default [
     output: ['dist/lucia.umd.js'],
     format: 'umd',
   }),
-  build('./src/browser.ts', {
+  build('./src/index.ts', {
     output: ['dist/lucia.js', 'dist/lucia.min.js'],
     format: 'iife',
   }),
