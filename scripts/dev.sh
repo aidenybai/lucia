@@ -6,8 +6,7 @@ content="<!DOCTYPE html>
     <meta charset=\"utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
     <script type=\"module\">
-      import { init, component } from 'lucia';
-      init();
+      import 'lucia';
     </script>
   </head>
   <body>

@@ -1,11 +1,13 @@
 import component from './component';
 import { COMPONENT_FLAG, DIRECTIVE_PREFIX } from '@models/generics';
 
+export { component };
+
 /**
  * Initialize components defined in HTML with `l-state`
  * @param {HTMLElement|Document} element - Root element to find uninitialized components
  */
-const init = (element: HTMLElement | Document = document): void => {
+export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll<HTMLElement>(`[${stateDirective}]`);
   const uninitializedComponents = [...componentElements].filter(
@@ -21,8 +23,4 @@ const init = (element: HTMLElement | Document = document): void => {
   });
 };
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => init());
-}
-
-export { init, component };
+document.addEventListener('DOMContentLoaded', () => init());
