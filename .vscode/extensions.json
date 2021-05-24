@@ -1,8 +1,8 @@
 {
   "recommendations": [
-    "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "aidenybai.lucia"
+    "aidenybai.lucia",
+    "streetsidesoftware.code-spell-checker"
   ]
 }

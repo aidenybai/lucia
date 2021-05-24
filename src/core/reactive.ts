@@ -31,7 +31,7 @@ export const reactive = (state: State, render: (props: string[]) => void): State
       }
     },
     set(target: KV<unknown>, key: string, value: unknown): boolean {
-      // Currently double renderes - bad perf
+      // Currently double renders - bad perf
       const hasArrayMutationKey = !isNaN(Number(key)) || key === 'length';
       const props = hasArrayMutationKey ? [] : [key];
 
