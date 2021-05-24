@@ -1,6 +1,6 @@
 {
   "name": "lucia",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "3kb library for tiny web apps",
   "main": "dist/lucia.umd.js",
   "module": "dist/lucia.esm.js",
