@@ -1,11 +1,12 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-YELLOW_COLOR="\u001b[33m"
-GREEN_COLOR="\033[0;32m"
-RESET_COLOR="\u001b[39m"
-SPACER="                   "
+source "$(dirname "$0")/../scripts/helpers.sh"
 
-printf "${YELLOW_COLOR}⚠ Checking for errors...${RESET_COLOR}"
-npx --no-install lint-staged --quiet || exit 1
-printf "\r${GREEN_COLOR}✓ No errors found. Attempting to commit your changes!${RESET_COLOR}${SPACER}\n"
+pending "Checking for errors..."
+
+if [ -n "$(git status src --porcelain)" ]; then
+  npx --no-install lint-staged --quiet || exit 1
+fi
+
+success "No errors found. Attempting to commit your changes!"
