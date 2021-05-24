@@ -1,11 +1,17 @@
 name: Auto Merge
 
 on:
-  workflow_run:
+  # Trigger on Pull Requests against the master branch.
+  pull_request_target:
+    branches:
+      - master
     types:
-      - completed
-    workflows:
-      - 'CI'
+      - opened
+      - synchronize
+  # Trigger on Pull Requests to the master branch.
+  push:
+    branches:
+      - master
 
 jobs:
   merge-me:
@@ -15,8 +21,6 @@ jobs:
 
     steps:
       - name: Merge me!
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         uses: ridedott/merge-me-action@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PRESET: DEPENDABOT_PATCH
