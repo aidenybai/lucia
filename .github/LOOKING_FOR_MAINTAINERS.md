@@ -4,6 +4,8 @@ It has been almost a year since I first started tinkering with the idea of Lucia
 
 However, my time on Lucia is coming to an end, as I want to explore more areas in software development, as I am still young and have much to learn and experience. I'm looking for new maintainers to take over Lucia to pass down, as I still believe that it has high potential in regards to the greater webdev community.
 
+By no means is this a message to abandon the project, rather I want to decrease my influence on it, focusing more on supporting it rather than actively developing features and adding changes to the codebase.
+
 Please [create a discussion](https://github.com/aidenybai/lucia/discussions/new) if you are interested.
 
-\- Aiden
+\- [Aiden](https://github.com/aidenybai)
