@@ -1,7 +1,6 @@
 {
   // Use the project's typescript version
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.formatOnPaste": true,
   "cSpell.diagnosticLevel": "Hint",
   // Use prettier to format typescript, javascript and JSON files
   "[typescript]": {

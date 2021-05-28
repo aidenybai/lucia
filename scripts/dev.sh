@@ -20,4 +20,4 @@ if [ ! -f index.html ]; then
   echo -e "$content" >> index.html
   info "Couldn't find an \`index.html\` file at root, creating one for you..."
 fi
-npx vite --host
+vite --host

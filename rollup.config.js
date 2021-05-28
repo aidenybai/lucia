@@ -7,9 +7,7 @@ import ts from '@wessberg/rollup-plugin-ts';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
 
-const name = 'Lucia';
-
-const generateConfig = (input, config) => ({
+const suite = (input, output) => ({
   input,
   plugins: [
     eslint(),
@@ -22,62 +20,48 @@ const generateConfig = (input, config) => ({
     }),
     beep(),
   ],
-  output: config.output,
+  output,
   onwarn: () => {},
 });
 
-export const build = (input, config) => {
-  const buildOutput = [];
+export const unit = ({ file, format, minify }) => ({
+  file,
+  format,
+  name: 'Lucia',
+  strict: true,
+  plugins: minify
+    ? [
+        terser(),
+        filesize({
+          showBrotliSize: true,
+          showMinifiedSize: false,
+          showBeforeSizes: 'release',
+          showGzippedSize: false,
+        }),
+      ]
+    : [],
+});
 
-  config.output.forEach((fileName) => {
-    const isMinifiedBuildOutput = /min/gi.test(fileName);
-    const defaultBuildOptions = {
-      file: fileName,
-      format: config.format,
-      name,
-      strict: true,
-    };
-
-    if (isMinifiedBuildOutput) {
-      // Production build
-      buildOutput.push({
-        ...defaultBuildOptions,
-        plugins: [
-          terser(),
-          filesize({
-            showBrotliSize: true,
-            showMinifiedSize: false,
-            showBeforeSizes: 'release',
-            showGzippedSize: false,
-          }),
-        ],
-      });
-    } else {
-      // Development build
-      buildOutput.push(defaultBuildOptions);
-    }
-  });
-
-  return generateConfig(input, {
-    output: buildOutput,
-  });
-};
-
-export default [
-  build('./src/index.ts', {
-    output: ['dist/lucia.esm.js'],
+export default suite('./src/index.ts', [
+  unit({
+    file: './dist/lucia.esm.js',
     format: 'esm',
   }),
-  build('./src/index.ts', {
-    output: ['dist/lucia.cjs.js'],
+  unit({
+    file: './dist/lucia.cjs.js',
     format: 'cjs',
   }),
-  build('./src/index.ts', {
-    output: ['dist/lucia.umd.js'],
+  unit({
+    file: './dist/lucia.umd.js',
     format: 'umd',
   }),
-  build('./src/index.ts', {
-    output: ['dist/lucia.js', 'dist/lucia.min.js'],
+  unit({
+    file: './dist/lucia.js',
     format: 'iife',
   }),
-];
+  unit({
+    file: './dist/lucia.min.js',
+    format: 'iife',
+    minify: true,
+  }),
+]);
