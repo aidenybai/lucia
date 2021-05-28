@@ -2,22 +2,34 @@
 
 source $(dirname "$0")/helpers.sh
 
-content="<!DOCTYPE html>
+index_html_content="<!DOCTYPE html>
 <html lang=\"en\">
   <head>
     <meta charset=\"utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
-    <script type=\"module\">
-      import 'lucia';
-    </script>
+    <link rel=\"stylesheet\" href=\"./style.css\">
+    <script type=\"module\" src=\"./script.ts\"></script>
   </head>
   <body>
     <!-- Your code here -->
   </body>
 </html>"
+script_ts_content="import 'lucia';"
+style_css_content="@import url('https://cdn.jsdelivr.net/npm/water.css@2/out/water.css');"
 
-if [ ! -f index.html ]; then
-  echo -e "$content" >> index.html
-  info "Couldn't find an \`index.html\` file at root, creating one for you..."
+if [ "$1" == "--fresh" ]; then
+  if [ -d dev ]; then
+    info "Found the \`dev\` directory, deleting it now..."
+    rm -rf dev
+  fi
 fi
+
+if [ ! -d dev ]; then
+  mkdir dev
+  echo -e "$index_html_content" >> dev/index.html
+  echo -e "$script_ts_content" >> dev/script.ts
+  echo -e "$style_css_content" >> dev/style.css
+  info "Couldn't find an the \`dev\` directory, creating one for you..."
+fi
+
 vite --host

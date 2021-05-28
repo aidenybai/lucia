@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 
 export default {
+  root: 'dev',
   resolve: {
     alias: {
       lucia: resolve(__dirname, 'src/index.ts'),
