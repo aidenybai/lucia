@@ -15,7 +15,13 @@ index_html_content="<!DOCTYPE html>
   </body>
 </html>"
 script_ts_content="import 'lucia';"
-style_css_content="@import url('https://cdn.jsdelivr.net/npm/water.css@2/out/water.css');"
+style_css_content="body {
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding-top: 2em;
+}"
 
 if [ "$1" == "--fresh" ]; then
   if [ -d dev ]; then
