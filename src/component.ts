@@ -13,8 +13,8 @@ import { ASTNode, State } from '@models/structs';
  * @property {ASTNode[]} ast - The Abstract Syntax Tree that models the HTML
  */
 export class Component {
-  public state: State;
-  public ast: ASTNode[];
+  state: State = Object.seal({});
+  ast: ASTNode[] = [];
 
   constructor(state: State) {
     this.ast = [];
@@ -26,12 +26,10 @@ export class Component {
    * @param {HTMLElement|string} el - Component element root
    * @returns {undefined}
    */
-  public mount(el: HTMLElement | string): void {
+  mount(el: HTMLElement | string): void {
     // Accepts both selector and element reference
     const rootEl =
-      typeof el === 'string'
-        ? document.querySelector<HTMLElement>(el) || document.body
-        : (el as HTMLElement);
+      el instanceof HTMLElement ? el : document.querySelector<HTMLElement>(el) || document.body;
     const finalState = { ...this.state, $render: this.render.bind(this) };
 
     this.ast = compile(rootEl, this.state);
@@ -47,7 +45,7 @@ export class Component {
    * @param {string[]=} props - Array of root level properties in state
    * @returns {undefined}
    */
-  public render(props: string[] = Object.keys(this.state)): void {
+  render(props: string[] = Object.keys(this.state)): void {
     render(this.ast, directives, this.state, props);
   }
 }
