@@ -45,6 +45,10 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "funding": {
+		"type": "github",
+		"url": "https://github.com/aidenybai/lucia?sponsor=1"
+	},
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
