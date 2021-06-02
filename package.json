@@ -4,7 +4,7 @@
   "description": "3kb library for tiny web apps",
   "main": "dist/lucia.umd.js",
   "module": "dist/lucia.esm.js",
-  "browser": "dist/lucia.min.js",
+  "browser": "dist/lucia.js",
   "types": "dist/lucia.d.ts",
   "scripts": {
     "dev": "sh scripts/dev.sh",
@@ -21,7 +21,7 @@
     "url": "git+https://github.com/aidenybai/lucia.git"
   },
   "exports": {
-    "browser": "./dist/lucia.min.js",
+    "browser": "./dist/lucia.js",
     "require": "./dist/lucia.cjs.js",
     "import": "./dist/lucia.esm.js"
   },
@@ -46,9 +46,9 @@
     "node": ">=14.0.0"
   },
   "funding": {
-		"type": "github",
-		"url": "https://github.com/aidenybai/lucia?sponsor=1"
-	},
+    "type": "github",
+    "url": "https://github.com/aidenybai/lucia?sponsor=1"
+  },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",

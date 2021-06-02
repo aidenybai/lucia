@@ -14,7 +14,11 @@ Sometimes, all you want to do is to try and do something—No boilerplate, bundl
 Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
 
 ```html
+<!-- Development version: helpful console tips -->
 <script src="https://unpkg.com/lucia"></script>
+
+<!-- Production version: no warnings -->
+<script src="https://unpkg.com/lucia/dist/lucia.min.js"></script>
 ```
 
 It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), we recommend [specifying the exact build](https://lucia.js.org/docs/fundementals/installation/#npm) if you import Lucia this way.

@@ -21,4 +21,9 @@ export const init = (element: HTMLElement | Document = document): void => {
   });
 };
 
-document.addEventListener('DOMContentLoaded', () => init());
+document.addEventListener('DOMContentLoaded', () => {
+  console.log(
+    '💖 Support Lucia: https://github.com/aidenybai/lucia?sponsor=1\nℹ️ Want to get rid of this message? Use the production build.',
+  );
+  init();
+});

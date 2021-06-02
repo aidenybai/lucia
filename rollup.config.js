@@ -7,18 +7,20 @@ import ts from '@wessberg/rollup-plugin-ts';
 import filesize from 'rollup-plugin-filesize';
 import { terser } from 'rollup-plugin-terser';
 
-const suite = (input, output) => ({
+const suite = (input, output, dev = false) => ({
   input,
   plugins: [
     eslint(),
     commonjs(),
     resolve({ extensions: ['.ts'] }),
     ts(),
-    strip({
-      functions: ['console.log'],
-      include: '**/*.(ts)',
-    }),
     beep(),
+    dev
+      ? undefined
+      : strip({
+          functions: ['console.*', 'error'],
+          include: '**/*.(ts)',
+        }),
   ],
   output,
   onwarn: () => {},
@@ -42,7 +44,18 @@ export const unit = ({ file, format, minify }) => ({
     : [],
 });
 
-export default suite('./src/index.ts', [
+const devSuite = suite(
+  './src/index.ts',
+  [
+    unit({
+      file: './dist/lucia.js',
+      format: 'iife',
+    }),
+  ],
+  true,
+);
+
+const prodSuite = suite('./src/index.ts', [
   unit({
     file: './dist/lucia.esm.js',
     format: 'esm',
@@ -56,12 +69,10 @@ export default suite('./src/index.ts', [
     format: 'umd',
   }),
   unit({
-    file: './dist/lucia.js',
-    format: 'iife',
-  }),
-  unit({
     file: './dist/lucia.min.js',
     format: 'iife',
     minify: true,
   }),
 ]);
+
+export default [devSuite, prodSuite];
