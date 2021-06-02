@@ -8,9 +8,9 @@ import computeExpression from '@utils/computeExpression';
 import { expressionPropRE, parenthesisWrapReplaceRE } from '@utils/patterns';
 
 // This directive is size-based, not content-based, since everything is compiled and rerendered
+// It's also quite expensive on performance, and should be refactored in the future
 export const forDirective = ({ el, data, state, node }: DirectiveProps): void => {
   const originalAST = el[COMPONENT_FLAG];
-  // Initial compilation
   if (!originalAST) el[COMPONENT_FLAG] = compile(el, state);
 
   const forLoopRE = /\s+(?:in|of)\s+/gim;
@@ -24,7 +24,9 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
   const template = el[FOR_TEMPLATE_FLAG];
   if (el.innerHTML.trim() === template) el.innerHTML = '';
 
+  // This just checks if there is deviation from both (removal/addition/nochange)
   const arrayDiff = currArray?.length - el.children.length;
+  const tableElementRE = /^[^\S]*?<(t(?:head|body|foot|r|d|h))/i;
 
   if (currArray?.length === 0) el.innerHTML = '';
   else if (arrayDiff !== 0) {
@@ -32,7 +34,7 @@ export const forDirective = ({ el, data, state, node }: DirectiveProps): void =>
       if (arrayDiff < 0) el.removeChild(el.lastChild as Node);
       else {
         let content = String(template);
-        const isTable = /^[^\S]*?<(t(?:head|body|foot|r|d|h))/i.test(content);
+        const isTable = tableElementRE.test(content);
 
         /* istanbul ignore next */
         if (item) {

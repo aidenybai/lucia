@@ -10,9 +10,7 @@ export { component };
 export const init = (element: HTMLElement | Document = document): void => {
   const stateDirective = `${DIRECTIVE_PREFIX}state`;
   const componentElements = element.querySelectorAll<HTMLElement>(`[${stateDirective}]`);
-  const uninitializedComponents = [...componentElements].filter(
-    (el) => el[COMPONENT_FLAG] === undefined,
-  );
+  const uninitializedComponents = [...componentElements].filter((el) => !el[COMPONENT_FLAG]);
 
   uninitializedComponents.forEach((uninitializedComponent) => {
     const stateExpression = uninitializedComponent.getAttribute(stateDirective);
