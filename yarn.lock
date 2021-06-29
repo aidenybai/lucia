@@ -4081,9 +4081,9 @@ micromatch@^4.0.2, micromatch@^4.0.4:
     picomatch "^2.2.3"
 
 million@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/million/-/million-0.2.1.tgz#80f1b1399a2795a73f591fced13562be2ef78749"
-  integrity sha512-amK7qvVlWJ+fEko1Ef3Qi3c+8hNB/UXPUXZYjFdqsa/xndXTbmfScuBamULN5dDA443PYEg7JhY2qaTk8eRIew==
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/million/-/million-0.2.2.tgz#2f17940c8f1a2b6e15b1c4a552a986604fc30130"
+  integrity sha512-qbQxDHp/KBMfLffbs3wjN83dQy9OpMS36Nzl4cJtdEFimjTgko1qfbPuNLSocwZkUH5sBy5q/ggT7NOpBIvFcg==
 
 mime-db@1.47.0:
   version "1.47.0"
