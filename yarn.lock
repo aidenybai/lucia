@@ -5053,9 +5053,9 @@ micromatch@^4.0.2, micromatch@^4.0.4:
     picomatch "^2.2.3"
 
 million@^0.2.1:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/million/-/million-0.2.6.tgz#4df9c36a85615164503888e2b387068ca140b550"
-  integrity sha512-dv4RlBwBmNgUgxXMk92/7Jmhkb7Jt1AmUTImLGSAaqUesL+hnrr3nbA/LqtwvyhoKDcmrwoFMnBD1KEatVmZZQ==
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/million/-/million-0.2.7.tgz#b0c8b75eb7c2689c99384242a24e0e149e19e343"
+  integrity sha512-xUCiwif4K4C5ab19byWdQsB+l+eeRQ2uWwwTHqyoHbTIEzri3aflRPNSdCDvdf2YjY/y47CxSt3JvcIw+6KdTg==
   dependencies:
     rollup-plugin-ts "^1.4.0"
 
