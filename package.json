@@ -50,7 +50,7 @@
     "url": "https://github.com/aidenybai/lucia?sponsor=1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.1",
+    "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^12.1.1",
     "@rollup/plugin-beep": "^0.2.0",
     "@rollup/plugin-commonjs": "19.0.1",
