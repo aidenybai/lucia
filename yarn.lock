@@ -4084,10 +4084,10 @@ micromatch@^4.0.2, micromatch@^4.0.4:
     braces "^3.0.1"
     picomatch "^2.2.3"
 
-million@^0.3.0:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/million/-/million-0.3.2.tgz#9a1e90f256a998b80e710818d86707238080779a"
-  integrity sha512-osRiX+4AKVTzphh4zTNsf9zSevfg2tEhnQ2ZG/EiS9cxQQxKQssz23ycG98VLWH9kZYFefIEGYCZbX7WwuQ0ZQ==
+million@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/million/-/million-0.4.0.tgz#8b3fd5402929b3a508ed2af8e3bdc9f18f2b1b72"
+  integrity sha512-Fnl3CLVLixp8Pb58jydq7/h5fnPPo4U5BBX+QQ56OfWuvkErETcNVfOepNXuePFDGw6FWi3xo/Ggb8Zu0IXF/g==
 
 mime-db@1.47.0:
   version "1.47.0"
