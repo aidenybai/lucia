@@ -1,7 +1,7 @@
-# NPM/Yarn
+# PNPM
 node_modules/
 package-lock.json
-yarn-error.log
+.pnpm-debug.log
 
 # Testing
 /*.html
