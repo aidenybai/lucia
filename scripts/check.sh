@@ -1,5 +1,5 @@
 #!/bin/bash
 
-yarn cleanup
-yarn lint
-yarn test
+pnpm cleanup
+pnpm lint
+pnpm test
