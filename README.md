@@ -2,7 +2,7 @@
 
 ### 3kb library for tiny web apps.
 
-Sometimes, all you want to do is to try and do something—No boilerplate, bundlers, or complex build processes. Lucia aims to do this, providing an augmentation layer for your logic, allowing you to bind attributes to your HTML to add interactivity without writing any extra JavaScript.
+Sometimes, all you want to do is to try and do something—no boilerplate, bundlers, or complex build processes. Lucia aims to provide an augmentation layer for your logic, allowing you to bind attributes to your HTML to add interactivity without writing any extra JavaScript.
 
 [![CI](https://img.shields.io/github/workflow/status/aidenybai/lucia/CI?color=7460E1&labelColor=1D1E32&style=flat-square&label=build)](https://img.shields.io/github/workflow/status/aidenybai/lucia)
 ![Code Size](https://badgen.net/badgesize/brotli/https/unpkg.com/lucia/dist/lucia.min.js?color=7460E1&labelColor=1D1E32&style=flat-square&label=size) ![NPM Version](https://img.shields.io/npm/v/lucia?color=7460E1&labelColor=1D1E32&style=flat-square) ![Code Coverage](https://img.shields.io/coveralls/github/aidenybai/lucia?color=7460E1&labelColor=1D1E32&style=flat-square)
@@ -11,7 +11,7 @@ Sometimes, all you want to do is to try and do something—No boilerplate, bundl
 
 ## Installing Lucia
 
-Lucia doesn't require build tools by default, feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
+Lucia doesn't require build tools by default. Feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
 
 ```html
 <!-- Development version: helpful console tips -->
@@ -21,7 +21,7 @@ Lucia doesn't require build tools by default, feel free to just drop a [script t
 <script src="https://unpkg.com/lucia/dist/lucia.min.js"></script>
 ```
 
-It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/), we recommend [specifying the exact build](https://lucia.js.org/docs/fundementals/installation/#npm) if you import Lucia this way.
+It also integrates well with module bundlers like [Webpack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/); we recommend [specifying the exact build](https://lucia.js.org/docs/fundementals/installation/#npm) if you import Lucia this way.
 
 [**→ Learn more about installing Lucia**](https://lucia.js.org/docs/fundementals/installation)
 
