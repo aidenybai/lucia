@@ -25,5 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log(
     '💖 Support Lucia: https://github.com/aidenybai/lucia?sponsor=1\nℹ️ Want to get rid of this message? Use the production build.',
   );
+
   init();
+
+  document.querySelectorAll(`[${DIRECTIVE_PREFIX}lazy]`).forEach((el) => {
+    el.removeAttribute(`${DIRECTIVE_PREFIX}lazy`);
+  });
 });

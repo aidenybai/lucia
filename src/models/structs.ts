@@ -6,6 +6,8 @@ export type State = KV<unknown>;
 
 export type DirectiveKV = KV<DirectiveData>;
 
+export type KeyedEvent = KeyboardEvent | MouseEvent | TouchEvent;
+
 export interface DirectiveData {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   compute: (state: KV<unknown>, event?: Event) => any;
