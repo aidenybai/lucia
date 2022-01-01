@@ -34,7 +34,7 @@ export const computeExpression = (
         return computeFunction(state, el, emit, event, refs);
       }
     } catch (err) {
-      error(err, expression, el);
+      error(err as string, expression, el);
     }
   };
 };

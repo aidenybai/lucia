@@ -1,6 +1,7 @@
 module.exports = {
   collectCoverage: true,
   maxWorkers: '50%',
+  testEnvironment: 'jsdom',
   transform: {
     '.(ts)': 'ts-jest',
   },
