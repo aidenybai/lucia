@@ -48,7 +48,7 @@ Below is an extremely simple implementation of a todo app using Lucia, utilizing
 
 <a href="https://hackclub.com/bank" target="_blank"><img height="60" src="https://cdn.glitch.com/747f5921-6fdc-45db-8eaa-ac12523e0e6c%2Fhackclub-bank.svg?v=1566159701206" alt="Hack Club Bank"></a>
 
-**Want your logo here? [→ Sponsor Lucia](https://bank.hackclub.com/donations/start/lucia)**
+**Want your logo here? [→ Sponsor Lucia](https://bank.hackclub.com/donations/start/impulse)**
 
 ## Resources & Contributing Back
 
