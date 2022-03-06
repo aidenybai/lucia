@@ -9,6 +9,10 @@ Sometimes, all you want to do is to try and do something—no boilerplate, bundl
 
 [**→ Check out the Lucia Website**](https://lucia.js.org)
 
+> Hi! Aiden here, author of Lucia. I hope you find an interesting take on web development and a useful tool for your projects. Lucia is actively looking for new maintainers, please [leave a reply](https://github.com/aidenybai/lucia/discussions/181)!
+>
+> -Aiden ([@aidenybai](https://github.com/aidenybai))
+
 ## Installing Lucia
 
 Lucia doesn't require build tools by default. Feel free to just drop a [script tag](https://lucia.js.org/docs/fundementals/installation/#cdn) in the head of your webpage.
