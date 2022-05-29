@@ -39,8 +39,8 @@ export const inputCallback = (
   if (state[data.value]) {
     state[data.value] = payload;
   } else {
-    payload = typeof payload === 'string' ? `'${payload}'` : payload;
-    computeExpression(`${data.value} = ${payload}`, el, true)(state);
+    payload = typeof payload === 'string' ? `decodeURI(\`${encodeURI(payload)}\`)` : payload;
+    computeExpression(`(${data.value} = ${payload})`, el, true)(state);
   }
 
   return payload;
