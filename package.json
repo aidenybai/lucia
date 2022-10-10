@@ -52,7 +52,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
-    "@rollup/plugin-beep": "^0.2.0",
+    "@rollup/plugin-beep": "^1.0.0",
     "@rollup/plugin-commonjs": "22.0.2",
     "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-node-resolve": "15.0.0",
