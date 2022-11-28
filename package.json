@@ -53,7 +53,7 @@
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
     "@rollup/plugin-beep": "^1.0.0",
-    "@rollup/plugin-commonjs": "23.0.1",
+    "@rollup/plugin-commonjs": "23.0.3",
     "@rollup/plugin-eslint": "^9.0.1",
     "@rollup/plugin-node-resolve": "15.0.0",
     "@rollup/plugin-strip": "^3.0.0",
