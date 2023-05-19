@@ -1,3 +1,6 @@
+> The Lucia.js project is no longer maintained or usable, this repository serves as an archive for the source code. If you used Lucia.js, thank you for trying our the library in your projects. I hope this repository serves as a useful learning tool for others in the future.
+> Note that the `lucia` NPM package name has been transfered to the [`lucia-auth`](https://lucia-auth.com/) project.
+
 # <a href="https://lucia.js.org"><img src="https://raw.githubusercontent.com/aidenybai/lucia/master/.github/img/logo.svg" height="60" alt="Lucia Logo" aria-label="Lucia Logo" /></a>
 
 ### 3kb library for tiny web apps.
